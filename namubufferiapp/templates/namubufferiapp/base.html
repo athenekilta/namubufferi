@@ -34,17 +34,12 @@
 </head>
 
 <body id="page-top">
-
-    
-
     <div class="container text-center">
         <h1>Namubufferi</h1><h4> by Tietskarijengi</h4>
     </div>
 
     <!-- User Section -->
     <section id="user" class="container content-section text-center">
-        {% block login %}
-        {% endblock login %}
         {% if user.is_authenticated %}
 
         <h4>Kirjautunut: <strong>{{ user }}</strong></h4>
@@ -121,22 +116,19 @@
                 <div class="col-md-8 col-md-offset-2">
                 <hr>
                     <h2>Valitse tuote</h2>   
-                    <div class="product-list">
-                        {% for photo in browse_photos %}
-                        <a href="/buy/paskaa" title={{ photo.title }}>
-                        <span class="img-thumbnail"></span>
-                        </a>
-                        {% endfor %} 
+                    <input id="search" name="search" placeholder="Start typing here" type="text" data-list=".list">
+                    <div class="list">
+                      <span class="img-thumbnail"><a href="/buy/paskaa" title={{ photo.title }}>LEgit shit</a></span>
+                      <span class="img-thumbnail"><a href="/buy/paskaa" title={{ photo.title }}>ribbee</a></span>
+                      <span class="img-thumbnail"><a href="/buy/paskaa" title={{ photo.title }}>pulunpaskaa</a></span>
+                      <span class="img-thumbnail"><a href="/buy/paskaa" title={{ photo.title }}>koiraa</a></span>
+                      <span class="img-thumbnail"><a href="/buy/paskaa" title={{ photo.title }}>eläin</a></span>
+                      <span class="img-thumbnail"><a href="/buy/paskaa" title={{ photo.title }}>lintu</a></span>
                     </div>
-                    {% block download %}
-                    {% endblock download %}
             </div>
         </div>
-            {% endif %}   
+            {% endif %}
     </section>
-
-    {% block rest %}
-    {% endblock rest %}
 
     <!-- Footer -->
     <footer>
@@ -148,22 +140,26 @@
     </footer>
 
     <!-- jQuery -->
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.0.2.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     {% bootstrap_javascript %}
     
+    <!-- HideSeek Search Plugin TODO: chande CDN-->
+    <script type="text/javascript" src="http://vdw.github.io/HideSeek/javascripts/vendor/jquery.hideseek.min.js"></script>
+
+    <!-- Additional Hideseek BS javascript enable if doesn't work.
+    <script type="text/javascript" src="http://vdw.github.io/HideSeek/javascripts/vendor/rainbow-custom.min.js"></script>
+    <script type="text/javascript" src="http://vdw.github.io/HideSeek/javascripts/vendor/jquery.anchor.js"></script>
+    <script type="text/javascript" src="http://vdw.github.io/HideSeek/javascripts/initializers.js"></script>
+    -->
     <!-- Namubufferi custom JavaScript-->
-    {% if scroll_to %}
+
     <script type="text/javascript">
         $( document ).ready(
-        scrollTo("{{ scroll_to }}")
+        $('#search').hideseek()
     );
     </script>
-    {% endif%}
-    {% block script %}
-    {% endblock script %}
-
 </body>
 
 </html>

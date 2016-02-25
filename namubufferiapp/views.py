@@ -60,8 +60,6 @@ def register(request):
 
 
 def buy_view(request, product_key):
-    # TODO
-
     context = dict(backend_form=AuthenticationForm(),
                    signin_form=AuthenticationForm(),
                    register_form=UserCreationForm(),
@@ -72,4 +70,24 @@ def buy_view(request, product_key):
                    register_message="",
                    permalink_key=""
                    )
+
+    price = 1  # TODO: Get price with product_key form products
+    request.user.userprofile.make_payment(price)
+    return render(request, 'namubufferiapp/base.html', context)
+
+
+def deposit_view(request, amount):
+    context = dict(backend_form=AuthenticationForm(),
+                   signin_form=AuthenticationForm(),
+                   register_form=UserCreationForm(),
+                   user_photos=[],
+                   browse_photos=[],
+                   scroll_to="",
+                   upload_message="",
+                   register_message="",
+                   permalink_key=""
+                   )
+
+    amount = 1  # TODO
+    request.user.userprofile.make_deposit(amount)
     return render(request, 'namubufferiapp/base.html', context)

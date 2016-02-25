@@ -14,4 +14,5 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/', }),
     url(r'^register/$', register),
     url(r'^buy/(?P<product_key>\w+)/$', buy_view, name="buy_view"),
+    url(r'^deposit/(?P<amount>[0-9]+)/$', deposit_view, name="deposit_view"),
 )

@@ -82,12 +82,13 @@
             <div class="col-lg-12">
             <hr>
                 <h2><i class="fa fa-user"></i>Kirjautunut: <strong>{{ user }}</strong>.</h2>
+                <h3>Balance: {{ user.userprofile.balance }}</h3>
             </div>
         </div>
         <div class="row">
-            <button type="button" class="btn btn-default btn-lg">
+            <a href="/deposit/123" type="button" class="btn btn-default btn-lg">
                 <p class="glyphicon glyphicon-plus" aria-hidden="true"></p> <p>Lisää rahaa</p>
-            </button>
+            </a>
             <a href="/logout" type="button" class="btn btn-default btn-lg">
                 <p class="glyphicon glyphicon-log-out" aria-hidden="true"></p> <p>Kirjaudu ulos</p>
             </a>

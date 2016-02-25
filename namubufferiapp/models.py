@@ -14,6 +14,18 @@ class UserProfile(models.Model):
     Using Field.choices as given in https://docs.djangoproject.com/en/1.7/ref/models/fields/
     """
     user = models.OneToOneField(User)
+    balance = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+
+    def make_payment(self, price):
+        converted_price = Decimal(price)
+        self.balance -= converted_price
+        self.save()
+
+    def make_deposit(self, money):
+        converted = Decimal(money)
+        self.balance += converted
+        self.save()
+
 
 class Category(models.Model):
   name = models.TextField(unique=True)

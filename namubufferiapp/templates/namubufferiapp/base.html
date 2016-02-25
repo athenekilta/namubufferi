@@ -48,7 +48,7 @@
         {% if user.is_authenticated %}
 
         <h4>Kirjautunut: <strong>{{ user }}</strong></h4>
-        <h3>Balance: {{ user.userprofile.balance }}</h3>
+        <h3>Saldo: {{ user.userprofile.balance }}€</h3>
 
         <div class="row">
             <a href="/deposit/123" type="button" class="btn btn-default btn-lg">

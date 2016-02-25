@@ -64,3 +64,5 @@ staticfiles
 
 # Ignore uploaded files -O
 media/
+
+*.sqlite3

@@ -28,9 +28,9 @@ class UserProfile(models.Model):
 
 
 class Category(models.Model):
-  name = models.TextField(unique=True)
+    name = models.TextField(unique=True)
 
 class Product(models.Model):
-  name = models.CharField(max_length=30, unique=True)
-  category = models.ForeignKey(Category, related_name='products')
-  price = models.FloatField(default=0)
+    name = models.CharField(max_length=30, unique=True)
+    category = models.ForeignKey(Category, related_name='products')
+    price = models.FloatField(default=0)

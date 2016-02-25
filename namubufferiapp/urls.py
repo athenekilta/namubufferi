@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
     
     url(r'^$', cover, name="cover"),
-    url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'ubload_app/base.html',
+    url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'namubufferiapp/base.html',
                                                          'extra_context': {'register_form': UserCreationForm}}),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/', }),
     url(r'^register/$', register),

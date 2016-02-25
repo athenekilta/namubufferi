@@ -1,0 +1,194 @@
+{% load i18n %} 
+{% load bootstrap3 %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>NAMUBUFFERI by tietskarijengi</title>
+
+    <!-- Bootstrap Core CSS -->
+    {% bootstrap_css %}
+    
+    <!-- Custom CSS -->
+    {% load staticfiles %}
+    
+    <!-- Custom Fonts -->
+
+
+    <!-- HTML5 Shma and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="/">
+                    <i class="fa fa-refresh"></i> Namubufferi<span class="light"> by Tietskarijengi </span>
+                </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#page-top">Upload Credit.</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#user"><i class="fa fa-user"></i>Buy.</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li>
+                        <a class="page-scroll" href="/logout">Logout.</a>
+                    </li>
+                    {% else %}
+                    {% endif %}
+                    {% block navigation %}
+                    {% endblock navigation %}
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- User Section -->
+    <section id="user" class="container content-section text-center">
+        {% block login %}
+        {% endblock login %}
+        <div class="row">
+            <div class="col-lg-12">
+            <hr>
+                <h2><i class="fa fa-user"></i>Buy stuff <strong>{{ user }}</strong>.</h2>
+            </div>
+        </div>
+        <div class="row">
+                {% if upload_message %}
+                <div class="row">
+                    <div class="alert alert-success col-xs-4 col-xs-offset-4 fade in">
+                        <a href="/cancel" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        you bought <strong>{{ upload_message }}</strong> Cancel->
+                    </div>
+                </div>
+                {% endif %}
+                {% if not user.is_authenticated %}<p>Log in to buy shit.</p>{% endif %}
+                {% if not user.is_authenticated %}
+                {% if not register_message %}
+            <div class="col-lg-4 col-lg-offset-2">
+                {% else %}
+            <div class="col-lg-4 col-lg-offset-4">f
+            {% endif %}
+                <h3>Sign in.</h3>
+                {% if register_message %}
+                    <div class="alert alert-success fade in row">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Registration complete.</strong> {{ register_message }}
+                    </div>
+                {% endif %}
+                <div class="toggle-login" {% if request.get_full_path = "/" %}{% endif %}>
+                    <form action="/login/#user" method="post" class="form-signin">
+                        {% csrf_token %}
+                        {% if signin_form %}
+                            {% bootstrap_form signin_form %}
+                        {% else %}
+                            {% bootstrap_form form %}
+                        {% endif %}
+                        {% buttons %}
+                        <button type="submit" class="btn btn-default btn-lg">
+                        Sign In.
+                        </button>
+                        {% endbuttons %}
+                    </form>
+                </div>
+            </div>
+            {% if not register_message %}
+            <div class="col-lg-4">
+                <h3>Register.</h3>
+                <div class="toggle-login">
+                    <form action="/register/#user" method="post" class="form-signin">
+                        {% csrf_token %}
+                        {% bootstrap_form register_form %}
+                        {% buttons %}
+                        <button type="submit" class="btn btn-default btn-lg">
+                        Register.
+                        </button>
+                        {% endbuttons %}
+                    </form>
+                </div>
+            </div>
+            {% endif %} 
+            {% endif %}
+            </div>
+            {% if user.is_authenticated %}
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                <hr>
+                    <h2><i class="fa fa-globe"></i>Products.</h2>
+                    <p>Click on a product to buy.</p>     
+                    <div class="product-list">
+                        {% for photo in browse_photos %}
+                        <a href="/buy/paskaa" title={{ photo.title }}>
+                        <span class="img-thumbnail"></span>
+                        </a>
+                        {% endfor %} 
+                    </div>
+                    {% block download %}
+                    {% endblock download %}
+            </div>
+        </div>
+            {% endif %}   
+    </section>
+
+    {% block rest %}
+    {% endblock rest %}
+
+    <!-- Footer -->
+    <footer>
+    <hr>
+        <div class="container text-center">
+            <p>&copy; Tietskarijengi 2016</p>
+             <p><small><small>The app is based on Bootstrap including third party Bootstrap components: Bootstrap Grayscale theme and Bootstrap Image Gallery. Licenced under Apache 2.0 and MIT respectively.</small></small></p>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    {% bootstrap_javascript %}
+    
+    <!-- Namubufferi custom JavaScript-->
+    {% if scroll_to %}
+    <script type="text/javascript">
+        $( document ).ready(
+        scrollTo("{{ scroll_to }}")
+    );
+    </script>
+    {% endif%}
+    {% block script %}
+    {% endblock script %}
+
+</body>
+
+</html>

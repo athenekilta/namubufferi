@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>NAMUBUFFERI by tietskarijengi</title>
+    <title>NAMUBUFFERI by Tietskarijengi</title>
 
     <!-- Bootstrap Core CSS -->
     {% bootstrap_css %}
@@ -77,33 +77,43 @@
     <section id="user" class="container content-section text-center">
         {% block login %}
         {% endblock login %}
+        {% if user.is_authenticated %}
         <div class="row">
             <div class="col-lg-12">
             <hr>
-                <h2><i class="fa fa-user"></i>Buy stuff <strong>{{ user }}</strong>.</h2>
+                <h2><i class="fa fa-user"></i>Kirjautunut: <strong>{{ user }}</strong>.</h2>
             </div>
         </div>
+        <div class="row">
+            <button type="button" class="btn btn-default btn-lg">
+                <p class="glyphicon glyphicon-plus" aria-hidden="true"></p> <p>Lisää rahaa</p>
+            </button>
+            <a href="/logout" type="button" class="btn btn-default btn-lg">
+                <p class="glyphicon glyphicon-log-out" aria-hidden="true"></p> <p>Kirjaudu ulos</p>
+            </a>
+        </div>
+        {% endif %}
+
         <div class="row">
                 {% if upload_message %}
                 <div class="row">
                     <div class="alert alert-success col-xs-4 col-xs-offset-4 fade in">
                         <a href="/cancel" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        you bought <strong>{{ upload_message }}</strong> Cancel->
+                        Ostit <strong>{{ upload_message }}</strong> Peru->
                     </div>
                 </div>
                 {% endif %}
-                {% if not user.is_authenticated %}<p>Log in to buy shit.</p>{% endif %}
                 {% if not user.is_authenticated %}
                 {% if not register_message %}
             <div class="col-lg-4 col-lg-offset-2">
                 {% else %}
             <div class="col-lg-4 col-lg-offset-4">f
             {% endif %}
-                <h3>Sign in.</h3>
+                <h3>Kirjaudu sisään.</h3>
                 {% if register_message %}
                     <div class="alert alert-success fade in row">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        <strong>Registration complete.</strong> {{ register_message }}
+                        <strong>Rekisteröityminen onnistui.</strong> {{ register_message }}
                     </div>
                 {% endif %}
                 <div class="toggle-login" {% if request.get_full_path = "/" %}{% endif %}>
@@ -116,7 +126,7 @@
                         {% endif %}
                         {% buttons %}
                         <button type="submit" class="btn btn-default btn-lg">
-                        Sign In.
+                        Kirjaudu sisään.
                         </button>
                         {% endbuttons %}
                     </form>
@@ -124,14 +134,14 @@
             </div>
             {% if not register_message %}
             <div class="col-lg-4">
-                <h3>Register.</h3>
+                <h3>Rekisteröidy.</h3>
                 <div class="toggle-login">
                     <form action="/register/#user" method="post" class="form-signin">
                         {% csrf_token %}
                         {% bootstrap_form register_form %}
                         {% buttons %}
                         <button type="submit" class="btn btn-default btn-lg">
-                        Register.
+                        Rekisteröidy.
                         </button>
                         {% endbuttons %}
                     </form>
@@ -144,8 +154,7 @@
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
                 <hr>
-                    <h2><i class="fa fa-globe"></i>Products.</h2>
-                    <p>Click on a product to buy.</p>     
+                    <h2><i class="fa fa-globe"></i>Valitse tuote</h2>   
                     <div class="product-list">
                         {% for photo in browse_photos %}
                         <a href="/buy/paskaa" title={{ photo.title }}>

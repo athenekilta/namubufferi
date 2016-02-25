@@ -83,3 +83,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Authentication URLs
+# https://docs.djangoproject.com/en/1.9/ref/settings/#std:setting-LOGIN_URL
+LOGIN_URL = '/'
+LOGOUT_URL = '/'
+LOGIN_REDIRECT_URL = '/'

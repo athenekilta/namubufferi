@@ -23,30 +23,6 @@ def cover(request):
                    )
 
     return render(request, 'namubufferiapp/base.html', context)
-    if request.method == 'POST':
-        backend_form = AuthenticationForm(request.POST, request.FILES)
-        context['backend_form'] = backend_form
-        context['posted'] = backend_form.instance
-        if backend_form.is_valid():
-            new_photo = backend_form.save(commit=False)
-            # Create img key:
-            random_string = str(random.random()).encode('utf8')
-            salt = hashlib.sha1(random_string).hexdigest()[:5]
-            salted = (salt + backend_form.cleaned_data.get('title')).encode('utf8')
-            img_key = hashlib.sha1(salted).hexdigest()
-            new_photo.img_key = img_key
-            print(img_key)
-
-            if request.user.is_authenticated():
-                new_photo.user = request.user
-                new_photo.save()
-            else:
-                new_photo.save()
-                context['anon_upload_photo'] = [new_photo]
-            context['scroll_to'] = "#user"
-            context['upload_message'] = "Upload complete."
-
-    return render(request, 'namubufferiapp/base.html', context)
 
 
 def register(request):

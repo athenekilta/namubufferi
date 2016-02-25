@@ -14,4 +14,3 @@ class UserProfile(models.Model):
     Using Field.choices as given in https://docs.djangoproject.com/en/1.7/ref/models/fields/
     """
     user = models.OneToOneField(User)
-

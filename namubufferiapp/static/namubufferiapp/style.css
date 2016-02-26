@@ -4,3 +4,7 @@ font-family: 'Condiment', cursive;
 font-weight: 400;
 padding-top: 15px;
 }
+
+.product {
+	margin: 5px;
+}

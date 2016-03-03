@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 from django.shortcuts import render, get_object_or_404, redirect
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -12,19 +10,15 @@ from .forms import *
 
 
 # TODO: Remve unused
-context = dict(backend_form=AuthenticationForm(),
-               signin_form=AuthenticationForm(),
+context = dict(signin_form=AuthenticationForm(),
                register_form=UserCreationForm(),
                money_form=MoneyForm(),
-               user_photos=[],
-               browse_photos=[],
                products=Product.objects.all(),
                categories=Category.objects.all(),
-               scroll_to="",
                money_message="",
                buy_message="",
                register_message="",
-               permalink_key=""
+               scroll_to="",
                )
 
 
@@ -56,8 +50,11 @@ def register(request):
 
 
 def buy_view(request, product_key):
-    price = 1  # TODO: Get price with product_key form products
+    product = get_object_or_404(Product, pk=product_key)
+    price = product.price
     request.user.userprofile.make_payment(price)
+    context['buy_message'] = price
+
     return redirect('/')
 
 

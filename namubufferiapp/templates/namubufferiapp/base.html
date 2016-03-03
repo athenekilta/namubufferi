@@ -57,6 +57,29 @@
       </div>
     </div>
 
+   <!-- Auth Modal -->
+    <div class="modal fade" id="authModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Rekisteröidy</h4>
+          </div>
+          <div class="modal-body">
+            <form action="/register/" method="post" class="form-signin">
+                {% csrf_token %}
+                {% bootstrap_form register_form %}
+                {% buttons %}
+                <button type="submit" class="btn btn-default btn-lg">
+                Rekisteröidy
+                </button>
+                {% endbuttons %}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="container text-center">
         <h1>Namupankki</h1><h4> by Tietskarijengi</h4>
     </div>
@@ -102,52 +125,39 @@
                 {% endif %}
                 {% if not user.is_authenticated %}
                 {% if not register_message %}
-            <div class="col-lg-4 col-lg-offset-2">
+            <div class="col-sm-4 col-sm-offset-4 col-xs-12 col-xs-offset-0 text-center">
                 {% else %}
-            <div class="col-lg-4 col-lg-offset-4">
-            {% endif %}
-                <h3>Kirjaudu sisään.</h3>
-                {% if register_message %}
-                    <div class="alert alert-success fade in row">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        <strong>Rekisteröityminen onnistui.</strong> {{ register_message }}
-                    </div>
+                <div class="col-sm-4 col-sm-offset-4 col-xs-12 col-xs-offset-0 text-center">
                 {% endif %}
-                <div class="toggle-login" {% if request.get_full_path = "/" %}{% endif %}>
-                    <form action="/login/#user" method="post" class="form-signin">
-                        {% csrf_token %}
+                    <h3>Kirjaudu sisään.</h3>
+                    {% if register_message %}
+                        <div class="alert alert-success fade in row">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Rekisteröityminen onnistui.</strong> {{ register_message }}
+                        </div>
+                    {% endif %}
+                    <div class="toggle-login" {% if request.get_full_path = "/" %}{% endif %}>
+                        <form action="/login/#user" method="post" class="form-signin">
+                            {% csrf_token %}
 
-                        <input class="form-control" id="id_username" maxlength="254" name="username" placeholder="Käyttäjätunnus" required="required" title="" type="username">
-                        <input class="form-control" id="id_password" name="password" placeholder="Salasana" required="required" title="" type="password">
+                            <input class="form-control" id="id_username" maxlength="254" name="username" placeholder="Käyttäjätunnus" required="required" title="" type="username">
+                            <input class="form-control" id="id_password" name="password" placeholder="Salasana" required="required" title="" type="password">
 
-                        
-                        {% buttons %}
-                        <button type="submit" class="btn btn-lg btn-default btn-block">
-                        Kirjaudu sisään
+                            
+                            {% buttons %}
+                            <button type="submit" class="btn btn-lg btn-default btn-block">
+                            Kirjaudu sisään
+                            </button>
+                            {% endbuttons %}
+                        </form>
+                        {% if not register_message %}
+                        <button type="button" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#authModal">
+                          <i class="glyphicon glyphicon-heart-empty"></i> Register
                         </button>
-                        {% endbuttons %}
-                    </form>
-                    <button class="btn btn-lg btn-default btn-block" onclick="$('#register').toggle();">Rekisteröidy</button>
-                </div>
-                
-            </div>
-            {% if not register_message %}
-            <div id="register" class="col-lg-4" hidden=true>
-                <h3>Rekisteröidy.</h3>
-                <div class="toggle-login">
-                    <form action="/register/#user" method="post" class="form-signin">
-                        {% csrf_token %}
-                        {% bootstrap_form register_form %}
-                        {% buttons %}
-                        <button type="submit" class="btn btn-lg btn-default btn-block">
-                        Rekisteröidy
-                        </button>
-                        {% endbuttons %}
-                    </form>
-                </div>
-            </div>
-            {% endif %} 
-            {% endif %}
+                        {% endif %}
+                    </div>
+                </div> 
+                {% endif %}
             </div>
             {% if user.is_authenticated %}
             <div class="row">
@@ -174,9 +184,8 @@
                         {% endfor%}
                     {% endfor %}
                     </div>
-                    
+                </div>
             </div>
-        </div>
             {% endif %}
     </section>
 

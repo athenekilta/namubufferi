@@ -129,31 +129,11 @@
                     </div>
                     </p>
                     <div class="list">
-                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">Fazer-suklaapatukka</a>
-                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">Välipalakeksit</a>
-                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">Coca-Cola 0.33l</a>
-                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">Battery 0.33l</a>
-
-                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">Kinder Maxi</a>
-                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">Pätkis/DaCapo/Suffeli/Jim</a>
-                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">Twix/Mars/Daim/Snickers</a>
-                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">Marabou iso levy</a>
-
-                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">Lindt tumma suklaa</a>
-                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">Smurffisuklaa</a>
-                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">Pätkis-pussi</a>
-                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">Rasiat (Mynthon)</a>
-
-                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">Paksu Pepe</a>
-                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">Mentos</a>
-                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">Vanha Auto</a>
-                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">BareBar</a>
-
-                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">Raejuusto</a>
-                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">Myslipatukka</a>
-                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">Risifrutti</a>
-                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">Pähkinät</a>
+                    {% for product in products %}
+                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">{{product.name}}: {{product.price}}</a>
+                    {% endfor%}
                     </div>
+                    
             </div>
         </div>
             {% endif %}

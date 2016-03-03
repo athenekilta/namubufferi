@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.http import HttpResponseRedirect
-from .models import UserProfile
+from .models import UserProfile, Product
 import datetime
 import random
 import hashlib
@@ -19,9 +19,10 @@ def cover(request):
                    scroll_to="",
                    upload_message="",
                    register_message="",
-                   permalink_key=""
+                   permalink_key="",
+                   products=[]
                    )
-
+    context['products'] = Product.objects.all()
     return render(request, 'namubufferiapp/base.html', context)
 
 

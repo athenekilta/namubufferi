@@ -50,8 +50,11 @@ def register(request):
 
 
 def buy_view(request, product_key):
-    price = 1  # TODO: Get price with product_key form products
+    product = get_object_or_404(Product, pk=product_key)
+    price = product.price
     request.user.userprofile.make_payment(price)
+    context['buy_message'] = price
+
     return redirect('/')
 
 

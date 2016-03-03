@@ -70,6 +70,14 @@
     <!-- User Section -->
     {% if user.is_authenticated %}
     <div class="container text-center user-info">
+        {% if money_message %}
+        <div class="row">
+            <div class="alert alert-success col-xs-4 col-xs-offset-4 fade in">
+                <a href="/cancel" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                Lisäsit <strong>{{ money_message }}</strong>
+            </div>
+        </div>
+        {% endif %}
         <h4>Käyttäjä: {{ user }}</h4>
         <h4>Saldo: {{ user.userprofile.balance }}€</h4>
     </div>
@@ -88,11 +96,11 @@
     {% endif %}
 
         <div class="row">
-                {% if upload_message %}
+                {% if buy_message %}
                 <div class="row">
                     <div class="alert alert-success col-xs-4 col-xs-offset-4 fade in">
                         <a href="/cancel" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        Ostit <strong>{{ upload_message }}</strong> Peru->
+                        Ostit <strong>{{ buy_message }}</strong> Peru->
                     </div>
                 </div>
                 {% endif %}
@@ -155,13 +163,14 @@
                     </div>
                     </p>
                     <div class="list">
-                    {% for product in products %}
-                      <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">
-                      <h4>{{product.name}}</h4>
-                      <h4>{{product.price}}€</h4>
-                      <p class="hide">{{product.category}}</p>
-                      </a>
-                    {% endfor%}
+                    {% for category in categories %}
+                    <h4>Category {{category.name}}</h4>
+                        {% for product in products %}
+                            {% if product.category.name == category.name %}                        
+                            <h4>{{product.name}}</h4>
+                            {% endif %}
+                        {% endfor%}
+                    {% endfor %}
                     </div>
                     
             </div>

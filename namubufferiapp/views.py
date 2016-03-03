@@ -1,32 +1,34 @@
 from django.shortcuts import render
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.http import HttpResponseRedirect
-from .models import UserProfile, Product
+from .models import *
 import datetime
 import random
 import hashlib
 from .forms import *
 
 
+# TODO: Remve unused
 context = dict(backend_form=AuthenticationForm(),
                signin_form=AuthenticationForm(),
                register_form=UserCreationForm(),
                money_form=MoneyForm(),
                user_photos=[],
                browse_photos=[],
-               products=[],
+               products=Product.objects.all(),
+               categories=Category.objects.all(),
                scroll_to="",
-               upload_message="",
+               money_message="",
+               buy_message="",
                register_message="",
                permalink_key=""
                )
 
 
 def cover(request):
-    context['products'] = Product.objects.all()
     return render(request, 'namubufferiapp/base.html', context)
 
 
@@ -56,6 +58,7 @@ def register(request):
 def buy_view(request, product_key):
     price = 1  # TODO: Get price with product_key form products
     request.user.userprofile.make_payment(price)
+    context['money_message'] = "1231233"
     return render(request, 'namubufferiapp/base.html', context)
 
 

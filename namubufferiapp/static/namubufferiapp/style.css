@@ -9,6 +9,10 @@ font-weight: 400;
 padding-top: 15px;
 }
 
+.hide {
+  display:none;
+}
+
 .product {
 	margin: 5px;
 }

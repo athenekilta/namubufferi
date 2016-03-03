@@ -69,7 +69,7 @@
         {% if money_message %}
         <div class="row">
             <div class="alert alert-success col-xs-4 col-xs-offset-4 fade in">
-                <a href="/cancel" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 Lisäsit <strong>{{ money_message }}</strong>€
             </div>
         </div>
@@ -95,8 +95,8 @@
                 {% if buy_message %}
                 <div class="row">
                     <div class="alert alert-success col-xs-4 col-xs-offset-4 fade in">
-                        <a href="/cancel" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        Ostit <strong>{{ buy_message }}</strong> Peru->
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        Ostit <strong>{{ buy_message }}</strong>->
                     </div>
                 </div>
                 {% endif %}
@@ -104,7 +104,7 @@
                 {% if not register_message %}
             <div class="col-lg-4 col-lg-offset-2">
                 {% else %}
-            <div class="col-lg-4 col-lg-offset-4">f
+            <div class="col-lg-4 col-lg-offset-4">
             {% endif %}
                 <h3>Kirjaudu sisään.</h3>
                 {% if register_message %}
@@ -128,9 +128,10 @@
                         {% endbuttons %}
                     </form>
                 </div>
+                <button class="btn btn-lg btn-default btn-block" onclick="$('#register').toggle();">Register</button>
             </div>
             {% if not register_message %}
-            <div class="col-lg-4">
+            <div id="register" class="col-lg-4" hidden=true>
                 <h3>Rekisteröidy.</h3>
                 <div class="toggle-login">
                     <form action="/register/#user" method="post" class="form-signin">
@@ -163,7 +164,7 @@
                     <h4>{{category.name}}</h4>
                         {% for product in products %}
                             {% if product.category.name == category.name %}
-                            <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">
+                            <a href="/buy/{{product.pk}}" type="button" class="btn btn-default btn-lg product">
                                 <h4>{{product.name}}</h4>
                                     <h4>{{product.price}}€</h4>
                                 <p class="hide">{{product.category}}</p>
@@ -204,8 +205,9 @@
     <!-- Namubufferi custom JavaScript-->
 
     <script type="text/javascript">
-        $( document ).ready(
-        $('#search').hideseek()
+        $( document ).ready(function (){
+        $('#search').hideseek();
+    }
     );
     </script>
 </body>

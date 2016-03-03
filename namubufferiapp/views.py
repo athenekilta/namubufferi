@@ -5,6 +5,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.http import HttpResponseRedirect
 from .models import UserProfile
+from .forms import *
 import datetime
 import random
 import hashlib
@@ -14,6 +15,7 @@ def cover(request):
     context = dict(backend_form=AuthenticationForm(),
                    signin_form=AuthenticationForm(),
                    register_form=UserCreationForm(),
+                   money_form=MoneyForm(),
                    user_photos=[],
                    browse_photos=[],
                    scroll_to="",
@@ -80,6 +82,7 @@ def deposit_view(request, amount):
     context = dict(backend_form=AuthenticationForm(),
                    signin_form=AuthenticationForm(),
                    register_form=UserCreationForm(),
+                   money_form=MoneyForm(),
                    user_photos=[],
                    browse_photos=[],
                    scroll_to="",
@@ -88,6 +91,13 @@ def deposit_view(request, amount):
                    permalink_key=""
                    )
 
-    amount = 1  # TODO
-    request.user.userprofile.make_deposit(amount)
+    if request.method == 'POST':
+        money_form = MoneyForm(request.POST)
+        context['money_form'] = money_form
+    if money_form.is_valid():
+        amount = request.POST['amount']
+        request.user.userprofile.make_deposit(amount)
+        context['scroll_to'] = ""
+        context['register_message'] = "Money added"
+
     return render(request, 'namubufferiapp/base.html', context)

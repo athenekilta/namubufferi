@@ -52,14 +52,13 @@ def register(request):
             context['scroll_to'] = ""
             context['register_message'] = "You can now sign in with the account."
 
-    return render(request, 'namubufferiapp/base.html', context)
+    return redirect('/')
 
 
 def buy_view(request, product_key):
     price = 1  # TODO: Get price with product_key form products
     request.user.userprofile.make_payment(price)
-    context['money_message'] = "1231233"
-    return render(request, 'namubufferiapp/base.html', context)
+    return redirect('/')
 
 
 def deposit_view(request, amount):
@@ -70,6 +69,6 @@ def deposit_view(request, amount):
         amount = request.POST['amount']
         request.user.userprofile.make_deposit(amount)
         context['scroll_to'] = ""
-        context['register_message'] = "Money added"
+        context['money_message'] = amount
 
-    return render(request, 'namubufferiapp/base.html', context)
+    return redirect('/')

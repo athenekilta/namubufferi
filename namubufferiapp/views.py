@@ -11,19 +11,20 @@ import hashlib
 from .forms import *
 
 
+context = dict(backend_form=AuthenticationForm(),
+               signin_form=AuthenticationForm(),
+               register_form=UserCreationForm(),
+               money_form=MoneyForm(),
+               user_photos=[],
+               browse_photos=[],
+               scroll_to="",
+               upload_message="",
+               register_message="",
+               permalink_key=""
+               )
+
+
 def cover(request):
-    context = dict(backend_form=AuthenticationForm(),
-                   signin_form=AuthenticationForm(),
-                   register_form=UserCreationForm(),
-                   money_form=MoneyForm(),
-                   user_photos=[],
-                   browse_photos=[],
-                   scroll_to="",
-                   upload_message="",
-                   register_message="",
-                   permalink_key="",
-                   products=[]
-                   )
     context['products'] = Product.objects.all()
     return render(request, 'namubufferiapp/base.html', context)
 
@@ -36,17 +37,6 @@ def register(request):
     https://docs.djangoproject.com/en/1.7/topics/email/
 
     """
-    context = dict(backend_form=AuthenticationForm(),
-                   signin_form=AuthenticationForm(),
-                   register_form=UserCreationForm(),
-                   user_photos=[],
-                   browse_photos=[],
-                   scroll_to="",
-                   upload_message="",
-                   register_message="",
-                   permalink_key=""
-                   )
-
     if request.method == 'POST':
         register_form = UserCreationForm(request.POST)
         context['register_form'] = register_form
@@ -63,35 +53,12 @@ def register(request):
 
 
 def buy_view(request, product_key):
-    context = dict(backend_form=AuthenticationForm(),
-                   signin_form=AuthenticationForm(),
-                   register_form=UserCreationForm(),
-                   user_photos=[],
-                   browse_photos=[],
-                   scroll_to="",
-                   upload_message="",
-                   register_message="",
-                   permalink_key=""
-                   )
-
     price = 1  # TODO: Get price with product_key form products
     request.user.userprofile.make_payment(price)
     return render(request, 'namubufferiapp/base.html', context)
 
 
 def deposit_view(request, amount):
-    context = dict(backend_form=AuthenticationForm(),
-                   signin_form=AuthenticationForm(),
-                   register_form=UserCreationForm(),
-                   money_form=MoneyForm(),
-                   user_photos=[],
-                   browse_photos=[],
-                   scroll_to="",
-                   upload_message="",
-                   register_message="",
-                   permalink_key=""
-                   )
-
     if request.method == 'POST':
         money_form = MoneyForm(request.POST)
         context['money_form'] = money_form

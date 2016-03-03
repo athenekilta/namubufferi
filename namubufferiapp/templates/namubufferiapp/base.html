@@ -160,10 +160,14 @@
                     </p>
                     <div class="list">
                     {% for category in categories %}
-                    <h4>Category {{category.name}}</h4>
+                    <h4>{{category.name}}</h4>
                         {% for product in products %}
-                            {% if product.category.name == category.name %}                        
-                            <h4>{{product.name}}</h4>
+                            {% if product.category.name == category.name %}
+                            <a href="/buy/paskaa" type="button" class="btn btn-default btn-lg product">
+                                <h4>{{product.name}}</h4>
+                                    <h4>{{product.price}}€</h4>
+                                <p class="hide">{{product.category}}</p>
+                            </a>
                             {% endif %}
                         {% endfor%}
                     {% endfor %}

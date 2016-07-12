@@ -35,12 +35,12 @@
 
 <body id="page-top">
     <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="moneyModal" tabindex="-1" role="dialog" aria-labelledby="moneyModalTitle">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Lisää rahaa Namupankkiin</h4>
+            <h4 class="modal-title" id="moneyModalTitle">Lisää rahaa Namupankkiin</h4>
           </div>
           <div class="modal-body">
             <form action="/deposit/123/" method="post" class="form-signin">
@@ -57,13 +57,13 @@
       </div>
     </div>
 
-   <!-- Auth Modal -->
-    <div class="modal fade" id="authModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+   <!-- Register Modal -->
+    <div class="modal fade" id="authModal" tabindex="-1" role="dialog" aria-labelledby="authModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Rekisteröidy</h4>
+            <h4 class="modal-title" id="authModalLabel">Rekisteröidy</h4>
           </div>
           <div class="modal-body">
             <form action="/register/" method="post" class="form-signin">
@@ -80,76 +80,80 @@
       </div>
     </div>
 
-    <div class="container text-center">
-        <h1>Namupankki</h1><h4> by Tietskarijengi</h4>
-    </div>
+    <header class="container text-center">
+        <h1>Namupankki</h1>
+        <h4> by Tietskarijengi</h4>
+        <hr>
+    </header>
 
-    <hr>
-
-    <!-- User Section -->
-    {% if user.is_authenticated %}
-    <div class="container text-center user-info">
+    <section id="messages" class="container text-center">
         {% if money_message %}
         <div class="row">
-            <div class="alert alert-success col-xs-4 col-xs-offset-4 fade in">
+            <div class="alert alert-success alert-dismissible col-xs-4 col-xs-offset-4 fade in">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 Lisäsit <strong>{{ money_message }}</strong>€
             </div>
         </div>
         {% endif %}
+
+        {% if buy_message %}
+        <div class="row">
+            <div class="alert alert-success alert-dismissible col-xs-4 col-xs-offset-4 fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                Ostit <strong>{{ buy_message }}</strong>->
+            </div>
+        </div>
+        {% endif %}
+
+        {% if register_message %}
+            <div class="alert alert-success alert-dismissible fade in row">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Rekisteröityminen onnistui.</strong> {{ register_message }}
+            </div>
+        {% endif %}
+    </section>
+
+    {% if user.is_authenticated %}
+    <!-- User-Info Section -->
+    <section id="user-info" class="container text-center">
         <h4>Käyttäjä: {{ user }}</h4>
         <h4>Saldo: {{ user.userprofile.balance }}€</h4>
-    </div>
-
-    <section id="user" class="container content-section text-center">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <a href="/deposit/123" type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#myModal">
+                <a href="/deposit/123" class="btn btn-default btn-lg" data-toggle="modal" data-target="#moneyModal">
                     <p class="glyphicon glyphicon-plus" aria-hidden="true"></p> <p>Lisää rahaa</p>
                 </a>
-                <a href="/logout" type="button" class="btn btn-default btn-lg">
+                <a href="/logout" class="btn btn-default btn-lg">
                     <p class="glyphicon glyphicon-log-out" aria-hidden="true"></p> <p>Kirjaudu ulos</p>
                 </a>
             </div>
         </div>
+    </section>
     {% endif %}
 
+
+    {% if not user.is_authenticated %}
+    <!-- User-Auth Section -->
+    <section id="user-auth" class="container text-center">
+
         <div class="row">
-                {% if buy_message %}
-                <div class="row">
-                    <div class="alert alert-success col-xs-4 col-xs-offset-4 fade in">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        Ostit <strong>{{ buy_message }}</strong>->
-                    </div>
-                </div>
-                {% endif %}
-                {% if not user.is_authenticated %}
-                {% if not register_message %}
-            <div class="col-sm-4 col-sm-offset-4 col-xs-12 col-xs-offset-0 text-center">
-                {% else %}
                 <div class="col-sm-4 col-sm-offset-4 col-xs-12 col-xs-offset-0 text-center">
-                {% endif %}
                     <h3>Kirjaudu sisään.</h3>
-                    {% if register_message %}
-                        <div class="alert alert-success fade in row">
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Rekisteröityminen onnistui.</strong> {{ register_message }}
-                        </div>
-                    {% endif %}
-                    <div class="toggle-login" {% if request.get_full_path = "/" %}{% endif %}>
+
+                    <div class="toggle-login">
                         <form action="/login/#user" method="post" class="form-signin">
                             {% csrf_token %}
 
-                            <input class="form-control" id="id_username" maxlength="254" name="username" placeholder="Käyttäjätunnus" required="required" title="" type="username">
-                            <input class="form-control" id="id_password" name="password" placeholder="Salasana" required="required" title="" type="password">
+                            <input class="form-control" name="username" placeholder="Käyttäjätunnus" required="required" type="text">
+                            <input class="form-control" name="password" placeholder="Salasana" required="required" type="password">
 
-                            
                             {% buttons %}
                             <button type="submit" class="btn btn-lg btn-default btn-block">
                             Kirjaudu sisään
                             </button>
                             {% endbuttons %}
                         </form>
+
                         {% if not register_message %}
                         <button type="button" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#authModal">
                           <i class="glyphicon glyphicon-heart-empty"></i> Register
@@ -157,44 +161,44 @@
                         {% endif %}
                     </div>
                 </div> 
-                {% endif %}
-            </div>
-            {% if user.is_authenticated %}
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-                <hr>
-                    <h2>Valitse tuote</h2>   
-                    <p>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
-                        <input class="form-control input-lg" id="search" name="search" placeholder="Hae tuotetta" type="text" data-list=".list">
-                    </div>
-                    </p>
-                    <div class="list">
-                    {% for category in categories %}
-                    <h4>{{category.name}}</h4>
-                        {% for product in products %}
-                            {% if product.category.name == category.name %}
-                            <a href="/buy/{{product.pk}}" type="button" class="btn btn-default btn-lg product">
-                                <h4>{{product.name}}</h4>
-                                    <h4>{{product.price}}€</h4>
-                                <p class="hide">{{product.category}}</p>
-                            </a>
-                            {% endif %}
-                        {% endfor%}
-                    {% endfor %}
-                    </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+    <section id="shop" class="container text-center">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+            <hr>
+                <h2>Valitse tuote</h2>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
+                    <input class="form-control" id="search" name="search" placeholder="Hae tuotetta" type="text" data-list=".list">
+                </div>
+                <div class="list">
+                {% for category in categories %}
+                <h4>{{category.name}}</h4>
+                    {% for product in products %}
+                        {% if product.category.name == category.name %}
+                        <a href="/buy/{{product.pk}}" class="btn btn-default btn-lg product">
+                            <h4>{{product.name}}</h4>
+                                <h4>{{product.price}}€</h4>
+                            <p class="hide">{{product.category}}</p>
+                        </a>
+                        {% endif %}
+                    {% endfor%}
+                {% endfor %}
                 </div>
             </div>
-            {% endif %}
+        </div>
     </section>
+    {% endif %}
+
 
     <!-- Footer -->
-    <footer>
-    <hr>
-        <div class="container text-center">
-            <p>&copy; Tietskarijengi 2016</p>
-        </div>
+    <footer class="container text-center">
+        <hr>
+        <p>&copy; Tietskarijengi 2016</p>
     </footer>
 
     <!-- jQuery -->

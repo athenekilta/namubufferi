@@ -1,5 +1,5 @@
 body {
-	background-color: #FBFBFB;
+  background-color: #FBFBFB;
 }
 
 h1 {
@@ -14,11 +14,11 @@ padding-top: 15px;
 }
 
 .product {
-	margin: 5px;
+  margin: 5px;
 }
 
 .user-info {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .form-signin {

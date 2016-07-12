@@ -29,11 +29,13 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+
 class Category(models.Model):
     name = models.TextField(unique=True)
 
     def __str__(self):
         return self.name
+
 
 class Product(models.Model):
     name = models.CharField(max_length=30, unique=True)
@@ -48,6 +50,7 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+
 class Transaction(models.Model):
     timestamp = models.DateTimeField(
         auto_now_add=True
@@ -61,7 +64,7 @@ class Transaction(models.Model):
 
         if self.timestamp:
             return self.timestamp.strftime("%s %s" %
-                (DATE_FORMAT, TIME_FORMAT))
+                                           (DATE_FORMAT, TIME_FORMAT))
 
     def __str__(self):
         return "%s, %s" % (self.customer.user.username, self.get_date_string())

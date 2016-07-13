@@ -9,19 +9,28 @@ from models import UserProfile, Product, Category, Transaction
 from forms import MoneyForm
 
 
-# TODO: Remve unused
+# TODO: Create custom context processor
 global_context = dict(signin_form=AuthenticationForm(),
                       register_form=UserCreationForm(),
                       money_form=MoneyForm(),
                       products=Product.objects.all(),
                       categories=Category.objects.all(),
+                      transactions=Transaction.objects.all(),
                       message="",
                       )
 
 
 def cover(request):
-    context = global_context.copy()
-    return render(request, 'namubufferiapp/base.html', context)
+    global_context = dict(signin_form=AuthenticationForm(),
+                          register_form=UserCreationForm(),
+                          money_form=MoneyForm(),
+                          products=Product.objects.all(),
+                          categories=Category.objects.all(),
+                          transactions=Transaction.objects.all(),
+                          message="",
+                          )
+
+    return render(request, 'namubufferiapp/base.html', global_context)
 
 
 def register(request):

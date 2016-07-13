@@ -52,6 +52,23 @@
                 </button>
                 {% endbuttons %}
             </form>
+            <h3>History</h3>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Deposit | Payment</th>
+                    <th>Name</th>
+                    <th>Amount</th>
+                </tr>
+                </thead>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.transaction_type }}</td>
+                    <td>{{ transaction.product }}</td>
+                    <td>{{ transaction.amount }}</td>
+                </tr>
+                {% endfor %}
+            </table>
           </div>
         </div>
       </div>

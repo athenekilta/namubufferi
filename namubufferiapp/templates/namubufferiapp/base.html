@@ -103,12 +103,16 @@
         <h4>Käyttäjä: {{ user }}</h4>
         <h4>Saldo: {{ user.userprofile.balance }}€</h4>
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <a href="/deposit/123" class="btn btn-default btn-lg" data-toggle="modal" data-target="#moneyModal">
-                    <p class="glyphicon glyphicon-plus" aria-hidden="true"></p> <p>Lisää rahaa</p>
+            <div class="col-sm-3 col-sm-offset-3 col-xs-6">
+                <a href="/deposit/123" class="btn btn-default btn-block btn-lg" data-toggle="modal" data-target="#moneyModal">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span><br>
+                    Lisää rahaa
                 </a>
-                <a href="/logout" class="btn btn-default btn-lg">
-                    <p class="glyphicon glyphicon-log-out" aria-hidden="true"></p> <p>Kirjaudu ulos</p>
+            </div>
+            <div class="col-sm-3 col-xs-6">
+                <a href="/logout" class="btn btn-default btn-block btn-lg">
+                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span><br>
+                    Kirjaudu ulos
                 </a>
             </div>
         </div>
@@ -132,14 +136,14 @@
                             <input class="form-control" name="password" placeholder="Salasana" required="required" type="password">
 
                             {% buttons %}
-                            <button type="submit" class="btn btn-lg btn-default btn-block">
+                            <button type="submit" class="btn btn-default btn-block btn-lg">
                             Kirjaudu sisään
                             </button>
                             {% endbuttons %}
                         </form>
 
                         <button type="button" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#authModal">
-                          <i class="glyphicon glyphicon-heart-empty"></i> Register
+                          <span class="glyphicon glyphicon-heart-empty"></span> Register
                         </button>
                     </div>
                 </div> 
@@ -162,7 +166,7 @@
         {% for category in categories %}
         <div class="list row"> <!-- .list class for hideseek search -->
             <div class="col-xs-12">
-                <h4>{{ category.name }}</h4>            
+                <h4><strong>{{ category.name }}</strong></h4>            
             </div>
         {% for product in products %}
             {% if product.category.name == category.name %}
@@ -170,7 +174,7 @@
                 <form action="/buy/" method="post">
                     {% csrf_token %}
                     <input hidden type="text" name="product_key" value="{{product.pk}}">
-                    <button type="submit" class="btn btn-default btn-lg product">
+                    <button type="submit" class="btn btn-default btn-block btn-lg product">
                         {{ product.name }} <br>
                         {{ product.price }}€
                         <span hidden>{{ product.category }}</span>

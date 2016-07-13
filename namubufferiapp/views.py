@@ -1,28 +1,28 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django import forms
+
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.decorators import login_required
+
 from django.http import HttpResponseRedirect
-from .models import *
-import datetime
-import random
-import hashlib
-from .forms import *
+from models import UserProfile, Product, Category
+from forms import MoneyForm
 
 
 # TODO: Remve unused
-context = dict(signin_form=AuthenticationForm(),
-               register_form=UserCreationForm(),
-               money_form=MoneyForm(),
-               products=Product.objects.all(),
-               categories=Category.objects.all(),
-               money_message="",
-               buy_message="",
-               register_message="",
-               scroll_to="",
-               )
+global_context = dict(signin_form=AuthenticationForm(),
+                      register_form=UserCreationForm(),
+                      money_form=MoneyForm(),
+                      products=Product.objects.all(),
+                      categories=Category.objects.all(),
+                      money_message="",
+                      buy_message="",
+                      register_message="",
+                      )
 
 
 def cover(request):
+    context = global_context.copy()
     return render(request, 'namubufferiapp/base.html', context)
 
 
@@ -34,6 +34,8 @@ def register(request):
     https://docs.djangoproject.com/en/1.7/topics/email/
 
     """
+    context = global_context.copy()
+
     if request.method == 'POST':
         register_form = UserCreationForm(request.POST)
         context['register_form'] = register_form
@@ -43,29 +45,33 @@ def register(request):
             new_profile = UserProfile()
             new_profile.user = new_user
             new_profile.save()
-            context['scroll_to'] = ""
             context['register_message'] = "You can now sign in with the account."
 
-    return redirect('/')
+    return render(request, 'namubufferiapp/base.html', context)
 
 
+@login_required
 def buy_view(request, product_key):
+    context = global_context.copy()
+
     product = get_object_or_404(Product, pk=product_key)
     price = product.price
     request.user.userprofile.make_payment(price)
     context['buy_message'] = price
 
-    return redirect('/')
+    return render(request, 'namubufferiapp/base.html', context)
 
 
+@login_required
 def deposit_view(request, amount):
+    context = global_context.copy()
+
     if request.method == 'POST':
         money_form = MoneyForm(request.POST)
         context['money_form'] = money_form
     if money_form.is_valid():
         amount = request.POST['amount']
         request.user.userprofile.make_deposit(amount)
-        context['scroll_to'] = ""
         context['money_message'] = amount
 
-    return redirect('/')
+    return render(request, 'namubufferiapp/base.html', context)

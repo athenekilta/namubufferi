@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 
 from django.http import HttpResponseRedirect
-from models import UserProfile, Product, Category
+from models import UserProfile, Product, Category, Transaction, Payment, Deposit
 from forms import MoneyForm
 
 
@@ -55,6 +55,17 @@ def buy_view(request):
     product = get_object_or_404(Product, pk=request.POST['product_key'])
     price = product.price
     request.user.userprofile.make_payment(price)
+
+    new_transaction = Transaction()
+    new_transaction.customer = request.user.userprofile
+    new_transaction.save()
+
+    new_payment = Payment()
+    new_payment.amount = price
+    new_payment.product = product
+    new_payment.transaction = new_transaction
+    new_payment.save()
+
     context['message'] = 'Ostit ' + str(price)
 
     return render(request, 'namubufferiapp/base.html', context)
@@ -70,6 +81,16 @@ def deposit_view(request):
     if money_form.is_valid():
         amount = request.POST['amount']
         request.user.userprofile.make_deposit(amount)
+
+        new_transaction = Transaction()
+        new_transaction.customer = request.user.userprofile
+        new_transaction.save()
+
+        new_deposit = Deposit()
+        new_deposit.amount = amount
+        new_deposit.transaction = new_transaction
+        new_deposit.save()
+
         context['message'] = 'Lisasit ' + str(amount)
 
     return render(request, 'namubufferiapp/base.html', context)

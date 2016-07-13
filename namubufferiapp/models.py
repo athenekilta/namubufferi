@@ -73,21 +73,33 @@ class Transaction(models.Model):
         ordering = ["-timestamp"]
 
 
-class Sale(models.Model):
-    price_at_sale_time = models.DecimalField(
+class Payment(models.Model):
+    amount = models.DecimalField(
         max_digits=5,
         decimal_places=2
     )
     product = models.ForeignKey(Product)
-    transaction = models.ForeignKey(Transaction)
+    transaction = models.OneToOneField(Transaction)
 
     def __str__(self):
         return self.product.name + ", " + self.transaction.__str__()
 
 
-class SaleInline(admin.TabularInline):
-    model = Sale
+class Deposit(models.Model):
+    amount = models.DecimalField(
+        max_digits=5,
+        decimal_places=2
+    )
+    transaction = models.OneToOneField(Transaction)
+
+
+class PaymentInline(admin.TabularInline):
+    model = Payment
+
+
+class DepositInline(admin.TabularInline):
+    model = Deposit
 
 
 class TransactionAdmin(admin.ModelAdmin):
-    inlines = [SaleInline, ]
+    inlines = [PaymentInline, DepositInline]

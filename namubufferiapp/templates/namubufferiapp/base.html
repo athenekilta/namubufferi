@@ -86,32 +86,16 @@
         <hr>
     </header>
 
+    {% if message %}
     <section id="messages" class="container text-center">
-        {% if money_message %}
         <div class="row">
             <div class="alert alert-success alert-dismissible col-xs-4 col-xs-offset-4 fade in">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                Lisäsit <strong>{{ money_message }}</strong>€
+                <a href="/" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>{{ message }}</strong>
             </div>
         </div>
-        {% endif %}
-
-        {% if buy_message %}
-        <div class="row">
-            <div class="alert alert-success alert-dismissible col-xs-4 col-xs-offset-4 fade in">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                Ostit <strong>{{ buy_message }}</strong>->
-            </div>
-        </div>
-        {% endif %}
-
-        {% if register_message %}
-            <div class="alert alert-success alert-dismissible fade in row">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>Rekisteröityminen onnistui.</strong> {{ register_message }}
-            </div>
-        {% endif %}
     </section>
+    {% endif %}
 
     {% if user.is_authenticated %}
     <!-- User-Info Section -->
@@ -141,7 +125,7 @@
                     <h3>Kirjaudu sisään.</h3>
 
                     <div class="toggle-login">
-                        <form action="/login/#user" method="post" class="form-signin">
+                        <form action="/login/" method="post" class="form-signin">
                             {% csrf_token %}
 
                             <input class="form-control" name="username" placeholder="Käyttäjätunnus" required="required" type="text">
@@ -154,11 +138,9 @@
                             {% endbuttons %}
                         </form>
 
-                        {% if not register_message %}
                         <button type="button" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#authModal">
                           <i class="glyphicon glyphicon-heart-empty"></i> Register
                         </button>
-                        {% endif %}
                     </div>
                 </div> 
         </div>

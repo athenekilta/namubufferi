@@ -15,9 +15,7 @@ global_context = dict(signin_form=AuthenticationForm(),
                       money_form=MoneyForm(),
                       products=Product.objects.all(),
                       categories=Category.objects.all(),
-                      money_message="",
-                      buy_message="",
-                      register_message="",
+                      message="",
                       )
 
 
@@ -45,7 +43,7 @@ def register(request):
             new_profile = UserProfile()
             new_profile.user = new_user
             new_profile.save()
-            context['register_message'] = "You can now sign in with the account."
+            context['message'] = 'Rekisteroityminen onnistui. Voit kirjautua sisaan.'
 
     return render(request, 'namubufferiapp/base.html', context)
 
@@ -57,7 +55,7 @@ def buy_view(request, product_key):
     product = get_object_or_404(Product, pk=product_key)
     price = product.price
     request.user.userprofile.make_payment(price)
-    context['buy_message'] = price
+    context['message'] = 'Ostit ' + str(price)
 
     return render(request, 'namubufferiapp/base.html', context)
 
@@ -72,6 +70,6 @@ def deposit_view(request, amount):
     if money_form.is_valid():
         amount = request.POST['amount']
         request.user.userprofile.make_deposit(amount)
-        context['money_message'] = amount
+        context['message'] = 'Lisasit ' + str(amount)
 
     return render(request, 'namubufferiapp/base.html', context)

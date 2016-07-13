@@ -52,11 +52,35 @@ class Product(models.Model):
 
 
 class Transaction(models.Model):
+    PAYMENT = 'P'
+    DEPOSIT = 'D'
+    NONE = 'N'
+    TRANSACTION_TYPE_CHOICES = (
+        (PAYMENT, 'Payment'),
+        (DEPOSIT, 'Deposit'),
+        (NONE, 'None')
+    )
+
+    transaction_type = models.CharField(
+        max_length=2,
+        choices=TRANSACTION_TYPE_CHOICES,
+        default=NONE
+    )
+
+    amount = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=0,
+    )
+
     timestamp = models.DateTimeField(
         auto_now_add=True
     )
+
     timestamp.editable = False
     customer = models.ForeignKey(UserProfile)
+
+    product = models.ForeignKey(Product, null=True)
 
     def get_date_string(self):
         DATE_FORMAT = "%Y-%m-%d"
@@ -71,35 +95,3 @@ class Transaction(models.Model):
 
     class Meta:
         ordering = ["-timestamp"]
-
-
-class Payment(models.Model):
-    amount = models.DecimalField(
-        max_digits=5,
-        decimal_places=2
-    )
-    product = models.ForeignKey(Product)
-    transaction = models.OneToOneField(Transaction)
-
-    def __str__(self):
-        return self.product.name + ", " + self.transaction.__str__()
-
-
-class Deposit(models.Model):
-    amount = models.DecimalField(
-        max_digits=5,
-        decimal_places=2
-    )
-    transaction = models.OneToOneField(Transaction)
-
-
-class PaymentInline(admin.TabularInline):
-    model = Payment
-
-
-class DepositInline(admin.TabularInline):
-    model = Deposit
-
-
-class TransactionAdmin(admin.ModelAdmin):
-    inlines = [PaymentInline, DepositInline]

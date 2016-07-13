@@ -8,6 +8,15 @@ font-family: 'Condiment', cursive;
 font-weight: 400;
 padding-top: 15px;
 }
+h1 a {
+    color: black;
+}
+h1 a:hover {
+    color: grey;
+}
+h1 a:link {
+  text-decoration: none;
+}
 
 .hide {
   display:none;

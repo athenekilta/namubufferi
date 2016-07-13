@@ -49,10 +49,10 @@ def register(request):
 
 
 @login_required
-def buy_view(request, product_key):
+def buy_view(request):
     context = global_context.copy()
 
-    product = get_object_or_404(Product, pk=product_key)
+    product = get_object_or_404(Product, pk=request.POST['product_key'])
     price = product.price
     request.user.userprofile.make_payment(price)
     context['message'] = 'Ostit ' + str(price)
@@ -61,7 +61,7 @@ def buy_view(request, product_key):
 
 
 @login_required
-def deposit_view(request, amount):
+def deposit_view(request):
     context = global_context.copy()
 
     if request.method == 'POST':

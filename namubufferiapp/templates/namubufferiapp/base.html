@@ -155,28 +155,32 @@
                 <h2>Valitse tuote</h2>
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
-                    <input class="form-control" id="search" name="search" placeholder="Hae tuotetta" type="text" data-list=".list">
-                </div>
-                <div class="list">
-                {% for category in categories %}
-                <h4>{{ category.name }}</h4>
-                    {% for product in products %}
-                        {% if product.category.name == category.name %}
-                        <form action="/buy/" method="post">
-                            {% csrf_token %}
-                            <input hidden type="text" name="product_key" value="{{product.pk}}">
-                            <button type="submit" class="btn btn-default btn-lg product">
-                                {{ product.name }} <br>
-                                {{ product.price }}€
-                                <span hidden>{{ product.category }}</span>
-                            </button>
-                        </form>
-                        {% endif %}
-                    {% endfor%}
-                {% endfor %}
+                    <input class="form-control" id="search" name="search" placeholder="Hae tuotetta" type="text" data-list=".list"> <!-- .list class for hideseek search -->
                 </div>
             </div>
         </div>
+        {% for category in categories %}
+        <div class="list row"> <!-- .list class for hideseek search -->
+            <div class="col-xs-12">
+                <h4>{{ category.name }}</h4>            
+            </div>
+        {% for product in products %}
+            {% if product.category.name == category.name %}
+            <div class="col-xs-6 col-sm-3">
+                <form action="/buy/" method="post">
+                    {% csrf_token %}
+                    <input hidden type="text" name="product_key" value="{{product.pk}}">
+                    <button type="submit" class="btn btn-default btn-lg product">
+                        {{ product.name }} <br>
+                        {{ product.price }}€
+                        <span hidden>{{ product.category }}</span>
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+        {% endfor%}
+        </div>
+        {% endfor %}
     </section>
     {% endif %}
 

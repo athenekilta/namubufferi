@@ -52,13 +52,13 @@
                 </button>
                 {% endbuttons %}
             </form>
-            <h3>History</h3>
+            <h3>Historia</h3>
             <table class="table">
                 <thead>
                 <tr>
                     <th>Deposit | Payment</th>
-                    <th>Name</th>
-                    <th>Amount</th>
+                    <th>Tuote</th>
+                    <th>Raha</th>
                 </tr>
                 </thead>
                 {% for transaction in transactions %}
@@ -122,7 +122,7 @@
         <div class="row">
             <div class="col-sm-3 col-sm-offset-3 col-xs-6">
                 <a href="/deposit/123" class="btn btn-default btn-block btn-lg" data-toggle="modal" data-target="#moneyModal">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span><br>
+                    <span class="glyphicon glyphicon-piggy-bank glyphicon-lg" aria-hidden="true"></span><br>
                     Lisää rahaa
                 </a>
             </div>

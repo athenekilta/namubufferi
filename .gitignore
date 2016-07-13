@@ -61,6 +61,7 @@ venv/
 *.pyc
 staticfiles
 *~
+.DS_Store
 
 # Ignore uploaded files -O
 media/

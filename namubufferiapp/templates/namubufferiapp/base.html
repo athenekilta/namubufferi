@@ -4,83 +4,74 @@
 
 <head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-    <title>NAMUBUFFERI by Tietskarijengi</title>
+  <title>NAMUBUFFERI by Tietskarijengi</title>
 
-    <!-- Bootstrap Core CSS -->
-    {% bootstrap_css %}
-    
-    <!-- Custom CSS -->
-    {% load staticfiles %}
-    <link href="{% static "namubufferiapp/style.css" %}" rel="stylesheet">
-    
-    <!-- Custom Fonts -->
-    <link href='https://fonts.googleapis.com/css?family=Condiment' rel='stylesheet' type='text/css'>
+  <!-- Bootstrap Core CSS -->
+  {% bootstrap_css %}
+  
+  <!-- Custom CSS -->
+  {% load staticfiles %}
+  <link href="{% static "namubufferiapp/css/style.css" %}" rel="stylesheet">
+  
+  <!-- Custom Fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Condiment' rel='stylesheet' type='text/css'>
 
 
-    <!-- HTML5 Shma and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+  <!-- HTML5 Shma and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 
 </head>
 
 <body id="page-top">
-    <header class="container text-center">
-        <h1><a href="/">Namupankki</a></h1>
-        <h4> by Tietskarijengi</h4>
-        <hr>
-    </header>
-    
-    {% if message %}
-    <section id="messages" class="container text-center">
-        <div class="row">
-            <div class="alert alert-success alert-dismissible col-sm-4 col-sm-offset-4 fade in">
-                <a href="/" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>{{ message }}</strong>
-            </div>
-        </div>
-    </section>
-    {% endif %}
 
-    {% block content %}
-    {% endblock content %}
+  <header class="container text-center">
+    <h1><a href="/">Namupankki</a></h1>
+    <h4> by Tietskarijengi</h4>
+    <hr>
+  </header>
+  
+  {% if message %}
+  <section id="messages" class="container text-center">
+    <div class="row">
+      <div class="alert alert-success alert-dismissible col-sm-4 col-sm-offset-4 fade in">
+        <a href="/" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>{{ message }}</strong>
+      </div>
+    </div>
+  </section>
+  {% endif %}
 
-    <!-- Footer -->
-    <footer class="container text-center">
-        <hr>
-        <p>&copy; Tietskarijengi 2016</p>
-    </footer>
+  {% block content %}
+  {% endblock content %}
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-2.0.2.min.js"></script>
+  <!-- Footer -->
+  <footer class="container text-center">
+    <hr>
+    <p>&copy; Tietskarijengi 2016</p>
+  </footer>
 
-    <!-- Bootstrap Core JavaScript -->
-    {% bootstrap_javascript %}
-    
-    <!-- HideSeek Search Plugin TODO: chande CDN-->
-    <script type="text/javascript" src="http://vdw.github.io/HideSeek/javascripts/vendor/jquery.hideseek.min.js"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-2.0.2.min.js"></script>
 
-    <!-- Additional Hideseek BS javascript enable if doesn't work.
-    <script type="text/javascript" src="http://vdw.github.io/HideSeek/javascripts/vendor/rainbow-custom.min.js"></script>
-    <script type="text/javascript" src="http://vdw.github.io/HideSeek/javascripts/vendor/jquery.anchor.js"></script>
-    <script type="text/javascript" src="http://vdw.github.io/HideSeek/javascripts/initializers.js"></script>
-    -->
-    <!-- Namubufferi custom JavaScript-->
+  <!-- Bootstrap Core JavaScript -->
+  {% bootstrap_javascript %}
 
-    <script type="text/javascript">
-        $( document ).ready(function (){
-        $('#search').hideseek();
-    }
-    );
-    </script>
+  <!-- HideSeek Search Plugin TODO: Don't use cdn-->
+  <script type="text/javascript" src="http://vdw.github.io/HideSeek/javascripts/vendor/jquery.hideseek.min.js"></script>
+
+  <!-- Namubufferi JavaScript-->
+  <script src={% static "namubufferiapp/js/namubufferi.js" %}></script>
+
 </body>
 
 </html>

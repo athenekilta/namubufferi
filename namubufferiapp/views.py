@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 
 from django.http import HttpResponseRedirect
+
 from models import UserProfile, Product, Category, Transaction
 from forms import MoneyForm
 
@@ -38,9 +39,8 @@ def buy_view(request):
 
     new_transaction = Transaction()
     new_transaction.customer = request.user.userprofile
-    new_transaction.amount = price
+    new_transaction.amount = -price
     new_transaction.product = product
-    new_transaction.transaction_type = 'P'
 
     new_transaction.save()
 
@@ -68,7 +68,6 @@ def deposit_view(request):
         new_transaction = Transaction()
         new_transaction.customer = request.user.userprofile
         new_transaction.amount = amount
-        new_transaction.transaction_type = 'D'
         new_transaction.save()
 
         context['message'] = 'Added ' + str(amount) + 'e'
@@ -78,7 +77,7 @@ def deposit_view(request):
 
 def register_view(request):
     """
-    Check:
+    Check for further dev:
     http://www.djangobook.com/en/2.0/chapter14.html
     http://ipasic.com/article/user-registration-and-email-confirmation-django/
     https://docs.djangoproject.com/en/1.7/topics/email/

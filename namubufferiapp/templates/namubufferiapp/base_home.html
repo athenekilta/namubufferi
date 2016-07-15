@@ -14,7 +14,7 @@
         <h4 class="modal-title" id="moneyModalTitle">Deposit</h4>
       </div>
       <div class="modal-body">
-        <form action="/deposit/" method="post" class="form-signin">
+        <form action="/deposit/" method="post">
             {% csrf_token %}
             {% bootstrap_form money_form %}
             {% buttons %}
@@ -27,14 +27,12 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Deposit | Payment</th>
                 <th>Product</th>
                 <th>Amount</th>
             </tr>
             </thead>
             {% for transaction in transactions %}
             <tr>
-                <td>{{ transaction.transaction_type }}</td>
                 <td>{{ transaction.product }}</td>
                 <td>{{ transaction.amount }}</td>
             </tr>
@@ -48,59 +46,58 @@
 
 <!-- User-Info Section -->
 <section id="user-info" class="container text-center">
-    <h4>User: {{ user }}</h4>
-    <h4>Balance: {{ user.userprofile.balance }}€</h4>
-    <div class="row">
-        <div class="col-sm-3 col-sm-offset-3 col-xs-6">
-            <button class="btn btn-default btn-block btn-lg" data-toggle="modal" data-target="#moneyModal">
-                <span class="glyphicon glyphicon-piggy-bank glyphicon-lg" aria-hidden="true"></span><br>
-                Deposit
-            </button>
-        </div>
-        <div class="col-sm-3 col-xs-6">
-            <a href="/logout" class="btn btn-default btn-block btn-lg">
-                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span><br>
-                Log out
-            </a>
-        </div>
+  <h4>User: {{ user }}</h4>
+  <h4>Balance: {{ user.userprofile.balance }}€</h4>
+  <div class="row">
+    <div class="col-sm-3 col-sm-offset-3 col-xs-6">
+      <button class="btn btn-default btn-block btn-lg" data-toggle="modal" data-target="#moneyModal">
+      <span class="glyphicon glyphicon-piggy-bank glyphicon-lg" aria-hidden="true"></span><br>
+      Deposit
+      </button>
     </div>
+    <div class="col-sm-3 col-xs-6">
+      <a href="/logout" class="btn btn-default btn-block btn-lg">
+        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span><br>
+        Log out
+      </a>
+    </div>
+  </div>
 </section>
-
 
 <!-- Shop Section -->
 <section id="shop" class="container text-center">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-        <hr>
-            <h2>Choose a product</h2>
-            <div class="input-group input-group-lg">
-                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
-                <input class="form-control" id="search" name="search" placeholder="Search for products" type="text" data-list=".list"> <!-- .list class for hideseek search -->
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <hr>
+      <h2>Choose a product</h2>
+      <div class="input-group input-group-lg">
+        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
+        <input class="form-control" id="search" name="search" placeholder="Search for products" type="text" data-list=".list"> <!-- .list class for hideseek search -->
+      </div>
     </div>
-    {% for category in categories %}
-    <div class="list row"> <!-- .list class for hideseek search -->
-        <div class="col-xs-12">
-            <h4><strong>{{ category.name }}</strong></h4>            
-        </div>
+  </div>
+  {% for category in categories %}
+  <div class="list row"> <!-- .list class for hideseek search -->
+    <div class="col-xs-12">
+      <h4><strong>{{ category.name }}</strong></h4>
+    </div>
     {% for product in products %}
-        {% if product.category.name == category.name %}
-        <div class="col-xs-6 col-sm-3">
-            <form action="/buy/" method="post">
-                {% csrf_token %}
-                <input hidden type="text" name="product_key" value="{{product.pk}}">
-                <button type="submit" class="btn btn-default btn-block btn-lg product">
-                    {{ product.name }} <br>
-                    {{ product.price }}€
-                    <span hidden>{{ product.category }}</span>
-                </button>
-            </form>
-        </div>
-        {% endif %}
-    {% endfor%}
-    </div>
-    {% endfor %}
+    {% if product.category.name == category.name %}
+      <div class="col-xs-6 col-sm-3">
+        <form action="/buy/" method="post">
+          {% csrf_token %}
+          <input hidden type="text" name="product_key" value="{{product.pk}}">
+          <button type="submit" class="btn btn-default btn-block btn-lg product">
+            {{ product.name }} <br>
+            {{ product.price }}€
+            <span hidden>{{ product.category }}</span>
+          </button>
+        </form>
+      </div>
+      {% endif %}
+      {% endfor%}
+  </div>
+  {% endfor %}
 </section>
 
 

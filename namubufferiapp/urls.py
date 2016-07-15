@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import UserCreationForm
+
 from namubufferiapp.views import home_view, register_view, buy_view, deposit_view
 
 

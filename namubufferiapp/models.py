@@ -1,8 +1,9 @@
 from django.db import models
 from django.conf import settings
-from django.contrib.auth.models import User
-from decimal import Decimal
 from django.contrib import admin
+from django.contrib.auth.models import User
+
+from decimal import Decimal
 
 
 class UserProfile(models.Model):
@@ -50,21 +51,6 @@ class Product(models.Model):
 
 
 class Transaction(models.Model):
-    PAYMENT = 'P'
-    DEPOSIT = 'D'
-    NONE = 'N'
-    TRANSACTION_TYPE_CHOICES = (
-        (PAYMENT, 'Payment'),
-        (DEPOSIT, 'Deposit'),
-        (NONE, 'None')
-    )
-
-    transaction_type = models.CharField(
-        max_length=2,
-        choices=TRANSACTION_TYPE_CHOICES,
-        default=NONE
-    )
-
     amount = models.DecimalField(
         max_digits=5,
         decimal_places=2,
@@ -89,7 +75,7 @@ class Transaction(models.Model):
                                            (DATE_FORMAT, TIME_FORMAT))
 
     def __str__(self):
-        return "%s, %s" % (self.customer.user.username, self.get_date_string())
+        return "%s, %s, %s" % (self.get_date_string(), self.customer.user.username, self.amount)
 
     class Meta:
         ordering = ["-timestamp"]

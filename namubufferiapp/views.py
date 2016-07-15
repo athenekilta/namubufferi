@@ -12,7 +12,7 @@ from forms import MoneyForm
 # TODO: Create custom context processor to reduce context copy pasting
 
 @login_required
-def cover(request):
+def home_view(request):
     context = dict(money_form=MoneyForm(),
                    products=Product.objects.all(),
                    categories=Category.objects.all(),
@@ -44,7 +44,7 @@ def buy_view(request):
 
     new_transaction.save()
 
-    context['message'] = 'Ostit ' + str(price)
+    context['message'] = 'You bought with ' + str(price) + 'e'
 
     return render(request, 'namubufferiapp/base_home.html', context)
 
@@ -71,12 +71,12 @@ def deposit_view(request):
         new_transaction.transaction_type = 'D'
         new_transaction.save()
 
-        context['message'] = 'Lisasit ' + str(amount)
+        context['message'] = 'Added ' + str(amount) + 'e'
 
     return render(request, 'namubufferiapp/base_home.html', context)
 
 
-def register(request):
+def register_view(request):
     """
     Check:
     http://www.djangobook.com/en/2.0/chapter14.html
@@ -84,7 +84,7 @@ def register(request):
     https://docs.djangoproject.com/en/1.7/topics/email/
 
     """
-    context = dict(signin_form=AuthenticationForm(),
+    context = dict(form=AuthenticationForm(),
                    register_form=UserCreationForm(),
                    message="",
                    )
@@ -98,6 +98,6 @@ def register(request):
             new_profile = UserProfile()
             new_profile.user = new_user
             new_profile.save()
-            context['message'] = 'Rekisteroityminen onnistui. Voit kirjautua sisaan.'
+            context['message'] = 'Register Success. You can now sign in.'
 
     return render(request, 'namubufferiapp/base_login.html', context)

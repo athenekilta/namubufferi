@@ -3,13 +3,14 @@
 
 {% block content %}
 
+
 <!-- Register Modal -->
 <div class="modal fade" id="authModal" tabindex="-1" role="dialog" aria-labelledby="authModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="authModalLabel">Rekisteröidy</h4>
+        <h4 class="modal-title" id="authModalLabel">Register</h4>
       </div>
       <div class="modal-body">
         <form action="/register/" method="post" class="form-signin">
@@ -17,7 +18,7 @@
             {% bootstrap_form register_form %}
             {% buttons %}
             <button type="submit" class="btn btn-default btn-lg">
-            Rekisteröidy
+            Register
             </button>
             {% endbuttons %}
         </form>
@@ -29,31 +30,26 @@
 
 <!-- User-Auth Section -->
 <section id="user-auth" class="container text-center">
-
     <div class="row">
-            <div class="col-sm-4 col-sm-offset-4 text-center">
-                <h3>Kirjaudu sisään.</h3>
-
-                <div class="toggle-login">
-                    <form action="/login/" method="post" class="form-signin">
-                        {% csrf_token %}
-
-                        <input class="form-control" name="username" placeholder="Käyttäjätunnus" required="required" type="text">
-                        <input class="form-control" name="password" placeholder="Salasana" required="required" type="password">
-
-                        {% buttons %}
-                        <button type="submit" class="btn btn-default btn-block btn-lg">
-                        Kirjaudu sisään
-                        </button>
-                        {% endbuttons %}
-                    </form>
-
-                    <button type="button" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#authModal">
-                      <span class="glyphicon glyphicon-heart-empty"></span> Register
+        <div class="col-sm-4 col-sm-offset-4 text-center">
+            <h3>Welcome</h3>
+            <div class="toggle-login">
+                <form action="/login/" method="post" class="form-signin">
+                    {% csrf_token %}
+                    {% bootstrap_form form %} {# Note: Login form gets passed as 'form' by the django default login view  #}
+                    {% buttons %}
+                    <button type="submit" class="btn btn-default btn-block btn-lg">
+                    Log in
                     </button>
-                </div>
-            </div> 
+                    {% endbuttons %}
+                </form>
+                <button type="button" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#authModal">
+                    <span class="glyphicon glyphicon-heart-empty"></span> Register
+                </button>
+            </div>
+        </div>
     </div>
 </section>
+
 
 {% endblock content %}

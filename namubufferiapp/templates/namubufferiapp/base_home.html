@@ -31,7 +31,7 @@
             {% endbuttons %}
         </form>
         <h3>Transaction History</h3>
-        <div class="table-responsive">          
+        <div class="table-responsive">
           <table class="table">
               <thead>
               <tr>
@@ -44,7 +44,7 @@
               {% if transaction.amount >= 0 %}
               <tr class="success">
               {% else %}
-              <tr class="danger">              
+              <tr class="danger">
               {% endif %}
                   <td>{{ transaction.product }}</td>
                   <td>{{ transaction.amount }}</td>
@@ -57,7 +57,19 @@
   </div>
 </div>
 
+{% if user.is_superuser %}
+<!-- User-Info Section -->
+<section id="user-info" class="container text-center">
+  <h4>User: {{ user }}</h4>
+  <h4>You are logged in as an admin.<br>
+  Please log in as a normal user to use namupankki</h4>
+  <a href="/admin" class="btn btn-default btn-lg">
+    <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+    Admin panel
+  </a>
+</section>
 
+{% else %}
 <!-- User-Info Section -->
 <section id="user-info" class="container text-center">
   <h4>User: {{ user }}</h4>
@@ -109,6 +121,6 @@
   </div>
   {% endfor %}
 </section>
-
+{% endif %}
 
 {% endblock content %}

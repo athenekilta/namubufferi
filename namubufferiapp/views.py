@@ -9,58 +9,28 @@ from models import UserProfile, Product, Category, Transaction
 from forms import MoneyForm
 
 
-# TODO: Create custom context processor
-global_context = dict(signin_form=AuthenticationForm(),
-                      register_form=UserCreationForm(),
-                      money_form=MoneyForm(),
-                      products=Product.objects.all(),
-                      categories=Category.objects.all(),
-                      transactions=Transaction.objects.all(),
-                      message="",
-                      )
-
+# TODO: Create custom context processor to reduce context copy pasting
 
 @login_required
 def cover(request):
-    global_context = dict(signin_form=AuthenticationForm(),
-                          register_form=UserCreationForm(),
-                          money_form=MoneyForm(),
-                          products=Product.objects.all(),
-                          categories=Category.objects.all(),
-                          transactions=Transaction.objects.all(),
-                          message="",
-                          )
+    context = dict(money_form=MoneyForm(),
+                   products=Product.objects.all(),
+                   categories=Category.objects.all(),
+                   transactions=Transaction.objects.all(),
+                   message="",
+                   )
 
-    return render(request, 'namubufferiapp/base_home.html', global_context)
-
-
-def register(request):
-    """
-    Check:
-    http://www.djangobook.com/en/2.0/chapter14.html
-    http://ipasic.com/article/user-registration-and-email-confirmation-django/
-    https://docs.djangoproject.com/en/1.7/topics/email/
-
-    """
-    context = global_context.copy()
-
-    if request.method == 'POST':
-        register_form = UserCreationForm(request.POST)
-        context['register_form'] = register_form
-        if register_form.is_valid():
-            new_user = register_form.save()
-            # Create a placeholder for a profile. Currently not in use.
-            new_profile = UserProfile()
-            new_profile.user = new_user
-            new_profile.save()
-            context['message'] = 'Rekisteroityminen onnistui. Voit kirjautua sisaan.'
-
-    return render(request, 'namubufferiapp/base.html', context)
+    return render(request, 'namubufferiapp/base_home.html', context)
 
 
 @login_required
 def buy_view(request):
-    context = global_context.copy()
+    context = dict(money_form=MoneyForm(),
+                   products=Product.objects.all(),
+                   categories=Category.objects.all(),
+                   transactions=Transaction.objects.all(),
+                   message="",
+                   )
 
     product = get_object_or_404(Product, pk=request.POST['product_key'])
     price = product.price
@@ -81,7 +51,12 @@ def buy_view(request):
 
 @login_required
 def deposit_view(request):
-    context = global_context.copy()
+    context = dict(money_form=MoneyForm(),
+                   products=Product.objects.all(),
+                   categories=Category.objects.all(),
+                   transactions=Transaction.objects.all(),
+                   message="",
+                   )
 
     if request.method == 'POST':
         money_form = MoneyForm(request.POST)
@@ -99,3 +74,30 @@ def deposit_view(request):
         context['message'] = 'Lisasit ' + str(amount)
 
     return render(request, 'namubufferiapp/base_home.html', context)
+
+
+def register(request):
+    """
+    Check:
+    http://www.djangobook.com/en/2.0/chapter14.html
+    http://ipasic.com/article/user-registration-and-email-confirmation-django/
+    https://docs.djangoproject.com/en/1.7/topics/email/
+
+    """
+    context = dict(signin_form=AuthenticationForm(),
+                   register_form=UserCreationForm(),
+                   message="",
+                   )
+
+    if request.method == 'POST':
+        register_form = UserCreationForm(request.POST)
+        context['register_form'] = register_form
+        if register_form.is_valid():
+            new_user = register_form.save()
+
+            new_profile = UserProfile()
+            new_profile.user = new_user
+            new_profile.save()
+            context['message'] = 'Rekisteroityminen onnistui. Voit kirjautua sisaan.'
+
+    return render(request, 'namubufferiapp/base_login.html', context)

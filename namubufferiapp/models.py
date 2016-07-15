@@ -10,8 +10,6 @@ class UserProfile(models.Model):
     Extending the built-in model 'User' using a one-to-one relationship to
     the built-in model.
     https://docs.djangoproject.com/en/1.7/topics/auth/customizing/#extending-user
-
-    Using Field.choices as given in https://docs.djangoproject.com/en/1.7/ref/models/fields/
     """
     user = models.OneToOneField(User)
     balance = models.DecimalField(max_digits=6, decimal_places=2, default=0)

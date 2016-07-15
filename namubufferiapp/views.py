@@ -41,8 +41,9 @@ def buy_view(request):
     new_transaction.customer = request.user.userprofile
     new_transaction.amount = -price
     new_transaction.product = product
-
     new_transaction.save()
+
+    product.make_sale()
 
     context['message'] = 'You bought with ' + str(price) + 'e'
 
@@ -61,16 +62,16 @@ def deposit_view(request):
     if request.method == 'POST':
         money_form = MoneyForm(request.POST)
         context['money_form'] = money_form
-    if money_form.is_valid():
-        amount = request.POST['amount']
-        request.user.userprofile.make_deposit(amount)
+        if money_form.is_valid():
+            amount = request.POST['amount']
+            request.user.userprofile.make_deposit(amount)
 
-        new_transaction = Transaction()
-        new_transaction.customer = request.user.userprofile
-        new_transaction.amount = amount
-        new_transaction.save()
+            new_transaction = Transaction()
+            new_transaction.customer = request.user.userprofile
+            new_transaction.amount = amount
+            new_transaction.save()
 
-        context['message'] = 'Added ' + str(amount) + 'e'
+            context['message'] = 'Added ' + str(amount) + 'e'
 
     return render(request, 'namubufferiapp/base_home.html', context)
 

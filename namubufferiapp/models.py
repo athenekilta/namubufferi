@@ -40,7 +40,7 @@ class Product(models.Model):
     name = models.CharField(max_length=20, unique=True)
     category = models.ForeignKey(Category, related_name='products')
     price = models.FloatField(default=1)
-    inventory = models.IntegerField(default=0)
+    inventory = models.IntegerField(default=1)
 
     def make_sale(self):
         self.inventory += -1
@@ -51,15 +51,12 @@ class Product(models.Model):
 
 
 class Transaction(models.Model):
-    amount = models.DecimalField(
-        max_digits=5,
-        decimal_places=2,
-        default=0,
-    )
+    amount = models.DecimalField(max_digits=5,
+                                 decimal_places=2,
+                                 default=0,
+                                 )
 
-    timestamp = models.DateTimeField(
-        auto_now_add=True
-    )
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     timestamp.editable = False
     customer = models.ForeignKey(UserProfile)

@@ -24,20 +24,27 @@
             {% endbuttons %}
         </form>
         <h3>Transaction History</h3>
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Product</th>
-                <th>Amount</th>
-            </tr>
-            </thead>
-            {% for transaction in transactions %}
-            <tr>
-                <td>{{ transaction.product }}</td>
-                <td>{{ transaction.amount }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+        <div class="table-responsive">          
+          <table class="table">
+              <thead>
+              <tr>
+                  <th>Product</th>
+                  <th>Amount</th>
+              </tr>
+              </thead>
+              {% for transaction in transactions %}
+
+              {% if transaction.amount >= 0 %}
+              <tr class="success">
+              {% else %}
+              <tr class="danger">              
+              {% endif %}
+                  <td>{{ transaction.product }}</td>
+                  <td>{{ transaction.amount }}</td>
+              </tr>
+              {% endfor %}
+          </table>
+        </div>
       </div>
     </div>
   </div>

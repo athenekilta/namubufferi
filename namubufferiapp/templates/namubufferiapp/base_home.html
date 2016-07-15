@@ -1,6 +1,13 @@
 {% extends "namubufferiapp/base.html" %}
 {% load bootstrap3 %}
 
+{% block header %}
+  <a href="/logout" class="btn btn-default btn-sm">
+    <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+    Log out
+  </a>
+{% endblock header %}
+
 
 {% block content %}
 
@@ -55,18 +62,13 @@
 <section id="user-info" class="container text-center">
   <h4>User: {{ user }}</h4>
   <h4>Balance: {{ user.userprofile.balance }}€</h4>
+
   <div class="row">
-    <div class="col-sm-3 col-sm-offset-3 col-xs-6">
-      <button class="btn btn-default btn-block btn-lg" data-toggle="modal" data-target="#moneyModal">
-      <span class="glyphicon glyphicon-piggy-bank glyphicon-lg" aria-hidden="true"></span><br>
-      Deposit
+    <div class="col-sm-4 col-sm-offset-4 col-xs-6 col-xs-offset-3">
+      <button type="button" class="btn btn-default btn-block btn-lg" data-toggle="modal" data-target="#moneyModal">
+        <span class="glyphicon glyphicon-piggy-bank glyphicon-lg" aria-hidden="true"></span><br>
+        Deposit
       </button>
-    </div>
-    <div class="col-sm-3 col-xs-6">
-      <a href="/logout" class="btn btn-default btn-block btn-lg">
-        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span><br>
-        Log out
-      </a>
     </div>
   </div>
 </section>

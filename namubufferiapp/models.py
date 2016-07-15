@@ -39,7 +39,7 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=20, unique=True)
     category = models.ForeignKey(Category, related_name='products')
-    price = models.FloatField(default=0)
+    price = models.FloatField(default=1)
     inventory = models.IntegerField(default=0)
 
     def make_sale(self):

@@ -17,7 +17,7 @@ urlpatterns = [
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^$', cover, name="cover"),
-    url(r'^login/$', auth_views.login, {'template_name': 'namubufferiapp/base.html',
+    url(r'^login', auth_views.login, {'template_name': 'namubufferiapp/base_login.html',
                                                          'extra_context': global_context}),
     url(r'^logout/$', auth_views.logout, {'next_page': '/', }),
     url(r'^register/$', register),

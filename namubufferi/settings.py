@@ -102,6 +102,6 @@ STATIC_URL = '/static/'
 
 # Authentication URLs
 # https://docs.djangoproject.com/en/1.9/ref/settings/#std:setting-LOGIN_URL
-LOGIN_URL = '/'
+LOGIN_URL = '/login'
 LOGOUT_URL = '/'
 LOGIN_REDIRECT_URL = '/'

@@ -20,6 +20,7 @@ global_context = dict(signin_form=AuthenticationForm(),
                       )
 
 
+@login_required
 def cover(request):
     global_context = dict(signin_form=AuthenticationForm(),
                           register_form=UserCreationForm(),
@@ -30,7 +31,7 @@ def cover(request):
                           message="",
                           )
 
-    return render(request, 'namubufferiapp/base.html', global_context)
+    return render(request, 'namubufferiapp/base_home.html', global_context)
 
 
 def register(request):
@@ -75,7 +76,7 @@ def buy_view(request):
 
     context['message'] = 'Ostit ' + str(price)
 
-    return render(request, 'namubufferiapp/base.html', context)
+    return render(request, 'namubufferiapp/base_home.html', context)
 
 
 @login_required
@@ -97,4 +98,4 @@ def deposit_view(request):
 
         context['message'] = 'Lisasit ' + str(amount)
 
-    return render(request, 'namubufferiapp/base.html', context)
+    return render(request, 'namubufferiapp/base_home.html', context)

@@ -1,3 +1,4 @@
+{% load staticfiles %}
 {% load bootstrap3 %}
 <!DOCTYPE html>
 <html lang="en">
@@ -12,16 +13,17 @@
 
   <title>NAMUBUFFERI by Tietskarijengi</title>
 
-  <!-- Bootstrap Core CSS -->
-  {% bootstrap_css %}
-  
-  <!-- Custom CSS -->
-  {% load staticfiles %}
-  <link href="{% static "namubufferiapp/css/style.css" %}" rel="stylesheet">
-  
+  <!-- Bootstrap CSS -->
+  <link href="{% static "namubufferiapp/bootstrap-3.3.6-dist/css/bootstrap.min.css" %}" rel="stylesheet">
+  <!--
+  <link href="{% static "namubufferiapp/bootstrap-3.3.6-dist/css/bootstrap-theme.min.css" %}" rel="stylesheet">
+  -->
+    
   <!-- Custom Fonts -->
   <link href='https://fonts.googleapis.com/css?family=Condiment' rel='stylesheet' type='text/css'>
 
+  <!-- Custom CSS -->
+  <link href="{% static "namubufferiapp/css/style.css" %}" rel="stylesheet">
 
   <!-- HTML5 Shma and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -62,17 +64,17 @@
   </footer>
 
   <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-2.0.2.min.js"></script>
+  <script src={% static "namubufferiapp/jquery/jquery-2.2.4.min.js" %}></script>
+
+  <!-- jQuery Plugins -->
+  <script src={% static "namubufferiapp/jquery/jquery.hideseek.min.js" %}></script>
+  <script src={% static "namubufferiapp/jquery/jquery.fittext.js" %}></script>
 
   <!-- Bootstrap Core JavaScript -->
-  {% bootstrap_javascript %}
-
-  <!-- HideSeek Search Plugin TODO: Don't use cdn-->
-  <script type="text/javascript" src="http://vdw.github.io/HideSeek/javascripts/vendor/jquery.hideseek.min.js"></script>
+  <script src={% static "namubufferiapp/bootstrap-3.3.6-dist/js/bootstrap.min.js" %}></script>
 
   <!-- Namubufferi JavaScript-->
   <script src={% static "namubufferiapp/js/namubufferi.js" %}></script>
-  <script src={% static "namubufferiapp/js/jquery.fittext.js" %}></script>
 
 </body>
 

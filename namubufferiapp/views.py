@@ -71,7 +71,7 @@ def deposit_view(request):
             new_transaction.amount = amount
             new_transaction.save()
 
-            context['message'] = 'Added ' + str(amount) + 'e'
+            context['receipt'] = new_transaction
 
     return render(request, 'namubufferiapp/base_home.html', context)
 
@@ -116,8 +116,24 @@ def cancel_transaction_view(request):
 
     if (request.user == transaction.customer.user and not transaction.canceled):
         transaction.cancel()
-        context['message'] = "Purchase canceled"
+        context['message'] = "Transaction canceled"
         return render(request, 'namubufferiapp/base_home.html', context)
 
     else:
         return redirect('/')
+
+
+@login_required
+def receipt_view(request, transaction_key):
+    context = dict(money_form=MoneyForm(),
+                   products=Product.objects.all(),
+                   categories=Category.objects.all(),
+                   transactions=Transaction.objects.all(),
+                   message="",
+                   )
+
+    print transaction_key
+    transaction = get_object_or_404(Transaction, pk=transaction_key)
+    context['receipt'] = transaction
+
+    return render(request, 'namubufferiapp/base_home.html', context)

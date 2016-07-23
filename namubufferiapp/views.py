@@ -45,7 +45,7 @@ def buy_view(request):
 
     product.make_sale()
 
-    context['message'] = 'You bought with ' + str(price) + 'e'
+    context['receipt'] = 'You purchased an item with ' + str(price) + 'e'
 
     return render(request, 'namubufferiapp/base_home.html', context)
 

@@ -21,7 +21,28 @@
         <h4 class="modal-title">Receipt</h4>
       </div>
       <div class="modal-body">
-        <p><strong>{{ receipt }}</strong></p>
+        <table class="table">
+          <tr>
+            <td>Date</td>
+            <td>{{ receipt.timestamp }}</td>
+          </tr>
+          <tr>
+            <td>Customer</td>
+            <td>{{ receipt.customer }}</td>
+          </tr>
+          <tr>
+            <td>Product</td>
+            <td>{{ receipt.product }}</td>
+          </tr>
+          <tr>
+            <td>Amount</td>
+            <td>{{ receipt.amount }}</td>
+          </tr>
+          <tr>
+            <td>Balance After</td>
+            <td>{{ request.user.userprofile.balance }}</td>
+          </tr>
+        </table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Okay</button>

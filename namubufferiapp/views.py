@@ -101,3 +101,23 @@ def register_view(request):
             context['message'] = 'Register Success. You can now sign in.'
 
     return render(request, 'namubufferiapp/base_login.html', context)
+
+
+@login_required
+def cancel_transaction_view(request):
+    context = dict(money_form=MoneyForm(),
+                   products=Product.objects.all(),
+                   categories=Category.objects.all(),
+                   transactions=Transaction.objects.all(),
+                   message="",
+                   )
+
+    transaction = get_object_or_404(Transaction, pk=request.POST['transaction_key'])
+
+    if (request.user == transaction.customer.user and not transaction.canceled):
+        transaction.cancel()
+        context['message'] = "Purchase canceled"
+        return render(request, 'namubufferiapp/base_home.html', context)
+
+    else:
+        return redirect('/')

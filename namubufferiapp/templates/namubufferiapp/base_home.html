@@ -12,7 +12,7 @@
 {% block content %}
 
 {% if receipt %}
-<!-- Receipt Modal -->
+<!-- Transaction Receipt Modal -->
 <div id="receiptModal" class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -88,11 +88,14 @@
               </thead>
               {% for transaction in transactions %}
 
-              {% if transaction.amount >= 0 %}
+              {% if transaction.canceled %}
+              <tr style="text-decoration: line-through;">
+              {% elif transaction.amount >= 0 %}
               <tr class="success">
               {% else %}
               <tr class="danger">
               {% endif %}
+
                   <td>{{ transaction.product }}</td>
                   <td>{{ transaction.amount }}</td>
               </tr>

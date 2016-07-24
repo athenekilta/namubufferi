@@ -163,3 +163,15 @@ def receipt_view(request, transaction_key):
 
     #context['receipt'] = transaction
     #return render(request, 'namubufferiapp/receipt.html', context)
+
+
+@login_required
+def transaction_history_view(request):
+    if request.user.is_superuser:
+        return render(request, 'namubufferiapp/base_admin.html')
+
+    context = dict(transactions=request.user.userprofile.transaction_set.all())
+    return JsonResponse({'transactionhistory': render_to_string('namubufferiapp/transactionhistory.html', context)})
+
+    #context['receipt'] = transaction
+    #return render(request, 'namubufferiapp/receipt.html', context)

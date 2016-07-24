@@ -14,6 +14,13 @@ function getReceipt(transactionkey) {
     });
 }
 
+function getTransactionHistory() {
+  $.get( "/history/")
+    .done(function( data ) {
+      $("#history").html(data.transactionhistory);
+    });
+}
+
 $(document).ready(function() {
     'use strict';
 
@@ -109,5 +116,9 @@ $(document).ready(function() {
       var button = $(event.relatedTarget); // Button that triggered the modal
       var transactionkey = button.data('transactionkey') || $(this).data('transactionkey'); // Extract info from data-* attributes
       getReceipt(transactionkey);
+    });
+
+    $('#moneyModal').on('show.bs.modal', function (event) {
+      getTransactionHistory();
     });
 });

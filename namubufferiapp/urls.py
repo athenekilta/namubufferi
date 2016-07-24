@@ -13,9 +13,9 @@ urlpatterns = [
                                                                              )}),
     url(r'^logout/$', auth_views.logout, {'next_page': '/', }),
     url(r'^register/$', register_view),
-    url(r'^buy/', buy_view, name="buy_view"),
-    url(r'^deposit/', deposit_view, name="deposit_view"),
-    url(r'^cancel/', cancel_transaction_view, name="cancel_transcation_view"),
+    url(r'^buy/$', buy_view, name="buy_view"),
+    url(r'^deposit/$', deposit_view, name="deposit_view"),
+    url(r'^cancel/$', cancel_transaction_view, name="cancel_transcation_view"),
     url(r'^receipt/([0-9]+)/$', receipt_view, name="receipt_view"),
     url(r'^history/$', transaction_history_view),
 ]

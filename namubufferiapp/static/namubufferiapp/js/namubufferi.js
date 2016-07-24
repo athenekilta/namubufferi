@@ -21,7 +21,8 @@ $(document).ready(function() {
         // Put the results in a div
         posting.done(function(data) {
             $('#productModal').modal('hide');
-            $("#balance").html(data.balance);
+            $(".balance").html(data.balance);
+            $("#messages").prepend(data.message);
             $("#receiptModal").data("transactionkey", data.transactionkey);
             $("#receiptModal").modal();
         });
@@ -36,7 +37,8 @@ $(document).ready(function() {
         });
         posting.done(function(data) {
             $('#moneyModal').modal('hide');
-            $("#balance").html(data.balance);
+            $(".balance").html(data.balance);
+            $("#messages").prepend(data.message);
             $("#receiptModal").data("transactionkey", data.transactionkey);
             $("#receiptModal").modal();
         });
@@ -52,8 +54,8 @@ $(document).ready(function() {
         posting.done(function(data) {
             console.log(data);
             $('#receiptModal').modal('hide');
-            $("#balance").html(data.balance);
-            $("#messages").append(data.message);
+            $(".balance").html(data.balance);
+            $("#messages").prepend(data.message);
         });
     });
 

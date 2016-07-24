@@ -4,7 +4,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 
-from django.http import HttpResponseRedirect
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 
 from models import UserProfile, Product, Category, Transaction
 from forms import MoneyForm
@@ -49,8 +50,17 @@ def buy_view(request):
     new_transaction.save()
 
     product.make_sale()
+    context['receipt'] = new_transaction
 
-    return redirect('/receipt/' + str(new_transaction.pk))
+    receipt = {'customer': new_transaction.customer.user.username,
+               'amount': new_transaction.amount,
+               'product': new_transaction.product.name,
+               'amount': new_transaction.amount,
+               }
+    return JsonResponse({'balance': request.user.userprofile.balance,
+                         'receipt': render_to_string('namubufferiapp/receipt.html', context)})
+
+    #return render(request, 'namubufferiapp/receipt.html', context)
 
 
 @login_required
@@ -146,4 +156,4 @@ def receipt_view(request, transaction_key):
     transaction = get_object_or_404(Transaction, pk=transaction_key)
     context['receipt'] = transaction
 
-    return render(request, 'namubufferiapp/base_home.html', context)
+    return render(request, 'namubufferiapp/receipt.html', context)

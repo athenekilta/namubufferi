@@ -50,16 +50,17 @@ def buy_view(request):
     new_transaction.save()
 
     product.make_sale()
-    context['receipt'] = new_transaction
 
     receipt = {'customer': new_transaction.customer.user.username,
                'amount': new_transaction.amount,
                'product': new_transaction.product.name,
-               'amount': new_transaction.amount,
+               'timestamp': new_transaction.timestamp,
+               'transactionkey': new_transaction.pk
                }
     return JsonResponse({'balance': request.user.userprofile.balance,
-                         'receipt': render_to_string('namubufferiapp/receipt.html', context)})
+                         'receipt': receipt})
 
+    #context['receipt'] = new_transaction
     #return render(request, 'namubufferiapp/receipt.html', context)
 
 
@@ -152,8 +153,16 @@ def receipt_view(request, transaction_key):
                    message="",
                    )
 
-    print transaction_key
     transaction = get_object_or_404(Transaction, pk=transaction_key)
-    context['receipt'] = transaction
 
-    return render(request, 'namubufferiapp/receipt.html', context)
+    receipt = {'customer': transaction.customer.user.username,
+               'amount': transaction.amount,
+               'product': transaction.product.name,
+               'timestamp': transaction.timestamp,
+               'transactionkey': transaction.pk
+               }
+    return JsonResponse({'balance': request.user.userprofile.balance,
+                         'receipt': receipt})
+
+    #context['receipt'] = transaction
+    #return render(request, 'namubufferiapp/receipt.html', context)

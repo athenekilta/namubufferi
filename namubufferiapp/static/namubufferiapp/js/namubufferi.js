@@ -2,7 +2,12 @@ function getReceipt(productkey) {
   $('#moneyModal').modal('hide');
   $.get( "/receipt/" + productkey)
     .done(function( data ) {
-      $( "#receiptModal" ).find('.modal-content').replaceWith( data );
+      $( "#timestamp" ).html(data.receipt.timestamp);
+      $( "#customer" ).html(data.receipt.customer);
+      $( "#product" ).html(data.receipt.product);
+      $( "#amount" ).html(data.receipt.amount);
+      $( "#transaction_key" ).val(data.receipt.transactionkey);
+
       $( "#receiptModal" ).modal();
     });
 }
@@ -56,9 +61,15 @@ $(document).ready(function() {
       // Put the results in a div
       posting.done(function( data ) {
         console.log(data);
-        $( "#balance" ).html(data.balance);
         $('#productModal').modal('hide');
-        $( "#receiptModal" ).find('.modal-content').replaceWith( data.receipt );
+        $( "#balance" ).html(data.balance);
+
+        $( "#timestamp" ).html(data.receipt.timestamp);
+        $( "#customer" ).html(data.receipt.customer);
+        $( "#product" ).html(data.receipt.product);
+        $( "#amount" ).html(data.receipt.amount);
+        $( "#transaction_key" ).val(data.receipt.transactionkey);
+
         $( "#receiptModal" ).modal();
       });
     });

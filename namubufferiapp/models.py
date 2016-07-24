@@ -46,6 +46,10 @@ class Product(models.Model):
         self.inventory += -1
         self.save()
 
+    def cancel_sale(self):
+        self.inventory += 1
+        self.save()
+
     def __str__(self):
         return self.name
 
@@ -57,11 +61,10 @@ class Transaction(models.Model):
                                  )
 
     timestamp = models.DateTimeField(auto_now_add=True)
-
     timestamp.editable = False
     customer = models.ForeignKey(UserProfile)
-
     product = models.ForeignKey(Product, null=True)
+    canceled = models.BooleanField(default=False)
 
     def get_date_string(self):
         DATE_FORMAT = "%Y-%m-%d"
@@ -70,6 +73,14 @@ class Transaction(models.Model):
         if self.timestamp:
             return self.timestamp.strftime("%s %s" %
                                            (DATE_FORMAT, TIME_FORMAT))
+
+    def cancel(self):
+        if not self.canceled:
+            self.customer.make_deposit(-self.amount)  # Note the minus sign
+            self.canceled = True
+            self.save()
+            if self.product:
+                self.product.cancel_sale()
 
     def __str__(self):
         return "%s, %s, %s" % (self.get_date_string(), self.customer.user.username, self.amount)

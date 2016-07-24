@@ -14,22 +14,27 @@ from forms import MoneyForm
 
 @login_required
 def home_view(request):
-    context = dict(money_form=MoneyForm(),
-                   products=Product.objects.all(),
-                   categories=Category.objects.all(),
-                   transactions=Transaction.objects.all(),
-                   message="",
-                   )
+    if request.user.is_superuser:
+        return render(request, 'namubufferiapp/base_admin.html')
+    else:
+        context = dict(money_form=MoneyForm(),
+                       products=Product.objects.all(),
+                       categories=Category.objects.all(),
+                       transactions=request.user.userprofile.transaction_set.all(),
+                       message="",
+                       )
 
     return render(request, 'namubufferiapp/base_home.html', context)
 
 
 @login_required
 def buy_view(request):
+    if request.user.is_superuser:
+        return render(request, 'namubufferiapp/base_admin.html')
     context = dict(money_form=MoneyForm(),
                    products=Product.objects.all(),
                    categories=Category.objects.all(),
-                   transactions=Transaction.objects.all(),
+                   transactions=request.user.userprofile.transaction_set.all(),
                    message="",
                    )
 
@@ -45,23 +50,22 @@ def buy_view(request):
 
     product.make_sale()
 
-    context['message'] = 'You bought with ' + str(price) + 'e'
-
-    return render(request, 'namubufferiapp/base_home.html', context)
+    return redirect('/receipt/' + str(new_transaction.pk))
 
 
 @login_required
 def deposit_view(request):
+    if request.user.is_superuser:
+        return render(request, 'namubufferiapp/base_admin.html')
     context = dict(money_form=MoneyForm(),
                    products=Product.objects.all(),
                    categories=Category.objects.all(),
-                   transactions=Transaction.objects.all(),
+                   transactions=request.user.userprofile.transaction_set.all(),
                    message="",
                    )
 
     if request.method == 'POST':
         money_form = MoneyForm(request.POST)
-        context['money_form'] = money_form
         if money_form.is_valid():
             amount = request.POST['amount']
             request.user.userprofile.make_deposit(amount)
@@ -71,7 +75,9 @@ def deposit_view(request):
             new_transaction.amount = amount
             new_transaction.save()
 
-            context['message'] = 'Added ' + str(amount) + 'e'
+            return redirect('/receipt/' + str(new_transaction.pk))
+        else:
+            context['money_form'] = money_form
 
     return render(request, 'namubufferiapp/base_home.html', context)
 
@@ -101,3 +107,43 @@ def register_view(request):
             context['message'] = 'Register Success. You can now sign in.'
 
     return render(request, 'namubufferiapp/base_login.html', context)
+
+
+@login_required
+def cancel_transaction_view(request):
+    if request.user.is_superuser:
+        return render(request, 'namubufferiapp/base_admin.html')
+    context = dict(money_form=MoneyForm(),
+                   products=Product.objects.all(),
+                   categories=Category.objects.all(),
+                   transactions=request.user.userprofile.transaction_set.all(),
+                   message="",
+                   )
+
+    transaction = get_object_or_404(Transaction, pk=request.POST['transaction_key'])
+
+    if (request.user == transaction.customer.user and not transaction.canceled):
+        transaction.cancel()
+        context['message'] = "Transaction canceled"
+        return render(request, 'namubufferiapp/base_home.html', context)
+
+    else:
+        return redirect('/')
+
+
+@login_required
+def receipt_view(request, transaction_key):
+    if request.user.is_superuser:
+        return render(request, 'namubufferiapp/base_admin.html')
+    context = dict(money_form=MoneyForm(),
+                   products=Product.objects.all(),
+                   categories=Category.objects.all(),
+                   transactions=request.user.userprofile.transaction_set.all(),
+                   message="",
+                   )
+
+    print transaction_key
+    transaction = get_object_or_404(Transaction, pk=transaction_key)
+    context['receipt'] = transaction
+
+    return render(request, 'namubufferiapp/base_home.html', context)

@@ -3,7 +3,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import UserCreationForm
 
-from namubufferiapp.views import home_view, register_view, buy_view, deposit_view
+from namubufferiapp.views import home_view, register_view, buy_view, deposit_view, cancel_transaction_view, receipt_view
 
 
 urlpatterns = [
@@ -15,4 +15,6 @@ urlpatterns = [
     url(r'^register/$', register_view),
     url(r'^buy/', buy_view, name="buy_view"),
     url(r'^deposit/', deposit_view, name="deposit_view"),
+    url(r'^cancel/', cancel_transaction_view, name="cancel_transcation_view"),
+    url(r'^receipt/([0-9]+)/$', receipt_view, name="receipt_view"),
 ]

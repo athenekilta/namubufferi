@@ -118,20 +118,14 @@ def register_view(request):
 def cancel_transaction_view(request):
     if request.user.is_superuser:
         return render(request, 'namubufferiapp/base_admin.html')
-    context = dict(money_form=MoneyForm(),
-                   products=Product.objects.all(),
-                   categories=Category.objects.all(),
-                   transactions=request.user.userprofile.transaction_set.all(),
-                   message="",
-                   )
-
+    context = dict(message="Transaction Canceled")
     transaction = get_object_or_404(Transaction, pk=request.POST['transaction_key'])
 
     if (request.user == transaction.customer.user and not transaction.canceled):
         transaction.cancel()
-        context['message'] = "Transaction canceled"
-        return render(request, 'namubufferiapp/base_home.html', context)
 
+        return JsonResponse({'balance': request.user.userprofile.balance,
+                             'message': render_to_string('namubufferiapp/message.html', context)})
     else:
         return redirect('/')
 

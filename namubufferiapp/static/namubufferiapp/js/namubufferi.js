@@ -41,6 +41,21 @@ $(document).ready(function() {
             $("#receiptModal").modal();
         });
     });
+    $("#cancelform").submit(function(event) {
+        event.preventDefault();
+        var $form = $(this),
+            transaction_key = $form.find("input[name='transaction_key']").val(),
+            url = $form.attr("action");
+        var posting = $.post(url, {
+            transaction_key: transaction_key
+        });
+        posting.done(function(data) {
+            console.log(data);
+            $('#receiptModal').modal('hide');
+            $("#balance").html(data.balance);
+            $("#messages").append(data.message);
+        });
+    });
 
     // http://getbootstrap.com/javascript/#modals-related-target
     $('#productModal').on('show.bs.modal', function(event) {

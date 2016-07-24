@@ -8,16 +8,16 @@
   </a>
 {% endblock header %}
 
-
-{% block content %}
-
+{% block modals %}
+<!-- Modals -->
+<!-- Always try to place a modal's HTML code in a top-level position in your document to avoid other components affecting the modal's appearance and/or functionality. -->
 <!-- Product info/buy Modal -->
 <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="productModalLabel">Buying <em id="product-modal-name"></em>?</h4>
+        <h4 class="modal-title" id="productModalLabel">Buy <em id="product-modal-name"></em>?</h4>
       </div>
       <div class="modal-body">
         <table class="table">
@@ -32,16 +32,16 @@
           {% csrf_token %}
           <input id="product-modal-pk" hidden type="text" name="product_key" value="none">
         </form>
-        <button type="submit" form="buy-form" class="btn btn-default">Buy</button>
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
+        <button type="submit" form="buy-form" class="btn btn-success">Buy</button>
       </div>
     </div>
   </div>
 </div>
 
 
-{% if receipt %}
 <!-- Transaction Receipt Modal -->
-<div id="receiptModal" class="modal fade" tabindex="-1" role="dialog">
+<div id="receiptModal" class="modal fade" tabindex="-1" role="dialog" data-transactionkey="">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -52,26 +52,26 @@
         <table class="table">
           <tr>
             <td>Date</td>
-            <td>{{ receipt.timestamp }}</td>
+            <td id="timestamp"></td>
           </tr>
           <tr>
             <td>Customer</td>
-            <td>{{ receipt.customer }}</td>
+            <td id="customer"></td>
           </tr>
           <tr>
             <td>Product</td>
-            <td>{{ receipt.product }}</td>
+            <td id="product"></td>
           </tr>
           <tr>
             <td>Amount</td>
-            <td>{{ receipt.amount }}</td>
+            <td id="amount"></td>
           </tr>
         </table>
       </div>
       <div class="modal-footer">      
         <form hidden action="/cancel/" method="post" id="cancelform">
           {% csrf_token %}
-          <input type="text" name="transaction_key" value="{{ receipt.pk }}">
+          <input id="transaction_key" type="text" name="transaction_key" value="">
         </form>
         <button type="submit" form="cancelform" class="btn btn-danger btn-sm">
           Cancel Transaction
@@ -81,18 +81,19 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-{% endif %}
 
-<!-- Transaction Modal -->
+
+<!-- Deposit/Transaction History Modal -->
 <div class="modal fade" id="moneyModal" tabindex="-1" role="dialog" aria-labelledby="moneyModalTitle">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="moneyModalTitle">Deposit</h4>
+        <h4 class="modal-title" id="moneyModalTitle">Balance <span class="balance">{{ user.userprofile.balance }}</span>€</h4>
       </div>
       <div class="modal-body">
-        <form action="/deposit/" method="post">
+      <h3>Deposit</h3>
+        <form id="money-form" action="/deposit/" method="post">
             {% csrf_token %}
             {% bootstrap_form money_form %}
             {% buttons %}
@@ -101,43 +102,20 @@
             </button>
             {% endbuttons %}
         </form>
-        <h3>Transaction History</h3>
-        <div class="table-responsive">
-          <table class="table">
-              <thead>
-              <tr>
-                  <th>Product</th>
-                  <th>Amount</th>
-                  <th></th>
-              </tr>
-              </thead>
-              {% for transaction in transactions %}
-
-              {% if transaction.canceled %}
-              <tr style="text-decoration: line-through;">
-              {% elif transaction.amount >= 0 %}
-              <tr class="success">
-              {% else %}
-              <tr class="danger">
-              {% endif %}
-                  <td>{{ transaction.product }}</td>
-                  <td>{{ transaction.amount }}</td>
-                  <td>
-                    <a href="/receipt/{{ transaction.pk }}" ><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></a>
-                  </td>
-              </tr>
-              {% endfor %}
-          </table>
+        <div id="history">
         </div>
       </div>
     </div>
   </div>
 </div>
+{% endblock modals %}
 
+
+{% block content %}
 <!-- User-Info Section -->
 <section id="user-info" class="container text-center">
-  <h4>User: {{ user }}</h4>
-  <h4>Balance: {{ user.userprofile.balance }}€</h4>
+  <h4>User: <span id="user">{{ user }}</span></h4>
+  <h4>Balance: <span class="balance">{{ user.userprofile.balance }}</span>€</h4>
 
   <div class="row">
     <div class="col-sm-4 col-sm-offset-4 col-xs-6 col-xs-offset-3">
@@ -189,6 +167,4 @@
   </div>
   {% endfor %}
 </section>
-
-
 {% endblock content %}

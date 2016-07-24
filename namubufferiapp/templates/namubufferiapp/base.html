@@ -35,6 +35,8 @@
 </head>
 
 <body id="page-top">
+  {% block modals %}
+  {% endblock modals %}
 
   <header class="container text-center">
     <h1><a href="/">Namupankki</a><br><small><small>by Tietskarijengi</small></small></h1>
@@ -43,16 +45,16 @@
     <hr>
   </header>
   
-  {% if message %}
   <section id="messages" class="container text-center">
+  {% if message %}
     <div class="row">
       <div class="alert alert-success alert-dismissible col-sm-4 col-sm-offset-4 col-xs-10 col-xs-offset-1 fade in">
         <a href="/" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         <strong>{{ message }}</strong>
       </div>
     </div>
-  </section>
   {% endif %}
+  </section>
 
   {% block content %}
   {% endblock content %}
@@ -74,6 +76,7 @@
   <script src={% static "namubufferiapp/bootstrap-3.3.6-dist/js/bootstrap.min.js" %}></script>
 
   <!-- Namubufferi JavaScript-->
+  <script src={% static "namubufferiapp/js/csrftoken.js" %}></script>
   <script src={% static "namubufferiapp/js/namubufferi.js" %}></script>
 
 </body>

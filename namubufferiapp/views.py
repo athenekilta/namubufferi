@@ -4,13 +4,12 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 
-from django.http import HttpResponseRedirect
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 
 from models import UserProfile, Product, Category, Transaction
 from forms import MoneyForm
 
-
-# TODO: Create custom context processor to reduce context copy pasting
 
 @login_required
 def home_view(request):
@@ -21,7 +20,6 @@ def home_view(request):
                        products=Product.objects.all(),
                        categories=Category.objects.all(),
                        transactions=request.user.userprofile.transaction_set.all(),
-                       message="",
                        )
 
     return render(request, 'namubufferiapp/base_home.html', context)
@@ -31,12 +29,6 @@ def home_view(request):
 def buy_view(request):
     if request.user.is_superuser:
         return render(request, 'namubufferiapp/base_admin.html')
-    context = dict(money_form=MoneyForm(),
-                   products=Product.objects.all(),
-                   categories=Category.objects.all(),
-                   transactions=request.user.userprofile.transaction_set.all(),
-                   message="",
-                   )
 
     product = get_object_or_404(Product, pk=request.POST['product_key'])
     price = product.price
@@ -50,19 +42,17 @@ def buy_view(request):
 
     product.make_sale()
 
-    return redirect('/receipt/' + str(new_transaction.pk))
+    return JsonResponse({'balance': request.user.userprofile.balance,
+                         'transactionkey': new_transaction.pk,
+                         'message': render_to_string('namubufferiapp/message.html',
+                                                     {'message': "Purchase Successful"}),
+                         })
 
 
 @login_required
 def deposit_view(request):
     if request.user.is_superuser:
         return render(request, 'namubufferiapp/base_admin.html')
-    context = dict(money_form=MoneyForm(),
-                   products=Product.objects.all(),
-                   categories=Category.objects.all(),
-                   transactions=request.user.userprofile.transaction_set.all(),
-                   message="",
-                   )
 
     if request.method == 'POST':
         money_form = MoneyForm(request.POST)
@@ -75,11 +65,61 @@ def deposit_view(request):
             new_transaction.amount = amount
             new_transaction.save()
 
-            return redirect('/receipt/' + str(new_transaction.pk))
-        else:
-            context['money_form'] = money_form
+            return JsonResponse({'balance': request.user.userprofile.balance,
+                                 'transactionkey': new_transaction.pk,
+                                 'message': render_to_string('namubufferiapp/message.html',
+                                                             {'message': "Deposit Successful"}),
+                                 })
 
-    return render(request, 'namubufferiapp/base_home.html', context)
+    return redirect('/')
+
+
+@login_required
+def transaction_history_view(request):
+    if request.user.is_superuser:
+        return render(request, 'namubufferiapp/base_admin.html')
+
+    return JsonResponse({'transactionhistory': render_to_string('namubufferiapp/transactionhistory.html',
+                                                                {'transactions': request.user.userprofile.transaction_set.all()})
+                         })
+
+
+@login_required
+def receipt_view(request, transaction_key):
+    if request.user.is_superuser:
+        return render(request, 'namubufferiapp/base_admin.html')
+
+    transaction = get_object_or_404(Transaction, pk=transaction_key)
+
+    receipt = {'customer': transaction.customer.user.username,
+               'amount': transaction.amount,
+               'timestamp': transaction.timestamp,
+               'transactionkey': transaction.pk
+               }
+    try:
+        receipt['product'] = transaction.product.name
+    except:
+        receipt['product'] = 'Deposit'
+
+    return JsonResponse({'receipt': receipt})
+
+
+@login_required
+def cancel_transaction_view(request):
+    if request.user.is_superuser:
+        return render(request, 'namubufferiapp/base_admin.html')
+
+    transaction = get_object_or_404(Transaction, pk=request.POST['transaction_key'])
+
+    if (request.user == transaction.customer.user and not transaction.canceled):
+        transaction.cancel()
+
+        return JsonResponse({'balance': request.user.userprofile.balance,
+                             'message': render_to_string('namubufferiapp/message.html',
+                                                         {'message': "Transaction Canceled"})
+                             })
+    else:
+        return redirect('/')
 
 
 def register_view(request):
@@ -107,43 +147,3 @@ def register_view(request):
             context['message'] = 'Register Success. You can now sign in.'
 
     return render(request, 'namubufferiapp/base_login.html', context)
-
-
-@login_required
-def cancel_transaction_view(request):
-    if request.user.is_superuser:
-        return render(request, 'namubufferiapp/base_admin.html')
-    context = dict(money_form=MoneyForm(),
-                   products=Product.objects.all(),
-                   categories=Category.objects.all(),
-                   transactions=request.user.userprofile.transaction_set.all(),
-                   message="",
-                   )
-
-    transaction = get_object_or_404(Transaction, pk=request.POST['transaction_key'])
-
-    if (request.user == transaction.customer.user and not transaction.canceled):
-        transaction.cancel()
-        context['message'] = "Transaction canceled"
-        return render(request, 'namubufferiapp/base_home.html', context)
-
-    else:
-        return redirect('/')
-
-
-@login_required
-def receipt_view(request, transaction_key):
-    if request.user.is_superuser:
-        return render(request, 'namubufferiapp/base_admin.html')
-    context = dict(money_form=MoneyForm(),
-                   products=Product.objects.all(),
-                   categories=Category.objects.all(),
-                   transactions=request.user.userprofile.transaction_set.all(),
-                   message="",
-                   )
-
-    print transaction_key
-    transaction = get_object_or_404(Transaction, pk=transaction_key)
-    context['receipt'] = transaction
-
-    return render(request, 'namubufferiapp/base_home.html', context)

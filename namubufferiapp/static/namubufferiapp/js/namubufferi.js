@@ -1,14 +1,18 @@
+function updateReceiptModal (data) {
+  $( "#timestamp" ).html(data.receipt.timestamp);
+  $( "#customer" ).html(data.receipt.customer);
+  $( "#product" ).html(data.receipt.product);
+  $( "#amount" ).html(data.receipt.amount);
+  $( "#transaction_key" ).val(data.receipt.transactionkey);
+
+  $( "#receiptModal" ).modal();
+}
+
 function getReceipt(productkey) {
   $('#moneyModal').modal('hide');
   $.get( "/receipt/" + productkey)
     .done(function( data ) {
-      $( "#timestamp" ).html(data.receipt.timestamp);
-      $( "#customer" ).html(data.receipt.customer);
-      $( "#product" ).html(data.receipt.product);
-      $( "#amount" ).html(data.receipt.amount);
-      $( "#transaction_key" ).val(data.receipt.transactionkey);
-
-      $( "#receiptModal" ).modal();
+      updateReceiptModal(data);
     });
 }
 
@@ -49,7 +53,7 @@ $(document).ready(function() {
      
       // Stop form from submitting normally
       event.preventDefault();
-      console.log("lol");
+
       // Get some values from elements on the page:
       var $form = $( this ),
         productkey = $form.find( "input[name='product_key']" ).val(),
@@ -63,14 +67,28 @@ $(document).ready(function() {
         console.log(data);
         $('#productModal').modal('hide');
         $( "#balance" ).html(data.balance);
-
-        $( "#timestamp" ).html(data.receipt.timestamp);
-        $( "#customer" ).html(data.receipt.customer);
-        $( "#product" ).html(data.receipt.product);
-        $( "#amount" ).html(data.receipt.amount);
-        $( "#transaction_key" ).val(data.receipt.transactionkey);
-
-        $( "#receiptModal" ).modal();
+        updateReceiptModal(data);
+      });
+    });
+    $( "#money-form" ).submit(function( event ) {
+     
+      // Stop form from submitting normally
+      event.preventDefault();
+      
+      // Get some values from elements on the page:
+      var $form = $( this ),
+        amount = $form.find( "input[name='amount']" ).val(),
+        url = $form.attr( "action" );
+     
+      // Send the data using post
+      var posting = $.post( url, { amount: amount } );
+     
+      // Put the results in a div
+      posting.done(function( data ) {
+        console.log(data);
+        $('#moneyModal').modal('hide');
+        $( "#balance" ).html(data.balance);
+        updateReceiptModal(data);
       });
     });
 

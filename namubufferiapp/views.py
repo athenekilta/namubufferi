@@ -51,14 +51,7 @@ def buy_view(request):
 
     product.make_sale()
 
-    receipt = {'customer': new_transaction.customer.user.username,
-               'amount': new_transaction.amount,
-               'product': new_transaction.product.name,
-               'timestamp': new_transaction.timestamp,
-               'transactionkey': new_transaction.pk
-               }
-    return JsonResponse({'balance': request.user.userprofile.balance,
-                         'receipt': receipt})
+    return receipt_view(request, new_transaction.pk)
 
     #context['receipt'] = new_transaction
     #return render(request, 'namubufferiapp/receipt.html', context)
@@ -86,7 +79,7 @@ def deposit_view(request):
             new_transaction.amount = amount
             new_transaction.save()
 
-            return redirect('/receipt/' + str(new_transaction.pk))
+            return receipt_view(request, new_transaction.pk)
         else:
             context['money_form'] = money_form
 
@@ -157,10 +150,14 @@ def receipt_view(request, transaction_key):
 
     receipt = {'customer': transaction.customer.user.username,
                'amount': transaction.amount,
-               'product': transaction.product.name,
                'timestamp': transaction.timestamp,
                'transactionkey': transaction.pk
                }
+    try:
+        receipt['product'] = transaction.product.name
+    except:
+        receipt['product'] = 'Deposit'
+
     return JsonResponse({'balance': request.user.userprofile.balance,
                          'receipt': receipt})
 

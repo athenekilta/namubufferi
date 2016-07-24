@@ -91,7 +91,7 @@
         <h4 class="modal-title" id="moneyModalTitle">Deposit</h4>
       </div>
       <div class="modal-body">
-        <form action="/deposit/" method="post">
+        <form id="money-form" action="/deposit/" method="post">
             {% csrf_token %}
             {% bootstrap_form money_form %}
             {% buttons %}

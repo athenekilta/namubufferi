@@ -45,9 +45,7 @@ def buy_view(request):
 
     product.make_sale()
 
-    context['receipt'] = new_transaction
-
-    return render(request, 'namubufferiapp/base_home.html', context)
+    return redirect('/receipt/' + str(new_transaction.pk))
 
 
 @login_required
@@ -61,7 +59,6 @@ def deposit_view(request):
 
     if request.method == 'POST':
         money_form = MoneyForm(request.POST)
-        context['money_form'] = money_form
         if money_form.is_valid():
             amount = request.POST['amount']
             request.user.userprofile.make_deposit(amount)
@@ -71,7 +68,9 @@ def deposit_view(request):
             new_transaction.amount = amount
             new_transaction.save()
 
-            context['receipt'] = new_transaction
+            return redirect('/receipt/' + str(new_transaction.pk))
+        else:
+            context['money_form'] = money_form
 
     return render(request, 'namubufferiapp/base_home.html', context)
 

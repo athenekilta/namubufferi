@@ -51,8 +51,8 @@ def buy_view(request):
 
     product.make_sale()
 
-    return receipt_view(request, new_transaction.pk)
-
+    return JsonResponse({'balance': request.user.userprofile.balance,
+                         'transactionkey': new_transaction.pk})
     #context['receipt'] = new_transaction
     #return render(request, 'namubufferiapp/receipt.html', context)
 
@@ -79,7 +79,8 @@ def deposit_view(request):
             new_transaction.amount = amount
             new_transaction.save()
 
-            return receipt_view(request, new_transaction.pk)
+            return JsonResponse({'balance': request.user.userprofile.balance,
+                                 'transactionkey': new_transaction.pk})
         else:
             context['money_form'] = money_form
 
@@ -158,8 +159,7 @@ def receipt_view(request, transaction_key):
     except:
         receipt['product'] = 'Deposit'
 
-    return JsonResponse({'balance': request.user.userprofile.balance,
-                         'receipt': receipt})
+    return JsonResponse({'receipt': receipt})
 
     #context['receipt'] = transaction
     #return render(request, 'namubufferiapp/receipt.html', context)

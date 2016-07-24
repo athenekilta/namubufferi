@@ -4,13 +4,11 @@ function updateReceiptModal (data) {
   $( "#product" ).html(data.receipt.product);
   $( "#amount" ).html(data.receipt.amount);
   $( "#transaction_key" ).val(data.receipt.transactionkey);
-
-  $( "#receiptModal" ).modal();
 }
 
-function getReceipt(productkey) {
+function getReceipt(transactionkey) {
   $('#moneyModal').modal('hide');
-  $.get( "/receipt/" + productkey)
+  $.get( "/receipt/" + transactionkey)
     .done(function( data ) {
       updateReceiptModal(data);
     });
@@ -67,7 +65,8 @@ $(document).ready(function() {
         console.log(data);
         $('#productModal').modal('hide');
         $( "#balance" ).html(data.balance);
-        updateReceiptModal(data);
+        $( "#receiptModal" ).data( "transactionkey", data.transactionkey );
+        $( "#receiptModal" ).modal();
       });
     });
     $( "#money-form" ).submit(function( event ) {
@@ -86,9 +85,10 @@ $(document).ready(function() {
       // Put the results in a div
       posting.done(function( data ) {
         console.log(data);
-        $('#moneyModal').modal('hide');
+        $( '#moneyModal' ).modal('hide');
         $( "#balance" ).html(data.balance);
-        updateReceiptModal(data);
+        $( "#receiptModal" ).data( "transactionkey", data.transactionkey );
+        $( "#receiptModal" ).modal();
       });
     });
 
@@ -105,4 +105,9 @@ $(document).ready(function() {
       modal.find('#product-modal-price').text(button.data('productprice'));
     });
 
+    $('#receiptModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget); // Button that triggered the modal
+      var transactionkey = button.data('transactionkey') || $(this).data('transactionkey'); // Extract info from data-* attributes
+      getReceipt(transactionkey);
+    });
 });

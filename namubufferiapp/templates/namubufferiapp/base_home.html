@@ -40,7 +40,7 @@
 
 
 <!-- Transaction Receipt Modal -->
-<div id="receiptModal" class="modal fade" tabindex="-1" role="dialog">
+<div id="receiptModal" class="modal fade" tabindex="-1" role="dialog" data-transactionkey="">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -122,7 +122,11 @@
                   <td>{{ transaction.product }}</td>
                   <td>{{ transaction.amount }}</td>
                   <td>
-                    <span onclick="getReceipt({{ transaction.pk }})" class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                    <a data-toggle="modal"
+                       data-target="#receiptModal"
+                       data-transactionkey="{{ transaction.pk }}"
+                       class="glyphicon glyphicon-list-alt"
+                       aria-hidden="true"></a>
                   </td>
               </tr>
               {% endfor %}

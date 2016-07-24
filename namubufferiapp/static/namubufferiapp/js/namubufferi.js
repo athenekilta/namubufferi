@@ -77,6 +77,7 @@ $(document).ready(function() {
         $('#moneyModal').modal('hide');
         $.get("/receipt/" + transactionkey)
             .done(function(data) {
+                $("#receiptModal").toggleClass( "canceled", data.receipt.canceled );
                 $("#timestamp").html(data.receipt.timestamp);
                 $("#customer").html(data.receipt.customer);
                 $("#product").html(data.receipt.product);
@@ -92,7 +93,9 @@ $(document).ready(function() {
             });
     });
 
-
+    $('#historycheckbox').change(function(){
+        $('.canceled').toggle(!this.checked);
+    });
     $('#search').hideseek();
     $(".product").fitText();
 });

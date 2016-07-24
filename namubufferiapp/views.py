@@ -68,7 +68,9 @@ def deposit_view(request):
             return JsonResponse({'balance': request.user.userprofile.balance,
                                  'transactionkey': new_transaction.pk,
                                  'message': render_to_string('namubufferiapp/message.html',
-                                                             {'message': "Deposit Successful"}),
+                                                             {'message': "Deposit Successful",
+                                                              'transaction': new_transaction,
+                                                             }),
                                  })
 
     return redirect('/')
@@ -80,7 +82,7 @@ def transaction_history_view(request):
         return render(request, 'namubufferiapp/base_admin.html')
 
     return JsonResponse({'transactionhistory': render_to_string('namubufferiapp/transactionhistory.html',
-                                                                {'transactions': request.user.userprofile.transaction_set.all()})
+                                                                {'transactions': request.user.userprofile.transaction_set.all()[:20]})
                          })
 
 
@@ -94,7 +96,8 @@ def receipt_view(request, transaction_key):
     receipt = {'customer': transaction.customer.user.username,
                'amount': transaction.amount,
                'timestamp': transaction.timestamp,
-               'transactionkey': transaction.pk
+               'transactionkey': transaction.pk,
+               'canceled': transaction.canceled,
                }
     try:
         receipt['product'] = transaction.product.name
@@ -116,7 +119,8 @@ def cancel_transaction_view(request):
 
         return JsonResponse({'balance': request.user.userprofile.balance,
                              'message': render_to_string('namubufferiapp/message.html',
-                                                         {'message': "Transaction Canceled"})
+                                                         {'message': "Transaction Canceled",
+                                                          'transaction': transaction})
                              })
     else:
         return redirect('/')

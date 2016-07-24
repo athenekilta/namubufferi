@@ -25,3 +25,11 @@ header h1 a:link {
 .user-info {
   margin-bottom: 10px;
 }
+
+.canceled {
+  text-decoration: line-through;
+}
+.canceled #transaction-cancel-button {
+  display: none;
+  text-decoration: line-through;
+}

@@ -51,26 +51,26 @@
         <table class="table">
           <tr>
             <td>Date</td>
-            <td id="timestamp">{{ receipt.timestamp }}</td>
+            <td id="timestamp"></td>
           </tr>
           <tr>
             <td>Customer</td>
-            <td id="customer">{{ receipt.customer }}</td>
+            <td id="customer"></td>
           </tr>
           <tr>
             <td>Product</td>
-            <td id="product">{{ receipt.product }}</td>
+            <td id="product"></td>
           </tr>
           <tr>
             <td>Amount</td>
-            <td id="amount">{{ receipt.amount }}</td>
+            <td id="amount"></td>
           </tr>
         </table>
       </div>
       <div class="modal-footer">      
         <form hidden action="/cancel/" method="post" id="cancelform">
           {% csrf_token %}
-          <input id="transaction_key" type="text" name="transaction_key" value="{{ receipt.pk }}">
+          <input id="transaction_key" type="text" name="transaction_key" value="">
         </form>
         <button type="submit" form="cancelform" class="btn btn-danger btn-sm">
           Cancel Transaction

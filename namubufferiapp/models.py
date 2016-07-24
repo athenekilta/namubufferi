@@ -75,11 +75,12 @@ class Transaction(models.Model):
                                            (DATE_FORMAT, TIME_FORMAT))
 
     def cancel(self):
-        if (not self.canceled):
+        if not self.canceled:
             self.customer.make_deposit(-self.amount)  # Note the minus sign
             self.canceled = True
-            self.product.cancel_sale()
             self.save()
+            if self.product:
+                self.product.cancel_sale()
 
     def __str__(self):
         return "%s, %s, %s" % (self.get_date_string(), self.customer.user.username, self.amount)

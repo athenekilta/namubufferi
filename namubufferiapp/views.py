@@ -17,7 +17,7 @@ def home_view(request):
     context = dict(money_form=MoneyForm(),
                    products=Product.objects.all(),
                    categories=Category.objects.all(),
-                   transactions=Transaction.objects.all(),
+                   transactions=request.user.userprofile.transaction_set.all(),
                    message="",
                    )
 
@@ -29,7 +29,7 @@ def buy_view(request):
     context = dict(money_form=MoneyForm(),
                    products=Product.objects.all(),
                    categories=Category.objects.all(),
-                   transactions=Transaction.objects.all(),
+                   transactions=request.user.userprofile.transaction_set.all(),
                    message="",
                    )
 
@@ -53,7 +53,7 @@ def deposit_view(request):
     context = dict(money_form=MoneyForm(),
                    products=Product.objects.all(),
                    categories=Category.objects.all(),
-                   transactions=Transaction.objects.all(),
+                   transactions=request.user.userprofile.transaction_set.all(),
                    message="",
                    )
 
@@ -107,7 +107,7 @@ def cancel_transaction_view(request):
     context = dict(money_form=MoneyForm(),
                    products=Product.objects.all(),
                    categories=Category.objects.all(),
-                   transactions=Transaction.objects.all(),
+                   transactions=request.user.userprofile.transaction_set.all(),
                    message="",
                    )
 
@@ -127,7 +127,7 @@ def receipt_view(request, transaction_key):
     context = dict(money_form=MoneyForm(),
                    products=Product.objects.all(),
                    categories=Category.objects.all(),
-                   transactions=Transaction.objects.all(),
+                   transactions=request.user.userprofile.transaction_set.all(),
                    message="",
                    )
 

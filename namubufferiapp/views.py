@@ -14,18 +14,23 @@ from forms import MoneyForm
 
 @login_required
 def home_view(request):
-    context = dict(money_form=MoneyForm(),
-                   products=Product.objects.all(),
-                   categories=Category.objects.all(),
-                   transactions=request.user.userprofile.transaction_set.all(),
-                   message="",
-                   )
+    if request.user.is_superuser:
+        return render(request, 'namubufferiapp/base_admin.html')
+    else:
+        context = dict(money_form=MoneyForm(),
+                       products=Product.objects.all(),
+                       categories=Category.objects.all(),
+                       transactions=request.user.userprofile.transaction_set.all(),
+                       message="",
+                       )
 
     return render(request, 'namubufferiapp/base_home.html', context)
 
 
 @login_required
 def buy_view(request):
+    if request.user.is_superuser:
+        return render(request, 'namubufferiapp/base_admin.html')
     context = dict(money_form=MoneyForm(),
                    products=Product.objects.all(),
                    categories=Category.objects.all(),
@@ -50,6 +55,8 @@ def buy_view(request):
 
 @login_required
 def deposit_view(request):
+    if request.user.is_superuser:
+        return render(request, 'namubufferiapp/base_admin.html')
     context = dict(money_form=MoneyForm(),
                    products=Product.objects.all(),
                    categories=Category.objects.all(),
@@ -104,6 +111,8 @@ def register_view(request):
 
 @login_required
 def cancel_transaction_view(request):
+    if request.user.is_superuser:
+        return render(request, 'namubufferiapp/base_admin.html')
     context = dict(money_form=MoneyForm(),
                    products=Product.objects.all(),
                    categories=Category.objects.all(),
@@ -124,6 +133,8 @@ def cancel_transaction_view(request):
 
 @login_required
 def receipt_view(request, transaction_key):
+    if request.user.is_superuser:
+        return render(request, 'namubufferiapp/base_admin.html')
     context = dict(money_form=MoneyForm(),
                    products=Product.objects.all(),
                    categories=Category.objects.all(),

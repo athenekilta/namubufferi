@@ -3,7 +3,7 @@ $(document).ready(function() {
     'use strict';
     $('#search').hideseek();
     $(".product").fitText();
-    $('#receiptModal').modal();    
+    $('#receiptModal').modal();
     $('#productModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // Button that triggered the modal
       var productkey = button.data('productkey'); // Extract info from data-* attributes

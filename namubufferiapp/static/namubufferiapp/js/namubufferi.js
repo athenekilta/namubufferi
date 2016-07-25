@@ -80,7 +80,7 @@ $(document).ready(function() {
     $('#receiptModal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget);
         var transactionkey = button.data('transactionkey') || $(this).data('transactionkey');
-        $('#moneyModal').modal('hide');
+        $('#historyModal').modal('hide');
         $.get("/receipt/" + transactionkey)
             .done(function(data) {
                 $("#receiptModal").toggleClass( "canceled", data.receipt.canceled );
@@ -92,7 +92,7 @@ $(document).ready(function() {
             });
     });
 
-    $('#moneyModal').on('show.bs.modal', function(event) {
+    $('#historyModal').on('show.bs.modal', function(event) {
         $.get("/history/")
             .done(function(data) {
                 $("#history").html(data.transactionhistory);

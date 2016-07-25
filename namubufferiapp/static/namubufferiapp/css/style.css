@@ -17,15 +17,9 @@ header h1 a:hover {
 header h1 a:link {
   text-decoration: none;
 }
-
-.product {
-  margin: 5px;
-}
-
 .user-info {
   margin-bottom: 10px;
 }
-
 .canceled {
   display: none;
   text-decoration: line-through;
@@ -33,4 +27,11 @@ header h1 a:link {
 .canceled #transaction-cancel-button {
   display: none;
   text-decoration: line-through;
+}
+
+#shop {
+  min-height: 100vh;
+}
+.product {
+  margin: 5px;
 }

@@ -90,7 +90,7 @@ def transaction_history_view(request):
         return render(request, 'namubufferiapp/base_admin.html')
 
     return JsonResponse({'transactionhistory': render_to_string('namubufferiapp/transactionhistory.html',
-                                                                {'transactions': request.user.userprofile.transaction_set.all()[:20]})
+                                                                {'transactions': request.user.userprofile.transaction_set.all()[:8]})
                          })
 
 

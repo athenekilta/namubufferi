@@ -31,8 +31,8 @@ $(document).ready(function() {
     $("#money-form").submit(function(event) {
         event.preventDefault();
         var $form = $(this),
-            euros = $form.find("input[name='euros']").val(),
-            cents = $form.find("input[name='cents']").val(),
+            euros = $form.find("input[name='euros']").val() || 0,
+            cents = $form.find("input[name='cents']").val() || 0,
             url = $form.attr("action");
         var posting = $.post(url, {
             euros: euros,
@@ -98,10 +98,34 @@ $(document).ready(function() {
                 $("#history").html(data.transactionhistory);
             });
     });
-
     $('#historycheckbox').change(function(){
         $('.canceled').toggle(this.checked);
     });
+
+    $('.modal').on('shown.bs.modal', function() {
+      $(this).find('[autofocus]').focus();
+    });
+
+    $( "#id_euros" ).focus(function(event) {
+        $( window ).scrollTop(0);
+    });
+    $( "#id_cents" ).focus(function(event) {
+        $( window ).scrollTop(0);
+    });
+    $( "#id_cents" ).focusout(function(event) {
+        $( window ).scrollTop(0);
+        var cents = $( "#id_cents" );
+        if (cents.val().length < 2){
+            cents.val(cents.val()*10);
+        }
+    });
+    $( "#search" ).focus(function(event) {
+        $( window ).scrollTop($("#search").offset().top);
+    });
+    $( "#search" ).keypress(function(event) {
+        $( window ).scrollTop($("#search").offset().top);
+    });
+
     $('#search').hideseek();
     $(".product").fitText();
 });

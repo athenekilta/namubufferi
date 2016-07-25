@@ -19,12 +19,13 @@
       {% endif %}
           <td>{{ transaction.product }}</td>
           <td>{{ transaction.amount }}</td>
-          <td>
-            <a data-toggle="modal"
-               data-target="#receiptModal"
-               data-transactionkey="{{ transaction.pk }}"
-               class="glyphicon glyphicon-list-alt"
-               aria-hidden="true"></a>
+          <td class="btn btn-default btn-block" 
+              data-toggle="modal"
+              data-target="#receiptModal"
+              data-transactionkey="{{ transaction.pk }}">
+              <span class="glyphicon glyphicon-list-alt"
+                    aria-hidden="true">
+              </span>
           </td>
       </tr>
       {% endfor %}

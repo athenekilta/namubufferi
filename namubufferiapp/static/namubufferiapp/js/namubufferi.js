@@ -22,7 +22,8 @@ $(document).ready(function() {
         posting.done(function(data) {
             $('#productModal').modal('hide');
             $(".balance").html(data.balance);
-            $("#messages").prepend(data.message);
+            $("#messageModalBody").html(data.modalMessage);
+            //$("#messages").prepend(data.message);
             $("#receiptModal").data("transactionkey", data.transactionkey);
             $("#receiptModal").modal();
         });
@@ -30,15 +31,18 @@ $(document).ready(function() {
     $("#money-form").submit(function(event) {
         event.preventDefault();
         var $form = $(this),
-            amount = $form.find("input[name='amount']").val(),
+            euros = $form.find("input[name='euros']").val(),
+            cents = $form.find("input[name='cents']").val(),
             url = $form.attr("action");
         var posting = $.post(url, {
-            amount: amount
+            euros: euros,
+            cents: cents
         });
         posting.done(function(data) {
             $('#moneyModal').modal('hide');
             $(".balance").html(data.balance);
-            $("#messages").prepend(data.message);
+            $("#messageModalBody").html(data.modalMessage);
+            //$("#messages").prepend(data.message);
             $("#receiptModal").data("transactionkey", data.transactionkey);
             $("#receiptModal").modal();
         });
@@ -55,7 +59,9 @@ $(document).ready(function() {
             console.log(data);
             $('#receiptModal').modal('hide');
             $(".balance").html(data.balance);
-            $("#messages").prepend(data.message);
+            $("#messageModalBody").html(data.modalMessage);
+            $('#messageModal').modal('show');
+            //$("#messages").prepend(data.message);
         });
     });
 
@@ -94,7 +100,7 @@ $(document).ready(function() {
     });
 
     $('#historycheckbox').change(function(){
-        $('.canceled').toggle(!this.checked);
+        $('.canceled').toggle(this.checked);
     });
     $('#search').hideseek();
     $(".product").fitText();

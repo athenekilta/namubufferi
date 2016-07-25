@@ -11,6 +11,25 @@
 {% block modals %}
 <!-- Modals -->
 <!-- Always try to place a modal's HTML code in a top-level position in your document to avoid other components affecting the modal's appearance and/or functionality. -->
+
+<!-- Message Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="messageModalLabel">!</h4>
+      </div>
+      <div id="messageModalBody" class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Product info/buy Modal -->
 <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel">
   <div class="modal-dialog" role="document">
@@ -105,7 +124,7 @@
         <h3>Transaction History<small> 20 Most Recent</small></h3>
         <div class="checkbox">
           <label>
-            <input id="historycheckbox" type="checkbox"/> Hide canceled
+            <input id="historycheckbox" type="checkbox"/> Show canceled
           </label>
         </div>
         <div id="history">

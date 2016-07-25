@@ -27,6 +27,7 @@ header h1 a:link {
 }
 
 .canceled {
+  display: none;
   text-decoration: line-through;
 }
 .canceled #transaction-cancel-button {

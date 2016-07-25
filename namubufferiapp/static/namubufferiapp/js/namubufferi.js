@@ -22,7 +22,8 @@ $(document).ready(function() {
         posting.done(function(data) {
             $('#productModal').modal('hide');
             $(".balance").html(data.balance);
-            $("#messages").prepend(data.message);
+            $("#messageModalBody").html(data.modalMessage);
+            //$("#messages").prepend(data.message);
             $("#receiptModal").data("transactionkey", data.transactionkey);
             $("#receiptModal").modal();
         });
@@ -30,15 +31,18 @@ $(document).ready(function() {
     $("#money-form").submit(function(event) {
         event.preventDefault();
         var $form = $(this),
-            amount = $form.find("input[name='amount']").val(),
+            euros = $form.find("input[name='euros']").val() || 0,
+            cents = $form.find("input[name='cents']").val() || 0,
             url = $form.attr("action");
         var posting = $.post(url, {
-            amount: amount
+            euros: euros,
+            cents: cents
         });
         posting.done(function(data) {
             $('#moneyModal').modal('hide');
             $(".balance").html(data.balance);
-            $("#messages").prepend(data.message);
+            $("#messageModalBody").html(data.modalMessage);
+            //$("#messages").prepend(data.message);
             $("#receiptModal").data("transactionkey", data.transactionkey);
             $("#receiptModal").modal();
         });
@@ -55,7 +59,9 @@ $(document).ready(function() {
             console.log(data);
             $('#receiptModal').modal('hide');
             $(".balance").html(data.balance);
-            $("#messages").prepend(data.message);
+            $("#messageModalBody").html(data.modalMessage);
+            $('#messageModal').modal('show');
+            //$("#messages").prepend(data.message);
         });
     });
 
@@ -74,9 +80,10 @@ $(document).ready(function() {
     $('#receiptModal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget);
         var transactionkey = button.data('transactionkey') || $(this).data('transactionkey');
-        $('#moneyModal').modal('hide');
+        $('#historyModal').modal('hide');
         $.get("/receipt/" + transactionkey)
             .done(function(data) {
+                $("#receiptModal").toggleClass( "canceled", data.receipt.canceled );
                 $("#timestamp").html(data.receipt.timestamp);
                 $("#customer").html(data.receipt.customer);
                 $("#product").html(data.receipt.product);
@@ -85,13 +92,39 @@ $(document).ready(function() {
             });
     });
 
-    $('#moneyModal').on('show.bs.modal', function(event) {
+    $('#historyModal').on('show.bs.modal', function(event) {
         $.get("/history/")
             .done(function(data) {
                 $("#history").html(data.transactionhistory);
             });
     });
+    $('#historycheckbox').change(function(){
+        $('.canceled').toggle(this.checked);
+    });
 
+    $('.modal').on('shown.bs.modal', function() {
+      $(this).find('[autofocus]').focus();
+    });
+
+    $( "#id_euros" ).focus(function(event) {
+        $( window ).scrollTop(0);
+    });
+    $( "#id_cents" ).focus(function(event) {
+        $( window ).scrollTop(0);
+    });
+    $( "#id_cents" ).focusout(function(event) {
+        $( window ).scrollTop(0);
+        var cents = $( "#id_cents" );
+        if (cents.val().length < 2){
+            cents.val(cents.val()*10);
+        }
+    });
+    $( "#search" ).focus(function(event) {
+        $( window ).scrollTop($("#search").offset().top);
+    });
+    $( "#search" ).keypress(function(event) {
+        $( window ).scrollTop($("#search").offset().top);
+    });
 
     $('#search').hideseek();
     $(".product").fitText();

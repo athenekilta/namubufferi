@@ -10,6 +10,8 @@ from django.template.loader import render_to_string
 from models import UserProfile, Product, Category, Transaction
 from forms import MoneyForm
 
+from decimal import Decimal
+
 
 @login_required
 def home_view(request):
@@ -44,6 +46,7 @@ def buy_view(request):
 
     return JsonResponse({'balance': request.user.userprofile.balance,
                          'transactionkey': new_transaction.pk,
+                         'modalMessage': "Purchase Successful",
                          'message': render_to_string('namubufferiapp/message.html',
                                                      {'message': "Purchase Successful"}),
                          })
@@ -56,8 +59,12 @@ def deposit_view(request):
 
     if request.method == 'POST':
         money_form = MoneyForm(request.POST)
+        print money_form.errors
         if money_form.is_valid():
-            amount = request.POST['amount']
+            euros = request.POST['euros']
+            cents = request.POST['cents']
+            amount = Decimal(euros) + Decimal(cents)/100
+
             request.user.userprofile.make_deposit(amount)
 
             new_transaction = Transaction()
@@ -67,11 +74,14 @@ def deposit_view(request):
 
             return JsonResponse({'balance': request.user.userprofile.balance,
                                  'transactionkey': new_transaction.pk,
+                                 'modalMessage': "Deposit Successful",
                                  'message': render_to_string('namubufferiapp/message.html',
-                                                             {'message': "Deposit Successful"}),
+                                                             {'message': "Deposit Successful",
+                                                              'transaction': new_transaction,
+                                                             }),
                                  })
 
-    return redirect('/')
+    return JsonResponse({'modalMessage': "Deposit Failure"})
 
 
 @login_required
@@ -80,7 +90,7 @@ def transaction_history_view(request):
         return render(request, 'namubufferiapp/base_admin.html')
 
     return JsonResponse({'transactionhistory': render_to_string('namubufferiapp/transactionhistory.html',
-                                                                {'transactions': request.user.userprofile.transaction_set.all()})
+                                                                {'transactions': request.user.userprofile.transaction_set.all()[:8]})
                          })
 
 
@@ -94,7 +104,8 @@ def receipt_view(request, transaction_key):
     receipt = {'customer': transaction.customer.user.username,
                'amount': transaction.amount,
                'timestamp': transaction.timestamp,
-               'transactionkey': transaction.pk
+               'transactionkey': transaction.pk,
+               'canceled': transaction.canceled,
                }
     try:
         receipt['product'] = transaction.product.name
@@ -115,8 +126,10 @@ def cancel_transaction_view(request):
         transaction.cancel()
 
         return JsonResponse({'balance': request.user.userprofile.balance,
+                             'modalMessage': "Transaction Canceled",
                              'message': render_to_string('namubufferiapp/message.html',
-                                                         {'message': "Transaction Canceled"})
+                                                         {'message': "Transaction Canceled",
+                                                          'transaction': transaction})
                              })
     else:
         return redirect('/')

@@ -1,4 +1,4 @@
-<h3>Transaction History</h3>
+
 <div class="table-responsive">
   <table class="table">
       <thead>
@@ -11,7 +11,7 @@
       {% for transaction in transactions %}
 
       {% if transaction.canceled %}
-      <tr style="text-decoration: line-through;">
+      <tr class="canceled">
       {% elif transaction.amount >= 0 %}
       <tr class="success">
       {% else %}
@@ -19,12 +19,13 @@
       {% endif %}
           <td>{{ transaction.product }}</td>
           <td>{{ transaction.amount }}</td>
-          <td>
-            <a data-toggle="modal"
-               data-target="#receiptModal"
-               data-transactionkey="{{ transaction.pk }}"
-               class="glyphicon glyphicon-list-alt"
-               aria-hidden="true"></a>
+          <td class="btn btn-default btn-block" 
+              data-toggle="modal"
+              data-target="#receiptModal"
+              data-transactionkey="{{ transaction.pk }}">
+              <span class="glyphicon glyphicon-list-alt"
+                    aria-hidden="true">
+              </span>
           </td>
       </tr>
       {% endfor %}

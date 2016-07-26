@@ -9,13 +9,13 @@ from namubufferiapp.views import home_view, register_view, buy_view, deposit_vie
 urlpatterns = [
     url(r'^$', home_view, name="home"),
     url(r'^login', auth_views.login, {'template_name': 'namubufferiapp/base_login.html',
-                                                       'extra_context': dict(register_form=UserCreationForm(),
-                                                                             )}),
-    url(r'^logout/$', auth_views.logout, {'next_page': '/', }),
-    url(r'^register/$', register_view),
-    url(r'^buy/$', buy_view, name="buy_view"),
-    url(r'^deposit/$', deposit_view, name="deposit_view"),
-    url(r'^cancel/$', cancel_transaction_view, name="cancel_transcation_view"),
-    url(r'^receipt/$', receipt_view, name="receipt_view"),
-    url(r'^history/$', transaction_history_view),
+                                                       'extra_context': {'register_form': UserCreationForm()}
+                                      }),
+    url(r'^logout/$', auth_views.logout, {'next_page': '/'}),
+    url(r'^register/$', register_view, name="register"),
+    url(r'^buy/$', buy_view, name="buy"),
+    url(r'^deposit/$', deposit_view, name="deposit"),
+    url(r'^cancel/$', cancel_transaction_view, name="cancel"),
+    url(r'^receipt/$', receipt_view, name="receipt"),
+    url(r'^history/$', transaction_history_view, name="history"),
 ]

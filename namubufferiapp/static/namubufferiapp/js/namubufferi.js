@@ -79,6 +79,7 @@ $(document).ready(function() {
         modal.find('#product-modal-name').text(button.data('productname'));
         modal.find('#product-modal-pk').val(button.data('productkey'));
         modal.find('#product-modal-price').text(button.data('productprice'));
+        modal.find('#product-modal-inventory').text(button.data('productinventory')); 
     });
 
     $('#receiptModal').on('show.bs.modal', function(event) {
@@ -118,11 +119,11 @@ $(document).ready(function() {
         $( window ).scrollTop(0);
         var cents = $( "#id_cents" );
         if(!cents.val()) {
-            cents.val('00')
+            cents.val('00');
         }
         var euros = $( "#id_euros" );
         if(!euros.val()) {
-            euros.val('00')
+            euros.val('00');
         }
     });
     $( "#id_cents" ).focus(function(event) {
@@ -135,14 +136,20 @@ $(document).ready(function() {
         if (cents.val().length == 1){
             cents.val('0'+cents.val());
         } else if(!cents.val()) {
-            cents.val('00')
+            cents.val('00');
         }
     });
     $( "#search" ).focus(function(event) {
         $( window ).scrollTop($("#search").offset().top);
+        //$( window ).scrollTop(0);
+    });
+    $( "#search" ).focusout(function(event) {
+        //$( window ).scrollTop($("#search").offset().top);
+        $( window ).scrollTop(0);
     });
     $( "#search" ).keypress(function(event) {
         $( window ).scrollTop($("#search").offset().top);
+        //$( window ).scrollTop(0);
     });
 
     $('#search').hideseek();

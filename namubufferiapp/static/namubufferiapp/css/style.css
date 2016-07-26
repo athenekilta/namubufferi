@@ -1,22 +1,12 @@
+/*
 body {
-  background-color: #FBFBFB;
+  background-color: Whitesmoke;
 }
 
-header h1 {
-  font-size: 3em;
+.navbar-header .navbar-brand {
   font-family: 'Condiment', cursive;
-  font-weight: 400;
-  padding-top: 15px;
-}
-header h1 a {
-  color: black;
-}
-header h1 a:hover {
-  color: grey;
-}
-header h1 a:link {
-  text-decoration: none;
-}
+}*/
+
 .user-info {
   margin-bottom: 10px;
 }

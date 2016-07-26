@@ -1,34 +1,9 @@
 {% extends "namubufferiapp/base.html" %}
-{% load bootstrap3 %}
 
-{% block header %}
-  <a href="/logout" class="btn btn-default btn-sm">
-    <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
-    Log out
-  </a>
-{% endblock header %}
 
 {% block modals %}
 <!-- Modals -->
 <!-- Always try to place a modal's HTML code in a top-level position in your document to avoid other components affecting the modal's appearance and/or functionality. -->
-
-<!-- Message Modal -->
-<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="messageModalLabel">!</h4>
-      </div>
-      <div id="messageModalBody" class="modal-body">
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- Product info/buy Modal -->
 <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel">
@@ -57,7 +32,6 @@
     </div>
   </div>
 </div>
-
 
 <!-- Transaction Receipt Modal -->
 <div id="receiptModal" class="modal fade" tabindex="-1" role="dialog" data-transactionkey="">
@@ -100,7 +74,6 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
 
 <!-- Deposit Modal -->
 <div class="modal fade" id="moneyModal" tabindex="-1" role="dialog" aria-labelledby="moneyModalTitle">
@@ -156,6 +129,14 @@
   </div>
 </div>
 {% endblock modals %}
+
+
+{% block header %}
+  <a href="/logout" class="btn btn-default btn-sm">
+    <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+    Log out
+  </a>
+{% endblock header %}
 
 
 {% block content %}

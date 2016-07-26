@@ -1,5 +1,4 @@
 {% load staticfiles %}
-{% load bootstrap3 %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +13,7 @@
   <title>NAMUBUFFERI by Tietskarijengi</title>
 
   <!-- Bootstrap CSS -->
-  <link href="{% static "namubufferiapp/bootstrap-3.3.6-dist/css/bootstrap.min.css" %}" rel="stylesheet">
+  <link href="{% static "namubufferiapp/vendor/bootstrap-3.3.6-dist/css/bootstrap.min.css" %}" rel="stylesheet">
   <!--
   <link href="{% static "namubufferiapp/bootstrap-3.3.6-dist/css/bootstrap-theme.min.css" %}" rel="stylesheet">
   -->
@@ -35,6 +34,24 @@
 </head>
 
 <body id="page-top">
+  <!-- Message Modal -->
+  <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="messageModalLabel">!</h4>
+        </div>
+        <div id="messageModalBody" class="modal-body">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   {% block modals %}
   {% endblock modals %}
 
@@ -66,14 +83,14 @@
   </footer>
 
   <!-- jQuery -->
-  <script src={% static "namubufferiapp/jquery/jquery-2.2.4.min.js" %}></script>
+  <script src={% static "namubufferiapp/vendor/jquery/jquery-2.2.4.min.js" %}></script>
 
   <!-- jQuery Plugins -->
-  <script src={% static "namubufferiapp/jquery/jquery.hideseek.min.js" %}></script>
-  <script src={% static "namubufferiapp/jquery/jquery.fittext.js" %}></script>
+  <script src={% static "namubufferiapp/vendor/jquery/jquery.hideseek.min.js" %}></script>
+  <script src={% static "namubufferiapp/vendor/jquery/jquery.fittext.js" %}></script>
 
   <!-- Bootstrap Core JavaScript -->
-  <script src={% static "namubufferiapp/bootstrap-3.3.6-dist/js/bootstrap.min.js" %}></script>
+  <script src={% static "namubufferiapp/vendor/bootstrap-3.3.6-dist/js/bootstrap.min.js" %}></script>
 
   <!-- Namubufferi JavaScript-->
   <script src={% static "namubufferiapp/js/csrftoken.js" %}></script>

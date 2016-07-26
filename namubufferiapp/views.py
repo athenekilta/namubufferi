@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse, Http404
 from django.template.loader import render_to_string
 
 from models import UserProfile, Product, Category, Transaction
@@ -32,24 +32,27 @@ def buy_view(request):
     if request.user.is_superuser:
         return render(request, 'namubufferiapp/base_admin.html')
 
-    product = get_object_or_404(Product, pk=request.POST['product_key'])
-    price = product.price
-    request.user.userprofile.make_payment(price)
+    if request.method == 'POST':
+        product = get_object_or_404(Product, pk=request.POST['product_key'])
+        price = product.price
+        request.user.userprofile.make_payment(price)
 
-    new_transaction = Transaction()
-    new_transaction.customer = request.user.userprofile
-    new_transaction.amount = -price
-    new_transaction.product = product
-    new_transaction.save()
+        new_transaction = Transaction()
+        new_transaction.customer = request.user.userprofile
+        new_transaction.amount = -price
+        new_transaction.product = product
+        new_transaction.save()
 
-    product.make_sale()
+        product.make_sale()
 
-    return JsonResponse({'balance': request.user.userprofile.balance,
-                         'transactionkey': new_transaction.pk,
-                         'modalMessage': "Purchase Successful",
-                         'message': render_to_string('namubufferiapp/message.html',
-                                                     {'message': "Purchase Successful"}),
-                         })
+        return JsonResponse({'balance': request.user.userprofile.balance,
+                             'transactionkey': new_transaction.pk,
+                             'modalMessage': "Purchase Successful",
+                             'message': render_to_string('namubufferiapp/message.html',
+                                                         {'message': "Purchase Successful"}),
+                             })
+    else:
+        raise Http404()
 
 
 @login_required
@@ -59,7 +62,7 @@ def deposit_view(request):
 
     if request.method == 'POST':
         money_form = MoneyForm(request.POST)
-        print money_form.errors
+
         if money_form.is_valid():
             euros = request.POST['euros']
             cents = request.POST['cents']
@@ -78,10 +81,16 @@ def deposit_view(request):
                                  'message': render_to_string('namubufferiapp/message.html',
                                                              {'message': "Deposit Successful",
                                                               'transaction': new_transaction,
-                                                             }),
+                                                              }),
                                  })
-
-    return JsonResponse({'modalMessage': "Deposit Failure"})
+        else:
+            # https://docs.djangoproject.com/en/1.10/ref/forms/api/#django.forms.Form.errors.as_json
+            # https://docs.djangoproject.com/ja/1.9/ref/request-response/#jsonresponse-objects
+            #return JsonResponse({"errors": + money_form.errors.as_json()})
+            # FTS...
+            return HttpResponse('{"errors":' + money_form.errors.as_json() + '}', content_type="application/json")
+    else:
+        raise Http404()
 
 
 @login_required
@@ -95,24 +104,29 @@ def transaction_history_view(request):
 
 
 @login_required
-def receipt_view(request, transaction_key):
+def receipt_view(request):
     if request.user.is_superuser:
         return render(request, 'namubufferiapp/base_admin.html')
 
-    transaction = get_object_or_404(Transaction, pk=transaction_key)
+    if request.method == 'POST':
+        transaction = get_object_or_404(request.user.userprofile.transaction_set.all(),
+                                        pk=request.POST['transaction_key'])
 
-    receipt = {'customer': transaction.customer.user.username,
-               'amount': transaction.amount,
-               'timestamp': transaction.timestamp,
-               'transactionkey': transaction.pk,
-               'canceled': transaction.canceled,
-               }
-    try:
-        receipt['product'] = transaction.product.name
-    except:
-        receipt['product'] = 'Deposit'
+        receipt = {'customer': transaction.customer.user.username,
+                   'amount': transaction.amount,
+                   'timestamp': transaction.timestamp,
+                   'transactionkey': transaction.pk,
+                   'canceled': transaction.canceled,
+                   }
+        try:
+            receipt['product'] = transaction.product.name
+        except:
+            receipt['product'] = 'Deposit'
 
-    return JsonResponse({'receipt': receipt})
+        return JsonResponse({'receipt': receipt})
+
+    else:
+        raise Http404()
 
 
 @login_required
@@ -120,19 +134,23 @@ def cancel_transaction_view(request):
     if request.user.is_superuser:
         return render(request, 'namubufferiapp/base_admin.html')
 
-    transaction = get_object_or_404(Transaction, pk=request.POST['transaction_key'])
+    if request.method == 'POST':
+        transaction = get_object_or_404(request.user.userprofile.transaction_set.all(),
+                                        pk=request.POST['transaction_key'])
 
-    if (request.user == transaction.customer.user and not transaction.canceled):
-        transaction.cancel()
+        if (request.user == transaction.customer.user and not transaction.canceled):
+            transaction.cancel()
 
-        return JsonResponse({'balance': request.user.userprofile.balance,
-                             'modalMessage': "Transaction Canceled",
-                             'message': render_to_string('namubufferiapp/message.html',
-                                                         {'message': "Transaction Canceled",
-                                                          'transaction': transaction})
-                             })
+            return JsonResponse({'balance': request.user.userprofile.balance,
+                                 'modalMessage': "Transaction Canceled",
+                                 'message': render_to_string('namubufferiapp/message.html',
+                                                             {'message': "Transaction Canceled",
+                                                              'transaction': transaction})
+                                 })
+        else:
+            return HttpResponse(status=204)
     else:
-        return redirect('/')
+        raise Http404()
 
 
 def register_view(request):
@@ -143,20 +161,22 @@ def register_view(request):
     https://docs.djangoproject.com/en/1.7/topics/email/
 
     """
-    context = dict(form=AuthenticationForm(),
-                   register_form=UserCreationForm(),
-                   message="",
-                   )
 
     if request.method == 'POST':
         register_form = UserCreationForm(request.POST)
-        context['register_form'] = register_form
         if register_form.is_valid():
             new_user = register_form.save()
 
             new_profile = UserProfile()
             new_profile.user = new_user
             new_profile.save()
-            context['message'] = 'Register Success. You can now sign in.'
 
-    return render(request, 'namubufferiapp/base_login.html', context)
+            return JsonResponse({'modalMessage': "Register Success. You can now sign in.",
+                                 'message': render_to_string('namubufferiapp/message.html',
+                                                             {'message': "Register Success. You can now sign in."})
+                                 })
+        else:
+            return HttpResponse('{"errors":' + register_form.errors.as_json() + '}', content_type="application/json")
+
+    else:
+        raise Http404()

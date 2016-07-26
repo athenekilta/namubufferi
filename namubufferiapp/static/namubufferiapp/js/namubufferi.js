@@ -78,7 +78,7 @@ $(document).ready(function() {
         var button = $(event.relatedTarget);
         var transactionkey = button.data('transactionkey') || $(this).data('transactionkey');
         $('#historyModal').modal('hide');
-        $.get("/receipt/" + transactionkey)
+        $.post("/receipt/", { transaction_key: transactionkey })
             .done(function(data) {
                 $("#receiptModal").toggleClass( "canceled", data.receipt.canceled );
                 $("#timestamp").html(data.receipt.timestamp);

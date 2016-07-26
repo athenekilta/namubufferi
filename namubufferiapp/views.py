@@ -100,11 +100,12 @@ def transaction_history_view(request):
 
 
 @login_required
-def receipt_view(request, transaction_key):
+def receipt_view(request):
     if request.user.is_superuser:
         return render(request, 'namubufferiapp/base_admin.html')
 
-    transaction = get_object_or_404(Transaction, pk=transaction_key)
+    transaction = get_object_or_404(request.user.userprofile.transaction_set.all(),
+                                    pk=request.POST['transaction_key'])
 
     receipt = {'customer': transaction.customer.user.username,
                'amount': transaction.amount,
@@ -125,7 +126,8 @@ def cancel_transaction_view(request):
     if request.user.is_superuser:
         return render(request, 'namubufferiapp/base_admin.html')
 
-    transaction = get_object_or_404(Transaction, pk=request.POST['transaction_key'])
+    transaction = get_object_or_404(request.user.userprofile.transaction_set.all(),
+                                    pk=request.POST['transaction_key'])
 
     if (request.user == transaction.customer.user and not transaction.canceled):
         transaction.cancel()

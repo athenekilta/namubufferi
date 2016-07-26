@@ -139,10 +139,12 @@ $(document).ready(function() {
         }
     });
     $( "#search" ).focus(function(event) {
-        $( window ).scrollTop($("#search").offset().top);
+        //$( window ).scrollTop($("#search").offset().top);
+        $( window ).scrollTop(0);
     });
     $( "#search" ).keypress(function(event) {
-        $( window ).scrollTop($("#search").offset().top);
+        //$( window ).scrollTop($("#search").offset().top);
+        $( window ).scrollTop(0);
     });
 
     $('#search').hideseek();

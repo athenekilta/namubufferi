@@ -79,6 +79,7 @@ $(document).ready(function() {
         modal.find('#product-modal-name').text(button.data('productname'));
         modal.find('#product-modal-pk').val(button.data('productkey'));
         modal.find('#product-modal-price').text(button.data('productprice'));
+        modal.find('#product-modal-inventory').text(button.data('productinventory')); 
     });
 
     $('#receiptModal').on('show.bs.modal', function(event) {

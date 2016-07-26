@@ -61,6 +61,13 @@ $(document).ready(function() {
         $('#messageModal').modal('show');
         //$("#messages").prepend(data.message);
     });
+    ajaxMyShit('#register-form', function (data) {
+        console.log(data);
+        $('#authModal').modal('hide');
+        $("#messageModalBody").html(data.modalMessage);
+        $('#messageModal').modal('show');
+        //$("#messages").prepend(data.message);
+    });
 
     // http://getbootstrap.com/javascript/#modals-related-target
     $('#productModal').on('show.bs.modal', function(event) {

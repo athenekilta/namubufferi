@@ -150,20 +150,22 @@ def register_view(request):
     https://docs.djangoproject.com/en/1.7/topics/email/
 
     """
-    context = dict(form=AuthenticationForm(),
-                   register_form=UserCreationForm(),
-                   message="",
-                   )
 
     if request.method == 'POST':
         register_form = UserCreationForm(request.POST)
-        context['register_form'] = register_form
         if register_form.is_valid():
             new_user = register_form.save()
 
             new_profile = UserProfile()
             new_profile.user = new_user
             new_profile.save()
-            context['message'] = 'Register Success. You can now sign in.'
 
-    return render(request, 'namubufferiapp/base_login.html', context)
+            return JsonResponse({'modalMessage': "Register Success. You can now sign in.",
+                                 'message': render_to_string('namubufferiapp/message.html',
+                                                             {'message': "Register Success. You can now sign in."})
+                                 })
+        else:
+            return HttpResponse('{"errors":' + register_form.errors.as_json() + '}', content_type="application/json")
+
+    else:
+        raise Http404("Not found")

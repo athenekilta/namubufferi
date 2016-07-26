@@ -11,7 +11,7 @@
         <h4 class="modal-title" id="authModalLabel">Register</h4>
       </div>
       <div class="modal-body">
-        <form action="/register/" method="post">
+        <form id="register-form" action="/register/" method="post">
             {% csrf_token %}
             {% bootstrap_form register_form %}
             {% buttons %}
@@ -31,7 +31,7 @@
     <div class="col-sm-4 col-sm-offset-4 text-center">
       <h3>Welcome</h3>
       <div class="toggle-login">
-        <form action="/login/" method="post">
+        <form id="login-form" action="/login/" method="post">
           {% csrf_token %}
           {% bootstrap_form form %} {# Note: Login form gets passed as 'form' by the django default login view  #}
           {% buttons %}

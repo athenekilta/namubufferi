@@ -1,12 +1,5 @@
 {% extends "namubufferiapp/base.html" %}
-{% load bootstrap3 %}
 
-{% block header %}
-  <a href="/logout" class="btn btn-default btn-sm">
-    <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
-    Log out
-  </a>
-{% endblock header %}
 
 {% block modals %}
 <!-- Modals -->
@@ -58,7 +51,6 @@
   </div>
 </div>
 
-
 <!-- Transaction Receipt Modal -->
 <div id="receiptModal" class="modal fade" tabindex="-1" role="dialog" data-transactionkey="">
   <div class="modal-dialog">
@@ -100,7 +92,6 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
 
 <!-- Deposit Modal -->
 <div class="modal fade" id="moneyModal" tabindex="-1" role="dialog" aria-labelledby="moneyModalTitle">
@@ -156,6 +147,14 @@
   </div>
 </div>
 {% endblock modals %}
+
+
+{% block header %}
+  <a href="/logout" class="btn btn-default btn-sm">
+    <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+    Log out
+  </a>
+{% endblock header %}
 
 
 {% block content %}

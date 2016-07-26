@@ -1,5 +1,5 @@
 {% extends "namubufferiapp/base.html" %}
-{% load bootstrap3 %}
+
 
 {% block header %}
   <a href="/logout" class="btn btn-default btn-sm">
@@ -10,7 +10,6 @@
 
 
 {% block content %}
-
 <!-- User-Info Section -->
 <section id="user-info" class="container text-center">
   <h4>User: {{ user }}</h4>
@@ -21,6 +20,4 @@
     Admin panel
   </a>
 </section>
-
-
 {% endblock content %}

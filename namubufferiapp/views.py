@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.template.loader import render_to_string
 
 from models import UserProfile, Product, Category, Transaction
@@ -81,7 +81,12 @@ def deposit_view(request):
                                                              }),
                                  })
 
-    return JsonResponse({'modalMessage': "Deposit Failure"})
+    # https://docs.djangoproject.com/en/1.10/ref/forms/api/#django.forms.Form.errors.as_json
+    # https://docs.djangoproject.com/ja/1.9/ref/request-response/#jsonresponse-objects
+    #return JsonResponse({"errors": + money_form.errors.as_json()})
+
+    # FTS...
+    return HttpResponse('{"errors":' + money_form.errors.as_json() + '}', content_type="application/json")
 
 
 @login_required

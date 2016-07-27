@@ -140,15 +140,15 @@ $(document).ready(function() {
         }
     });
     $( "#search" ).focus(function(event) {
-        $( window ).scrollTop($("#search").offset().top);
+        $( window ).scrollTop($("#search").offset().top - 100);
         //$( window ).scrollTop(0);
     });
     $( "#search" ).focusout(function(event) {
         //$( window ).scrollTop($("#search").offset().top);
-        $( window ).scrollTop(0);
+        $( window ).scrollTop($("#page-top").offset().top);
     });
     $( "#search" ).keypress(function(event) {
-        $( window ).scrollTop($("#search").offset().top);
+        $( window ).scrollTop($("#search").offset().top - 100);
         //$( window ).scrollTop(0);
     });
 

@@ -6,6 +6,7 @@ body {
 .navbar-header .navbar-brand {
   font-family: 'Condiment', cursive;
 }*/
+body { padding-top: 100px; }
 
 .user-info {
   margin-bottom: 10px;

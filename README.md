@@ -12,6 +12,8 @@ https://namupankki.herokuapp.com/
 ### Apache:
 * Checklist: https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 * https://docs.djangoproject.com/en/1.9/howto/deployment/wsgi/modwsgi/
+
+
 ### Heroku:
 * `git checkout heroku`
 * Checklist: https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/

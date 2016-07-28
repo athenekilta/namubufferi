@@ -31,7 +31,12 @@ function ajaxMyShit (formId, callback) {
 }
 function parseMyAjaxShit(data) {
     console.log(data);
-    $(".balance").html(data.balance);
+    $(".balance").text(data.balance + '€');
+    if(data.balance < 0) {
+        $(".balance").addClass("text-danger");
+    } else {
+        $(".balance").removeClass("text-danger");
+    }
     $("#messageModalBody").html(data.modalMessage);
     //$("#messages").prepend(data.message);
     $("#receiptModal").data("transactionkey", data.transactionkey);

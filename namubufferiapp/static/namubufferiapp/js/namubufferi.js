@@ -12,7 +12,7 @@ function ajaxMyShit (formId, callback) {
         var posting = $.post($form.attr( "action" ), $form.serialize());
         // Call callback with the results
         posting.done( function (data) {
-            console.log(data);
+            parseMyAjaxShit(data);
             $form.find(":input").parent().removeClass("has-error");
             if (!data.errors) {
                 $form.find(":input").val('');
@@ -29,44 +29,33 @@ function ajaxMyShit (formId, callback) {
         });
     });
 }
+function parseMyAjaxShit(data) {
+    console.log(data);
+    $(".balance").html(data.balance);
+    $("#messageModalBody").html(data.modalMessage);
+    //$("#messages").prepend(data.message);
+    $("#receiptModal").data("transactionkey", data.transactionkey);
 
+}
 
 $(document).ready(function() {
     'use strict';
 
     ajaxMyShit('#buy-form', function (data) {
-         $('#productModal').modal('hide');
-         $(".balance").html(data.balance);
-         $("#messageModalBody").html(data.modalMessage);
-         //$("#messages").prepend(data.message);
-         $("#receiptModal").data("transactionkey", data.transactionkey);
-         $("#receiptModal").modal();
+        $('#productModal').modal('hide');
+        $("#receiptModal").modal('show');
     });
-
     ajaxMyShit('#money-form', function (data) {
-        console.log(data);
         $('#moneyModal').modal('hide');
-        $(".balance").html(data.balance);
-        $("#messageModalBody").html(data.modalMessage);
-        //$("#messages").prepend(data.message);
-        $("#receiptModal").data("transactionkey", data.transactionkey);
-        $("#receiptModal").modal();
+        $("#receiptModal").modal('show');
     });
-
     ajaxMyShit('#cancelform', function (data) {
-        console.log(data);
         $('#receiptModal').modal('hide');
-        $(".balance").html(data.balance);
-        $("#messageModalBody").html(data.modalMessage);
         $('#messageModal').modal('show');
-        //$("#messages").prepend(data.message);
     });
     ajaxMyShit('#register-form', function (data) {
-        console.log(data);
         $('#authModal').modal('hide');
-        $("#messageModalBody").html(data.modalMessage);
         $('#messageModal').modal('show');
-        //$("#messages").prepend(data.message);
     });
 
     // http://getbootstrap.com/javascript/#modals-related-target
@@ -106,52 +95,4 @@ $(document).ready(function() {
     $('#historycheckbox').change(function(){
         $('.canceled').toggle(this.checked);
     });
-
-    $('.modal').on('shown.bs.modal', function() {
-      $(this).find('[autofocus]').focus();
-    });
-
-    $( "#id_euros" ).focus(function(event) {
-        $( window ).scrollTop(0);
-        $( "#id_euros" ).val('');
-    });
-    $( "#id_euros" ).focusout(function(event) {
-        $( window ).scrollTop(0);
-        var cents = $( "#id_cents" );
-        if(!cents.val()) {
-            cents.val('00');
-        }
-        var euros = $( "#id_euros" );
-        if(!euros.val()) {
-            euros.val('00');
-        }
-    });
-    $( "#id_cents" ).focus(function(event) {
-        $( window ).scrollTop(0);
-        $( "#id_cents" ).val('');
-    });
-    $( "#id_cents" ).focusout(function(event) {
-        $( window ).scrollTop(0);
-        var cents = $( "#id_cents" );
-        if (cents.val().length == 1){
-            cents.val('0'+cents.val());
-        } else if(!cents.val()) {
-            cents.val('00');
-        }
-    });
-    $( "#search" ).focus(function(event) {
-        $( window ).scrollTop($("#search").offset().top - 100);
-        //$( window ).scrollTop(0);
-    });
-    $( "#search" ).focusout(function(event) {
-        //$( window ).scrollTop($("#search").offset().top);
-        $( window ).scrollTop($("#page-top").offset().top);
-    });
-    $( "#search" ).keypress(function(event) {
-        $( window ).scrollTop($("#search").offset().top - 100);
-        //$( window ).scrollTop(0);
-    });
-
-    $('#search').hideseek();
-    $(".product").fitText();
 });

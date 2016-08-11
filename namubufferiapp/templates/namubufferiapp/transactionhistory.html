@@ -13,9 +13,9 @@
       {% if transaction.canceled %}
       <tr class="canceled">
       {% elif transaction.amount >= 0 %}
-      <tr class="success">
+      <tr class="text-success">
       {% else %}
-      <tr class="danger">
+      <tr class="text-danger">
       {% endif %}
           <td>{{ transaction.product }}</td>
           <td>{{ transaction.amount }}</td>

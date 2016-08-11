@@ -85,7 +85,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="moneyModalTitle">Balance <span class="balance">{{ user.userprofile.balance }}</span>€</h4>
+        <h4 class="modal-title" id="moneyModalTitle">
+            Balance
+          <span class="balance {% if user.userprofile.balance < 0 %}text-danger{% endif %}">
+            {{ user.userprofile.balance }}€
+          </span>
+        </h4>
       </div>
       <div class="modal-body">
       <form class="form-inline" id="money-form" action="/deposit/" method="post">
@@ -136,7 +141,9 @@
 
 {% block navbar-header %}
 <button type="button" class="btn btn-default navbar-btn" data-toggle="modal" data-target="#moneyModal">
-  <span class="balance">{{ user.userprofile.balance }}</span>€
+  <span class="balance {% if user.userprofile.balance < 0 %} text-danger{% endif %}">
+  {{ user.userprofile.balance }}€
+  </span>
 </button>
 {% endblock navbar-header %}
 

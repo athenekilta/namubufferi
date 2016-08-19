@@ -4,6 +4,18 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 
 from decimal import Decimal
+from datetime import timedelta, datetime
+from django.utils import timezone
+
+from base64 import b64encode
+from hashlib import sha256
+from os import urandom
+
+
+def generate_magic_key():
+    magic = b64encode(sha256(urandom(56)).digest(), '-_')
+    print magic
+    return magic
 
 
 class UserProfile(models.Model):
@@ -14,6 +26,19 @@ class UserProfile(models.Model):
     """
     user = models.OneToOneField(User)
     balance = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    magic_hash = models.CharField(max_length=7, unique=True, default=generate_magic_key)
+    magic_link_ttl = models.DateTimeField(default=(timezone.now() + timedelta(minutes=15)))
+
+    def update_magic_key(self):
+        self.magic_link_ttl = timezone.now() + timedelta(minutes=15)
+        self.magic_hash = generate_magic_key()
+        self.save()
+        return self.magic_hash
+
+    def deactivate_magic_link(self):
+        self.magic_hash = generate_magic_key()
+        self.magic_link_ttl = timezone.now()
+        self.save()
 
     def make_payment(self, price):
         converted_price = Decimal(price)

@@ -1,3 +1,4 @@
+
 {% extends "namubufferiapp/base.html" %}
 {% load bootstrap3 %}
 
@@ -27,19 +28,21 @@
 
 <!-- User-Auth Section -->
 <section id="user-auth" class="container text-center">
-  <h3>Welcome.</h3>
   <div class="row">
     <div class="col-sm-4 col-sm-offset-4 text-center">
-      <form class="form-inline" id="magic-auth-form" action="/magic/" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-          <div class="input-group">
-            {{ magic_auth_form.aalto_username }}
-            <div class="input-group-addon">@aalto.fi</div>
-          </div>
-        </div>
-        <button style="margin-top: 36px;" type="submit" class="btn btn-default">Authenticate this device</button>
-      </form>
+      <h3>Welcome</h3>
+      <div class="toggle-login">
+        <form id="login-form" action="/login/" method="post">
+          {% csrf_token %}
+          {% bootstrap_form form %} {# Note: Login form gets passed as 'form' by the django default login view  #}
+          {% buttons %}
+          <button type="submit" class="btn btn-default btn-block btn-lg">Log in</button>
+          {% endbuttons %}
+        </form>
+        <button type="button" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#authModal">
+          <span class="glyphicon glyphicon-heart-empty"></span> Register
+        </button>
+      </div>
     </div>
   </div>
 </section>

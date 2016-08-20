@@ -12,7 +12,7 @@ from namubufferiapp.views import magic_auth_view
 
 urlpatterns = [
     url(r'^$', home_view, name="home"),
-    url(r'^login', auth_views.login, {'template_name': 'namubufferiapp/base_login.html',
+    url(r'^login', auth_views.login, {'template_name': 'namubufferiapp/base_magiclogin.html',
                                                        'extra_context': {'register_form': UserCreationForm(),
                                                                          'magic_auth_form': MagicAuthForm(),
                                                                          }}),

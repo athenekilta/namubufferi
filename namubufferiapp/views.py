@@ -5,10 +5,12 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
+from django.contrib.sites.shortcuts import get_current_site
 
 from django.http import JsonResponse, HttpResponse, Http404
 from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse
+from django.core.mail import EmailMultiAlternatives
 
 from models import UserProfile, Product, Category, Transaction
 from forms import MoneyForm, MagicAuthForm
@@ -214,10 +216,26 @@ def magic_auth_view(request, **kwargs):
                 user = new_user
 
             user.userprofile.update_magic_token()
+            current_site = get_current_site(request)
+            magic_link = current_site.domain + reverse('magic', kwargs={'magic': user.userprofile.magic_token})
+
             # Send mail to user
-            print reverse('magic', kwargs={'magic': user.userprofile.magic_token})
-            magic_link = "localhost:8000"+reverse('magic', kwargs={'magic': user.userprofile.magic_token})
-            print "Send email to" + user.email
+            mail = EmailMultiAlternatives(
+              subject="Namupankki - Login",
+              body=("Hello. Authenticate to namupankki using this link. It's valid for 15 minutes.\n"
+                    + magic_link),
+              from_email="<namupankki>",
+              to=["olli.angervuori@aalto.fi"]
+            )
+            mail.attach_alternative(("<h1>Hello."
+                                    "</h1><p>Authenticate to Namupankki using this link. It's valid for 15 minutes.</p>"
+                                    '<a href="http://' + magic_link + '"> Magic Link </a>'
+                                    ), "text/html")
+            try:
+                mail.send()
+                print "Mail sent"
+            except:
+                print "Mail not sent"
 
             return JsonResponse({'modalMessage': 'Check your email.<br><a href="http://' + magic_link + '"> Magic Link </a>'})
         else:

@@ -105,3 +105,8 @@ STATIC_URL = '/static/'
 LOGIN_URL = '/login'
 LOGOUT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
+
+# https://docs.djangoproject.com/en/1.10/topics/auth/customizing/#authentication-backends
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend',
+                           'namubufferiapp.backends.MagicAuthBackend'
+                           ]

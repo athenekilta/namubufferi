@@ -12,7 +12,18 @@ from hashlib import sha256
 from os import urandom
 
 
+# For old migrations
 def generate_magic_key():
+    system_check_removed_details = {
+        'msg': (
+            'generate_magic_key has been removed except for support in '
+            'historical migrations.'
+        ),
+        'hint': 'Use generate_magic_token instead.',
+    }
+
+
+def generate_magic_token():
     magic = b64encode(sha256(urandom(56)).digest(), '-_')
     print magic
     return magic
@@ -26,18 +37,18 @@ class UserProfile(models.Model):
     """
     user = models.OneToOneField(User)
     balance = models.DecimalField(max_digits=6, decimal_places=2, default=0)
-    magic_hash = models.CharField(max_length=7, unique=True, default=generate_magic_key)
-    magic_link_ttl = models.DateTimeField(default=(timezone.now() + timedelta(minutes=15)))
+    magic_token = models.CharField(max_length=7, unique=True, default=generate_magic_token)
+    magic_token_ttl = models.DateTimeField(default=(timezone.now() + timedelta(minutes=15)))  # TODO: Static
 
-    def update_magic_key(self):
-        self.magic_link_ttl = timezone.now() + timedelta(minutes=15)
-        self.magic_hash = generate_magic_key()
+    def update_magic_token(self):
+        self.magic_token_ttl = timezone.now() + timedelta(minutes=15)
+        self.magic_token = generate_magic_token()
         self.save()
-        return self.magic_hash
+        return self.magic_token
 
-    def deactivate_magic_link(self):
-        self.magic_hash = generate_magic_key()
-        self.magic_link_ttl = timezone.now()
+    def deactivate_magic_token(self):
+        self.magic_token = generate_magic_token()
+        self.magic_token_ttl = timezone.now()
         self.save()
 
     def make_payment(self, price):

@@ -209,14 +209,14 @@ def magic_auth_view(request, **kwargs):
 
                 new_profile = UserProfile()
                 new_profile.user = new_user
-                new_profile.magic_link_ttl = timezone.now() + timedelta(minutes=15)
+                new_profile.magic_token_ttl = timezone.now() + timedelta(minutes=15)
                 new_profile.save()
                 user = new_user
 
-            user.userprofile.update_magic_key()
+            user.userprofile.update_magic_token()
             # Send mail to user
-            print reverse('magic', kwargs={'magic': user.userprofile.magic_hash})
-            magic_link = "localhost:8000"+reverse('magic', kwargs={'magic': user.userprofile.magic_hash})
+            print reverse('magic', kwargs={'magic': user.userprofile.magic_token})
+            magic_link = "localhost:8000"+reverse('magic', kwargs={'magic': user.userprofile.magic_token})
             print "Send email to" + user.email
 
             return JsonResponse({'modalMessage': 'Check your email.<br><a href="http://' + magic_link + '"> Magic Link </a>'})
@@ -224,13 +224,9 @@ def magic_auth_view(request, **kwargs):
             return HttpResponse('{"errors":' + magic_auth_form.errors.as_json() + '}', content_type="application/json")
 
     else:
-        user_profile = get_object_or_404(UserProfile, magic_hash=kwargs.get('magic'))
-
-        if (timezone.now() < user_profile.magic_link_ttl):
-            user_profile.user.backend = 'django.contrib.auth.backends.ModelBackend' # TODO: Auth backend
-            login(request, user_profile.user)
-            user_profile.deactivate_magic_link()
-
+        user = authenticate(magic_token=kwargs.get('magic'))
+        if user:
+            login(request, user)
             return redirect("/")
         else:
             return HttpResponse(status=410)

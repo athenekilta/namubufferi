@@ -24,7 +24,7 @@ def generate_magic_key():
 
 
 def generate_magic_token():
-    magic = b64encode(sha256(urandom(56)).digest(), '-_')
+    magic = b64encode(sha256(urandom(32)).digest(), '-_')
     print magic
     return magic
 
@@ -37,7 +37,7 @@ class UserProfile(models.Model):
     """
     user = models.OneToOneField(User)
     balance = models.DecimalField(max_digits=6, decimal_places=2, default=0)
-    magic_token = models.CharField(max_length=7, unique=True, default=generate_magic_token)
+    magic_token = models.CharField(max_length=44, unique=True, default=generate_magic_token)
     magic_token_ttl = models.DateTimeField(default=(timezone.now() + timedelta(minutes=15)))  # TODO: Static
 
     def update_magic_token(self):

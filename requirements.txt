@@ -1,7 +1,11 @@
 dj-database-url==0.4.1
-Django==1.9.2
+Django==1.10
 django-autofixture==0.12.1
 django-bootstrap3==7.0.0
 gunicorn==19.6.0
 psycopg2==2.6.2
 whitenoise==3.2
+python-http-client==1.2.3
+sendgrid==2.2.1
+sendgrid-django==2.0.0
+smtpapi==0.3.1

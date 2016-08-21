@@ -137,3 +137,19 @@ STATICFILES_DIRS = (
 # https://warehouse.python.org/project/whitenoise/
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+# https://docs.djangoproject.com/en/1.10/topics/auth/customizing/#authentication-backends
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend',
+                           'namubufferiapp.backends.MagicAuthBackend'
+                           ]
+
+# https://github.com/elbuo8/sendgrid-django
+# https://sendgrid.com/docs/Integrate/Frameworks/django.html
+# https://devcenter.heroku.com/articles/sendgrid#python
+EMAIL_BACKEND = "sgbackend.SendGridBackend"
+try:
+    SENDGRID_USER = os.environ['SENDGRID_USERNAME']
+    SENDGRID_PASSWORD = os.environ['SENDGRID_PASSWORD']
+except:
+    SENDGRID_USER = "none"
+    SENDGRID_PASSWORD = "none"

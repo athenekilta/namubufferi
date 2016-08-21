@@ -110,7 +110,14 @@ LOGIN_REDIRECT_URL = '/'
 # HEROKU
 # Update database configuration with $DATABASE_URL.
 import dj_database_url
-db_from_env = dj_database_url.config()
+
+# https://www.postgresql.org/docs/9.4/static/libpq-connect.html
+
+# https://www.postgresql.org/message-id/21044.1326496507@sss.pgh.pa.us
+#db_from_env = dj_database_url.config(default='postgres://namubufferi-local-test')
+#db_from_env = dj_database_url.config(default='postgres://%2Fvar%2Flib%2Fpostgresql/namubufferi-local-test')
+db_from_env = dj_database_url.config(default='postgres://%2Fvar%2Frun%2Fpostgresql/namubufferi-local-test')
+
 DATABASES['default'].update(db_from_env)
 
 # Static files (CSS, JavaScript, Images)

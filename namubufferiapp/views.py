@@ -1,5 +1,4 @@
 import requests
-import json
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django import forms
@@ -202,14 +201,15 @@ def magic_auth_view(request, **kwargs):
     """
     if request.method == 'POST':
         # Validate reCAPTCHA
-        url = "https://www.google.com/recaptcha/api/siteverify"
-        querystring = {"secret": "6LfUqSgTAAAAACc5WOqVLLmJP_3SC3bWp094D0vo",
-                       "response": request.POST['g-recaptcha-response']}
-        headers = {}  # TODO: Add headers if needed
-        response = requests.request("POST", url, headers=headers, params=querystring)
-        response_dict = json.loads(response.text)
-        #print response_dict
-        if not response_dict['success']:
+        # https://developers.google.com/recaptcha/docs/verify
+        # http://docs.python-requests.org/en/master/user/quickstart/#more-complicated-post-requests
+        # http://docs.python-requests.org/en/master/user/quickstart/#json-response-content
+        payload = {"secret": "6LfUqSgTAAAAACc5WOqVLLmJP_3SC3bWp094D0vo",
+                   "response": request.POST['g-recaptcha-response']}
+        r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=payload).json()
+        # TODO: Check if we need headers
+        if not r['success']:
+            print ("reCAPTCHA validation failed.")
             return JsonResponse({'modalMessage': 'Check yourself you might be a robot. Try again.'})
 
         # Validate form

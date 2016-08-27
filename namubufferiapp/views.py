@@ -1,3 +1,6 @@
+import requests
+import json
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django import forms
 
@@ -197,11 +200,22 @@ def register_view(request):
 def magic_auth_view(request, **kwargs):
     """
     """
-
     if request.method == 'POST':
-        magic_auth_form = MagicAuthForm(request.POST)
+        # Validate reCAPTCHA
+        url = "https://www.google.com/recaptcha/api/siteverify"
+        querystring = {"secret": "6LfUqSgTAAAAACc5WOqVLLmJP_3SC3bWp094D0vo",
+                       "response": request.POST['g-recaptcha-response']}
+        headers = {}  # TODO: Add headers if needed
+        response = requests.request("POST", url, headers=headers, params=querystring)
+        response_dict = json.loads(response.text)
+        #print response_dict
+        if not response_dict['success']:
+            return JsonResponse({'modalMessage': 'Check yourself you might be a robot. Try again.'})
 
+        # Validate form
+        magic_auth_form = MagicAuthForm(request.POST)
         if magic_auth_form.is_valid():
+            # Try to find the user or create a new one
             try:
                 user = User.objects.get(username=request.POST['aalto_username'])
             except:  # DoesNotExist

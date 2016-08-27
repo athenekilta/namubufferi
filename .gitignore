@@ -67,3 +67,6 @@ staticfiles
 media/
 
 *.sqlite3
+
+# Pycharm
+.idea/

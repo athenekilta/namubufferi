@@ -212,7 +212,8 @@ def magic_auth_view(request, **kwargs):
         # TODO: Check if we need headers
         if not r['success']:
             print ("reCAPTCHA validation failed.")
-            return JsonResponse({'modalMessage': 'Check yourself you might be a robot. Try again.'})
+            if not DEBUG:
+                return JsonResponse({'modalMessage': 'Check yourself you might be a robot. Try again.'})
 
         # Validate form
         magic_auth_form = MagicAuthForm(request.POST)

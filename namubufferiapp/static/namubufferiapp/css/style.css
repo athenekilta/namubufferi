@@ -6,7 +6,6 @@ body {
 .navbar-header .navbar-brand {
   font-family: 'Condiment', cursive;
 }*/
-body { padding-top: 100px; }
 
 .user-info {
   margin-bottom: 10px;
@@ -25,4 +24,8 @@ body { padding-top: 100px; }
 }
 .product {
   margin: 5px;
+}
+
+.navbar-fixed-bottom {
+  background-color: rgba(0, 0, 0, 0.0);
 }

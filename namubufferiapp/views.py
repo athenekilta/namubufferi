@@ -1,16 +1,31 @@
+import requests
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django import forms
 
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+from django.contrib.sites.shortcuts import get_current_site
 
 from django.http import JsonResponse, HttpResponse, Http404
 from django.template.loader import render_to_string
+from django.core.urlresolvers import reverse
+from django.core.mail import EmailMultiAlternatives
 
 from models import UserProfile, Product, Category, Transaction
-from forms import MoneyForm
+from forms import MoneyForm, MagicAuthForm
 
 from decimal import Decimal
+from datetime import timedelta
+from django.utils import timezone
+
+from base64 import b64encode
+from hashlib import sha256
+from os import urandom
+
+from namubufferi.settings import DEBUG
 
 
 @login_required
@@ -21,7 +36,7 @@ def home_view(request):
         context = dict(money_form=MoneyForm(),
                        products=Product.objects.all(),
                        categories=Category.objects.all(),
-                       transactions=request.user.userprofile.transaction_set.all(),
+                       transactions=request.user.userprofile.transaction_set.all()
                        )
 
     return render(request, 'namubufferiapp/base_home.html', context)
@@ -165,6 +180,7 @@ def register_view(request):
     if request.method == 'POST':
         register_form = UserCreationForm(request.POST)
         if register_form.is_valid():
+            print request.POST
             new_user = register_form.save()
 
             new_profile = UserProfile()
@@ -180,3 +196,75 @@ def register_view(request):
 
     else:
         raise Http404()
+
+
+def magic_auth_view(request, **kwargs):
+    """
+    """
+    if request.method == 'POST':
+        # Validate reCAPTCHA
+        # https://developers.google.com/recaptcha/docs/verify
+        # http://docs.python-requests.org/en/master/user/quickstart/#more-complicated-post-requests
+        # http://docs.python-requests.org/en/master/user/quickstart/#json-response-content
+        payload = {"secret": "6LfUqSgTAAAAACc5WOqVLLmJP_3SC3bWp094D0vo",
+                   "response": request.POST['g-recaptcha-response']}
+        r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=payload).json()
+        # TODO: Check if we need headers
+        if not r['success']:
+            print ("reCAPTCHA validation failed.")
+            if not DEBUG:
+                return JsonResponse({'modalMessage': 'Check yourself you might be a robot. Try again.'})
+
+        # Validate form
+        magic_auth_form = MagicAuthForm(request.POST)
+        if magic_auth_form.is_valid():
+            # Try to find the user or create a new one
+            try:
+                user = User.objects.get(username=request.POST['aalto_username'])
+            except:  # DoesNotExist
+                new_user = User.objects.create_user(request.POST['aalto_username'],
+                                                    request.POST['aalto_username'] + '@aalto.fi',
+                                                    b64encode(sha256(urandom(56)).digest()))
+
+                new_profile = UserProfile()
+                new_profile.user = new_user
+                new_profile.magic_token_ttl = timezone.now() + timedelta(minutes=15)
+                new_profile.save()
+                user = new_user
+
+            user.userprofile.update_magic_token()
+            current_site = get_current_site(request)
+            magic_link = current_site.domain + reverse('magic', kwargs={'magic': user.userprofile.magic_token})
+
+            # Send mail to user
+            mail = EmailMultiAlternatives(
+              subject="Namubufferi - Login",
+              body=("Hello. Authenticate to Namubufferi using this link. It's valid for 15 minutes.\n"
+                    + magic_link),
+              from_email="<namubufferi@athene.fi>",
+              to=[user.email]
+            )
+            mail.attach_alternative(("<h1>Hello."
+                                    "</h1><p>Authenticate to Namubufferi using this link. It's valid for 15 minutes.</p>"
+                                    '<a href="http://' + magic_link + '"> Magic Link </a>'
+                                    ), "text/html")
+            try:
+                mail.send()
+                print "Mail sent"
+            except:
+                print "Mail not sent"
+
+            if DEBUG:
+                return JsonResponse({'modalMessage': 'Check your email.<br><a href="http://' + magic_link + '"> Magic Link </a>'})
+            else:
+                return JsonResponse({'modalMessage': 'Check your email.'})
+        else:
+            return HttpResponse('{"errors":' + magic_auth_form.errors.as_json() + '}', content_type="application/json")
+
+    else:
+        user = authenticate(magic_token=kwargs.get('magic'))
+        if user:
+            login(request, user)
+            return redirect("/")
+        else:
+            return HttpResponse(status=410)

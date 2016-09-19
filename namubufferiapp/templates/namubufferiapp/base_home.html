@@ -37,48 +37,6 @@
   </div>
 </div>
 
-<!-- Transaction Receipt Modal -->
-<div id="receiptModal" class="modal fade" tabindex="-1" role="dialog" data-transactionkey="">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Receipt</h4>
-      </div>
-      <div class="modal-body">
-        <table class="table">
-          <tr>
-            <td>Date</td>
-            <td id="timestamp"></td>
-          </tr>
-          <tr>
-            <td>Customer</td>
-            <td id="customer"></td>
-          </tr>
-          <tr>
-            <td>Product</td>
-            <td id="product"></td>
-          </tr>
-          <tr>
-            <td>Amount</td>
-            <td id="amount"></td>
-          </tr>
-        </table>
-      </div>
-      <div class="modal-footer">      
-        <form hidden action="/cancel/" method="post" id="cancelform">
-          {% csrf_token %}
-          <input id="transaction_key" type="text" name="transaction_key" value="">
-        </form>
-        <button id="transaction-cancel-button" type="submit" form="cancelform" class="btn btn-danger btn-sm">
-          Cancel Transaction
-        </button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
 <!-- Deposit Modal -->
 <div class="modal fade" id="moneyModal" tabindex="-1" role="dialog" aria-labelledby="moneyModalTitle">
   <div class="modal-dialog" role="document">
@@ -93,22 +51,35 @@
         </h4>
       </div>
       <div class="modal-body">
-      <form class="form-inline" id="money-form" action="/deposit/" method="post">
-        <div class="form-group">
-          <div class="input-group">
-            {{ money_form.euros }}
-            <div class="input-group-addon">.</div>
-            {{ money_form.cents }}
-            <div class="input-group-addon">€</div>
+        <form class="form-inline" id="money-form" action="/deposit/" method="post">
+          <div class="form-group">
+            <div class="input-group">
+              {{ money_form.euros }}
+              <div class="input-group-addon">.</div>
+              {{ money_form.cents }}
+              <div class="input-group-addon">€</div>
+            </div>
           </div>
-        </div>
+          <div class="text-center">
+            <button type="submit" form="money-form" class="btn btn-success">
+                Add MONNNEYYY!
+            </button>
+          </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
-        <button type="submit" form="money-form" class="btn btn-success">
-            Add MONNNEYYY!
-        </button>
+      <div class="modal-footer container-fluid">
+        <div class="row">
+          <div class="col-xs-6">
+            <a href="/logout" class="btn btn-default btn-block">
+              Logout {% comment %}<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>{% endcomment %}
+            </a>
+          </div>
+          <div class="col-xs-6">
+            <button type="button" class="btn btn-default btn-block" data-toggle="modal" data-target="#historyModal">
+              History {% comment %}<span class="glyphicon glyphicon-list glyphicon-lg" aria-hidden="true"></span>{% endcomment %}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -137,40 +108,51 @@
     </div>
   </div>
 </div>
+
+<!-- Transaction Receipt Modal -->
+<div id="receiptModal" class="modal fade" tabindex="-1" role="dialog" data-transactionkey="">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Receipt</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <tr>
+            <td>Date</td>
+            <td id="timestamp"></td>
+          </tr>
+          <tr>
+            <td>Customer</td>
+            <td id="customer"></td>
+          </tr>
+          <tr>
+            <td>Product</td>
+            <td id="product"></td>
+          </tr>
+          <tr>
+            <td>Amount</td>
+            <td id="amount"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <form hidden action="/cancel/" method="post" id="cancelform">
+          {% csrf_token %}
+          <input id="transaction_key" type="text" name="transaction_key" value="">
+        </form>
+        <button id="transaction-cancel-button" type="submit" form="cancelform" class="btn btn-danger btn-sm">
+          Cancel Transaction
+        </button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 {% endblock modals %}
 
-{% block navbar-header %}
-<button type="button" class="btn btn-default navbar-btn" data-toggle="modal" data-target="#moneyModal">
-  <span class="balance {% if user.userprofile.balance < 0 %} text-danger{% endif %}">
-  {{ user.userprofile.balance }}€
-  </span>
-</button>
-{% endblock navbar-header %}
-
-{% block navbar-collapse-button %}
-<span id="user" class="navbar-text">{{ user }}</span>
-{% endblock navbar-collapse-button %}
-
-{% block navbar-collapse %}
-<li class="text-center">
-  <a href="" data-toggle="modal" data-target="#historyModal">
-    <span class="glyphicon glyphicon-list glyphicon-lg" aria-hidden="true"></span>
-  </a>
-</li>
-<li >
-  <hr>
-</li>
-
-<li class="text-center">
-  <a href="/logout">
-    <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
-  </a>
-</li>
-{% endblock navbar-collapse %}
-
-
 {% block content %}
-
 <!-- Shop Section -->
 <section id="shop" class="container text-center">
   <div class="row">
@@ -210,4 +192,15 @@
   </div>
   {% endfor %}
 </section>
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+  <div class="container-fluid text-center">
+    <button type="button" class="btn btn-default btn-lg navbar-btn" data-toggle="modal" data-target="#moneyModal">
+        {{ user }}
+        <span class="balance {% if user.userprofile.balance < 0 %} text-danger{% endif %}">
+        {{ user.userprofile.balance }}€
+      </span>
+    </button>
+  </div>
+</nav>
 {% endblock content %}

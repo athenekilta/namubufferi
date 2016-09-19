@@ -143,13 +143,16 @@ AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend',
                            'namubufferiapp.backends.MagicAuthBackend'
                            ]
 
-# https://github.com/elbuo8/sendgrid-django
-# https://sendgrid.com/docs/Integrate/Frameworks/django.html
-# https://devcenter.heroku.com/articles/sendgrid#python
-EMAIL_BACKEND = "sgbackend.SendGridBackend"
-try:
-    SENDGRID_USER = os.environ['SENDGRID_USERNAME']
-    SENDGRID_PASSWORD = os.environ['SENDGRID_PASSWORD']
-except:
-    SENDGRID_USER = "none"
-    SENDGRID_PASSWORD = "none"
+if DEBUG == True:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    # https://github.com/elbuo8/sendgrid-django
+    # https://sendgrid.com/docs/Integrate/Frameworks/django.html
+    # https://devcenter.heroku.com/articles/sendgrid#python
+    EMAIL_BACKEND = "sgbackend.SendGridBackend"
+    try:
+        SENDGRID_USER = os.environ['SENDGRID_USERNAME']
+        SENDGRID_PASSWORD = os.environ['SENDGRID_PASSWORD']
+    except:
+        SENDGRID_USER = "none"
+        SENDGRID_PASSWORD = "none"

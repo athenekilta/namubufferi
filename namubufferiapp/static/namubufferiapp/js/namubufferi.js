@@ -82,7 +82,7 @@ $(document).ready(function() {
     $('#receiptModal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget);
         var transactionkey = button.data('transactionkey') || $(this).data('transactionkey');
-        $('#historyModal').modal('hide');
+        //$('#historyModal').modal('hide');
         $.post("/receipt/", { transaction_key: transactionkey })
             .done(function(data) {
                 $("#receiptModal").toggleClass( "canceled", data.receipt.canceled );

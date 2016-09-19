@@ -1,3 +1,5 @@
+import requests
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django import forms
 
@@ -22,6 +24,8 @@ from django.utils import timezone
 from base64 import b64encode
 from hashlib import sha256
 from os import urandom
+
+from namubufferi.settings import DEBUG
 
 
 @login_required
@@ -197,11 +201,24 @@ def register_view(request):
 def magic_auth_view(request, **kwargs):
     """
     """
-
     if request.method == 'POST':
-        magic_auth_form = MagicAuthForm(request.POST)
+        # Validate reCAPTCHA
+        # https://developers.google.com/recaptcha/docs/verify
+        # http://docs.python-requests.org/en/master/user/quickstart/#more-complicated-post-requests
+        # http://docs.python-requests.org/en/master/user/quickstart/#json-response-content
+        payload = {"secret": "6LfUqSgTAAAAACc5WOqVLLmJP_3SC3bWp094D0vo",
+                   "response": request.POST['g-recaptcha-response']}
+        r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=payload).json()
+        # TODO: Check if we need headers
+        if not r['success']:
+            print ("reCAPTCHA validation failed.")
+            if not DEBUG:
+                return JsonResponse({'modalMessage': 'Check yourself you might be a robot. Try again.'})
 
+        # Validate form
+        magic_auth_form = MagicAuthForm(request.POST)
         if magic_auth_form.is_valid():
+            # Try to find the user or create a new one
             try:
                 user = User.objects.get(username=request.POST['aalto_username'])
             except:  # DoesNotExist
@@ -221,14 +238,14 @@ def magic_auth_view(request, **kwargs):
 
             # Send mail to user
             mail = EmailMultiAlternatives(
-              subject="Namupankki - Login",
-              body=("Hello. Authenticate to namupankki using this link. It's valid for 15 minutes.\n"
+              subject="Namubufferi - Login",
+              body=("Hello. Authenticate to Namubufferi using this link. It's valid for 15 minutes.\n"
                     + magic_link),
-              from_email="<namupankki>",
-              to=["olli.angervuori@aalto.fi"]
+              from_email="<namubufferi@athene.fi>",
+              to=[user.email]
             )
             mail.attach_alternative(("<h1>Hello."
-                                    "</h1><p>Authenticate to Namupankki using this link. It's valid for 15 minutes.</p>"
+                                    "</h1><p>Authenticate to Namubufferi using this link. It's valid for 15 minutes.</p>"
                                     '<a href="http://' + magic_link + '"> Magic Link </a>'
                                     ), "text/html")
             try:
@@ -237,7 +254,10 @@ def magic_auth_view(request, **kwargs):
             except:
                 print "Mail not sent"
 
-            return JsonResponse({'modalMessage': 'Check your email.<br><a href="http://' + magic_link + '"> Magic Link </a>'})
+            if DEBUG:
+                return JsonResponse({'modalMessage': 'Check your email.<br><a href="http://' + magic_link + '"> Magic Link </a>'})
+            else:
+                return JsonResponse({'modalMessage': 'Check your email.'})
         else:
             return HttpResponse('{"errors":' + magic_auth_form.errors.as_json() + '}', content_type="application/json")
 

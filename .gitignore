@@ -68,3 +68,6 @@ media/
 
 *.sqlite3
 .env
+
+# Pycharm
+.idea/

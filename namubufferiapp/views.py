@@ -25,6 +25,8 @@ from base64 import b64encode
 from hashlib import sha256
 from os import urandom
 
+from namubufferi.settings import DEBUG
+
 
 @login_required
 def home_view(request):
@@ -235,14 +237,14 @@ def magic_auth_view(request, **kwargs):
 
             # Send mail to user
             mail = EmailMultiAlternatives(
-              subject="Namupankki - Login",
-              body=("Hello. Authenticate to namupankki using this link. It's valid for 15 minutes.\n"
+              subject="Namubufferi - Login",
+              body=("Hello. Authenticate to Namubufferi using this link. It's valid for 15 minutes.\n"
                     + magic_link),
-              from_email="<namupankki>",
-              to=["olli.angervuori@aalto.fi"]
+              from_email="<namubufferi@athene.fi>",
+              to=[user.email]
             )
             mail.attach_alternative(("<h1>Hello."
-                                    "</h1><p>Authenticate to Namupankki using this link. It's valid for 15 minutes.</p>"
+                                    "</h1><p>Authenticate to Namubufferi using this link. It's valid for 15 minutes.</p>"
                                     '<a href="http://' + magic_link + '"> Magic Link </a>'
                                     ), "text/html")
             try:
@@ -251,7 +253,10 @@ def magic_auth_view(request, **kwargs):
             except:
                 print "Mail not sent"
 
-            return JsonResponse({'modalMessage': 'Check your email.<br><a href="http://' + magic_link + '"> Magic Link </a>'})
+            if DEBUG:
+                return JsonResponse({'modalMessage': 'Check your email.<br><a href="http://' + magic_link + '"> Magic Link </a>'})
+            else:
+                return JsonResponse({'modalMessage': 'Check your email.'})
         else:
             return HttpResponse('{"errors":' + magic_auth_form.errors.as_json() + '}', content_type="application/json")
 

@@ -265,6 +265,6 @@ def magic_auth_view(request, **kwargs):
         user = authenticate(magic_token=kwargs.get('magic'))
         if user:
             login(request, user)
-            return redirect("/")
+            return render(request, 'namubufferiapp/base_authsuccess.html')
         else:
             return HttpResponse(status=410)

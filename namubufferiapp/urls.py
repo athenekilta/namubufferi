@@ -24,5 +24,5 @@ urlpatterns = [
     url(r'^receipt/$', receipt_view, name="receipt"),
     url(r'^history/$', transaction_history_view, name="history"),
     url(r'^magic/$', magic_auth_view),
-    url(r'^magic/(?P<magic>.*)/$', magic_auth_view, name="magic"),
+    url(r'^magic/(?P<magic_token>.*)/$', magic_auth_view, name="magic"),
 ]

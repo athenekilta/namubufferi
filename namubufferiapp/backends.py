@@ -15,7 +15,7 @@ class MagicAuthBackend(object):
             user_profile = UserProfile.objects.get(magic_token=magic_token)
         except:
             return None
-        if (timezone.now() < user_profile.magic_token_ttl):
+        if user_profile.magic_token_is_alive():
             user_profile.deactivate_magic_token()
             return user_profile.user
         else:

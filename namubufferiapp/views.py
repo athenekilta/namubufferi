@@ -198,7 +198,7 @@ def register_view(request):
         raise Http404()
 
 
-def magic_auth_view(request, **kwargs):
+def magic_auth_view(request, magic_token=None):
     """
     """
     if request.method == 'POST':
@@ -223,18 +223,17 @@ def magic_auth_view(request, **kwargs):
                 user = User.objects.get(username=request.POST['aalto_username'])
             except:  # DoesNotExist
                 new_user = User.objects.create_user(request.POST['aalto_username'],
-                                                    request.POST['aalto_username'] + '@aalto.fi',
-                                                    b64encode(sha256(urandom(56)).digest()))
+                                                    email=request.POST['aalto_username'] + '@aalto.fi',
+                                                    password=b64encode(sha256(urandom(56)).digest()))
 
                 new_profile = UserProfile()
                 new_profile.user = new_user
-                new_profile.magic_token_ttl = timezone.now() + timedelta(minutes=15)
                 new_profile.save()
                 user = new_user
 
             user.userprofile.update_magic_token()
             current_site = get_current_site(request)
-            magic_link = current_site.domain + reverse('magic', kwargs={'magic': user.userprofile.magic_token})
+            magic_link = current_site.domain + reverse('magic', kwargs={'magic_token': user.userprofile.magic_token})
 
             # Send mail to user
             mail = EmailMultiAlternatives(
@@ -262,7 +261,7 @@ def magic_auth_view(request, **kwargs):
             return HttpResponse('{"errors":' + magic_auth_form.errors.as_json() + '}', content_type="application/json")
 
     else:
-        user = authenticate(magic_token=kwargs.get('magic'))
+        user = authenticate(magic_token=magic_token)
         if user:
             login(request, user)
             return render(request, 'namubufferiapp/base_authsuccess.html')

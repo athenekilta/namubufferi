@@ -51,14 +51,15 @@ class UserProfile(models.Model):
         self.magic_token_ttl = timezone.now()
         self.save()
 
+    def magic_token_is_alive(self):
+        return timezone.now() < self.magic_token_ttl
+
     def make_payment(self, price):
-        converted_price = Decimal(price)
-        self.balance -= converted_price
+        self.balance -= Decimal(price)
         self.save()
 
-    def make_deposit(self, money):
-        converted = Decimal(money)
-        self.balance += converted
+    def make_deposit(self, amount):
+        self.balance += Decimal(amount)
         self.save()
 
     def __str__(self):

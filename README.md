@@ -1,6 +1,14 @@
-# Namupankki
+# Namubufferi Alpha
 Test app @:  
 https://namupankki.herokuapp.com/
+
+## TODOs
+* UI Facelift, it still is all default Bootstrap Paper and looks like shit.
+* Too much modals
+* Refactor
+    * There's some dead code that could be removed
+    * Split namubufferiapp to smaller reusable apps?
+    * ...
 
 ## How to dev?
 ### Build

@@ -1,8 +1,7 @@
 # Namubufferi magic link authentication backend
-from django.utils import timezone
 from django.contrib.auth.models import User
 
-from models import UserProfile
+from models import Account
 
 
 class MagicAuthBackend(object):
@@ -12,12 +11,12 @@ class MagicAuthBackend(object):
     def authenticate(self, magic_token=None):
         # Check the token and return a User.
         try:
-            user_profile = UserProfile.objects.get(magic_token=magic_token)
+            account = Account.objects.get(magic_token=magic_token)
         except:
             return None
-        if user_profile.magic_token_is_alive():
-            user_profile.deactivate_magic_token()
-            return user_profile.user
+        if account.magic_token_is_alive():
+            account.deactivate_magic_token()
+            return account.user
         else:
             return None
 

@@ -10,10 +10,12 @@ body {
 .user-info {
   margin-bottom: 10px;
 }
+
 .canceled {
   display: none;
   text-decoration: line-through;
 }
+
 .canceled #transaction-cancel-button {
   display: none;
   text-decoration: line-through;
@@ -22,10 +24,12 @@ body {
 #shop {
   min-height: 100vh;
 }
+
 .product {
   margin: 5px;
 }
 
 .navbar-fixed-bottom {
+  padding-bottom: 25px;
   background-color: rgba(0, 0, 0, 0.0);
 }

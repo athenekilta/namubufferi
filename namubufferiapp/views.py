@@ -1,66 +1,58 @@
-import requests
-
-from django.shortcuts import render, get_object_or_404, redirect
-from django import forms
-
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
-from django.contrib.sites.shortcuts import get_current_site
-
-from django.http import JsonResponse, HttpResponse, Http404
-from django.template.loader import render_to_string
-from django.core.urlresolvers import reverse
-from django.core.mail import EmailMultiAlternatives
-
-from models import UserProfile, Product, Category, Transaction
-from forms import MoneyForm, MagicAuthForm
-
-from decimal import Decimal
-from datetime import timedelta
-from django.utils import timezone
-
 from base64 import b64encode
+from decimal import Decimal
 from hashlib import sha256
 from os import urandom
 
+import requests
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMultiAlternatives
+from django.core.urlresolvers import reverse
+from django.http import JsonResponse, HttpResponse, Http404
+from django.shortcuts import render, get_object_or_404
+from django.template.loader import render_to_string
+
+from forms import MoneyForm, MagicAuthForm
+from models import Account, Product, Category, Transaction
 from namubufferi.settings import DEBUG
 
 
 @login_required
-def home_view(request):
+def home(request):
     if request.user.is_superuser:
         return render(request, 'namubufferiapp/base_admin.html')
     else:
         context = dict(money_form=MoneyForm(),
                        products=Product.objects.all(),
                        categories=Category.objects.all(),
-                       transactions=request.user.userprofile.transaction_set.all()
+                       transactions=request.user.account.transaction_set.all()
                        )
 
     return render(request, 'namubufferiapp/base_home.html', context)
 
 
 @login_required
-def buy_view(request):
+def buy(request):
     if request.user.is_superuser:
         return render(request, 'namubufferiapp/base_admin.html')
 
     if request.method == 'POST':
         product = get_object_or_404(Product, pk=request.POST['product_key'])
         price = product.price
-        request.user.userprofile.make_payment(price)
+        request.user.account.make_payment(price)
 
         new_transaction = Transaction()
-        new_transaction.customer = request.user.userprofile
+        new_transaction.customer = request.user.account
         new_transaction.amount = -price
         new_transaction.product = product
         new_transaction.save()
 
         product.make_sale()
 
-        return JsonResponse({'balance': request.user.userprofile.balance,
+        return JsonResponse({'balance': request.user.account.balance,
                              'transactionkey': new_transaction.pk,
                              'modalMessage': "Purchase Successful",
                              'message': render_to_string('namubufferiapp/message.html',
@@ -71,7 +63,7 @@ def buy_view(request):
 
 
 @login_required
-def deposit_view(request):
+def deposit(request):
     if request.user.is_superuser:
         return render(request, 'namubufferiapp/base_admin.html')
 
@@ -83,14 +75,14 @@ def deposit_view(request):
             cents = request.POST['cents']
             amount = Decimal(euros) + Decimal(cents)/100
 
-            request.user.userprofile.make_deposit(amount)
+            request.user.account.make_deposit(amount)
 
             new_transaction = Transaction()
-            new_transaction.customer = request.user.userprofile
+            new_transaction.customer = request.user.account
             new_transaction.amount = amount
             new_transaction.save()
 
-            return JsonResponse({'balance': request.user.userprofile.balance,
+            return JsonResponse({'balance': request.user.account.balance,
                                  'transactionkey': new_transaction.pk,
                                  'modalMessage': "Deposit Successful",
                                  'message': render_to_string('namubufferiapp/message.html',
@@ -109,22 +101,22 @@ def deposit_view(request):
 
 
 @login_required
-def transaction_history_view(request):
+def transaction_history(request):
     if request.user.is_superuser:
         return render(request, 'namubufferiapp/base_admin.html')
 
     return JsonResponse({'transactionhistory': render_to_string('namubufferiapp/transactionhistory.html',
-                                                                {'transactions': request.user.userprofile.transaction_set.all()[:5]})
+                                                                {'transactions': request.user.account.transaction_set.all()[:5]})
                          })
 
 
 @login_required
-def receipt_view(request):
+def receipt(request):
     if request.user.is_superuser:
         return render(request, 'namubufferiapp/base_admin.html')
 
     if request.method == 'POST':
-        transaction = get_object_or_404(request.user.userprofile.transaction_set.all(),
+        transaction = get_object_or_404(request.user.account.transaction_set.all(),
                                         pk=request.POST['transaction_key'])
 
         receipt = {'customer': transaction.customer.user.username,
@@ -145,18 +137,18 @@ def receipt_view(request):
 
 
 @login_required
-def cancel_transaction_view(request):
+def cancel_transaction(request):
     if request.user.is_superuser:
         return render(request, 'namubufferiapp/base_admin.html')
 
     if request.method == 'POST':
-        transaction = get_object_or_404(request.user.userprofile.transaction_set.all(),
+        transaction = get_object_or_404(request.user.account.transaction_set.all(),
                                         pk=request.POST['transaction_key'])
 
         if (request.user == transaction.customer.user and not transaction.canceled):
             transaction.cancel()
 
-            return JsonResponse({'balance': request.user.userprofile.balance,
+            return JsonResponse({'balance': request.user.account.balance,
                                  'modalMessage': "Transaction Canceled",
                                  'message': render_to_string('namubufferiapp/message.html',
                                                              {'message': "Transaction Canceled",
@@ -168,7 +160,7 @@ def cancel_transaction_view(request):
         raise Http404()
 
 
-def register_view(request):
+def register(request):
     """
     Check for further dev:
     http://www.djangobook.com/en/2.0/chapter14.html
@@ -183,9 +175,9 @@ def register_view(request):
             print request.POST
             new_user = register_form.save()
 
-            new_profile = UserProfile()
-            new_profile.user = new_user
-            new_profile.save()
+            new_account = Account()
+            new_account.user = new_user
+            new_account.save()
 
             return JsonResponse({'modalMessage': "Register Success. You can now sign in.",
                                  'message': render_to_string('namubufferiapp/message.html',
@@ -198,7 +190,7 @@ def register_view(request):
         raise Http404()
 
 
-def magic_auth_view(request, magic_token=None):
+def magic_auth(request, magic_token=None):
     """
     """
     if request.method == 'POST':
@@ -226,27 +218,27 @@ def magic_auth_view(request, magic_token=None):
                                                     email=request.POST['aalto_username'] + '@aalto.fi',
                                                     password=b64encode(sha256(urandom(56)).digest()))
 
-                new_profile = UserProfile()
-                new_profile.user = new_user
-                new_profile.save()
+                new_account = Account()
+                new_account.user = new_user
+                new_account.save()
                 user = new_user
 
-            user.userprofile.update_magic_token()
+            user.account.update_magic_token()
             current_site = get_current_site(request)
-            magic_link = current_site.domain + reverse('magic', kwargs={'magic_token': user.userprofile.magic_token})
+            magic_link = current_site.domain + reverse('magic', kwargs={'magic_token': user.account.magic_token})
 
             # Send mail to user
             mail = EmailMultiAlternatives(
-              subject="Namubufferi - Login",
-              body=("Hello. Authenticate to Namubufferi using this link. It's valid for 15 minutes.\n"
-                    + magic_link),
-              from_email="<namubufferi@athene.fi>",
-              to=[user.email]
+                subject="Namubufferi - Login",
+                body=("Hello. Authenticate to Namubufferi using this link. It's valid for 15 minutes.\n"
+                      + magic_link),
+                from_email="<namubufferi@athene.fi>",
+                to=[user.email]
             )
             mail.attach_alternative(("<h1>Hello."
-                                    "</h1><p>Authenticate to Namubufferi using this link. It's valid for 15 minutes.</p>"
-                                    '<a href="http://' + magic_link + '"> Magic Link </a>'
-                                    ), "text/html")
+                                     "</h1><p>Authenticate to Namubufferi using this link. It's valid for 15 minutes.</p>"
+                                     '<a href="http://' + magic_link + '"> Magic Link </a>'
+                                     ), "text/html")
             try:
                 mail.send()
                 print "Mail sent"

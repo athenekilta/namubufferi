@@ -1,15 +1,12 @@
-from django.db import models
-from django.conf import settings
-from django.contrib import admin
-from django.contrib.auth.models import User
-
-from decimal import Decimal
-from datetime import timedelta, datetime
-from django.utils import timezone
-
 from base64 import b64encode
+from datetime import timedelta
+from decimal import Decimal
 from hashlib import sha256
 from os import urandom
+
+from django.contrib.auth.models import User
+from django.db import models
+from django.utils import timezone
 
 
 # For old migrations
@@ -29,7 +26,7 @@ def generate_magic_token():
     return magic
 
 
-class UserProfile(models.Model):
+class Account(models.Model):
     """
     Extending the built-in model 'User' using a one-to-one relationship to
     the built-in model.
@@ -99,7 +96,7 @@ class Transaction(models.Model):
 
     timestamp = models.DateTimeField(auto_now_add=True)
     timestamp.editable = False
-    customer = models.ForeignKey(UserProfile)
+    customer = models.ForeignKey(Account)
     product = models.ForeignKey(Product, null=True)
     canceled = models.BooleanField(default=False)
 

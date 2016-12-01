@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Requires Python and pip to be installed
 
 # You must have postgresql installed.

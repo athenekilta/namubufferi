@@ -114,9 +114,11 @@ import dj_database_url
 # https://www.postgresql.org/docs/9.4/static/libpq-connect.html
 
 # https://www.postgresql.org/message-id/21044.1326496507@sss.pgh.pa.us
+# https://devcenter.heroku.com/articles/heroku-postgresql#local-setup
 #db_from_env = dj_database_url.config(default='postgres://namubufferi-local-test')
 #db_from_env = dj_database_url.config(default='postgres://%2Fvar%2Flib%2Fpostgresql/namubufferi-local-test')
-db_from_env = dj_database_url.config(default='postgres://%2Fvar%2Frun%2Fpostgresql/namubufferi-local-test')
+#db_from_env = dj_database_url.config(default='postgres://%2Fvar%2Frun%2Fpostgresql/namubufferi-local-test')
+db_from_env = dj_database_url.config(default='postgres:///namubufferi-local-test')
 
 DATABASES['default'].update(db_from_env)
 

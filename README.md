@@ -10,7 +10,7 @@ Test app @ https://namupankki.herokuapp.com/
     * ...
 
 ## How to dev?
-### Install Postgres
+### 1. Install Postgres
 #### Ubuntu/Debian
     # Install PostgresSQL
     # https://help.ubuntu.com/community/PostgreSQL#Alternative_Server_Setup
@@ -19,11 +19,11 @@ Test app @ https://namupankki.herokuapp.com/
     sudo apt-get install python-psycopg2
     sudo apt-get install libpq-dev
     sudo -u postgres createuser --superuser $USER
-#### Other
-    https://devcenter.heroku.com/articles/heroku-postgresql#local-setup
-### Setup
+#### Mac
+    https://devcenter.heroku.com/articles/heroku-postgresql#set-up-postgres-on-mac
+### 2. Setup
     ./bin/setup
-### Run
+### 3. Run
     ./bin/run
 
 ## How to deploy?
@@ -35,6 +35,8 @@ Test app @ https://namupankki.herokuapp.com/
         heroku login
         heroku create *appname* --region eu  
         git push heroku heroku:master
+        heroku run bash
+        ./bin/heroku-setup
 
 ### Apache:
 * Checklist: https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/

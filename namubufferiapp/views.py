@@ -246,7 +246,7 @@ def magic_auth(request, magic_token=None):
                 print "Mail not sent"
 
             if DEBUG:
-                return JsonResponse({'modalMessage': 'Check your email.<br><a href="http://' + magic_link + '"> Magic Link </a>'})
+                return JsonResponse({'modalMessage': '<br><a href="http://' + magic_link + '">Login Link</a> (Sent to you email when !DEBUG)'})
             else:
                 return JsonResponse({'modalMessage': 'Check your email.'})
         else:

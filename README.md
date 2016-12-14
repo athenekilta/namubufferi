@@ -35,8 +35,7 @@ Test app @ https://namupankki.herokuapp.com/
         heroku login
         heroku create *appname* --region eu  
         git push heroku heroku:master
-        heroku run bash
-        ./bin/heroku-setup
+        heroku run ./bin/heroku-setup
 
 ### Apache:
 * Checklist: https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/

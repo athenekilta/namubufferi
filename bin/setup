@@ -44,4 +44,4 @@ echo "You can now login to http://localhost:5000/admin with your superuser to ad
 echo "Build complete. Run server locally with 'heroku local'"
 
 read -n1 -r -p "Press any key to start the server..."
-./run.sh
+./bin/run

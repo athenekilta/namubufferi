@@ -1,5 +1,5 @@
 # Namubufferi Alpha
-Test app @ https://namupankki.herokuapp.com/
+Test app @ https://namubufferi.herokuapp.com/
 
 ## TODOs
 * UI Facelift, it still is all default Bootstrap Paper and looks like shit.

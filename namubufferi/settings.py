@@ -106,6 +106,40 @@ LOGIN_URL = '/login'
 LOGOUT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 
+
+# HEROKU
+# Update database configuration with $DATABASE_URL.
+import dj_database_url
+
+# https://www.postgresql.org/docs/9.4/static/libpq-connect.html
+
+# https://www.postgresql.org/message-id/21044.1326496507@sss.pgh.pa.us
+# https://devcenter.heroku.com/articles/heroku-postgresql#local-setup
+#db_from_env = dj_database_url.config(default='postgres://namubufferi-local-test')
+#db_from_env = dj_database_url.config(default='postgres://%2Fvar%2Flib%2Fpostgresql/namubufferi-local-test')
+#db_from_env = dj_database_url.config(default='postgres://%2Fvar%2Frun%2Fpostgresql/namubufferi-local-test')
+db_from_env = dj_database_url.config(default='postgres:///namubufferi-local-test')
+
+DATABASES['default'].update(db_from_env)
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.9/howto/static-files/
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+STATIC_URL = '/static/'
+
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+)
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
 # https://docs.djangoproject.com/en/1.10/topics/auth/customizing/#authentication-backends
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend',
                            'namubufferiapp.backends.MagicAuthBackend'

@@ -20,7 +20,7 @@ from models import Account, Product, Category, Transaction
 from namubufferi.settings import DEBUG
 
 
-@login_required
+@login_required(redirect_field_name=None)
 def home(request):
     if request.user.is_superuser:
         return render(request, 'namubufferiapp/base_admin.html')

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -ex
+source venv/bin/activate
+set -a
+source .env
+python manage.py runserver

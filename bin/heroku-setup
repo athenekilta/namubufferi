@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -ex
+python manage.py migrate
+python manage.py loadtestdata namubufferiapp.Category:5
+python manage.py loadtestdata namubufferiapp.Product:30
+python manage.py createsuperuser

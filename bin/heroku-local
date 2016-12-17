@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -ex
+source venv/bin/activate
+heroku local

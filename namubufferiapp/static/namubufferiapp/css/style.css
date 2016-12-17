@@ -1,0 +1,32 @@
+body {
+  margin: 16pt;
+}
+
+.canceled {
+  display: none;
+  text-decoration: line-through;
+}
+
+.canceled #transaction-cancel-button {
+  display: none;
+  text-decoration: line-through;
+}
+
+#shop {
+  min-height: 100vh;
+}
+
+.product {
+  margin-top: 1em;
+}
+
+.product .price {
+  display: block;
+}
+.navbar-fixed-bottom {
+  padding-bottom: 16pt;
+}
+
+.currency::before {
+  content: "€";
+}

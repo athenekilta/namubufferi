@@ -1,0 +1,34 @@
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Amount</th>
+        <th></th>
+      </tr>
+    </thead>
+    {% for transaction in transactions %} {% if transaction.canceled %}
+    <tr class="canceled">
+      {% elif transaction.amount >= 0 %}
+    </tr>
+
+    <tr class="text-success">
+      {% else %}
+    </tr>
+
+    <tr class="text-danger">
+      {% endif %}
+      <td>{{ transaction.product }}</td>
+      <td>{{ transaction.amount }}</td>
+      <td
+        class="btn btn-default btn-block"
+        data-toggle="modal"
+        data-target="#receiptModal"
+        data-transactionkey="{{ transaction.pk }}"
+      >
+        <span class="glyphicon glyphicon-list-alt" aria-hidden="true"> </span>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>

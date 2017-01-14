@@ -21,8 +21,8 @@ def generate_magic_key():
 
 
 def generate_magic_token():
-    magic = b64encode(sha256(urandom(32)).digest(), '-_')
-    print magic
+    magic = b64encode(sha256(urandom(32)).digest(), '-_'.encode('ascii'))
+    print(magic)
     return magic
 
 

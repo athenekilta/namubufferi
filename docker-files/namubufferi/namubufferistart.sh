@@ -31,22 +31,22 @@ then
 fi
 
 
-python manage.py migrate
-python manage.py collectstatic --noinput
+python3 manage.py migrate
+python3 manage.py collectstatic --noinput
 
 if [[ "$DEBUG" == true ]]
 then
 	# Ensure we have superuser for development
-	echo "from django.contrib.auth.models import User; User.objects.filter(email='admin@example.com').delete(); User.objects.create_superuser('$NAMUBUFFERI_ADMINUSER', 'admin@example.com', '$NAMUBUFFERI_ADMINPASS')" | python manage.py shell
+	echo "from django.contrib.auth.models import User; User.objects.filter(email='admin@example.com').delete(); User.objects.create_superuser('$NAMUBUFFERI_ADMINUSER', 'admin@example.com', '$NAMUBUFFERI_ADMINPASS')" | python3 manage.py shell
 
 	# Add some products into db
-	python manage.py loadtestdata namubufferiapp.Category:5
-	python manage.py loadtestdata namubufferiapp.Product:30
+	python3 manage.py loadtestdata namubufferiapp.Category:5
+	python3 manage.py loadtestdata namubufferiapp.Product:30
 fi
 
 # Start Gunicorn processes
 echo Starting Gunicorn.
-exec gunicorn \
+exec gunicorn3 \
 	--name namubufferi \
 	--bind 0.0.0.0:8080 \
 	--workers $NAMUBUFFERI_GUNICORN_WORKERS \

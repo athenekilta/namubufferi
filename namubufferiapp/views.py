@@ -15,8 +15,8 @@ from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 
-from forms import MoneyForm, MagicAuthForm
-from models import Account, Product, Category, Transaction
+from .forms import MoneyForm, MagicAuthForm
+from .models import Account, Product, Category, Transaction
 from namubufferi.settings import DEBUG
 
 
@@ -172,7 +172,7 @@ def register(request):
     if request.method == 'POST':
         register_form = UserCreationForm(request.POST)
         if register_form.is_valid():
-            print request.POST
+            print(request.POST)
             new_user = register_form.save()
 
             new_account = Account()
@@ -241,9 +241,9 @@ def magic_auth(request, magic_token=None):
                                      ), "text/html")
             try:
                 mail.send()
-                print "Mail sent"
+                print("Mail sent")
             except:
-                print "Mail not sent"
+                print("Mail not sent")
 
             if DEBUG:
                 return JsonResponse({'modalMessage': '<br><a href="http://' + magic_link + '">Login Link</a> (Sent to you email when !DEBUG)'})

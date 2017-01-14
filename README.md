@@ -26,6 +26,30 @@ Test app @ https://namubufferi.herokuapp.com/
 ### 3. Run
     ./bin/run
 
+## Or, Develop with docker
+#### Notes
+When running update_code.sh, ensure you are in project root.
+
+### Create a new development vm
+  docker-machine create -d virtualbox namubufferi-vm
+  eval $(docker-machine env namubufferi-vm)
+  eval $(ssh-agent)
+  ssh-add ~/.docker/machine/machines/namubufferi-vm/id_rsa
+  docker-machine ssh namubufferi-vm -- tce-load -wi rsync
+  ./docker-files/update_code.sh
+
+### After that, build containers and run them
+  docker-compose -f docker-files/docker-compose.yml -f docker-files/docker-compose.dev.yml  up --build
+
+### Using
+  Navigate to vm ip (docker-machine ip namubufferi-vm)
+  After making alternations to code, run docker-files/update_code.sh
+
+Having project as a volume in development makes updating changes faster, but
+has one drawback: code won't update when rebuilding container and you have
+to manually run update_code.sh before rebuild.
+
+
 ## How to deploy?
 ### Heroku:
 * Checklist: https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/

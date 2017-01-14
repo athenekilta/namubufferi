@@ -1,0 +1,10 @@
+DEBUG=true
+
+POSTGRES_DB=namubufferi-local-test
+
+NAMUBUFFERI_ADMINUSER=admin
+NAMUBUFFERI_ADMINPASS=password
+NAMUBUFFERI_GUNICORN_WORKERS=1
+NAMUBUFFERI_DB=postgres://postgres:postgres@postgres/namubufferi-local-test
+NAMUBUFFERI_SECRETKEY=9vzb#f%g_=!*#*j7t#!c)l2hr-$m3#s!8-+cbp3ubg&zz0tl)r
+

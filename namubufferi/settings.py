@@ -158,3 +158,8 @@ else:
     except:
         SENDGRID_USER = "none"
         SENDGRID_PASSWORD = "none"
+
+try:
+    from namubufferi.local_settings import *
+except ImportError as e:
+    pass

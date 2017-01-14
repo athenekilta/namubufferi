@@ -1,0 +1,7 @@
+namubufferi:
+        env_file: devenv
+        volumes:
+                - ../:/namubufferi
+postgres:
+        env_file: devenv
+

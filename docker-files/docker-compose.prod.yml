@@ -1,0 +1,11 @@
+namubufferi:
+        restart: unless-stopped
+        env_file: prodenv
+
+postgres:
+        restart: unless-stopped
+        env_file: prodenv
+
+nginx:
+        restart: unless-stopped
+

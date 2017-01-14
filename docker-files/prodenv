@@ -1,0 +1,5 @@
+POSTGRES_DB=namubufferi-local-test
+DEBUG=false
+ADMINUSER=admin
+ADMINPASS=password
+GUNICORN_WORKERS=1

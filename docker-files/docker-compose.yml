@@ -1,0 +1,21 @@
+namubufferi:
+        build: ../
+        dockerfile: docker-files/namubufferi/Dockerfile
+        volumes:
+                - /static
+        expose:
+                - "8080"
+        links:
+                - postgres:postgres
+
+postgres:
+        image: postgres:alpine
+
+nginx:
+        build: ./nginx/
+        ports:
+                - "80:80"
+        volumes_from:
+                - namubufferi
+        links:
+                - namubufferi:namubufferi

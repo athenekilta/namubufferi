@@ -71,3 +71,6 @@ media/
 
 # Pycharm
 .idea/
+
+# Vim
+*.swp

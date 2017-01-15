@@ -21,4 +21,3 @@ RUN pip3 install -r /namubufferi/requirements.txt
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY ./ /namubufferi
-ADD docker-files/namubufferi/docker_local_settings.py /namubufferi/namubufferi/local_settings.py

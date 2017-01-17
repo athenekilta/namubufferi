@@ -3,7 +3,7 @@
 if docker-machine create -d virtualbox namubufferi-vm
 then
 	docker-machine stop namubufferi-vm
-	VBoxManage sharedfolder add namubufferi-vm --name projecthome --readonly --automount --hostpath $(pwd)
+	VBoxManage sharedfolder add namubufferi-vm --name projecthome --automount --hostpath $(pwd)
 fi
 docker-machine start namubufferi-vm
 

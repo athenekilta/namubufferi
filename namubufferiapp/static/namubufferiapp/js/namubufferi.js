@@ -84,8 +84,8 @@ $(document).ready(function() {
         }
     });
 
-    // We want to attach scanner detection to whole document, but only
-    // in login page. This is done by detecting tag authentication form
+    // we want to attach scanner detection to whole document, but only
+    // in login page. this is done by detecting tag authentication form
     $('#tag-auth-form').parentsUntil('html').scannerDetection(function(data){
         $('#id_tag_uid').val(data);
         $('#tag-auth-form').submit();
@@ -128,4 +128,36 @@ $(document).ready(function() {
     $('#historycheckbox').change(function(){
         $('.canceled').toggle(this.checked);
     });
+
+
+    function updateTagsModal() {
+      $.get('/tag/').done(function(data) {
+                $('#tags').html(data.taglist);
+            });
+      $('#tags').off('click', 'button');
+      $('#tags').on('click', 'button', function(clickevent) {
+          var uid = $(clickevent.currentTarget).data('uid');
+          $.ajax({
+                  url:'/tag/'.concat(uid, '/'),
+                  type: 'DELETE',
+                  complete: updateTagsModal
+                });
+        });
+    }
+
+    $('#tagModal').on('show.bs.modal', function(event) {
+        updateTagsModal();
+
+        $('html').scannerDetection(function(data){
+           $.ajax({
+                  url:'/tag/'.concat(data, '/'),
+                  type: 'POST',
+                  complete: updateTagsModal
+                });
+        });
+    });
+    $('#tagModal').on('hide.bs.modal', function(event) {
+        $('html').scannerDetection(false);
+    });
+   
 });

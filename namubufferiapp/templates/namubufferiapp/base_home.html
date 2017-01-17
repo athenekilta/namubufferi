@@ -5,6 +5,7 @@
 <!-- Modals -->
 <!-- Always try to place a modal's HTML code in a top-level position in your document to avoid other components affecting the modal's appearance and/or functionality. -->
 
+
 <!-- Product info/buy Modal -->
 <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel">
   <div class="modal-dialog" role="document">
@@ -69,14 +70,19 @@
       </div>
       <div class="modal-footer container-fluid">
         <div class="row">
-          <div class="col-xs-6">
+          <div class="col-xs-4">
             <a href="/logout" class="btn btn-default btn-block">
               Logout {% comment %}<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>{% endcomment %}
             </a>
           </div>
-          <div class="col-xs-6">
+          <div class="col-xs-4">
             <button type="button" class="btn btn-default btn-block" data-toggle="modal" data-target="#historyModal">
               History {% comment %}<span class="glyphicon glyphicon-list glyphicon-lg" aria-hidden="true"></span>{% endcomment %}
+            </button>
+          </div>
+          <div class="col-xs-4">
+            <button type="button" class="btn btn-default btn-block" data-toggle="modal" data-target="#tagModal">
+              Manage tags
             </button>
           </div>
         </div>
@@ -150,6 +156,9 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
+{% include "namubufferiapp/tag_modal.html" %}
 {% endblock modals %}
 
 {% block content %}

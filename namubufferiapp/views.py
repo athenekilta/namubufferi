@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
+from django.db import IntegrityError
 from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
@@ -283,3 +284,34 @@ def tag_auth(request):
             return HttpResponse('{"errors":' + tag_auth_form.errors.as_json() + '}', content_type="application/json")
     else:
         return HttpResponse(status=410)
+
+@login_required
+def tag_list(request):
+    tags = UserTag.objects.filter(user=request.user)
+
+    return JsonResponse({'taglist': render_to_string('namubufferiapp/taglist.html',
+                                                     {'tags': tags})
+                        })
+
+@login_required
+def tag_modify(request, uid):
+    if request.method == 'DELETE':
+        try:
+            tag = UserTag.objects.get(uid=uid)
+            if tag.user == request.user:
+                tag.delete()
+                return HttpResponse("Tag deleted", status=200)
+            else:
+                raise Http404("Wrong user")
+        except UserTag.DoesNotExist:
+            raise Http404("Tag does not exist")
+
+    elif request.method == 'POST':
+        try:
+            tag = UserTag.objects.create(user=request.user, uid=uid)
+            tag.save()
+            return HttpResponse("Tag created", status=201)
+        except IntegrityError:
+            return HttpResponse("Another tag exists ({})!".format(uid),
+                                status=409)
+

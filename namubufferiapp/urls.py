@@ -22,6 +22,10 @@ urlpatterns = [
     url(r'^history/$', views.transaction_history, name="history"),
     url(r'^magic/$', views.magic_auth),
     url(r'^magic/(?P<magic_token>.*)/$', views.magic_auth, name="magic"),
-    url(r'^tagauth/$', views.tag_auth),
+    url(r'^tag/auth/$', views.tag_auth, name="tag_auth"),
+    url(r'^tag/$', views.tag_list),
+    url(r'^tag/(?P<uid>.*)/$', views.tag_modify),
+
+
 
 ]

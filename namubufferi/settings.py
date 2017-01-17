@@ -54,6 +54,7 @@ INSTALLED_APPS = (
     'namubufferiapp',
     'bootstrap3',
     'autofixture',
+    'compressor'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -139,6 +140,12 @@ STATICFILES_DIRS = (
 # https://warehouse.python.org/project/whitenoise/
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+STATICFILES_FINDERS = {
+                        'django.contrib.staticfiles.finders.FileSystemFinder',
+                        'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+                        'compressor.finders.CompressorFinder',
+}
 
 # https://docs.djangoproject.com/en/1.10/topics/auth/customizing/#authentication-backends
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend',

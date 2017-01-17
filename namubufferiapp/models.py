@@ -39,7 +39,7 @@ class UserTag(Tag):
     """
     A tag representing user's identification info
     """
-    user = models.OneToOneField(User)
+    user = models.ForeignKey(User)
 
 
 class Account(models.Model):

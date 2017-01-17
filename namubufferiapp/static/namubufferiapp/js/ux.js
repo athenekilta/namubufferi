@@ -1,34 +1,34 @@
 $(document).ready(function($) {
-    $('.modal').on('shown.bs.modal', function() {
-      $(this).find('[autofocus]').focus();
+    $(".modal").on("shown.bs.modal", function() {
+        $(this).find("[autofocus]").focus();
     });
 
     $( "#id_euros" ).focus(function(event) {
         $( window ).scrollTop(0);
-        $( "#id_euros" ).val('');
+        $( "#id_euros" ).val("");
     });
     $( "#id_euros" ).focusout(function(event) {
         $( window ).scrollTop(0);
         var cents = $( "#id_cents" );
         if(!cents.val()) {
-            cents.val('00');
+            cents.val("00");
         }
         var euros = $( "#id_euros" );
         if(!euros.val()) {
-            euros.val('00');
+            euros.val("00");
         }
     });
     $( "#id_cents" ).focus(function(event) {
         $( window ).scrollTop(0);
-        $( "#id_cents" ).val('');
+        $( "#id_cents" ).val("");
     });
     $( "#id_cents" ).focusout(function(event) {
         $( window ).scrollTop(0);
         var cents = $( "#id_cents" );
         if (cents.val().length == 1){
-            cents.val('0'+cents.val());
+            cents.val("0"+cents.val());
         } else if(!cents.val()) {
-            cents.val('00');
+            cents.val("00");
         }
     });
 
@@ -45,6 +45,6 @@ $(document).ready(function($) {
         //$( window ).scrollTop(0);
     });
 
-    $('#search').hideseek();
+    $("#search").hideseek();
     $(".product").fitText();
 });

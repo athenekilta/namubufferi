@@ -1,5 +1,5 @@
 function ajaxMyShit (formId, callback, callback_on_error) {
-    'use strict';
+    "use strict";
     // https://api.jquery.com/jquery.post/
     // Attach a submit handler to the form
     $(formId).submit(function(event) {
@@ -15,7 +15,7 @@ function ajaxMyShit (formId, callback, callback_on_error) {
             parseMyAjaxShit(data);
             $form.find(":input").parent().removeClass("has-error");
             if (!data.errors) {
-                $form.find(":input").val('');
+                $form.find(":input").val("");
                 callback(data);
             } else {
                 for (var field in data.errors) {
@@ -26,7 +26,7 @@ function ajaxMyShit (formId, callback, callback_on_error) {
                     }
                 }
                 if (typeof(callback_on_error) === typeof(Function))
-                  callback_on_error(data);
+                    callback_on_error(data);
             }
         });
     });
@@ -34,7 +34,7 @@ function ajaxMyShit (formId, callback, callback_on_error) {
 
 function parseMyAjaxShit(data) {
     console.log(data);
-    $(".balance").text(data.balance + '€');
+    $(".balance").text(data.balance + "€");
     if(data.balance < 0) {
         $(".balance").addClass("text-danger");
     } else {
@@ -48,25 +48,25 @@ function parseMyAjaxShit(data) {
 
 
 $(document).ready(function() {
-    'use strict';
+    "use strict";
 
-    ajaxMyShit('#buy-form', function (data) {
-        $('#productModal').modal('hide');
-        $("#receiptModal").modal('show');
+    ajaxMyShit("#buy-form", function (data) {
+        $("#productModal").modal("hide");
+        $("#receiptModal").modal("show");
     });
-    ajaxMyShit('#money-form', function (data) {
-        $('#moneyModal').modal('hide');
-        $("#receiptModal").modal('show');
+    ajaxMyShit("#money-form", function (data) {
+        $("#moneyModal").modal("hide");
+        $("#receiptModal").modal("show");
     });
-    ajaxMyShit('#cancelform', function (data) {
-        $('#receiptModal').modal('hide');
-        $('#messageModal').modal('show');
+    ajaxMyShit("#cancelform", function (data) {
+        $("#receiptModal").modal("hide");
+        $("#messageModal").modal("show");
     });
-    ajaxMyShit('#register-form', function (data) {
-        $('#authModal').modal('hide');
-        $('#messageModal').modal('show');
+    ajaxMyShit("#register-form", function (data) {
+        $("#authModal").modal("hide");
+        $("#messageModal").modal("show");
     });
-    ajaxMyShit('#magic-auth-form', function (data) {
-        $('#messageModal').modal('show');
+    ajaxMyShit("#magic-auth-form", function (data) {
+        $("#messageModal").modal("show");
     });
 });

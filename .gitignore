@@ -74,3 +74,10 @@ media/
 
 # Vim
 *.swp
+*~
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+tags
+cscope.*
+Session.vim
+.netrwhist

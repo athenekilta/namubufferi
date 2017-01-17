@@ -1,4 +1,4 @@
-function ajaxMyShit (formId, callback) {
+function ajaxMyShit (formId, callback, callback_on_error) {
     'use strict';
     // https://api.jquery.com/jquery.post/
     // Attach a submit handler to the form
@@ -25,6 +25,8 @@ function ajaxMyShit (formId, callback) {
                         $form.find("input[name='"+field+"']").parent().addClass("has-error");
                     }
                 }
+                if (typeof(callback_on_error) === typeof(Function))
+                  callback_on_error(data);
             }
         });
     });
@@ -65,6 +67,29 @@ $(document).ready(function() {
     ajaxMyShit('#magic-auth-form', function (data) {
         $('#messageModal').modal('show');
     });
+   
+    // Tag auth form is filled by scannerDetector
+    // which means there's no reason to directly show
+    // it to user.
+    $('#tag-auth-form').addClass('hidden');
+    ajaxMyShit('#tag-auth-form', function (data) {
+        if (typeof(data.redirect) !== 'undefined')
+                  window.location.href = data.redirect;
+      },
+      function(errordata) {
+        $('#tag-auth-form').removeClass('hidden');
+        if (errordata.errors['tag_uid'][0].code == 'tagnotfound') {
+          $('#tag-auth-error').removeClass('hidden');
+          $('#tag-auth-error').text(errordata.errors['tag_uid'][0].message);
+        }
+    });
+
+    // We want to attach scanner detection to whole document, but only
+    // in login page. This is done by detecting tag authentication form
+    $('#tag-auth-form').parentsUntil('html').scannerDetection(function(data){
+        $('#id_tag_uid').val(data);
+        $('#tag-auth-form').submit();
+      });
 
     // http://getbootstrap.com/javascript/#modals-related-target
     $('#productModal').on('show.bs.modal', function(event) {

@@ -31,3 +31,9 @@ class MagicAuthForm(forms.Form):
                                      widget=forms.TextInput(attrs={'placeholder': 'teemu.teekkari',
                                                                    'class': 'form-control',
                                                                    }))
+
+class TagAuthForm(forms.Form):
+    tag_uid = forms.CharField(label='NFC-tag',
+                              widget=forms.TextInput(attrs={'placeholder': '123A4F5C',
+                                                            'class': 'form-control',
+                                                            }))

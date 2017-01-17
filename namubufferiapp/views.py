@@ -15,9 +15,9 @@ from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 
-from .forms import MoneyForm, MagicAuthForm
-from .models import Account, Product, Category, Transaction
-from namubufferi.settings import DEBUG
+from .forms import MoneyForm, MagicAuthForm, TagAuthForm
+from .models import Account, Product, Category, Transaction, UserTag
+from namubufferi.settings import DEBUG, AUTHENTICATION_BACKENDS
 
 
 @login_required(redirect_field_name=None)
@@ -259,3 +259,27 @@ def magic_auth(request, magic_token=None):
             return render(request, 'namubufferiapp/base_authsuccess.html')
         else:
             return HttpResponse(status=410)
+
+def tag_auth(request):
+    """
+    """
+    if request.method == 'POST':
+        # Validate form
+        tag_auth_form = TagAuthForm(request.POST)
+        if tag_auth_form.is_valid():
+            try:
+                tag_uid = tag_auth_form.cleaned_data['tag_uid']
+                tag = UserTag.objects.get(uid=tag_uid)
+                user = tag.user
+                login(request, user, backend=AUTHENTICATION_BACKENDS[0])
+
+                return JsonResponse({'redirect': '/'})
+            except UserTag.DoesNotExist:
+                return JsonResponse({'errors':{'tag_uid':
+                                        [{'message':'Tag {} not found'.format(tag_uid),
+                                          'code':'tagnotfound'}],}
+                                    })
+        else:
+            return HttpResponse('{"errors":' + tag_auth_form.errors.as_json() + '}', content_type="application/json")
+    else:
+        return HttpResponse(status=410)

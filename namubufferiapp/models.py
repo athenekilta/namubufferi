@@ -26,6 +26,22 @@ def generate_magic_token():
     return magic
 
 
+class Tag(models.Model):
+    """
+    A tag that represents things like NFC-tag, barcode etc.
+    """
+    uid = models.CharField(max_length=128, blank=False, unique=True)
+
+    class Meta:
+        abstract = True
+
+class UserTag(Tag):
+    """
+    A tag representing user's identification info
+    """
+    user = models.OneToOneField(User)
+
+
 class Account(models.Model):
     """
     Extending the built-in model 'User' using a one-to-one relationship to

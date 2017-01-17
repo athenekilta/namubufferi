@@ -9,8 +9,22 @@
 <!-- User-Auth Section -->
 <section id="user-auth" class="container text-center">
   <h3>Welcome.</h3>
+
+  <form class="form-horizontal" id="tag-auth-form" action="/tagauth/" method="post">
+    <div class="form-group">
+      <div class="col-sm-6 col-sm-offset-4">
+        <div class="input-group">
+          {{ tag_auth_form.tag_uid }}
+          <span id="tag-auth-error" class="help-block hidden">Tag not found</span>
+          <div class="input-group-addon">
+            <button type="submit" class="btn btn-default">Authenticate</button> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
   <form class="form-horizontal" id="magic-auth-form" action="/magic/" method="post">
-    {% csrf_token %}
     <div class="form-group">
       <div class="col-sm-4 col-sm-offset-4">
         <div class="input-group">

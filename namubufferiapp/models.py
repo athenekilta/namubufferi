@@ -42,6 +42,7 @@ class UserTag(Tag):
     user = models.ForeignKey(User)
 
 
+
 class Account(models.Model):
     """
     Extending the built-in model 'User' using a one-to-one relationship to
@@ -102,6 +103,12 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+class ProductTag(Tag):
+    """
+    A tag representing user's identification info
+    """
+    product = models.ForeignKey(Product)
 
 
 class Transaction(models.Model):

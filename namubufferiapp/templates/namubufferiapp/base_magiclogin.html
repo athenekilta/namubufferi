@@ -11,6 +11,7 @@
   <h3>Welcome.</h3>
 
   <form class="form-horizontal" id="tag-auth-form" action="{% url 'tag_auth' %}" method="post">
+    {% csrf_token %}
     <div class="form-group">
       <div class="col-sm-6 col-sm-offset-4">
         <div class="input-group">
@@ -25,6 +26,7 @@
   </form>
 
   <form class="form-horizontal" id="magic-auth-form" action="/magic/" method="post">
+    {% csrf_token %}
     <div class="form-group">
       <div class="col-sm-4 col-sm-offset-4">
         <div class="input-group">

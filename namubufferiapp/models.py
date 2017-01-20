@@ -32,6 +32,9 @@ class Tag(models.Model):
     """
     uid = models.CharField(max_length=128, blank=False, unique=True)
 
+    def __str__(self):
+        return self.uid
+
     class Meta:
         abstract = True
 

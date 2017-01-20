@@ -1,5 +1,10 @@
 {% extends "namubufferiapp/base.html" %}
 
+{% block custom_scripts %}
+<script type="text/javascript">
+  var product_barcodes = JSON.parse('{{ barcodes_json | escapejs }}');
+</script>
+{% endblock custom_scripts %}
 
 {% block modals %}
 <!-- Modals -->

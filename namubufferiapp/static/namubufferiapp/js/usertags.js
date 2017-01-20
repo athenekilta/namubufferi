@@ -39,32 +39,9 @@ $(document).ready(function() {
         }
     });
 
-    // we want to attach scanner detection to whole document, but only
-    // in login page. this is done by detecting tag authentication form
-    $("#tag-auth-form").parentsUntil("html").scannerDetection(function(data){
-        $("#id_tag_uid").val(data);
-        $("#tag-auth-form").submit();
-    });
 
-
-    // Same thing with managment modal. We want scanner
-    // to be active while the modal is active but not
-    // at any different time.
     $("#tagModal").on("show.bs.modal", function(event) {
         updateTagsModal();
-
-        $("html").scannerDetection(function(data){
-            // Try to create a new tag if it was read
-            $.ajax({
-                url:"/tag/".concat(data, "/"),
-                type: "POST",
-                complete: updateTagsModal
-            });
-        });
-    });
-    $("#tagModal").on("hide.bs.modal", function(event) {
-        // Shut off the scanner when closing the modal
-        $("html").scannerDetection(false);
     });
 
 });

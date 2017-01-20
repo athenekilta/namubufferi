@@ -4,6 +4,7 @@ from hashlib import sha256
 from os import urandom
 
 import requests
+import json
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
@@ -17,7 +18,7 @@ from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 
 from .forms import MoneyForm, MagicAuthForm, TagAuthForm
-from .models import Account, Product, Category, Transaction, UserTag
+from .models import Account, Product, Category, Transaction, UserTag, ProductTag
 from namubufferi.settings import DEBUG, AUTHENTICATION_BACKENDS
 
 
@@ -26,8 +27,13 @@ def home(request):
     if request.user.is_superuser:
         return render(request, 'namubufferiapp/base_admin.html')
     else:
+        barcodes = dict()
+        for bcode in ProductTag.objects.all():
+            barcodes[bcode.uid] = bcode.product.pk
+
         context = dict(money_form=MoneyForm(),
                        products=Product.objects.all(),
+                       barcodes_json=json.dumps(barcodes),
                        categories=Category.objects.all(),
                        transactions=request.user.account.transaction_set.all()
                        )

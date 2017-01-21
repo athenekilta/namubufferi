@@ -26,6 +26,9 @@ urlpatterns = [
     url(r'^tag/$', views.tag_list),
     url(r'^tag/(?P<uid>.*)/$', views.tag_modify),
 
+    url(r'^productmodify/$', views.adminedit),
+    url(r'^product/update/$', views.product_modify, name="product_update"),
+    url(r'^product/(?P<prod_id>.*)/barcode/(?P<barcode>.*)$', views.product_add_barcode,),
 
 
 ]

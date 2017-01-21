@@ -1,6 +1,6 @@
 from django import forms
 from django.core.validators import RegexValidator
-
+from .models import Product, Category
 
 class MoneyForm(forms.Form):
     #amount = forms.DecimalField(max_digits=5, decimal_places=1, widget=forms.NumberInput(attrs={'pattern': '[0-9]*'}))
@@ -37,3 +37,18 @@ class TagAuthForm(forms.Form):
                               widget=forms.TextInput(attrs={'placeholder': '123A4F5C',
                                                             'class': 'form-control',
                                                             }))
+
+class ProductForm(forms.Form):
+    name = forms.CharField(label='Product name',
+                            widget=forms.TextInput(attrs={'class': 'form-control',}))
+    price = forms.DecimalField(label='Product price',
+                            widget=forms.NumberInput(attrs={'class': 'form-control',}))
+    inventory = forms.IntegerField(label='Product stock count',
+                            widget=forms.NumberInput(attrs={'class': 'form-control',}))
+    hidden = forms.BooleanField(label='Is product hidden?',
+                            required=False,
+                            widget=forms.CheckboxInput())
+    category = forms.ModelChoiceField(label='Product category',
+                            queryset=Category.objects.all(),
+                            widget=forms.Select(attrs={'class': 'form-control',}))
+

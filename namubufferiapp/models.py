@@ -89,12 +89,16 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['name']
+
 
 class Product(models.Model):
     name = models.CharField(max_length=20, unique=True)
     category = models.ForeignKey(Category, related_name='products')
     price = models.FloatField(default=1)
     inventory = models.IntegerField(default=1)
+    hidden = models.BooleanField(default=False)
 
     def make_sale(self):
         self.inventory += -1
@@ -106,6 +110,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ['name']
 
 class ProductTag(Tag):
     """

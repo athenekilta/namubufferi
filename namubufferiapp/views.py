@@ -13,14 +13,73 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
+from django.contrib.admin.views.decorators import staff_member_required
 from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 
-from .forms import MoneyForm, MagicAuthForm, TagAuthForm
+from .forms import MoneyForm, MagicAuthForm, TagAuthForm, ProductForm
 from .models import Account, Product, Category, Transaction, UserTag, ProductTag
 from namubufferi.settings import DEBUG, AUTHENTICATION_BACKENDS
 
+@staff_member_required
+def adminedit(request):
+    barcodes = dict()
+    for bcode in ProductTag.objects.all():
+        barcodes[bcode.uid] = bcode.product.pk
+
+    context = dict(product_form=ProductForm(),
+                   products=Product.objects.all(),
+                   barcodes_json=json.dumps(barcodes),
+                   categories=Category.objects.all(),
+                   transactions=request.user.account.transaction_set.all()
+                   )
+
+    return render(request, 'namubufferiapp/admin_handleproducts.html', context)
+
+@staff_member_required
+def product_modify(request):
+    if request.method == 'POST':
+        product_form = ProductForm(request.POST)
+        if product_form.is_valid():
+            product, created = Product.objects.get_or_create(
+                                name=product_form.cleaned_data['name'],
+                                defaults={'category':product_form.cleaned_data['category'],},
+                            )
+            product.category = product_form.cleaned_data['category']
+            product.price = product_form.cleaned_data['price']
+            product.inventory = product_form.cleaned_data['inventory']
+            product.hidden = product_form.cleaned_data['hidden']
+            product.save()
+
+            if created:
+                return HttpResponse("Product created", status=201)
+            else:
+                return HttpResponse("Product updated", status=200)
+
+        else:
+            return HttpResponse('{"errors":' + product_form.errors.as_json() + '}', content_type="application/json")
+    else:
+        raise Http404()
+
+@staff_member_required
+def product_add_barcode(request, prod_id, barcode):
+    if request.method == 'PUT':
+        try:
+            product = Product.objects.get(pk=prod_id)
+            ptag, created = ProductTag.objects.get_or_create(uid=barcode,
+                                                             defaults={'product':product,},)
+            ptag.product = product
+            ptag.save()
+
+            if created:
+                return HttpResponse("Barcode created", status=201)
+            else:
+                return HttpResponse("Barcode reassigned", status=200)
+        except Product.DoesNotExist:
+            return HttpResponse("Product not found", status=400)
+    else:
+        raise Http404()
 
 @login_required(redirect_field_name=None)
 def home(request):

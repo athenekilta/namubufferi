@@ -184,7 +184,7 @@
       <h4><strong>{{ category.name }}</strong></h4>
     </div>
     {% for product in products %}
-    {% if product.category.name == category.name %}
+    {% if product.category.name == category.name and not product.hidden %}
     <div class="col-xs-6 col-sm-3">
       <button
         type="button"

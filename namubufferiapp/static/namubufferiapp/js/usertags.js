@@ -39,6 +39,23 @@ $(document).ready(function() {
         }
     });
 
+    $(document).bind("scannerDetectionComplete", function(e, data){
+        // Add a tag in tag handling modal
+        if (($("#tagmodal").data('bs.modal') || {isshown: false}).isshown) {
+            // try to create a new tag if it was read
+            $.ajax({
+                url:"/tag/".concat(data.string, "/"),
+                type: "post",
+                complete: updatetagsmodal
+            });
+        }
+    });
+
+    $(document).bind("scannerDetectionComplete", function(e, data){
+        $("#id_tag_uid").val(data.string);
+        $("#tag-auth-form").submit();
+    });
+
 
     $("#tagModal").on("show.bs.modal", function(event) {
         updateTagsModal();

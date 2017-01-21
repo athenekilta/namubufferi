@@ -52,4 +52,13 @@ $(document).ready(function() {
         }
 
     });
+
+    $(document).bind("scannerDetectionComplete", function(e, data){
+        if (!product_barcodes.hasOwnProperty(data.string)) {
+            $("#bcode-assign-btn").removeClass("hidden");
+            $("#bcode-assign-btn").data("barcode", data.string);
+            $("#bcode-assign-btn-bcode").text(data.string);
+        }
+    });
+
 });

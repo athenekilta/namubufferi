@@ -35,36 +35,15 @@ $(document).ready(function() {
         $(".canceled").toggle(this.checked);
     });
 
-
-    $("html").scannerDetection(function(data){
-        // Authentication by tag
-        if ($("#tag-auth-form").length) {
-            $("#id_tag_uid").val(data);
-            $("#tag-auth-form").submit();
-        }
-
-        // Add a tag in tag handling modal
-        if (($("#tagmodal").data('bs.modal') || {isshown: false}).isshown) {
-            // try to create a new tag if it was read
-            $.ajax({
-                url:"/tag/".concat(data, "/"),
-                type: "post",
-                complete: updatetagsmodal
-            });
-        }
-
+    /* global product_barcodes */
+    $(document).bind("scannerDetectionComplete", function(e, data){
         // Open a product with tag
-        if (product_barcodes.hasOwnProperty(data)) {
-            var productkey = product_barcodes[data];
-            $('button[data-productkey='+productkey+']').click();
+        try {
+            if ( product_barcodes.hasOwnProperty(data.string)) {
+                var productkey = product_barcodes[data.string];
+                $("button[data-productkey="+productkey+"]").click();
+            }
         }
-        else if ($("#bcode-assign-btn").length) {
-            $("#bcode-assign-btn").removeClass("hidden");
-            $("#bcode-assign-btn").data("barcode", data);
-            $("#bcode-assign-btn-bcode").text(data);
-        }
-
+        catch(err){}
     });
-
-
 });

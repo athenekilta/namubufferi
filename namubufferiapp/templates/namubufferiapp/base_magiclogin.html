@@ -1,5 +1,6 @@
 {% extends "namubufferiapp/base.html" %}
-{% load bootstrap3 %}
+{% load render_bundle from webpack_loader %}
+
 
 {% block head %}
   <script src='https://www.google.com/recaptcha/api.js'></script>
@@ -44,3 +45,8 @@
   </form>
 </section>
 {% endblock content %}
+
+{% block own_bundles %}
+{% render_bundle 'loginview' %}
+{% endblock own_bundles %}
+

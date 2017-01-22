@@ -1,4 +1,6 @@
 {% extends "namubufferiapp/base.html" %}
+{% load render_bundle from webpack_loader %}
+
 
 {% block modals %}
 <!-- Modals -->
@@ -211,4 +213,9 @@
     </button>
   </div>
 </nav>
+
 {% endblock content %}
+
+{% block own_bundles %}
+{% render_bundle 'homeview' %}
+{% endblock own_bundles %}

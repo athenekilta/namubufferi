@@ -1,4 +1,5 @@
 {% extends "namubufferiapp/base_admin.html" %}
+{% load render_bundle from webpack_loader %}
 
 {% block modals %}
 <!-- Modals -->
@@ -126,3 +127,7 @@
 </nav>
 
 {% endblock content %}
+
+{% block own_bundles %}
+{% render_bundle 'inventoryview' %}
+{% endblock own_bundles %}

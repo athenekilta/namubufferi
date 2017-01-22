@@ -53,7 +53,9 @@
     <p>&copy; Tietskarijengi 2016</p>
   </footer>
 
-  {% render_bundle 'main' %}
+  {% render_bundle 'commons' %}
+  {% block own_bundles %}
+  {% endblock own_bundles %}
 </body>
 
 </html>

@@ -1,7 +1,19 @@
+require("bootstrap-webpack")
+
+require("fittext/dist/jquery.fittext");
+require("hideseek/jquery.hideseek");
+
+require("jQuery-Scanner-Detection/jquery.scannerdetection");
+
+require("./csrftoken");
+
 var amyshit = require("./ajaxmyshit.js");
 
 $(document).ready(function() {
     "use strict";
+
+    $(document).scannerDetection();
+
     var product_barcodes;
     $.getJSON("/product/barcodes/", function(json){
         product_barcodes = json;
@@ -64,7 +76,28 @@ $(document).ready(function() {
             $("#bcode-assign-btn").removeClass("hidden");
             $("#bcode-assign-btn").data("barcode", data.string);
             $("#bcode-assign-btn-bcode").text(data.string);
+        } else {
+            var productkey = product_barcodes[data.string];
+            $("button[data-productkey="+productkey+"]").click();
         }
     });
+
+    $( "#search" ).focus(function(event) {
+        $( window ).scrollTop($("#search").offset().top - 100);
+        //$( window ).scrollTop(0);
+    });
+    $( "#search" ).focusout(function(event) {
+        //$( window ).scrollTop($("#search").offset().top);
+        $( window ).scrollTop($("#page-top").offset().top);
+    });
+    $( "#search" ).keypress(function(event) {
+        $( window ).scrollTop($("#search").offset().top - 100);
+        //$( window ).scrollTop(0);
+    });
+
+    $("#search").hideseek();
+    $(".product").fitText();
+
+    
 
 });

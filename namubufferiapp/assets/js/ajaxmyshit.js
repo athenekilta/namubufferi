@@ -34,41 +34,7 @@ function ajaxMyShit (formId, callback, callback_on_error) {
 
 function parseMyAjaxShit(data) {
     console.log(data);
-    $(".balance").text(data.balance + "€");
-    if(data.balance < 0) {
-        $(".balance").addClass("text-danger");
-    } else {
-        $(".balance").removeClass("text-danger");
-    }
     $("#messageModalBody").html(data.modalMessage);
-    //$("#messages").prepend(data.message);
-    $("#receiptModal").data("transactionkey", data.transactionkey);
-
 }
-
-
-$(document).ready(function() {
-    "use strict";
-
-    ajaxMyShit("#buy-form", function (data) {
-        $("#productModal").modal("hide");
-        $("#receiptModal").modal("show");
-    });
-    ajaxMyShit("#money-form", function (data) {
-        $("#moneyModal").modal("hide");
-        $("#receiptModal").modal("show");
-    });
-    ajaxMyShit("#cancelform", function (data) {
-        $("#receiptModal").modal("hide");
-        $("#messageModal").modal("show");
-    });
-    ajaxMyShit("#register-form", function (data) {
-        $("#authModal").modal("hide");
-        $("#messageModal").modal("show");
-    });
-    ajaxMyShit("#magic-auth-form", function (data) {
-        $("#messageModal").modal("show");
-    });
-});
 
 module.exports = ajaxMyShit;

@@ -2,11 +2,19 @@
 var path = require("path")
 var webpack = require("webpack")
 var BundleTracker = require("webpack-bundle-tracker")
+var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
+
+
+var generic = "./namubufferiapp/assets/js/generic.js";
 
 module.exports = {
     //the base directory (absolute path) for resolving the entry option
     context: __dirname,
-    entry: "./namubufferiapp/assets/js/index", 
+    entry: {
+        homeview: ["./namubufferiapp/assets/js/namubufferihome", generic],
+        inventoryview: ["./namubufferiapp/assets/js/namubufferiinventory", generic],
+        loginview: ["./namubufferiapp/assets/js/namubufferilogin", generic],
+    },
     devtool: "inline-source-map",
 
     output: {
@@ -20,10 +28,16 @@ module.exports = {
         new BundleTracker({filename: "./webpack-stats.json"}), 
         //makes jQuery available in every module
         new webpack.ProvidePlugin({ 
-            $: 'jquery',
-            jQuery: 'jquery',
-            'window.jQuery': 'jquery' 
-        })
+            $: "jquery",
+            jQuery: "jquery",
+            "window.jQuery": "jquery",
+        }),
+
+        new CommonsChunkPlugin({
+            name: "commons",
+            chunks: ["homeview", "inventoryview", "loginview", ],
+        }),
+
     ],
 
     resolve: {
@@ -31,14 +45,14 @@ module.exports = {
         extensions: ["", ".js", ".jsx"] 
     },
 
-	module: {
-		loaders: [
-			{ test: /\.(woff|woff2)$/,  loader: "url-loader?limit=10000&mimetype=application/font-woff" },
-			{ test: /\.ttf$/,    loader: "file-loader" },
-			{ test: /\.eot$/,    loader: "file-loader" },
-			{ test: /\.svg$/,    loader: "file-loader" },
+    module: {
+        loaders: [
+            { test: /\.(woff|woff2)$/,  loader: "url-loader?limit=10000&mimetype=application/font-woff" },
+            { test: /\.ttf$/,    loader: "file-loader" },
+            { test: /\.eot$/,    loader: "file-loader" },
+            { test: /\.svg$/,    loader: "file-loader" },
             { test: /\.css$/,    loader: "style-loader!css-loader" }
-		]
-	},
+        ]
+    },
 
 };

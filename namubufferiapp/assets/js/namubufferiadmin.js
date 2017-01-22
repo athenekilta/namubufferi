@@ -1,11 +1,17 @@
+var amyshit = require("./ajaxmyshit.js");
+
 $(document).ready(function() {
     "use strict";
+    var product_barcodes;
+    $.getJSON("/product/barcodes/", function(json){
+        product_barcodes = json;
+    });
 
     $("#bcode-assign-btn").click(function(event) {
         $(this).addClass("hidden");
     });
 
-    ajaxMyShit("#update-product-form", function (data) {
+    amyshit("#update-product-form", function (data) {
         $("#productUpdateModal").modal("hide");
         location.reload();
     });

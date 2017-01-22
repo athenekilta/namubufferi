@@ -70,3 +70,5 @@ $(document).ready(function() {
         $("#messageModal").modal("show");
     });
 });
+
+module.exports = ajaxMyShit;

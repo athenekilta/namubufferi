@@ -24,13 +24,8 @@ from namubufferi.settings import DEBUG, AUTHENTICATION_BACKENDS
 
 @staff_member_required
 def adminedit(request):
-    barcodes = dict()
-    for bcode in ProductTag.objects.all():
-        barcodes[bcode.uid] = bcode.product.pk
-
     context = dict(product_form=ProductForm(),
                    products=Product.objects.all(),
-                   barcodes_json=json.dumps(barcodes),
                    categories=Category.objects.all(),
                    transactions=request.user.account.transaction_set.all()
                    )
@@ -81,18 +76,23 @@ def product_add_barcode(request, prod_id, barcode):
     else:
         raise Http404()
 
+
+@login_required
+def product_barcodes(request):
+    barcodes = dict()
+    for bcode in ProductTag.objects.all():
+        barcodes[bcode.uid] = bcode.product.pk
+
+    return JsonResponse(barcodes)
+
 @login_required(redirect_field_name=None)
 def home(request):
     if request.user.is_superuser:
         return render(request, 'namubufferiapp/base_admin.html')
     else:
-        barcodes = dict()
-        for bcode in ProductTag.objects.all():
-            barcodes[bcode.uid] = bcode.product.pk
 
         context = dict(money_form=MoneyForm(),
                        products=Product.objects.all(),
-                       barcodes_json=json.dumps(barcodes),
                        categories=Category.objects.all(),
                        transactions=request.user.account.transaction_set.all()
                        )

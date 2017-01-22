@@ -1,3 +1,5 @@
+var amyshit = require("./ajaxmyshit.js");
+
 // tags is a element which stores a list
 // of user identification tags.
 function updateTagsModal() {
@@ -25,7 +27,7 @@ $(document).ready(function() {
     // which means there"s no reason to directly show
     // it to user.
     $("#tag-auth-form").addClass("hidden");
-    ajaxMyShit("#tag-auth-form", function (data) {
+    amyshit("#tag-auth-form", function (data) {
         // On success, we should get the next
         // waypoint as response
         if (typeof(data.redirect) !== "undefined")

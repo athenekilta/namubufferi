@@ -1,3 +1,6 @@
+require("fittext/dist/jquery.fittext");
+require("hideseek/jquery.hideseek");
+
 $(document).ready(function($) {
     $(".modal").on("shown.bs.modal", function() {
         $(this).find("[autofocus]").focus();

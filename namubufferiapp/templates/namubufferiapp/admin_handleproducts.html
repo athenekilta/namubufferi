@@ -1,11 +1,5 @@
 {% extends "namubufferiapp/base_admin.html" %}
 
-{% block custom_scripts %}
-<script type="text/javascript">
-var product_barcodes = JSON.parse('{{ barcodes_json | escapejs }}');
-</script>
-{% endblock custom_scripts %}
-
 {% block modals %}
 <!-- Modals -->
 <!-- Always try to place a modal's HTML code in a top-level position in your document to avoid other components affecting the modal's appearance and/or functionality. -->

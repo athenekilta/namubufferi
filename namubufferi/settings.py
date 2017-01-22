@@ -54,7 +54,7 @@ INSTALLED_APPS = (
     'namubufferiapp',
     'bootstrap3',
     'autofixture',
-    'compressor'
+    'webpack_loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -107,6 +107,12 @@ LOGIN_URL = '/login'
 LOGOUT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 
+WEBPACK_LOADER = {
+        'DEFAULT': {
+            'BUNDLE_DIR_NAME': 'bundles/',
+            'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+            }
+        }
 
 # HEROKU
 # Update database configuration with $DATABASE_URL.
@@ -144,7 +150,6 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 STATICFILES_FINDERS = {
                         'django.contrib.staticfiles.finders.FileSystemFinder',
                         'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-                        'compressor.finders.CompressorFinder',
 }
 
 # https://docs.djangoproject.com/en/1.10/topics/auth/customizing/#authentication-backends

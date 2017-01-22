@@ -4,6 +4,7 @@ if docker-machine create -d virtualbox namubufferi-vm
 then
 	docker-machine stop namubufferi-vm
 	VBoxManage sharedfolder add namubufferi-vm --name projecthome --automount --hostpath $(pwd)
+	VBoxManage setextradata namubufferi-vm VBoxInternal2/SharedFoldersEnableSymlinksCreate/projecthome 1
 fi
 docker-machine start namubufferi-vm
 

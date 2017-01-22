@@ -36,6 +36,9 @@ python3 manage.py collectstatic --noinput
 
 if [[ "$DEBUG" == true ]]
 then
+	# Mounting local dir will otherwise delete these files
+	npm install --no-optional
+
 	# Ensure we have superuser for development
 	echo "from django.contrib.auth.models import User; User.objects.filter(email='admin@example.com').delete(); User.objects.create_superuser('$NAMUBUFFERI_ADMINUSER', 'admin@example.com', '$NAMUBUFFERI_ADMINPASS')" | python3 manage.py shell
 

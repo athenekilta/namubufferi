@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^productmodify/$', views.adminedit),
     url(r'^product/update/$', views.product_modify, name="product_update"),
     url(r'^product/(?P<prod_id>.*)/barcode/(?P<barcode>.*)$', views.product_add_barcode,),
+    url(r'^product/barcodes/$', views.product_barcodes,),
 
 
 ]

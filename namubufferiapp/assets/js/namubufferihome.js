@@ -1,6 +1,11 @@
 $(document).ready(function() {
     "use strict";
 
+    var product_barcodes;
+    $.getJSON("/product/barcodes/", function(json){
+        product_barcodes = json;
+    });
+
     $("#productModal").on("show.bs.modal", function(event) {
         var button = $(event.relatedTarget); // Button that triggered the modal
         var modal = $(this);
@@ -35,7 +40,6 @@ $(document).ready(function() {
         $(".canceled").toggle(this.checked);
     });
 
-    /* global product_barcodes */
     $(document).bind("scannerDetectionComplete", function(e, data){
         // Open a product with tag
         try {

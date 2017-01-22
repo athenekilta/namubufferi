@@ -30,6 +30,12 @@ then
 	echo "DB re-created!"
 fi
 
+# Generate production statics if they do not exist
+if [ ! -f "/namubufferi/webpack-stats.json" ]
+then
+	echo "Generating static files"
+	/namubufferi/node_modules/.bin/webpack --config /namubufferi/webpack.prod.config.js -p
+fi
 
 python3 manage.py migrate
 python3 manage.py collectstatic --noinput
@@ -46,6 +52,7 @@ then
 	python3 manage.py loadtestdata namubufferiapp.Category:5
 	python3 manage.py loadtestdata namubufferiapp.Product:30
 fi
+
 
 # Start Gunicorn processes
 echo Starting Gunicorn.

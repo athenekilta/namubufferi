@@ -226,36 +226,6 @@ def cancel_transaction(request):
         raise Http404()
 
 
-def register(request):
-    """
-    Check for further dev:
-    http://www.djangobook.com/en/2.0/chapter14.html
-    http://ipasic.com/article/user-registration-and-email-confirmation-django/
-    https://docs.djangoproject.com/en/1.7/topics/email/
-
-    """
-
-    if request.method == 'POST':
-        register_form = UserCreationForm(request.POST)
-        if register_form.is_valid():
-            print(request.POST)
-            new_user = register_form.save()
-
-            new_account = Account()
-            new_account.user = new_user
-            new_account.save()
-
-            return JsonResponse({'modalMessage': "Register Success. You can now sign in.",
-                                 'message': render_to_string('namubufferiapp/message.html',
-                                                             {'message': "Register Success. You can now sign in."})
-                                 })
-        else:
-            return HttpResponse('{"errors":' + register_form.errors.as_json() + '}', content_type="application/json")
-
-    else:
-        raise Http404()
-
-
 def magic_auth(request, magic_token=None):
     """
     """

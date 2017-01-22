@@ -3,7 +3,7 @@
 
 
 {% block head %}
-  <script src='https://www.google.com/recaptcha/api.js'></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
 {% endblock head %}
 
 {% block content %}
@@ -14,14 +14,14 @@
   <form class="form-horizontal" id="tag-auth-form" action="{% url 'tag_auth' %}" method="post">
     {% csrf_token %}
     <div class="form-group">
-      <div class="col-sm-6 col-sm-offset-4">
+      <div class="col-sm-4 col-sm-offset-4">
         <div class="input-group">
           {{ tag_auth_form.tag_uid }}
-          <span id="tag-auth-error" class="help-block hidden">Tag not found</span>
           <div class="input-group-addon">
             <button type="submit" class="btn btn-default">Authenticate</button> 
           </div>
         </div>
+        <p id="tag-auth-error" class="help-block hidden">Tag not found</p>
       </div>
     </div>
   </form>
@@ -37,11 +37,11 @@
       </div>
     </div>
     <div class="form-group">
-        <div class="g-recaptcha col-xs-12 col-sm-offset-4" data-sitekey="6LfUqSgTAAAAAEG8v5boWlz9lJU3f8ixsHM_oyt0"></div>
+      <div class="g-recaptcha col-xs-12 col-sm-offset-4" data-sitekey="6LfUqSgTAAAAAEG8v5boWlz9lJU3f8ixsHM_oyt0"></div>
     </div>
     <button style="margin-top: 36px;" type="submit" class="btn btn-default">Authenticate</button>
     <p class="help-block">You will get an email with a login link.<br>
-      No passwords or registration required.</p>
+    No passwords or registration required.</p>
   </form>
 </section>
 {% endblock content %}

@@ -7,7 +7,7 @@ $(document).ready(function() {
     "use strict";
 
     $(".modal").on("shown.bs.modal", function() {
-                $(this).find("[autofocus]").focus();
-            });
+        $(this).find("[autofocus]").focus();
+    });
 
 });

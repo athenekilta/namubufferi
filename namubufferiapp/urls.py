@@ -1,6 +1,5 @@
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
-from django.contrib.auth.forms import UserCreationForm
 
 from namubufferiapp import views
 from namubufferiapp.forms import MagicAuthForm, TagAuthForm
@@ -9,12 +8,10 @@ from namubufferiapp.forms import MagicAuthForm, TagAuthForm
 urlpatterns = [
     url(r'^$', views.home, name="home"),
     url(r'^login', auth_views.login, {'template_name': 'namubufferiapp/base_magiclogin.html',
-                                                       'extra_context': {'register_form': UserCreationForm(),
-                                                                         'magic_auth_form': MagicAuthForm(),
+                                                       'extra_context': {'magic_auth_form': MagicAuthForm(),
                                                                          'tag_auth_form': TagAuthForm(),
                                                                          }}),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}),
-    url(r'^register/$', views.register, name="register"),
     url(r'^buy/$', views.buy, name="buy"),
     url(r'^deposit/$', views.deposit, name="deposit"),
     url(r'^cancel/$', views.cancel_transaction, name="cancel"),

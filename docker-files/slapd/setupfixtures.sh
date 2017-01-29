@@ -23,3 +23,7 @@ then
         echo "LDAP fixtures added!"
 fi
 
+while true
+do
+	sleep 10
+done

@@ -14,6 +14,10 @@ RUN mkdir /etc/service/namubufferi
 ADD docker-files/namubufferi/namubufferistart.sh /etc/service/namubufferi/run
 RUN chmod +x /etc/service/namubufferi/run
 
+RUN mkdir /etc/service/namubufferildapsync
+ADD docker-files/namubufferi/namubufferiupdateldap.sh /etc/service/namubufferildapsync/run
+RUN chmod +x /etc/service/namubufferildapsync/run
+
 RUN mkdir /namubufferi
 ADD requirements.txt /namubufferi
 RUN pip3 install -r /namubufferi/requirements.txt

@@ -52,6 +52,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'namubufferiapp',
+    'django_python3_ldap',
     'bootstrap3',
     'autofixture',
     'webpack_loader',
@@ -170,6 +171,15 @@ else:
     except:
         SENDGRID_USER = "none"
         SENDGRID_PASSWORD = "none"
+
+LDAP_AUTH_URL = "ldap://example:389"
+LDAP_AUTH_SEARCH_BASE = "dc=example,dc=com"
+LDAP_AUTH_CONNECTION_USERNAME = "admin"
+LDAP_AUTH_CONNECTION_PASSWORD = "pass"
+LDAP_AUTH_USER_FIELDS = {
+    "username": "cn",
+    "email": "mail",
+}
 
 try:
     from namubufferi.local_settings import *

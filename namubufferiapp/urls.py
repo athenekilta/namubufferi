@@ -7,6 +7,7 @@ from namubufferiapp.forms import MagicAuthForm, TagAuthForm
 
 urlpatterns = [
     url(r'^$', views.home, name="home"),
+    url(r'^anonymous/$', views.home_anonymous, name="home_anonymous"),
     url(r'^login', auth_views.login, {'template_name': 'namubufferiapp/base_magiclogin.html',
                                                        'extra_context': {'magic_auth_form': MagicAuthForm(),
                                                                          'tag_auth_form': TagAuthForm(),

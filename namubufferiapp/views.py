@@ -78,7 +78,6 @@ def product_add_barcode(request, prod_id, barcode):
         raise Http404()
 
 
-@login_required
 def product_barcodes(request):
     barcodes = dict()
     for bcode in ProductTag.objects.all():
@@ -100,8 +99,14 @@ def home(request):
 
     return render(request, 'namubufferiapp/base_home.html', context)
 
+def home_anonymous(request):
+    context = dict(products=Product.objects.all(),
+                   categories=Category.objects.all(),
+                   )
 
-@login_required
+    return render(request, 'namubufferiapp/base_homeanonymous.html', context)
+
+
 def buy(request):
     if request.user.is_superuser:
         return render(request, 'namubufferiapp/base_admin.html')
@@ -109,17 +114,22 @@ def buy(request):
     if request.method == 'POST':
         product = get_object_or_404(Product, pk=request.POST['product_key'])
         price = product.price
-        request.user.account.make_payment(price)
 
         new_transaction = Transaction()
-        new_transaction.customer = request.user.account
         new_transaction.amount = -price
         new_transaction.product = product
-        new_transaction.save()
 
+        new_balance = Decimal(0)
+
+        if request.user.is_authenticated:
+            request.user.account.make_payment(price)
+            new_balance = request.user.account.balance
+            new_transaction.customer = request.user.account
+
+        new_transaction.save()
         product.make_sale()
 
-        return JsonResponse({'balance': request.user.account.balance,
+        return JsonResponse({'balance': new_balance,
                              'transactionkey': new_transaction.pk,
                              'modalMessage': "Purchase Successful",
                              'message': render_to_string('namubufferiapp/message.html',

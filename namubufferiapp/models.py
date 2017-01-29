@@ -137,7 +137,7 @@ class Transaction(models.Model):
 
     timestamp = models.DateTimeField(auto_now_add=True)
     timestamp.editable = False
-    customer = models.ForeignKey(Account)
+    customer = models.ForeignKey(Account, null=True)
     product = models.ForeignKey(Product, null=True)
     canceled = models.BooleanField(default=False)
 

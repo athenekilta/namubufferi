@@ -12,6 +12,7 @@ module.exports = {
     context: __dirname,
     entry: {
         homeview: ["./namubufferiapp/assets/js/namubufferihome", generic],
+        homeanonymousview: ["./namubufferiapp/assets/js/namubufferihomeanonymous", generic],
         inventoryview: ["./namubufferiapp/assets/js/namubufferiinventory", generic],
         loginview: ["./namubufferiapp/assets/js/namubufferilogin", generic],
     },

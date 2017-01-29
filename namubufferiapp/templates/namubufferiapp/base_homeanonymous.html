@@ -1,0 +1,96 @@
+{% extends "namubufferiapp/base.html" %}
+{% load render_bundle from webpack_loader %}
+
+
+{% block modals %}
+<!-- Modals -->
+<!-- Always try to place a modal's HTML code in a top-level position in your document to avoid other components affecting the modal's appearance and/or functionality. -->
+
+<!-- Product info/buy Modal -->
+<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="productModalLabel">Buy <em id="product-modal-name"></em>?</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <tr>
+            <td>Price</td>
+            <td><span id="product-modal-price"></span>€</td>
+          </tr>
+          <tr>
+          <td>Stock</td>
+          <td><span id="product-modal-inventory"></span></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <form id="buy-form" hidden action="/buy/" method="post">
+          {% csrf_token %}
+          <input id="product-modal-pk" hidden type="text" name="product_key" value="none">
+        </form>
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
+        <button type="submit" form="buy-form" class="btn btn-success">Buy <p>(Pay by cash)</p></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock modals %}
+
+{% block content %}
+<!-- Shop Section -->
+<section id="shop" class="container text-center">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="input-group input-group">
+        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
+        <input class="form-control" id="search" name="search" placeholder="Search for products" type="text" data-list=".list"> <!-- .list class for hideseek search -->
+      </div>
+    </div>
+  </div>
+  <span id="products"></span>
+  {% for category in categories %}
+  <div class="list row"> <!-- .list class for hideseek search -->
+    <div class="col-xs-12">
+      <h4><strong>{{ category.name }}</strong></h4>
+    </div>
+    {% for product in products %}
+    {% if product.category.name == category.name and not product.hidden %}
+    <div class="col-xs-6 col-sm-3">
+      <button
+        type="button"
+        class="btn btn-default btn-block btn-lg product"
+        data-toggle="modal"
+        data-target="#productModal"
+        data-productkey="{{ product.pk }}"
+        data-productname="{{ product.name }}"
+        data-productcategory="{{ product.category }}"
+        data-productprice="{{ product.price }}"
+        data-productinventory="{{ product.inventory }}">
+        {{ product.name }} <br>
+        {{ product.price }}€ <br>
+        <span hidden>{{ product.category }}</span>
+      </button>
+    </div>
+    {% endif %}
+    {% endfor%}
+  </div>
+  {% endfor %}
+</section>
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+  <div class="container-fluid text-center">
+   <a href="/logout" class="btn btn-danger btn-block">
+     <strong>!!Anonymous user!!</strong> (logout)
+   </a>
+  </div>
+</nav>
+
+{% endblock content %}
+
+{% block own_bundles %}
+{% render_bundle 'homeanonymousview' %}
+{% endblock own_bundles %}

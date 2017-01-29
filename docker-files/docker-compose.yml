@@ -3,10 +3,13 @@ namubufferi:
         dockerfile: docker-files/namubufferi/Dockerfile
         volumes:
                 - /static
-        expose:
-                - "8080"
         links:
                 - postgres:postgres
+                - ldap:ldap
+
+ldap:
+        restart: always
+        build: ./slapd/
 
 postgres:
         image: postgres:alpine

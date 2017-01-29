@@ -5,6 +5,9 @@ from hashlib import sha256
 from os import urandom
 
 from django.contrib.auth.models import User
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
@@ -82,6 +85,11 @@ class Account(models.Model):
     def __str__(self):
         return self.user.username
 
+@receiver(post_save, sender=User)
+def handle_user_save(sender, instance, created, **kwargs):
+    if created:
+        acc = Account.objects.create(user=instance)
+        acc.save()
 
 class Category(models.Model):
     name = models.CharField(max_length=30, unique=True)

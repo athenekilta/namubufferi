@@ -2,6 +2,7 @@ from base64 import b64encode
 from decimal import Decimal
 from hashlib import sha256
 from os import urandom
+import re
 
 import requests
 import json
@@ -248,16 +249,18 @@ def magic_auth(request, magic_token=None):
         if magic_auth_form.is_valid():
             # Try to find the user or create a new one
             try:
-                user = User.objects.get(username=request.POST['aalto_username'])
-            except:  # DoesNotExist
-                new_user = User.objects.create_user(request.POST['aalto_username'],
-                                                    email=request.POST['aalto_username'] + '@aalto.fi',
+                user = User.objects.get(email=magic_auth_form.cleaned_data['email'])
+            except User.DoesNotExist:
+                email = magic_auth_form.cleaned_data['email']
+                m = re.match("^(.*)@aalto.fi$", email)
+                if m:
+                    username = m.group(1)
+                    user = User.objects.create_user(username,
+                                                    email=email,
                                                     password=b64encode(sha256(urandom(56)).digest()))
+                else:
+                    return JsonResponse({'modalMessage': 'Email not found or its not aalto email.'})
 
-                new_account = Account()
-                new_account.user = new_user
-                new_account.save()
-                user = new_user
 
             user.account.update_magic_token()
             current_site = get_current_site(request)

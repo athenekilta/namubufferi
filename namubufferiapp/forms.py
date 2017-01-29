@@ -24,13 +24,13 @@ class MoneyForm(forms.Form):
 
 class MagicAuthForm(forms.Form):
     # http://emailregex.com/
-    emailregex = RegexValidator(r"(^[a-zA-Z0-9_.+-]*$)", 'Enter a valid email.')
+    emailregex = RegexValidator(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", 'Enter a valid email.')
 
-    aalto_username = forms.CharField(label='Username',
-                                     validators=[emailregex],
-                                     widget=forms.TextInput(attrs={'placeholder': 'teemu.teekkari',
-                                                                   'class': 'form-control',
-                                                                   }))
+    email = forms.CharField(label='Email',
+                            validators=[emailregex],
+                            widget=forms.TextInput(attrs={'placeholder': 'teemu.teekkari@aalto.fi',
+                                                           'class': 'form-control',
+                                                           }))
 
 class TagAuthForm(forms.Form):
     tag_uid = forms.CharField(label='NFC-tag',

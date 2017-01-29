@@ -30,10 +30,7 @@
     {% csrf_token %}
     <div class="form-group">
       <div class="col-sm-4 col-sm-offset-4">
-        <div class="input-group">
-          {{ magic_auth_form.aalto_username }}
-          <div class="input-group-addon">@aalto.fi</div>
-        </div>
+          {{ magic_auth_form.email }}
       </div>
     </div>
     <div class="form-group">

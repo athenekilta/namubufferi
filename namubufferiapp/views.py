@@ -33,6 +33,29 @@ def adminedit(request):
 
     return render(request, 'namubufferiapp/admin_handleproducts.html', context)
 
+# Remember staffrequired
+def admin_overview(request):
+    positive_users = User.objects.filter(account__balance__gte=0)
+    negative_users = User.objects.filter(account__balance__lt=0)
+
+    positive_balance = Decimal(0)
+    for u in positive_users:
+        positive_balance += u.account.balance
+    negative_balance = Decimal(0)
+    for u in negative_users:
+        negative_balance += -u.account.balance
+
+
+    context = dict(products=Product.objects.all(),
+                   positive_users=positive_users,
+                   positive_balance=positive_balance,
+                   negative_users=negative_users,
+                   negative_balance=negative_balance,
+                   overall_balance=positive_balance-negative_balance,
+                   )
+
+    return render(request, 'namubufferiapp/admin_overview.html', context)
+
 @staff_member_required
 def product_modify(request):
     if request.method == 'POST':

@@ -11,6 +11,7 @@
   "devDependencies": {
     "bootstrap": "^3.3.7",
     "bootstrap-webpack": "0.0.5",
+    "chart.js": "^2.4.0",
     "css-loader": "^0.26.1",
     "exports-loader": "^0.6.3",
     "extract-text-webpack-plugin": "^1.0.1",

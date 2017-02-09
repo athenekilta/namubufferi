@@ -15,6 +15,7 @@ module.exports = {
         homeanonymousview: ["./namubufferiapp/assets/js/namubufferihomeanonymous", generic],
         inventoryview: ["./namubufferiapp/assets/js/namubufferiinventory", generic],
         loginview: ["./namubufferiapp/assets/js/namubufferilogin", generic],
+        adminoverview: ["./namubufferiapp/assets/js/adminoverview", generic],
     },
     devtool: "inline-source-map",
 
@@ -36,7 +37,7 @@ module.exports = {
 
         new CommonsChunkPlugin({
             name: "commons",
-            chunks: ["homeview", "inventoryview", "loginview", ],
+            chunks: ["homeview", "inventoryview", "loginview", "homeanonymousview"],
         }),
 
     ],

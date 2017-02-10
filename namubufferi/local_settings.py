@@ -19,6 +19,9 @@ def assign_from_env(name, envname, is_bool=False):
     return False
 
 
+if os.environ['NAMUBUFFERI_ALLOWEDHOSTS']:
+    ALLOWED_HOSTS = os.environ['NAMUBUFFERI_ALLOWEDHOSTS'].split()
+
 assign_from_env("SECRET_KEY", "NAMUBUFFERI_SECRETKEY")
 assign_from_env("DEBUG", "DEBUG", is_bool=True)
 assign_from_env("STATIC_URL", "NAMUBUFFERI_STATIC_URL")

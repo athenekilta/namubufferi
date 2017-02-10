@@ -1,3 +1,6 @@
+# Production
+prodenv
+
 # webpack
 namubufferiapp/static/bundles/
 node_modules/

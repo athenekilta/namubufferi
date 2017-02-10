@@ -19,8 +19,11 @@ def assign_from_env(name, envname, is_bool=False):
     return False
 
 
-if os.environ['NAMUBUFFERI_ALLOWEDHOSTS']:
+
+try:
     ALLOWED_HOSTS = os.environ['NAMUBUFFERI_ALLOWEDHOSTS'].split()
+except KeyError:
+    pass
 
 assign_from_env("SECRET_KEY", "NAMUBUFFERI_SECRETKEY")
 assign_from_env("DEBUG", "DEBUG", is_bool=True)

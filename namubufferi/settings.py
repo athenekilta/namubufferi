@@ -10,6 +10,29 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import dj_database_url
+
+def assign_from_env(name, envname, is_bool=False):
+    """
+    Try to read variable from enviromental variables and
+    assign to name if it exists
+    """
+    try:
+        if is_bool is True:
+            evar = "False"
+            if os.environ[envname] == "true":
+                evar = "True"
+            exec("{}={}".format(name, evar), globals())
+        else:
+            exec("{}='{}'".format(name, os.environ[envname]), globals())
+
+        return True
+
+    except KeyError:
+        return False
+
+    return False
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -87,19 +110,14 @@ DATABASES = {
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-
 STATIC_URL = '/static/'
 
 # Authentication URLs
@@ -117,7 +135,6 @@ WEBPACK_LOADER = {
 
 # HEROKU
 # Update database configuration with $DATABASE_URL.
-import dj_database_url
 
 # https://www.postgresql.org/docs/9.4/static/libpq-connect.html
 
@@ -181,7 +198,43 @@ LDAP_AUTH_USER_FIELDS = {
     "email": "mail",
 }
 
+# Override defaults from enviromental variables if exists
+try:
+    ALLOWED_HOSTS = os.environ['NAMUBUFFERI_ALLOWEDHOSTS'].split()
+except KeyError:
+    pass
+
+
+NAMUBUFFERI_USE_SMTP = False
+assign_from_env("NAMUBUFFERI_USE_SMTP", "NAMUBUFFERI_USE_SMTP", is_bool=True)
+if NAMUBUFFERI_USE_SMTP == True:
+    assign_from_env("EMAIL_HOST", "SMTP_HOST")
+    assign_from_env("EMAIL_PORT", "SMTP_PORT")
+    assign_from_env("EMAIL_HOST_USER", "SMTP_USER")
+    assign_from_env("EMAIL_HOST_PASSWORD", "SMTP_PASSWORD")
+    assign_from_env("EMAIL_USE_TLS", "SMTP_TLS", is_bool=True)
+    assign_from_env("EMAIL_USE_SSL", "SMTP_SSL", is_bool=True)
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+
+assign_from_env("SECRET_KEY", "NAMUBUFFERI_SECRETKEY")
+assign_from_env("DEBUG", "DEBUG", is_bool=True)
+assign_from_env("STATIC_URL", "NAMUBUFFERI_STATIC_URL")
+assign_from_env("STATIC_ROOT", "NAMUBUFFERI_STATIC_ROOT")
+
+if os.environ['NAMUBUFFERI_DB']:
+    db_from_env = dj_database_url.parse(os.environ['NAMUBUFFERI_DB'])
+    DATABASES = {'default':db_from_env}
+
+
+assign_from_env("LDAP_AUTH_URL", "NAMUBUFFERI_LDAP_AUTH_URL")
+assign_from_env("LDAP_AUTH_SEARCH_BASE", "NAMUBUFFERI_LDAP_AUTH_SEARCH_BASE")
+assign_from_env("LDAP_AUTH_CONNECTION_USERNAME", "NAMUBUFFERI_LDAP_AUTH_CONNECTION_USERNAME")
+assign_from_env("LDAP_AUTH_CONNECTION_PASSWORD", "NAMUBUFFERI_LDAP_AUTH_CONNECTION_PASSWORD")
+
+
 try:
     from namubufferi.local_settings import *
 except ImportError as e:
     pass
+

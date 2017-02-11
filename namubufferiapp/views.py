@@ -196,13 +196,18 @@ def buy(request):
 
         new_transaction.save()
         product.make_sale()
+        
+        payload = {'balance': Decimal(0),
+                     'transactionkey': new_transaction.pk,
+                     'modalMessage': "Purchase Successful",
+                     'message': render_to_string('namubufferiapp/message.html',
+                                                 {'message': "Purchase Successful"}),
+                 }
 
-        return JsonResponse({'balance': request.user.account.balance,
-                             'transactionkey': new_transaction.pk,
-                             'modalMessage': "Purchase Successful",
-                             'message': render_to_string('namubufferiapp/message.html',
-                                                         {'message': "Purchase Successful"}),
-                             })
+        if request.user.is_authenticated:
+            payload['balance'] = request.user.account.balance
+
+        return JsonResponse(payload)
     else:
         raise Http404()
 

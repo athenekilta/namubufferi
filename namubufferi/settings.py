@@ -237,6 +237,8 @@ RECAPTCHA_SITE="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
 assign_from_env("RECAPTCHA_SECRET", "NAMUBUFFERI_RECAPTCHA_SECRET")
 assign_from_env("RECAPTCHA_SITE", "NAMUBUFFERI_RECAPTCHA_SITE")
 
+assign_from_env("OUTPAN_API_KEY", "NAMUBUFFERI_OUTPAN_API_KEY")
+
 try:
     from namubufferi.local_settings import *
 except ImportError as e:

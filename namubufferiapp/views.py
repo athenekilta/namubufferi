@@ -6,6 +6,7 @@ import re
 
 import requests
 import json
+import urllib.request
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
@@ -18,6 +19,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
+from bs4 import BeautifulSoup
 
 from .forms import MoneyForm, MagicAuthForm, TagAuthForm, ProductForm
 from .models import Account, Product, Category, Transaction, UserTag, ProductTag
@@ -71,6 +73,13 @@ def product_modify(request):
             product.hidden = product_form.cleaned_data['hidden']
             product.save()
 
+            bcode = product_form.cleaned_data['barcode']
+            if bcode is not None:
+                ptag, ptagcreated = ProductTag.objects.get_or_create(uid=bcode,
+                                                                       defaults={'product':product,})
+                ptag.product = product
+                ptag.save()
+
             if created:
                 return HttpResponse("Product created", status=201)
             else:
@@ -107,6 +116,53 @@ def product_barcodes(request):
         barcodes[bcode.uid] = bcode.product.pk
 
     return JsonResponse(barcodes)
+
+def product_from_outpan(barcode):
+    try:
+        from namubufferi.settings import OUTPAN_API_KEY
+        result = urllib.request.urlopen("https://api.outpan.com/v2/products/{}?apikey={}".format(barcode, OUTPAN_API_KEY))
+        if result.getcode() != 200:
+            return False
+
+        name = json.loads(result.read().decode())["name"]
+
+        if name is None:
+            return False
+        else:
+            return name
+    except:
+        return False
+
+    return False
+
+def product_from_foodie(barcode):
+    try:
+        result = urllib.request.urlopen("https://www.foodie.fi/entry/{}".format(barcode))
+        if result.getcode() != 200:
+            return False
+
+        soup = BeautifulSoup(result.read().decode(), "html.parser")
+        name = soup.find(id="product-name").get_text()
+
+        return name
+    except:
+        return False
+
+    return False
+
+
+@login_required
+def discover_barcode(request, barcode):
+    product = dict()
+
+    product["name"] = product_from_outpan(barcode)
+    if product["name"] is False:
+        product["name"] = product_from_foodie(barcode)
+    
+    if product["name"] is False:
+        raise Http404()
+
+    return JsonResponse(product)
 
 @login_required(redirect_field_name=None)
 def home(request):

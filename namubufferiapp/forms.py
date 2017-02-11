@@ -51,4 +51,7 @@ class ProductForm(forms.Form):
     category = forms.ModelChoiceField(label='Product category',
                             queryset=Category.objects.all(),
                             widget=forms.Select(attrs={'class': 'form-control',}))
+    barcode = forms.CharField(label='Product barcode',
+                            required=False,
+                            widget=forms.TextInput(attrs={'class': 'form-control',}))
 

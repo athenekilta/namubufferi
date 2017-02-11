@@ -9,6 +9,24 @@ require("./csrftoken");
 
 var amyshit = require("./ajaxmyshit.js");
 
+function populate_by_bcode(modal, bcode) {
+    modal.find("#id_name").addClass("alert alert-warning");
+    modal.find("#id_name").removeClass("alert-success");
+
+    $.getJSON("/product/barcode/discover/"+bcode, function(data) {
+        var element = modal.find("#id_name");
+
+        if (element.val() == "")
+            modal.find("#id_name").val(data["name"]);
+
+        element.removeClass("alert-warning");
+        element.addClass("alert-success");
+    })
+    .fail(function() {
+        modal.find("#id_name").removeClass("alert alert-warning");
+    });
+}
+
 $(document).ready(function() {
     "use strict";
 
@@ -33,22 +51,23 @@ $(document).ready(function() {
         var button = $(event.relatedTarget); // Button that triggered the modal
         var modal = $(this);
 
-        if (!$("#bcode-assign-btn").hasClass("hidden")) {
-            $("#bcode-assign-btn").addClass("hidden");
-            var bcode = $("#bcode-assign-btn").data("barcode");
-            var pk = button.data("productkey");
-
-            $.ajax({
-                url:"/product/".concat(pk, "/barcode/", bcode),
-                type: "put",
-                complete: location.reload()
-            });
-        }
 
         // Extract info from data-* attributes
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         if (button.data("mode") === "update") {
+            if (!$("#bcode-assign-btn").hasClass("hidden")) {
+                $("#bcode-assign-btn").addClass("hidden");
+                var bcode = $("#bcode-assign-btn").data("barcode");
+                var pk = button.data("productkey");
+
+                $.ajax({
+                    url:"/product/".concat(pk, "/barcode/", bcode),
+                    type: "put",
+                    complete: location.reload()
+                });
+            }
+
             modal.find("#id_name").val(button.data("productname"));
             modal.find("#id_name").attr("readonly", true);
 
@@ -56,6 +75,7 @@ $(document).ready(function() {
             modal.find("#id_price").val(button.data("productprice"));
             modal.find("#id_inventory").val(button.data("productinventory")); 
             modal.find("#id_hidden").prop("checked", button.data("producthidden"));
+            modal.find("#id_barcode").val("");
             modal.find(":submit").text("Update");
         }
         else if (button.data("mode") === "add") {
@@ -66,7 +86,14 @@ $(document).ready(function() {
             modal.find("#id_price").val("");
             modal.find("#id_inventory").val("0"); 
             modal.find("#id_hidden").prop("checked", false);
+            modal.find("#id_barcode").val("");
             modal.find(":submit").text("Add");
+
+            if (!$("#bcode-assign-btn").hasClass("hidden")) {
+                var bcode = $("#bcode-assign-btn").data("barcode");
+                modal.find("#id_barcode").val(bcode);
+                populate_by_bcode(modal, bcode);
+            }
         }
 
     });

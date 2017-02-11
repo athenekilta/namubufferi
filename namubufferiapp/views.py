@@ -35,7 +35,7 @@ def adminedit(request):
 
     return render(request, 'namubufferiapp/admin_handleproducts.html', context)
 
-# Remember staffrequired
+@staff_member_required
 def admin_overview(request):
     positive_users = [x for x in User.objects.all() if x.account.balance >= 0]
     negative_users = [x for x in User.objects.all() if x.account.balance < 0]

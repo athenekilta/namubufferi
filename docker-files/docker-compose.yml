@@ -6,6 +6,10 @@ namubufferi:
         links:
                 - postgres:postgres
                 - ldap:ldap
+                - smtp:smtp
+
+smtp:
+        image: namshi/smtp
 
 ldap:
         restart: always

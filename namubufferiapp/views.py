@@ -21,7 +21,7 @@ from django.template.loader import render_to_string
 
 from .forms import MoneyForm, MagicAuthForm, TagAuthForm, ProductForm
 from .models import Account, Product, Category, Transaction, UserTag, ProductTag
-from namubufferi.settings import DEBUG, AUTHENTICATION_BACKENDS
+from namubufferi.settings import DEBUG, AUTHENTICATION_BACKENDS,RECAPTCHA_SECRET
 
 @staff_member_required
 def adminedit(request):
@@ -245,7 +245,7 @@ def magic_auth(request, magic_token=None):
         # https://developers.google.com/recaptcha/docs/verify
         # http://docs.python-requests.org/en/master/user/quickstart/#more-complicated-post-requests
         # http://docs.python-requests.org/en/master/user/quickstart/#json-response-content
-        payload = {"secret": "6LfUqSgTAAAAACc5WOqVLLmJP_3SC3bWp094D0vo",
+        payload = {"secret": RECAPTCHA_SECRET,
                    "response": request.POST['g-recaptcha-response']}
         r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=payload).json()
         # TODO: Check if we need headers

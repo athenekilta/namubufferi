@@ -191,17 +191,13 @@ def buy(request):
         new_transaction.amount = -price
         new_transaction.product = product
 
-        new_balance = Decimal(0)
-
         if request.user.is_authenticated:
-            request.user.account.make_payment(price)
-            new_balance = request.user.account.balance
             new_transaction.customer = request.user.account
 
         new_transaction.save()
         product.make_sale()
 
-        return JsonResponse({'balance': new_balance,
+        return JsonResponse({'balance': request.user.account.balance,
                              'transactionkey': new_transaction.pk,
                              'modalMessage': "Purchase Successful",
                              'message': render_to_string('namubufferiapp/message.html',
@@ -220,8 +216,6 @@ def deposit(request):
             euros = request.POST['euros']
             cents = request.POST['cents']
             amount = Decimal(euros) + Decimal(cents)/100
-
-            request.user.account.make_deposit(amount)
 
             new_transaction = Transaction()
             new_transaction.customer = request.user.account

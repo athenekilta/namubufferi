@@ -56,9 +56,18 @@ class Account(models.Model):
     https://docs.djangoproject.com/en/1.7/topics/auth/customizing/#extending-user
     """
     user = models.OneToOneField(User)
-    balance = models.DecimalField(max_digits=6, decimal_places=2, default=0)
     magic_token = models.CharField(max_length=44, unique=True, default=generate_magic_token)
     magic_token_ttl = models.DateTimeField(default=(timezone.now() + timedelta(minutes=15)))  # TODO: Static
+
+    @property
+    def balance(self):
+        cur_balance = Decimal(0)
+        transactions = Transaction.objects.filter(customer=self).filter(canceled=False)
+
+        for transaction in transactions:
+            cur_balance += transaction.amount
+
+        return cur_balance
 
     def update_magic_token(self):
         self.magic_token_ttl = timezone.now() + timedelta(minutes=15)
@@ -73,14 +82,6 @@ class Account(models.Model):
 
     def magic_token_is_alive(self):
         return timezone.now() < self.magic_token_ttl
-
-    def make_payment(self, price):
-        self.balance -= Decimal(price)
-        self.save()
-
-    def make_deposit(self, amount):
-        self.balance += Decimal(amount)
-        self.save()
 
     def __str__(self):
         return self.user.username
@@ -151,7 +152,6 @@ class Transaction(models.Model):
 
     def cancel(self):
         if not self.canceled:
-            self.customer.make_deposit(-self.amount)  # Note the minus sign
             self.canceled = True
             self.save()
             if self.product:

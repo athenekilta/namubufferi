@@ -26,11 +26,11 @@ urlpatterns = [
     url(r'^tag/$', views.tag_list),
     url(r'^tag/(?P<uid>.*)/$', views.tag_modify),
 
-    url(r'^productmodify/$', views.adminedit),
+    url(r'^productmodify/$', views.adminedit, name="admin_inventory"),
     url(r'^product/update/$', views.product_modify, name="product_update"),
     url(r'^product/(?P<prod_id>.*)/barcode/(?P<barcode>.*)$', views.product_add_barcode,),
     url(r'^product/barcodes/$', views.product_barcodes,),
-    url(r'^adminoverview/$', views.admin_overview,),
+    url(r'^adminoverview/$', views.admin_overview, name="admin_overview"),
 
 
 ]

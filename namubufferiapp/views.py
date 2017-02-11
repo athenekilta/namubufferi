@@ -110,15 +110,11 @@ def product_barcodes(request):
 
 @login_required(redirect_field_name=None)
 def home(request):
-    if request.user.is_superuser:
-        return render(request, 'namubufferiapp/base_admin.html')
-    else:
-
-        context = dict(money_form=MoneyForm(),
-                       products=Product.objects.all(),
-                       categories=Category.objects.all(),
-                       transactions=request.user.account.transaction_set.all()
-                       )
+    context = dict(money_form=MoneyForm(),
+                   products=Product.objects.all(),
+                   categories=Category.objects.all(),
+                   transactions=request.user.account.transaction_set.all()
+                   )
 
     return render(request, 'namubufferiapp/base_home.html', context)
 
@@ -131,9 +127,6 @@ def home_anonymous(request):
 
 
 def buy(request):
-    if request.user.is_superuser:
-        return render(request, 'namubufferiapp/base_admin.html')
-
     if request.method == 'POST':
         product = get_object_or_404(Product, pk=request.POST['product_key'])
         price = product.price
@@ -164,9 +157,6 @@ def buy(request):
 
 @login_required
 def deposit(request):
-    if request.user.is_superuser:
-        return render(request, 'namubufferiapp/base_admin.html')
-
     if request.method == 'POST':
         money_form = MoneyForm(request.POST)
 
@@ -202,9 +192,6 @@ def deposit(request):
 
 @login_required
 def transaction_history(request):
-    if request.user.is_superuser:
-        return render(request, 'namubufferiapp/base_admin.html')
-
     return JsonResponse({'transactionhistory': render_to_string('namubufferiapp/transactionhistory.html',
                                                                 {'transactions': request.user.account.transaction_set.all()[:5]})
                          })
@@ -212,9 +199,6 @@ def transaction_history(request):
 
 @login_required
 def receipt(request):
-    if request.user.is_superuser:
-        return render(request, 'namubufferiapp/base_admin.html')
-
     if request.method == 'POST':
         transaction = get_object_or_404(request.user.account.transaction_set.all(),
                                         pk=request.POST['transaction_key'])
@@ -238,9 +222,6 @@ def receipt(request):
 
 @login_required
 def cancel_transaction(request):
-    if request.user.is_superuser:
-        return render(request, 'namubufferiapp/base_admin.html')
-
     if request.method == 'POST':
         transaction = get_object_or_404(request.user.account.transaction_set.all(),
                                         pk=request.POST['transaction_key'])

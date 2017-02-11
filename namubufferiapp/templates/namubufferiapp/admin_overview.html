@@ -1,4 +1,4 @@
-{% extends "namubufferiapp/base_admin.html" %}
+{% extends "namubufferiapp/base.html" %}
 {% load render_bundle from webpack_loader %}
 
 {% block modals %}
@@ -7,6 +7,7 @@
 {% endblock modals %}
 
 {% block content %}
+{{ block.super }}
 
 <!-- Shop Section -->
 <section id="adminoverview" class="container text-center">
@@ -72,11 +73,6 @@
   </div>
 </section>
 
-<nav class="navbar navbar-default navbar-fixed-bottom">
-  <div class="container-fluid text-center">
-    lol
-  </div>
-</nav>
 
 {% endblock content %}
 

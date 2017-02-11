@@ -44,6 +44,32 @@
     </div>
   </div>
 
+{% if request.user.is_staff %}
+  <nav class="navbar navbar-default navbar-top">
+    <div class="container-fluid text-center">
+      <a href="/admin" class="btn btn-default">
+        <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+        Admin panel
+      </a>
+      <a href="{% url 'admin_inventory' %}" class="btn btn-default">
+        Handle inventory
+      </a>
+      <a href="{% url 'admin_overview' %}" class="btn btn-default">
+        Overview
+      </a>
+      <a href="/" class="btn btn-default">
+        Normal view
+      </a>
+      <a href="/logout" class="btn btn-default">
+        Logout
+      </a>
+
+      {% block topbar %}
+      {% endblock %}
+    </div>
+  </nav>
+{% endif %}
+
   {% block content %}
   {% endblock content %}
 

@@ -26,11 +26,11 @@
     <div class="col-md-8">
       <div class="row">
         <div class="col-md-6">
-          <p><strong>{{ negative_users.count }}</strong> users are having negative balance</p>
+          <p><strong>{{ negative_users|length }}</strong> users are having negative balance</p>
           <p class="text-danger">By overall of {{ negative_balance }}e</p>
         </div>
         <div class="col-md-6">
-          <p>While <strong>{{ positive_users.count }}</strong> are having positive balance</p>
+          <p>While <strong>{{ positive_users|length }}</strong> are having positive balance</p>
           <p class="text-success">By overall of {{ positive_balance }}e</p>
         </div>
       </div>

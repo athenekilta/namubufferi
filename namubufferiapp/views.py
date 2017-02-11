@@ -37,8 +37,8 @@ def adminedit(request):
 
 # Remember staffrequired
 def admin_overview(request):
-    positive_users = User.objects.filter(account__balance__gte=0)
-    negative_users = User.objects.filter(account__balance__lt=0)
+    positive_users = [x for x in User.objects.all() if x.account.balance >= 0]
+    negative_users = [x for x in User.objects.all() if x.account.balance < 0]
 
     positive_balance = Decimal(0)
     for u in positive_users:

@@ -309,7 +309,7 @@ def magic_auth(request, magic_token=None):
         user = authenticate(magic_token=magic_token)
         if user:
             login(request, user)
-            return render(request, 'namubufferiapp/base_authsuccess.html')
+            return home(request)
         else:
             return HttpResponse(status=410)
 

@@ -16,7 +16,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from django.contrib.admin.views.decorators import staff_member_required
-from django.http import JsonResponse, HttpResponse, Http404
+from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest, Http404
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 from bs4 import BeautifulSoup
@@ -26,17 +26,23 @@ from .models import Account, Product, Category, Transaction, UserTag, ProductTag
 from namubufferi.settings import DEBUG, AUTHENTICATION_BACKENDS,RECAPTCHA_SECRET
 
 @staff_member_required
-def adminedit(request):
+def admin_inventory(request):
+    """
+    View to handle stocking up inventory, adding products...
+    """
     context = dict(product_form=ProductForm(),
                    products=Product.objects.all(),
                    categories=Category.objects.all(),
                    transactions=request.user.account.transaction_set.all()
                    )
 
-    return render(request, 'namubufferiapp/admin_handleproducts.html', context)
+    return render(request, 'namubufferiapp/admin_handleinventory.html', context)
 
 @staff_member_required
 def admin_overview(request):
+    """
+    Most important things at a glance for admins
+    """
     positive_users = [x for x in User.objects.all() if x.account.balance >= 0]
     negative_users = [x for x in User.objects.all() if x.account.balance < 0]
 
@@ -59,7 +65,10 @@ def admin_overview(request):
     return render(request, 'namubufferiapp/admin_overview.html', context)
 
 @staff_member_required
-def product_modify(request):
+def product_update(request):
+    """
+    Update or create product
+    """
     if request.method == 'POST':
         product_form = ProductForm(request.POST)
         if product_form.is_valid():
@@ -86,7 +95,7 @@ def product_modify(request):
                 return HttpResponse("Product updated", status=200)
 
         else:
-            return HttpResponse('{"errors":' + product_form.errors.as_json() + '}', content_type="application/json")
+            return HttpResponseBadRequest('{"errors":' + product_form.errors.as_json() + '}', content_type="application/json")
     else:
         raise Http404()
 
@@ -110,7 +119,7 @@ def product_add_barcode(request, prod_id, barcode):
         raise Http404()
 
 
-def product_barcodes(request):
+def list_barcodes(request):
     barcodes = dict()
     for bcode in ProductTag.objects.all():
         barcodes[bcode.uid] = bcode.product.pk
@@ -118,6 +127,11 @@ def product_barcodes(request):
     return JsonResponse(barcodes)
 
 def product_from_outpan(barcode):
+    """
+    Try to guess product name from barcode using outpan.com
+
+    False if no name was found
+    """
     try:
         from namubufferi.settings import OUTPAN_API_KEY
         result = urllib.request.urlopen("https://api.outpan.com/v2/products/{}?apikey={}".format(barcode, OUTPAN_API_KEY))
@@ -135,7 +149,14 @@ def product_from_outpan(barcode):
 
     return False
 
+
 def product_from_foodie(barcode):
+    """
+    Try to guess product name from barcode using foodie.fi
+    False if no name was found.
+
+    Use of this might not be ok by EULA, but shouldn't really hurt anybody
+    """
     try:
         result = urllib.request.urlopen("https://www.foodie.fi/entry/{}".format(barcode))
         if result.getcode() != 200:
@@ -151,8 +172,11 @@ def product_from_foodie(barcode):
     return False
 
 
-@login_required
+@staff_member_required
 def discover_barcode(request, barcode):
+    """
+    Try to guess product details from its barcode
+    """
     product = dict()
 
     product["name"] = product_from_outpan(barcode)
@@ -175,6 +199,10 @@ def home(request):
     return render(request, 'namubufferiapp/base_home.html', context)
 
 def home_anonymous(request):
+    """
+    Buying anonymously means that we only update product inventory
+    without making transaction for anyone
+    """
     context = dict(products=Product.objects.all(),
                    categories=Category.objects.all(),
                    )
@@ -240,7 +268,7 @@ def deposit(request):
             # https://docs.djangoproject.com/ja/1.9/ref/request-response/#jsonresponse-objects
             #return JsonResponse({"errors": + money_form.errors.as_json()})
             # FTS...
-            return HttpResponse('{"errors":' + money_form.errors.as_json() + '}', content_type="application/json")
+            return HttpResponseBadRequest('{"errors":' + money_form.errors.as_json() + '}', content_type="application/json")
     else:
         raise Http404()
 
@@ -388,9 +416,9 @@ def tag_auth(request):
                                           'code':'tagnotfound'}],}
                                     })
         else:
-            return HttpResponse('{"errors":' + tag_auth_form.errors.as_json() + '}', content_type="application/json")
+            return HttpResponseBadRequest('{"errors":' + tag_auth_form.errors.as_json() + '}', content_type="application/json")
     else:
-        return HttpResponse(status=410)
+        raise Http404()
 
 @login_required
 def tag_list(request):

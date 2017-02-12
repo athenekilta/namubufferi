@@ -69,6 +69,10 @@ class Account(models.Model):
 
         return cur_balance
 
+    """
+    Magic token allows user to login by email with unique
+    link that is alive only for 15 minutes
+    """
     def update_magic_token(self):
         self.magic_token_ttl = timezone.now() + timedelta(minutes=15)
         self.magic_token = generate_magic_token()
@@ -88,11 +92,20 @@ class Account(models.Model):
 
 @receiver(post_save, sender=User)
 def handle_user_save(sender, instance, created, **kwargs):
+    """
+    If an user is created directly by User.objects, without
+    this function, it wouldn't have account-instance
+    """
     if created:
         acc = Account.objects.create(user=instance)
         acc.save()
 
+
 class Category(models.Model):
+    """
+    Mainly category for products, but could also used
+    for something else
+    """
     name = models.CharField(max_length=30, unique=True)
 
     def __str__(self):
@@ -125,12 +138,24 @@ class Product(models.Model):
 
 class ProductTag(Tag):
     """
-    A tag representing user's identification info
+    A tag representing product's identity (like barcode)
     """
     product = models.ForeignKey(Product)
 
 
 class Transaction(models.Model):
+    """
+    One transaction
+
+    Positive amount means money going into user's account,
+    negative amount means money going away from user's account.
+
+    Amount can't be derived from product as products might have
+    different prices at different times.
+
+    Canceled-flag should be noted for example when calculating
+    balance from all transactions.
+    """
     amount = models.DecimalField(max_digits=5,
                                  decimal_places=2,
                                  default=0,

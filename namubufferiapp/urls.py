@@ -20,21 +20,21 @@ urlpatterns = [
     url(r'^cancel/$', views.cancel_transaction, name="cancel"),
     url(r'^receipt/$', views.receipt, name="receipt"),
     url(r'^history/$', views.transaction_history, name="history"),
+
     url(r'^magic/$', views.magic_auth),
     url(r'^magic/(?P<magic_token>.*)/$', views.magic_auth, name="magic"),
+    
     url(r'^tag/auth/$', views.tag_auth, name="tag_auth"),
     url(r'^tag/$', views.tag_list),
     url(r'^tag/(?P<uid>.*)/$', views.tag_modify),
 
-    url(r'^product/barcode/discover/(?P<barcode>.*)$', views.discover_barcode, name="discover_barcode"),
-
-    url(r'^productmodify/$', views.adminedit, name="admin_inventory"),
-    url(r'^product/update/$', views.product_modify, name="product_update"),
+    url(r'^product/update/$', views.product_update, name="product_update"),
     url(r'^product/(?P<prod_id>.*)/barcode/(?P<barcode>.*)$', views.product_add_barcode,),
-    url(r'^product/barcodes/$', views.product_barcodes,),
-    url(r'^product/barcodes/$', views.product_barcodes,),
-
-    url(r'^adminoverview/$', views.admin_overview, name="admin_overview"),
+    url(r'^product/barcodes/$', views.list_barcodes,),
+    url(r'^product/barcode/discover/(?P<barcode>.*)$', views.discover_barcode, name="discover_barcode"),
+    
+    url(r'^admin/inventory/$', views.admin_inventory, name="admin_inventory"),
+    url(r'^admin/overview/$', views.admin_overview, name="admin_overview"),
 
 
 ]

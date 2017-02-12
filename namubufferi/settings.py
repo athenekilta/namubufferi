@@ -222,9 +222,11 @@ assign_from_env("DEBUG", "DEBUG", is_bool=True)
 assign_from_env("STATIC_URL", "NAMUBUFFERI_STATIC_URL")
 assign_from_env("STATIC_ROOT", "NAMUBUFFERI_STATIC_ROOT")
 
-if os.environ['NAMUBUFFERI_DB']:
+try:
     db_from_env = dj_database_url.parse(os.environ['NAMUBUFFERI_DB'])
     DATABASES = {'default':db_from_env}
+except KeyError:
+    pass
 
 
 assign_from_env("LDAP_AUTH_URL", "NAMUBUFFERI_LDAP_AUTH_URL")

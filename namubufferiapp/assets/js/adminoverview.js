@@ -9,7 +9,11 @@ var Chart = require('chart.js/src/chart.js');
 $(document).ready(function() {
     "use strict";
 
-    var bchartelem = $("#balanceChart");
+
+    // Doghnut chart for showing what's
+    // the ratio between positive and
+    // negative balances
+    var balancegraph_elem = $("#balanceChart");
 
     var data = {
         labels: [
@@ -19,8 +23,8 @@ $(document).ready(function() {
         datasets: [
             {
                 data: [
-                    bchartelem.data("negative"),
-                    bchartelem.data("positive")
+                    balancegraph_elem.data("negative"),
+                    balancegraph_elem.data("positive")
                 ],
                 backgroundColor: [
                     "red",
@@ -29,7 +33,7 @@ $(document).ready(function() {
             }]
     };
 
-    var balanceChart = new Chart(bchartelem, {
+    var balanceChart = new Chart(balancegraph_elem, {
         type: "doughnut",
         data: data
     });

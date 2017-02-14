@@ -10,12 +10,15 @@ $(document).ready(function() {
 
     $(document).scannerDetection();
     $(document).bind("scannerDetectionComplete", function(e, data){
-        // On successfull scan, apply uid to
+        // On successfull scan, write uid to
         // tag authentication form and submit it
         $("#id_tag_uid").val(data.string);
         $("#tag-auth-form").submit();
     });
 
+    // This will most probably show "check your email"
+    // for the user after they are requested magic
+    // login link to their email
     amyshit("#magic-auth-form", function () {
         $("#messageModal").modal("show");
     });
@@ -33,14 +36,9 @@ $(document).ready(function() {
                 window.location.href = data.redirect;
         },
         function(errordata) {
-            // On error, show the field for user. Maybe
-            // it has something they can fix
-            $("#tag-auth-form").removeClass("hidden");
-            if (errordata.errors["tag_uid"][0].code == "tagnotfound") {
-                $("#tag-auth-error").removeClass("hidden");
-                $("#tag-auth-error").text(errordata.errors["tag_uid"][0].message);
-            }
+            $("#messageModal").modal("show");
         });
+
 
     $("#id_email").emailautocomplete({
         domains: ["aalto.fi"]

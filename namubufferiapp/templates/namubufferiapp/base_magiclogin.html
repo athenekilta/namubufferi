@@ -11,6 +11,7 @@
 <section id="user-auth" class="container-fluid text-center">
   <h3>Welcome.</h3>
 
+  <!-- Normally hidden form for tag login -->
   <form class="form-horizontal" id="tag-auth-form" action="{% url 'tag_auth' %}" method="post">
     {% csrf_token %}
     <div class="form-group">

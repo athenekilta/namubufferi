@@ -1,0 +1,41 @@
+<div id="receiptModal" class="modal fade" tabindex="-1" role="dialog" data-transactionkey="">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Receipt</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <tr>
+            <td>Date</td>
+            <td id="timestamp"></td>
+          </tr>
+          <tr>
+            <td>Customer</td>
+            <td id="customer"></td>
+          </tr>
+          <tr>
+            <td>Product</td>
+            <td id="product"></td>
+          </tr>
+          <tr>
+            <td>Amount</td>
+            <td id="amount"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <form hidden action="/cancel/" method="post" id="cancelform">
+          {% csrf_token %}
+          <input id="transaction_key" type="text" name="transaction_key" value="">
+        </form>
+        <button id="transaction-cancel-button" type="submit" form="cancelform" class="btn btn-danger btn-sm">
+          Cancel Transaction
+        </button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

@@ -1,14 +1,12 @@
 require("bootstrap-webpack") 
 
 require("hideseek/jquery.hideseek");
-
-
-require("./csrftoken");
-
 require("jQuery-Scanner-Detection/jquery.scannerdetection");
 
+require("./csrftoken");
 var amyshit = require("./ajaxmyshit.js");
 
+// Tags used for user login by nfc tags.
 function updateTagsModal() { 
     $.get("/tag/").done(function(data) { 
         $("#tags").html(data.taglist);
@@ -27,59 +25,51 @@ function updateTagsModal() {
     });
 }
 
+function updateBalanceText(newbalance) {
+    $(".balance").text(newbalance + "€");
+    if(newbalance < 0) {
+        $(".balance").addClass("text-danger");
+    } else {
+        $(".balance").removeClass("text-danger");
+    }
+}
 
 $(document).ready(function() {
     "use strict";
 
     $(document).scannerDetection();
+    var product_barcodes;
+    $.getJSON("/product/barcodes/", function(json){
+        product_barcodes = json;
+    });
 
+    // After successful buy event
     amyshit("#buy-form", function (data) {
+        // Hide currently showing product modal and show the recipt
+        // for transaction made
         $("#productModal").modal("hide");
         $("#receiptModal").data("transactionkey", data.transactionkey);
         $("#receiptModal").modal("show");
 
-        $(".balance").text(data.balance + "€");
-        if(data.balance < 0) {
-            $(".balance").addClass("text-danger");
-        } else {
-            $(".balance").removeClass("text-danger");
-        }
-
-
+        // Balance will change after successful buy so
+        // why not update it after that.
+        updateBalanceText(data.balance);
     });
     amyshit("#money-form", function (data) {
         $("#moneyModal").modal("hide");
         $("#receiptModal").data("transactionkey", data.transactionkey);
         $("#receiptModal").modal("show");
 
-
-        $(".balance").text(data.balance + "€");
-        if(data.balance < 0) {
-            $(".balance").addClass("text-danger");
-        } else {
-            $(".balance").removeClass("text-danger");
-        }
-
-
+        updateBalanceText(data.balance);
     });
     amyshit("#cancelform", function (data) {
         $("#receiptModal").modal("hide");
         $("#messageModal").modal("show");
-
-        $(".balance").text(data.balance + "€");
-        if(data.balance < 0) {
-            $(".balance").addClass("text-danger");
-        } else {
-            $(".balance").removeClass("text-danger");
-        }
-
+    
+        updateBalanceText(data.balance);
     });
 
 
-    var product_barcodes;
-    $.getJSON("/product/barcodes/", function(json){
-        product_barcodes = json;
-    });
 
     $("#productModal").on("show.bs.modal", function(event) {
         var button = $(event.relatedTarget); // Button that triggered the modal
@@ -93,7 +83,6 @@ $(document).ready(function() {
     $("#receiptModal").on("show.bs.modal", function(event) {
         var button = $(event.relatedTarget);
         var transactionkey = button.data("transactionkey") || $(this).data("transactionkey");
-        //$("#historyModal").modal("hide");
         $.post("/receipt/", { transaction_key: transactionkey })
             .done(function(data) {
                 $("#receiptModal").toggleClass( "canceled", data.receipt.canceled );
@@ -157,7 +146,6 @@ $(document).ready(function() {
         $( window ).scrollTop($("#search").offset().top - 100);
         //$( window ).scrollTop(0);
     });
-
     $("#search").hideseek();
 
 

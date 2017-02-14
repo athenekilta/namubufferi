@@ -1,13 +1,14 @@
 require("bootstrap-webpack")
 
 require("hideseek/jquery.hideseek");
-
 require("jQuery-Scanner-Detection/jquery.scannerdetection");
 
 require("./csrftoken");
-
 var amyshit = require("./ajaxmyshit.js");
 
+
+// Try to guess product name by its barcode based
+// on external resources.
 function populate_by_bcode(modal, bcode) {
     modal.find("#id_name").addClass("alert alert-warning");
     modal.find("#id_name").removeClass("alert-success");
@@ -26,15 +27,18 @@ function populate_by_bcode(modal, bcode) {
     });
 }
 
+var product_barcodes;
+function update_barcodes() {
+    $.getJSON("/product/barcodes/", function(json){
+        product_barcodes = json;
+    });
+}
+
 $(document).ready(function() {
     "use strict";
 
     $(document).scannerDetection();
-
-    var product_barcodes;
-    $.getJSON("/product/barcodes/", function(json){
-        product_barcodes = json;
-    });
+    update_barcodes();
 
     $("#bcode-assign-btn").click(function(event) {
         $(this).addClass("hidden");
@@ -55,6 +59,9 @@ $(document).ready(function() {
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         if (button.data("mode") === "update") {
+            // In case we have barcode active in bcode-assign-btn we want to assign
+            // that barcode to product chosen. After that everything should be updated
+            // and for now, 
             if (!$("#bcode-assign-btn").hasClass("hidden")) {
                 $("#bcode-assign-btn").addClass("hidden");
                 var bcode = $("#bcode-assign-btn").data("barcode");
@@ -63,10 +70,15 @@ $(document).ready(function() {
                 $.ajax({
                     url:"/product/".concat(pk, "/barcode/", bcode),
                     type: "put",
-                    complete: location.reload()
+                    complete: function() {
+                        update_barcodes();
+                        $("#productUpdateModal").modal("hide");
+                    },
                 });
             }
 
+            // If we get this far, we really want to update the product,
+            // not change its barcode
             modal.find("#id_name").val(button.data("productname"));
             modal.find("#id_name").attr("readonly", true);
 
@@ -94,7 +106,6 @@ $(document).ready(function() {
                 populate_by_bcode(modal, bcode);
             }
         }
-
     });
 
     $(document).bind("scannerDetectionComplete", function(e, data){
@@ -110,19 +121,14 @@ $(document).ready(function() {
 
     $( "#search" ).focus(function(event) {
         $( window ).scrollTop($("#search").offset().top - 100);
-        //$( window ).scrollTop(0);
     });
     $( "#search" ).focusout(function(event) {
-        //$( window ).scrollTop($("#search").offset().top);
         $( window ).scrollTop($("#page-top").offset().top);
     });
     $( "#search" ).keypress(function(event) {
         $( window ).scrollTop($("#search").offset().top - 100);
-        //$( window ).scrollTop(0);
     });
 
     $("#search").hideseek();
-
-    
 
 });

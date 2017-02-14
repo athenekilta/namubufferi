@@ -43,11 +43,19 @@ body {
 }
 
 .product {
+  white-space: normal;
   margin: 5px;
 }
 
+/* Normalize.css makes these things not to stick into the bottom */
+.navbar {
+  min-height:0px;
+}
+.navbar-btn {
+  margin-bottom:0px;
+}
+
 .navbar-fixed-bottom {
-  padding-bottom: 25px;
   background-color: rgba(0, 0, 0, 0.0);
 }
 

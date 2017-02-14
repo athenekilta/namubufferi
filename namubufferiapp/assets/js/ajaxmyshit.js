@@ -1,3 +1,14 @@
+/*
+ * Ajaxify an form
+ * 
+ * Prevents default form action and sends form by post.
+ * Adds has-error -class to form if request returns errors, 
+ * also replaces messageModal's html with data got from request.
+ *
+ * Callbacks can be attached to successfull and failed states.
+ *
+ */
+
 function ajaxMyShit (formId, callback, callback_on_error) {
     "use strict";
     // https://api.jquery.com/jquery.post/

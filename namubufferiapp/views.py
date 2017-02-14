@@ -398,6 +398,7 @@ def magic_auth(request, magic_token=None):
 
 def tag_auth(request):
     """
+    Login by tag
     """
     if request.method == 'POST':
         # Validate form
@@ -413,7 +414,8 @@ def tag_auth(request):
             except UserTag.DoesNotExist:
                 return JsonResponse({'errors':{'tag_uid':
                                         [{'message':'Tag {} not found'.format(tag_uid),
-                                          'code':'tagnotfound'}],}
+                                          'code':'tagnotfound'}],},
+                                     'modalMessage':'Tag {} not found!'.format(tag_uid),
                                     })
         else:
             return HttpResponseBadRequest('{"errors":' + tag_auth_form.errors.as_json() + '}', content_type="application/json")

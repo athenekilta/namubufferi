@@ -1,13 +1,8 @@
 require("bootstrap-webpack") 
-
-require("fittext/dist/jquery.fittext");
 require("hideseek/jquery.hideseek");
-
-
-require("./csrftoken");
-
 require("jQuery-Scanner-Detection/jquery.scannerdetection");
 
+require("./csrftoken");
 var amyshit = require("./ajaxmyshit.js");
 
 
@@ -16,15 +11,17 @@ $(document).ready(function() {
 
     $(document).scannerDetection();
 
-    amyshit("#buy-form", function (data) {
-        // Redirect to login after successful buy
-        window.location.href = "/";
-    });
-
     var product_barcodes;
     $.getJSON("/product/barcodes/", function(json){
         product_barcodes = json;
     });
+
+    amyshit("#buy-form", function (data) {
+        // Redirect to login after successful buy
+        // as no receipt is shown in anonymous mode
+        window.location.href = "/";
+    });
+
 
     $("#productModal").on("show.bs.modal", function(event) {
         var button = $(event.relatedTarget); // Button that triggered the modal
@@ -37,7 +34,8 @@ $(document).ready(function() {
 
 
     $(document).bind("scannerDetectionComplete", function(e, data){
-        // Open a product with tag
+        // If we find a product with the same barcode as scanned
+        // one is, lets click it from the list
         try {
             if ( product_barcodes.hasOwnProperty(data.string)) {
                 var productkey = product_barcodes[data.string];
@@ -47,20 +45,17 @@ $(document).ready(function() {
         catch(err){}
     });
 
+    
+    // UI tweaks for positioning on the site when using search bar
     $( "#search" ).focus(function(event) {
         $( window ).scrollTop($("#search").offset().top - 100);
-        //$( window ).scrollTop(0);
     });
     $( "#search" ).focusout(function(event) {
-        //$( window ).scrollTop($("#search").offset().top);
         $( window ).scrollTop($("#page-top").offset().top);
     });
     $( "#search" ).keypress(function(event) {
         $( window ).scrollTop($("#search").offset().top - 100);
-        //$( window ).scrollTop(0);
     });
 
     $("#search").hideseek();
-    $(".product").fitText();
-
 });

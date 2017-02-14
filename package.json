@@ -16,7 +16,6 @@
     "exports-loader": "^0.6.3",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
-    "fittext": "^1.0.1",
     "hideseek": "^0.7.1",
     "imports-loader": "^0.7.0",
     "jQuery-Scanner-Detection": "^1.2.1",

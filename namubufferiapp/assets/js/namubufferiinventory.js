@@ -1,6 +1,5 @@
 require("bootstrap-webpack")
 
-require("fittext/dist/jquery.fittext");
 require("hideseek/jquery.hideseek");
 
 require("jQuery-Scanner-Detection/jquery.scannerdetection");
@@ -123,7 +122,6 @@ $(document).ready(function() {
     });
 
     $("#search").hideseek();
-    $(".product").fitText();
 
     
 

@@ -1,6 +1,5 @@
 require("bootstrap-webpack") 
 
-require("fittext/dist/jquery.fittext");
 require("hideseek/jquery.hideseek");
 
 
@@ -160,7 +159,6 @@ $(document).ready(function() {
     });
 
     $("#search").hideseek();
-    $(".product").fitText();
 
 
     $( "#id_euros" ).focus(function(event) {

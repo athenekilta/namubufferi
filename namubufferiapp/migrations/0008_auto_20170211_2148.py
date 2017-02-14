@@ -21,7 +21,7 @@ def check_balances(apps, schema_editor):
         tran = Transaction.objects.create(amount=balance_diff, customer=account)
         tran.save()
 
-        print("For {} balance diff was {}".format(str(account), balance_diff))
+        print("For {} balance diff was {}".format(str(account.user.username), balance_diff))
 
 
 class Migration(migrations.Migration):

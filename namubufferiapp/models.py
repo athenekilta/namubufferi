@@ -158,7 +158,10 @@ class Transaction(models.Model):
                 self.product.cancel_sale()
 
     def __str__(self):
-        return "%s, %s, %s" % (self.get_date_string(), self.customer.user.username, self.amount)
+        if self.customer is not None:
+            return "%s, %s, %s" % (self.get_date_string(), self.customer.user.username, self.amount)
+        else:
+            return "%s, %s" % (self.get_date_string(), self.amount)
 
     class Meta:
         ordering = ["-timestamp"]

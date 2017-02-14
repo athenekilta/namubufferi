@@ -118,7 +118,11 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=128, unique=True)
     category = models.ForeignKey(Category, related_name='products')
-    price = models.FloatField(default=1)
+    price = models.DecimalField(max_digits=5,
+                                decimal_places=2,
+                                default=1,
+                               )
+
     inventory = models.IntegerField(default=1)
     hidden = models.BooleanField(default=False)
 

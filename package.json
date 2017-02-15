@@ -4,11 +4,12 @@
   "description": "Test app @ https://namubufferi.herokuapp.com/",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "webpack --config webpack.prod.config.js -p"
   },
   "author": "",
   "license": "MIT",
-  "devDependencies": {
+  "dependencies": {
     "bootstrap": "^3.3.7",
     "bootstrap-webpack": "0.0.5",
     "chart.js": "^2.4.0",

@@ -11,8 +11,6 @@ ldap3==1.4.0
 psycopg2==2.6.2
 pyasn1==0.1.9
 pycurl==7.43.0
-pygobject==3.20.0
-python-apt==1.1.0b1
 python-http-client==1.2.3
 rcssmin==1.0.6
 requests==2.11.1

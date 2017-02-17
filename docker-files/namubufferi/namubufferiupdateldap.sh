@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Wait for the initial setup. Not waiting wouldn't be dangerous, but
+# it will show a long error message in the log when the db isn't ready
+# yet.
+sleep 20
+
 cd /namubufferi
 
 while true

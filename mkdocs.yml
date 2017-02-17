@@ -1,3 +1,6 @@
-site_name: My Docs
+site_name: Namubufferi
 pages:
-  - Home: index.md
+  - In general: index.md
+  - Settings: settings.md
+  - Deploying: deploy.md
+  - REST: rest.md

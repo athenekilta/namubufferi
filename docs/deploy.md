@@ -64,9 +64,9 @@ Make sure to setup relevant enviromental settings.
 
         heroku login
         heroku create *appname* --region eu
-        heroku buildpacks:add -a nbufferi2 heroku/nodejs
-        heroku buildpacks:add -a nbufferi2 heroku/python
-        heroku config:set -a nbufferi2 DEBUG=false NAMUBUFFERI_ALLOWEDHOSTS=\*
+        heroku buildpacks:add -a *appname* heroku/nodejs
+        heroku buildpacks:add -a *appname* heroku/python
+        heroku config:set -a *appname* DEBUG=false NAMUBUFFERI_ALLOWEDHOSTS=\*
         git push heroku master
         heroku run ./bin/heroku-setup
 

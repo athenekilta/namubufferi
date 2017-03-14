@@ -48,7 +48,10 @@ $(document).ready(function() {
 
     ajaxMyShit('#buy-form', function (data) {
         $('#productModal').modal('hide');
-        $("#receiptModal").modal('show');
+        $('#successModal').modal('show');
+        setTimeout(function(){
+          $('#successModal').modal('hide')
+        }, 1750);
     });
     ajaxMyShit('#money-form', function (data) {
         $('#moneyModal').modal('hide');
@@ -76,7 +79,7 @@ $(document).ready(function() {
         modal.find('#product-modal-name').text(button.data('productname'));
         modal.find('#product-modal-pk').val(button.data('productkey'));
         modal.find('#product-modal-price').text(button.data('productprice'));
-        modal.find('#product-modal-inventory').text(button.data('productinventory')); 
+        modal.find('#product-modal-inventory').text(button.data('productinventory'));
     });
 
     $('#receiptModal').on('show.bs.modal', function(event) {
@@ -103,4 +106,13 @@ $(document).ready(function() {
     $('#historycheckbox').change(function(){
         $('.canceled').toggle(this.checked);
     });
+    // Search: Add class to parent when focusing on child
+    $('.namu-search > *')
+    .focus(function() {
+        $('.namu-search').addClass('namu-search-focused');
+    })
+    .blur(function() {
+        $('.namu-search').removeClass('namu-search-focused');
+    });
+
 });

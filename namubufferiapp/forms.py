@@ -4,13 +4,12 @@ from django.core.validators import RegexValidator
 
 class MoneyForm(forms.Form):
     amount = forms.DecimalField(
-        max_digits=5,
-        decimal_places=2,
+        max_digits=3,
+        decimal_places=0,
         widget=forms.NumberInput(
             attrs={
-                "class": "form-control",
-                "placeholder": "0.00",
-                "step": "0.05",
+                "class": "form-control namu-modal-deposit-input",
+                "placeholder": "0",
                 "autofocus": "",
             }
         ),

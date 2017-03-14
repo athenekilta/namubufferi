@@ -2,7 +2,7 @@
 <!-- Modals -->
 <!-- Always try to place a modal's HTML code in a top-level position in your document to avoid other components affecting the modal's appearance and/or functionality. -->
 
-<!-- Product info/buy Modal -->
+<!-- Product buy confirmation Modal -->
 <div
   class="modal fade"
   id="productModal"
@@ -10,60 +10,128 @@
   role="dialog"
   aria-labelledby="productModalLabel"
 >
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title" id="productModalLabel">
-          Buy <em id="product-modal-name"></em>?
-        </h4>
+  <div class="modal-dialog namu-dialog" role="document">
+    <div class="modal-content namu-modal-content">
+      <div class="modal-header namu-modal-header">
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>  -->
+        <span>Vahvista</span>
       </div>
       <div class="modal-body">
-        <table class="table">
-          <tr>
-            <td>Price</td>
-            <td><span class="currency" id="product-modal-price"></span></td>
-          </tr>
-          <tr>
-            <td>Stock</td>
-            <td><span id="product-modal-inventory"></span></td>
-          </tr>
-        </table>
+        <div class="namu-modal-product">
+          <span id="product-modal-name"></span>
+        </div>
+        <div class="namu-modal-price">
+          <span class="currency" id="product-modal-price"></span>
+        </div>
       </div>
-      <div class="modal-footer">
-        <form id="buy-form" hidden action="{% url 'buy' %}" method="post">
-          {% csrf_token %}
-          <input
-            id="product-modal-pk"
-            hidden
-            type="text"
-            name="product_key"
-            value="none"
-          />
-        </form>
-        <button
-          type="button"
-          class="btn btn-default btn-sm"
-          data-dismiss="modal"
-        >
-          Cancel
-        </button>
-        <button type="submit" form="buy-form" class="btn btn-success">
-          Buy
-        </button>
+      <form id="buy-form" hidden action="{% url 'buy' %}" method="post">
+        {% csrf_token %}
+        <input
+          id="product-modal-pk"
+          hidden
+          type="text"
+          name="product_key"
+          value="none"
+        />
+      </form>
+      <button
+        type="button"
+        class="btn btn-default btn-sm namu-btn namu-btn-red"
+        data-dismiss="modal"
+      >
+        Peru
+      </button>
+      <button
+        type="submit"
+        form="buy-form"
+        class="btn btn-success namu-btn namu-btn-green"
+      >
+        Osta
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Product buy success Modal -->
+<div
+  class="modal fade"
+  id="successModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="successModalLabel"
+>
+  <div class="modal-dialog namu-dialog" role="document">
+    <div class="modal-content namu-modal-content">
+      <div class="modal-header namu-modal-header namu-success-header">
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>  -->
+        <span>Onnistui!</span>
+      </div>
+      <div class="modal-body namu-modal-body">
+        <div id="namu-modal-success">
+          <svg
+            version="1.1"
+            id="Layer_1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            x="0px"
+            y="0px"
+            viewBox="0 0 113 113"
+            style=""
+            xml:space="preserve"
+          >
+            <style type="text/css">
+              .st0 {
+                fill: none;
+                stroke: #75c695;
+                stroke-width: 12;
+                stroke-miterlimit: 10;
+              }
+            </style>
+            <path
+              class="st0 GZfuZjRO_0"
+              d="M28.6,59.8L52.1,81.3L84.4,31.7"
+            ></path>
+            <path
+              class="st0 GZfuZjRO_1"
+              stroke-linecap="round"
+              d="M6,56.5A50.5,50.5 0,1,1 107,56.5A50.5,50.5 0,1,1 6,56.5"
+            ></path>
+            <style>
+              .GZfuZjRO_0 {
+                stroke-dasharray: 92 94;
+                stroke-dashoffset: 93;
+                animation: GZfuZjRO_draw 533ms ease-in-out 0ms forwards;
+              }
+              .GZfuZjRO_1 {
+                stroke-dasharray: 318 320;
+                stroke-dashoffset: 319;
+                animation: GZfuZjRO_draw 533ms ease-in-out 266ms forwards;
+              }
+              @keyframes GZfuZjRO_draw {
+                100% {
+                  stroke-dashoffset: 0;
+                }
+              }
+              @keyframes GZfuZjRO_fade {
+                0% {
+                  stroke-opacity: 1;
+                }
+                92% {
+                  stroke-opacity: 1;
+                }
+                100% {
+                  stroke-opacity: 0;
+                }
+              }
+            </style>
+          </svg>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Deposit Modal -->
+<!-- Deposit Modal TODO: fix the num input -->
 <div
   class="modal fade"
   id="moneyModal"
@@ -71,9 +139,9 @@
   role="dialog"
   aria-labelledby="moneyModalTitle"
 >
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
+  <div class="modal-dialog namu-dialog" role="document">
+    <div class="modal-content namu-modal-content">
+      <div class="modal-header namu-modal-header">
         <button
           type="button"
           class="close"
@@ -85,43 +153,51 @@
         <h4 class="modal-title" id="moneyModalTitle">
           Balance
           <span
-            class="currency balance {% if user.account.balance < 0 %}text-danger{% endif %}"
+            class="balance currency {% if user.account.balance < 0 %}text-danger{% endif %}"
             >{{ user.account.balance }}</span
           >
         </h4>
       </div>
-      <div class="modal-body">
-        <form class="form" id="money-form" action="{% url 'deposit' %}" method="post">
-          <div class="form-group">
-            <div class="input-group">
-              <div class="currency input-group-addon"></div>
-              {{ money_form.amount }}
+      <div class="modal-body namu-modal-body">
+        <div class="namu-modal-deposit-leftcolumn">
+          <form
+            class="form-inline"
+            id="money-form"
+            action="{% url 'deposit' %}"
+            method="post"
+          >
+            <div class="form-group namu-modal-deposit-form">
+              <div class="input-group">
+                <div class="input-group-addon currency"></div>
+                {{ money_form.amount }}
+              </div>
             </div>
-          </div>
-          <div class="text-center">
-            <button type="submit" form="money-form" class="btn btn-success">
-              Deposit
-            </button>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer container-fluid">
-        <div class="row">
-          <div class="col-xs-6">
-            <a href="{% url 'logout' %}" class="btn btn-default btn-block">
-              Logout
-            </a>
-          </div>
-          <div class="col-xs-6">
-            <button
-              type="button"
-              class="btn btn-default btn-block"
-              data-toggle="modal"
-              data-target="#historyModal"
-            >
-              History
-            </button>
-          </div>
+            <div class="text-center">
+              <button
+                type="submit"
+                form="money-form"
+                class="btn btn-success namu-btn namu-btn-green"
+              >
+                Lisää saldoa
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="namu-modal-deposit-rightcolumn">
+          <a
+            href="{% url 'logout' %}"
+            class="btn btn-default namu-btn namu-btn-deposit-fix"
+          >
+            Logout
+          </a>
+          <button
+            type="button"
+            class="btn btn-default namu-btn namu-btn-deposit-fix"
+            data-toggle="modal"
+            data-target="#historyModal"
+          >
+            History
+          </button>
         </div>
       </div>
     </div>
@@ -136,9 +212,9 @@
   role="dialog"
   aria-labelledby="historyModalLabel"
 >
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
+  <div class="modal-dialog namu-dialog-larger" role="document">
+    <div class="modal-content namu-modal-content">
+      <div class="modal-header namu-modal-header">
         <button
           type="button"
           class="close"
@@ -147,9 +223,7 @@
         >
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title" id="historyModalLabel">
-          History<small> 5 Most Recent</small>
-        </h4>
+        <small> History</small>
       </div>
       <div class="modal-body">
         <div class="checkbox">
@@ -160,7 +234,11 @@
         <div id="history"></div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">
+        <button
+          type="button"
+          class="btn btn-default namu-btn"
+          data-dismiss="modal"
+        >
           Close
         </button>
       </div>
@@ -176,9 +254,9 @@
   role="dialog"
   data-transactionkey=""
 >
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
+  <div class="modal-dialog namu-dialog-larger">
+    <div class="modal-content namu-modal-content">
+      <div class="modal-header namu-modal-header">
         <button
           type="button"
           class="close"
@@ -223,7 +301,7 @@
           id="transaction-cancel-button"
           type="submit"
           form="cancelform"
-          class="btn btn-danger btn-sm"
+          class="btn btn-danger"
         >
           Cancel Transaction
         </button>
@@ -242,15 +320,15 @@
 <section id="shop" class="container text-center">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
-      <div class="input-group input-group">
+      <div class="input-group namu-search">
         <span class="input-group-addon" id="basic-addon1"
           ><span class="glyphicon glyphicon-search" aria-hidden="true"></span
         ></span>
         <input
-          class="form-control"
+          class="form-control namu-search-form"
           id="search"
           name="search"
-          placeholder="Search for products"
+          placeholder="Hae tuotteita"
           type="text"
           data-list=".list"
         />
@@ -266,23 +344,25 @@
       <h4><strong>{{ category.name }}</strong></h4>
     </div>
     {% for product in category.products.all %}
-    <div class="col-xs-6 col-sm-3">
-      <button
-        type="button"
-        class="btn btn-default btn-block btn-lg product"
-        data-toggle="modal"
-        data-target="#productModal"
-        data-productkey="{{ product.pk }}"
-        data-productname="{{ product.name }}"
-        data-productcategory="{{ product.category }}"
-        data-productprice="{{ product.price }}"
-        data-productinventory="{{ product.inventory }}"
-      >
-        <span>{{ product.name }}</span>
-        <span class="price currency">{{ product.price }}</span>
+    <button
+      type="button"
+      class="namu-button"
+      data-toggle="modal"
+      data-target="#productModal"
+      data-productkey="{{ product.pk }}"
+      data-productname="{{ product.name }}"
+      data-productcategory="{{ product.category }}"
+      data-productprice="{{ product.price }}"
+      data-productinventory="{{ product.inventory }}"
+    >
+      <span class="namu-name">
+        <span class="namu-center">{{ product.name }}</span>
+      </span>
+      <span class="currency namu-price"
+        >{{ product.price }}
         <span hidden>{{ product.category }}</span>
-      </button>
-    </div>
+      </span>
+    </button>
     {% endfor%}
   </div>
   {% endfor %}
@@ -298,7 +378,7 @@
     >
       {{ user }}
       <span
-        class="currency balance {% if user.account.balance < 0 %} text-danger{% endif %}"
+        class="balance currency {% if user.account.balance < 0 %} text-danger{% endif %}"
         >{{ user.account.balance }}</span
       >
     </button>

@@ -2,24 +2,30 @@
 {% load bootstrap3 %}
 {% block content %}
 <section id="user-auth" class="container text-center">
-  <h3>Welcome</h3>
-  <form
-    class="form-horizontal"
-    id="magic-auth-form"
-    action="{% url 'magic-login' %}"
-    method="post"
-  >
-    {% csrf_token %}
-    <div class="form-group">
-      <div class="col-sm-4 col-sm-offset-4">
+  <div class="namu-login-body">
+    <h3>Namubufferi</h3>
+    <form
+      class="form-inline"
+      id="magic-auth-form"
+      action="{% url 'magic-login' %}"
+      method="post"
+    >
+      {% csrf_token %}
+      <div class="form-group namu-login-reset">
         <div class="input-group">
           {{ form.username }}
           <div class="input-group-addon">@aalto.fi</div>
         </div>
       </div>
-    </div>
-    <button type="submit" class="btn btn-default">Authenticate</button>
-    <p class="help-block">You will get an email with a login link.</p>
-  </form>
+      <button
+        style="margin-top: 20px"
+        type="submit"
+        class="btn btn-default namu-btn namu-btn-green"
+      >
+        Authenticate
+      </button>
+      <p class="help-block">You will get an email with a login link.</p>
+    </form>
+  </div>
 </section>
 {% endblock content %}

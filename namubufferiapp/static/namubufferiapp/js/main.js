@@ -50,11 +50,17 @@ $(document).ready(function () {
 
   ajaxMyShit("#buy-form", function (data) {
     $("#productModal").modal("hide");
-    $("#receiptModal").modal("show");
+    $("#successModal").modal("show");
+    setTimeout(function () {
+      $("#successModal").modal("hide");
+    }, 1750);
   });
   ajaxMyShit("#money-form", function (data) {
     $("#moneyModal").modal("hide");
-    $("#receiptModal").modal("show");
+    $("#successModal").modal("show");
+    setTimeout(function () {
+      $("#successModal").modal("hide");
+    }, 1750);
   });
   ajaxMyShit("#cancelform", function (data) {
     $("#receiptModal").modal("hide");
@@ -110,4 +116,11 @@ $(document).ready(function () {
   });
 
   $("#search").hideseek();
+  $(".namu-search > *")
+    .focus(function () {
+      $(".namu-search").addClass("namu-search-focused");
+    })
+    .blur(function () {
+      $(".namu-search").removeClass("namu-search-focused");
+    });
 });

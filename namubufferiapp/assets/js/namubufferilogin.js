@@ -16,6 +16,10 @@ $(document).ready(function() {
         $("#tag-auth-form").submit();
     });
 
+    $("#magicCodeLoginButton").click(function(event) {
+      window.location.href = "magic/"+$("#magicCode").val();
+    });
+
     // This will most probably show "check your email"
     // for the user after they are requested magic
     // login link to their email

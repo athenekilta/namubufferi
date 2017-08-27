@@ -3,6 +3,7 @@ from datetime import timedelta
 from decimal import Decimal
 from hashlib import sha256
 from os import urandom
+import uuid
 
 from django.contrib.auth.models import User
 from django.dispatch import receiver
@@ -24,7 +25,11 @@ def generate_magic_key():
 
 
 def generate_magic_token():
-    magic = b64encode(sha256(urandom(32)).digest(), '-_'.encode('ascii'))
+    random = str(uuid.uuid4())
+    random = random.upper()
+    random = random.replace("-","")
+    magic = random[0:5]
+
     print(magic)
     return magic
 
@@ -56,7 +61,7 @@ class Account(models.Model):
     https://docs.djangoproject.com/en/1.7/topics/auth/customizing/#extending-user
     """
     user = models.OneToOneField(User)
-    magic_token = models.CharField(max_length=44, unique=True, default=generate_magic_token)
+    magic_token = models.CharField(max_length=44, null=True, blank=True)
     magic_token_ttl = models.DateTimeField(default=(timezone.now() + timedelta(minutes=15)))  # TODO: Static
 
     @property
@@ -75,12 +80,15 @@ class Account(models.Model):
     """
     def update_magic_token(self):
         self.magic_token_ttl = timezone.now() + timedelta(minutes=15)
-        self.magic_token = generate_magic_token()
+        magic_token = generate_magic_token()
+        while (len(Account.objects.filter(magic_token=str(magic_token))) != 0):
+            magic_token = generate_magic_token()
+        self.magic_token = magic_token
         self.save()
         return self.magic_token
 
     def deactivate_magic_token(self):
-        self.magic_token = generate_magic_token()
+        self.magic_token = None
         self.magic_token_ttl = timezone.now()
         self.save()
 
@@ -99,6 +107,7 @@ def handle_user_save(sender, instance, created, **kwargs):
     if created:
         acc = Account.objects.create(user=instance)
         acc.save()
+        acc.update_magic_token()
 
 
 class Category(models.Model):

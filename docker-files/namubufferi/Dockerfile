@@ -26,7 +26,6 @@ RUN /namubufferi/node_modules/.bin/webpack --config /namubufferi/webpack.prod.co
 RUN python3 manage.py collectstatic --noinput
 
 RUN mkdir /static
-VOLUME /static
 RUN cp -R namubufferi/staticfiles/* /static/
 
 CMD ["gunicorn3", "namubufferi.wsgi", "--name", "namubufferi", "--bind", "0.0.0.0:8080", "--reload", "--log-level=info", "--log-file=-", "--access-logfile=-"]

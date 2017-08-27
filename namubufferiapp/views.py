@@ -17,7 +17,7 @@ from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest, Http404
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from bs4 import BeautifulSoup
 
@@ -182,7 +182,7 @@ def discover_barcode(request, barcode):
     product["name"] = product_from_outpan(barcode)
     if product["name"] is False:
         product["name"] = product_from_foodie(barcode)
-    
+
     if product["name"] is False:
         raise Http404()
 
@@ -224,7 +224,7 @@ def buy(request):
 
         new_transaction.save()
         product.make_sale()
-        
+
         payload = {'balance': Decimal(0),
                      'transactionkey': new_transaction.pk,
                      'modalMessage': "Purchase Successful",
@@ -366,15 +366,10 @@ def magic_auth(request, magic_token=None):
             # Send mail to user
             mail = EmailMultiAlternatives(
                 subject="Namubufferi - Login",
-                body=("Hello. Authenticate to Namubufferi using this link. It's valid for 15 minutes.\n"
-                      + magic_link),
-                from_email="<namubufferi@athene.fi>",
+                body=("Hello. Authenticate to Namubufferi using this code. It's valid for 15 minutes.\n"
+                      + user.account.magic_token),
                 to=[user.email]
             )
-            mail.attach_alternative(("<h1>Hello."
-                                     "</h1><p>Authenticate to Namubufferi using this link. It's valid for 15 minutes.</p>"
-                                     '<a href="http://' + magic_link + '"> Magic Link </a>'
-                                     ), "text/html")
             try:
                 mail.send()
                 print("Mail sent")
@@ -394,7 +389,7 @@ def magic_auth(request, magic_token=None):
             login(request, user)
             return home(request)
         else:
-            return HttpResponse(status=410)
+            return redirect('/')
 
 def tag_auth(request):
     """
@@ -451,4 +446,3 @@ def tag_modify(request, uid):
         except IntegrityError:
             return HttpResponse("Another tag exists ({})!".format(uid),
                                 status=409)
-

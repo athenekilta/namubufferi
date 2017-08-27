@@ -14,12 +14,13 @@
   <!-- Normally hidden form for tag login -->
   <form class="form-horizontal" id="tag-auth-form" action="{% url 'tag_auth' %}" method="post">
     {% csrf_token %}
+
     <div class="form-group">
       <div class="col-sm-4 col-sm-offset-4">
         <div class="input-group">
           {{ tag_auth_form.tag_uid }}
           <div class="input-group-addon">
-            <button type="submit" class="btn btn-default">Authenticate</button> 
+            <button type="submit" class="btn btn-default">Authenticate</button>
           </div>
         </div>
         <p id="tag-auth-error" class="help-block hidden">Tag not found</p>
@@ -28,6 +29,12 @@
   </form>
 
   <div class="panel panel-default col-sm-8">
+    <div class="form-group">
+      <div class="input-group">
+        <input type="text" class="form-control" id="magicCode" placeholder="Login code: ASD1F">
+        <button type="submit" class="btn btn-default" id="magicCodeLoginButton">Login</button>
+      </div>
+    </div>
     <form class="form-horizontal" id="magic-auth-form" action="/magic/" method="post">
       {% csrf_token %}
       <div class="form-group">
@@ -54,4 +61,3 @@
 {% block own_bundles %}
 {% render_bundle 'loginview' %}
 {% endblock own_bundles %}
-

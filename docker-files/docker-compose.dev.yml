@@ -1,7 +1,5 @@
 namubufferi:
         env_file: devenv
-        volumes:
-                - ../:/namubufferi
 ldap:
         env_file: devenv
         

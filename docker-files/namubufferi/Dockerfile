@@ -1,22 +1,12 @@
-FROM phusion/baseimage:0.9.19
+FROM ubuntu:16.04
 
 MAINTAINER Sami-Petteri Pukkila
 
-CMD ["/sbin/my_init"]
 EXPOSE 8080
 
-RUN apt-get -y update && apt-get install -y python3 python3-pip gunicorn3 npm nodejs-legacy libpq-dev postgresql
+RUN apt-get -y update && apt-get install -y python3 python3-pip gunicorn3 npm nodejs-legacy libpq-dev postgresql libcurl4-openssl-dev
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN mkdir -p /static
-
-RUN mkdir /etc/service/namubufferi
-ADD docker-files/namubufferi/namubufferistart.sh /etc/service/namubufferi/run
-RUN chmod +x /etc/service/namubufferi/run
-
-RUN mkdir /etc/service/namubufferildapsync
-ADD docker-files/namubufferi/namubufferiupdateldap.sh /etc/service/namubufferildapsync/run
-RUN chmod +x /etc/service/namubufferildapsync/run
 
 RUN mkdir /namubufferi
 WORKDIR /namubufferi
@@ -29,9 +19,14 @@ ADD package.json /namubufferi
 RUN npm install --no-optional --unsafe-perm
 
 COPY ./ /namubufferi
-# We cant use this as a postinstall hook for npm as we want to copy
+# We cant use this as a postinstall hook in package.json as we want to copy
 # project files after npm install
 RUN /namubufferi/node_modules/.bin/webpack --config /namubufferi/webpack.prod.config.js -p
-RUN python3 manage.py collectstatic --noinput
-RUN rm -rf /namubufferi/node_modules
 
+RUN python3 manage.py collectstatic --noinput
+
+RUN mkdir /static
+VOLUME /static
+RUN cp -R namubufferi/staticfiles/* /static/
+
+CMD ["gunicorn3", "namubufferi.wsgi", "--name", "namubufferi", "--bind", "0.0.0.0:8080", "--reload", "--log-level=info", "--log-file=-", "--access-logfile=-"]

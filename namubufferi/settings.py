@@ -221,7 +221,6 @@ if NAMUBUFFERI_USE_SMTP == True:
 assign_from_env("SECRET_KEY", "NAMUBUFFERI_SECRETKEY")
 assign_from_env("DEBUG", "DEBUG", is_bool=True)
 assign_from_env("STATIC_URL", "NAMUBUFFERI_STATIC_URL")
-assign_from_env("STATIC_ROOT", "NAMUBUFFERI_STATIC_ROOT")
 
 try:
     db_from_env = dj_database_url.parse(os.environ['NAMUBUFFERI_DB'])
@@ -246,4 +245,3 @@ try:
     from namubufferi.local_settings import *
 except ImportError as e:
     pass
-

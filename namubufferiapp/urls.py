@@ -3,7 +3,6 @@ from django.contrib.auth import views as auth_views
 
 from namubufferiapp import views
 from namubufferiapp.forms import MagicAuthForm, TagAuthForm
-from namubufferi.settings import RECAPTCHA_SITE
 
 
 urlpatterns = [
@@ -12,7 +11,6 @@ urlpatterns = [
     url(r'^login', auth_views.login, {'template_name': 'namubufferiapp/base_magiclogin.html',
                                                        'extra_context': {'magic_auth_form': MagicAuthForm(),
                                                                          'tag_auth_form': TagAuthForm(),
-                                                                         'recaptcha_site':RECAPTCHA_SITE,
                                                                          }}),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}),
     url(r'^buy/$', views.buy, name="buy"),

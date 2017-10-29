@@ -23,7 +23,7 @@ from bs4 import BeautifulSoup
 
 from .forms import MoneyForm, MagicAuthForm, TagAuthForm, ProductForm
 from .models import Account, Product, Category, Transaction, UserTag, ProductTag
-from namubufferi.settings import DEBUG, AUTHENTICATION_BACKENDS,RECAPTCHA_SECRET
+from namubufferi.settings import DEBUG, AUTHENTICATION_BACKENDS
 
 @staff_member_required
 def admin_inventory(request):
@@ -328,19 +328,6 @@ def magic_auth(request, magic_token=None):
     """
     """
     if request.method == 'POST':
-        # Validate reCAPTCHA
-        # https://developers.google.com/recaptcha/docs/verify
-        # http://docs.python-requests.org/en/master/user/quickstart/#more-complicated-post-requests
-        # http://docs.python-requests.org/en/master/user/quickstart/#json-response-content
-        payload = {"secret": RECAPTCHA_SECRET,
-                   "response": request.POST['g-recaptcha-response']}
-        r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=payload).json()
-        # TODO: Check if we need headers
-        if not r['success']:
-            print ("reCAPTCHA validation failed.")
-            if not DEBUG:
-                return JsonResponse({'modalMessage': 'Check yourself you might be a robot. Try again.'})
-
         # Validate form
         magic_auth_form = MagicAuthForm(request.POST)
         if magic_auth_form.is_valid():

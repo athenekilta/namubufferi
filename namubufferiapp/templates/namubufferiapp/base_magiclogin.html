@@ -3,7 +3,6 @@
 
 
 {% block head %}
-<script src='https://www.google.com/recaptcha/api.js'></script>
 {% endblock head %}
 
 {% block content %}
@@ -41,9 +40,6 @@
         <div class="col-sm-8 col-sm-offset-2">
             {{ magic_auth_form.email }}
         </div>
-      </div>
-      <div class="form-group">
-        <div class="g-recaptcha col-xs-12 col-sm-offset-2" data-sitekey="{{ recaptcha_site }}"></div>
       </div>
       <button style="margin-top: 36px;" type="submit" class="btn btn-default">Authenticate</button>
       <p class="help-block">You will get an email with a login link.<br>

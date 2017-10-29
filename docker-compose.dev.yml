@@ -1,0 +1,40 @@
+namubufferi:
+        build: ./
+        environment:
+                DEBUG: "true"
+                NAMUBUFFERI_ALLOWEDHOSTS: localhost
+                NAMUBUFFERI_ADMINUSER: admin
+                NAMUBUFFERI_ADMINPASS: password
+                NAMUBUFFERI_GUNICORN_WORKERS: 1
+                NAMUBUFFERI_DB: postgres://postgres:postgres@postgres/namubufferi-local-test
+                NAMUBUFFERI_SECRETKEY: 'wfofh1#8444fufhIUFOHFEHUFW3D73D7344/((#(#HFFH'
+                NAMUBUFFERI_STATIC_URL: /static/
+                NAMUBUFFERI_USELDAP: "true"
+                NAMUBUFFERI_LDAP_AUTH_URL: ldap://ldap:389
+                NAMUBUFFERI_LDAP_AUTH_SEARCH_BASE="dc=namubufferidomain,dc: com"
+                NAMUBUFFERI_LDAP_AUTH_CONNECTION_USERNAME: admin
+                NAMUBUFFERI_LDAP_AUTH_CONNECTION_PASSWORD: rootpass
+        links:
+                - postgres:postgres
+                - ldap:ldap
+                - smtp:smtp
+        ports:
+                - 8080:8080
+        volumes:
+                - ./namubufferiapp:/namubufferi/namubufferiapp
+
+ldap:
+        build: docker-files/slapd
+        environment:
+                LDAP_DOMAIN: namubufferidomain.com
+                LDAP_ORGANISATION: "Super namubufferigroup"
+                LDAP_ROOTPASS: rootpass
+
+smtp:
+        image: namshi/smtp
+
+
+postgres:
+        image: postgres:alpine
+        environment:
+                POSTGRES_DB: namubufferi-local-test

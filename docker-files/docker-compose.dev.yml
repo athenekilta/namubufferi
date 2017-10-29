@@ -1,8 +1,0 @@
-namubufferi:
-        env_file: devenv
-ldap:
-        env_file: devenv
-        
-postgres:
-        env_file: devenv
-

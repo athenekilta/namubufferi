@@ -1,0 +1,31 @@
+nginx:
+        build: docker-files/nginx
+        restart: unless-stopped
+        ports:
+                - "80:80"
+        volumes_from:
+                - namubufferi
+        links:
+                - namubufferi:namubufferi
+
+namubufferi:
+        build: ./
+        restart: unless-stopped
+        environment:
+                DEBUG: "false"
+                NAMUBUFFERI_ALLOWEDHOSTS: localhost
+                NAMUBUFFERI_GUNICORN_WORKERS: 1
+                NAMUBUFFERI_DB: ${NAMUBUFFERI_DB}
+                NAMUBUFFERI_SECRETKEY: ${NAMUBUFFERI_SECRET}
+                NAMUBUFFERI_STATIC_URL: /static/
+                NAMUBUFFERI_USELDAP: "false"
+                NAMUBUFFERI_USE_SMTP: "true"
+                SMTP_HOST: ${NAMUBUFFERI_SMTP_HOST}
+                SMTP_PORT: ${NAMUBUFFERI_SMTP_PORT}
+                SMTP_USER: ${NAMUBUFFERI_SMTP_USER}
+                SMTP_PASSWORD: ${NAMUBUFFERI_SMTP_PASSWORD}
+                SMTP_TLS: ${NAMUBUFFERI_SMTP_TLS}
+                SMTP_SSL: ${NAMUBUFFERI_SMTP_SSL}
+
+        volumes:
+                - /static

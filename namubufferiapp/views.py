@@ -361,13 +361,12 @@ def magic_auth(request, magic_token=None):
 
             user.account.update_magic_token()
             current_site = get_current_site(request)
-            magic_link = current_site.domain + reverse('magic', kwargs={'magic_token': user.account.magic_token})
 
             # Send mail to user
             mail = EmailMultiAlternatives(
                 subject="Namubufferi - Login",
                 body=("Hello. Authenticate to Namubufferi using this code. It's valid for 15 minutes.\n"
-                      + user.account.magic_token),
+                      + str(user.account.magic_token)),
                 to=[user.email]
             )
             try:
@@ -377,14 +376,14 @@ def magic_auth(request, magic_token=None):
                 print("Mail not sent")
 
             if DEBUG:
-                return JsonResponse({'modalMessage': '<br><a href="http://' + magic_link + '">Login Link</a> (Sent to you email when !DEBUG)'})
+                return JsonResponse({'modalMessage': '<br>login with ' + str(user.account.magic_token) + ' (Shown when DEBUG)'})
             else:
                 return JsonResponse({'modalMessage': 'Check your email.'})
         else:
             return HttpResponse('{"errors":' + magic_auth_form.errors.as_json() + '}', content_type="application/json")
 
     else:
-        user = authenticate(magic_token=magic_token)
+        user = authenticate(magic_token=str(magic_token))
         if user:
             login(request, user)
             return home(request)

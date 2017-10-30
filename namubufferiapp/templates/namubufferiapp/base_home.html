@@ -56,12 +56,26 @@
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
   <div class="container-fluid text-center">
-    <button type="button" class="btn btn-primary btn-lg navbar-btn" data-toggle="modal" data-target="#moneyModal">
-        {{ user }}
-        <span class="balance {% if user.account.balance < 0 %} text-danger{% endif %}">
-        {{ user.account.balance }}€
-      </span>
-    </button>
+      <div class="row">
+          <div class="col-xs-4">
+            <a href="/logout" class="btn btn-primary btn-lg navbar-btn">
+              Logout {% comment %}<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>{% endcomment %}
+            </a>
+          </div>
+          <div class="col-xs-4">
+            <button type="button" class="btn btn-primary btn-lg navbar-btn" data-toggle="modal" data-target="#moneyModal">
+                Handle money - {{ user }}
+                <span class="balance {% if user.account.balance < 0 %} text-danger{% endif %}">
+                {{ user.account.balance }}€
+              </span>
+            </button>
+          </div>
+          <div class="col-xs-4">
+            <button type="button" class="btn btn-primary btn-lg navbar-btn" data-toggle="modal" data-target="#tagModal">
+              Manage login tags
+            </button>
+          </div>
+        </div>
   </div>
 </nav>
 

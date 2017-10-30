@@ -40,6 +40,7 @@ body {
 
 #shop {
   min-height: 100vh;
+  padding-bottom: 5em;
 }
 
 .product {
@@ -56,7 +57,7 @@ body {
 }
 
 .navbar-fixed-bottom {
-  background-color: rgba(0, 0, 0, 0.0);
+  background-color: white;
 }
 
 .vertical-align {

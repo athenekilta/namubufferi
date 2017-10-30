@@ -18,7 +18,6 @@ namubufferi:
                 NAMUBUFFERI_DB: ${NAMUBUFFERI_DB}
                 NAMUBUFFERI_SECRETKEY: ${NAMUBUFFERI_SECRET}
                 NAMUBUFFERI_STATIC_URL: /static/
-                NAMUBUFFERI_USELDAP: "false"
                 NAMUBUFFERI_USE_SMTP: "true"
                 SMTP_HOST: ${NAMUBUFFERI_SMTP_HOST}
                 SMTP_PORT: ${NAMUBUFFERI_SMTP_PORT}

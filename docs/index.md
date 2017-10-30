@@ -3,16 +3,6 @@ Namubufferi is a small e-commerce app for handling a small
 store with mainly cash payments.
 
 ## Features
-### LDAP integration
-Namubufferi has an ability to sync users from LDAP database.
-This is done by periodically calling `manage.py ldap_sync_users`
-
-Requiring external cron-like thing isn't ideal, but it seems
-to be the easiest way.
-
-Provided docker container includes support for polling users
-from ldap, but in heroku such feature isn't provided.
-
 ### Login
 #### by magic links
 1. User enters their email

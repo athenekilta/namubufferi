@@ -75,7 +75,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'namubufferiapp',
-    'django_python3_ldap',
     'bootstrap3',
     'autofixture',
     'webpack_loader',
@@ -190,15 +189,6 @@ else:
         SENDGRID_USER = "none"
         SENDGRID_PASSWORD = "none"
 
-LDAP_AUTH_URL = "ldap://example:389"
-LDAP_AUTH_SEARCH_BASE = "dc=example,dc=com"
-LDAP_AUTH_CONNECTION_USERNAME = "admin"
-LDAP_AUTH_CONNECTION_PASSWORD = "pass"
-LDAP_AUTH_USER_FIELDS = {
-    "username": "cn",
-    "email": "mail",
-}
-
 # Override defaults from enviromental variables if exists
 try:
     ALLOWED_HOSTS = os.environ['NAMUBUFFERI_ALLOWEDHOSTS'].split()
@@ -228,11 +218,6 @@ try:
 except KeyError:
     pass
 
-
-assign_from_env("LDAP_AUTH_URL", "NAMUBUFFERI_LDAP_AUTH_URL")
-assign_from_env("LDAP_AUTH_SEARCH_BASE", "NAMUBUFFERI_LDAP_AUTH_SEARCH_BASE")
-assign_from_env("LDAP_AUTH_CONNECTION_USERNAME", "NAMUBUFFERI_LDAP_AUTH_CONNECTION_USERNAME")
-assign_from_env("LDAP_AUTH_CONNECTION_PASSWORD", "NAMUBUFFERI_LDAP_AUTH_CONNECTION_PASSWORD")
 
 assign_from_env("OUTPAN_API_KEY", "NAMUBUFFERI_OUTPAN_API_KEY")
 

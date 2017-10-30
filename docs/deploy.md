@@ -69,6 +69,3 @@ Make sure to setup relevant enviromental settings.
         heroku config:set -a *appname* DEBUG=false NAMUBUFFERI_ALLOWEDHOSTS=\*
         git push heroku master
         heroku run ./bin/heroku-setup
-
-If you want to use ldap syncing, make some solution to
-periodically call `manage.py ldap_sync_users`

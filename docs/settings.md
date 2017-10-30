@@ -13,18 +13,6 @@ variables.
 * __NAMUBUFFERI_OUTPAN_API_KEY__
     - API key to outpan.com
 
-## LDAP integration
-* __NAMUBUFFERI_USELDAP__ (true/false)
-    - Docker image uses this variable
-* __NAMUBUFFERI_LDAP_AUTH_URL__
-    - _ldap://ldap:389_
-* __NAMUBUFFERI_LDAP_AUTH_SEARCH_BASE__
-    - _dc=namubufferidomain,dc=com_
-* __NAMUBUFFERI_LDAP_AUTH_CONNECTION_USERNAME__
-    - _namubufferiuser_
-* __NAMUBUFFERI_LDAP_AUTH_CONNECTION_PASSWORD__
-    - _namubufferipw_
-
 ## Email
 Set these
 

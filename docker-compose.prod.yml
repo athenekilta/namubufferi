@@ -13,7 +13,7 @@ namubufferi:
         restart: unless-stopped
         environment:
                 DEBUG: "false"
-                NAMUBUFFERI_ALLOWEDHOSTS: localhost
+                NAMUBUFFERI_ALLOWEDHOSTS: "*"
                 NAMUBUFFERI_GUNICORN_WORKERS: 1
                 NAMUBUFFERI_DB: ${NAMUBUFFERI_DB}
                 NAMUBUFFERI_SECRETKEY: ${NAMUBUFFERI_SECRET}

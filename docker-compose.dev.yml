@@ -11,15 +11,10 @@ namubufferi:
                 NAMUBUFFERI_STATIC_URL: /static/
         links:
                 - postgres:postgres
-                - smtp:smtp
         ports:
                 - 8080:8080
         volumes:
                 - ./namubufferiapp:/namubufferi/namubufferiapp
-
-smtp:
-        image: namshi/smtp
-
 
 postgres:
         image: postgres:alpine

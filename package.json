@@ -1,11 +1,10 @@
 {
   "name": "namubufferi",
   "version": "1.0.0",
-  "description": "Test app @ https://namubufferi.herokuapp.com/",
+  "description": "Cashier app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "webpack --config webpack.prod.config.js -p"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "MIT",

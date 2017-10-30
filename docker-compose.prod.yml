@@ -25,6 +25,7 @@ namubufferi:
                 SMTP_PASSWORD: ${NAMUBUFFERI_SMTP_PASSWORD}
                 SMTP_TLS: ${NAMUBUFFERI_SMTP_TLS}
                 SMTP_SSL: ${NAMUBUFFERI_SMTP_SSL}
+                NAMUBUFFERI_ADMIN_EMAILS: ${NAMUBUFFERI_ADMIN_EMAILS}
 
         volumes:
                 - /static

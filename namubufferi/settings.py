@@ -212,6 +212,11 @@ assign_from_env("DEBUG", "DEBUG", is_bool=True)
 assign_from_env("STATIC_URL", "NAMUBUFFERI_STATIC_URL")
 
 try:
+    ADMIN_EMAILS = os.environ['NAMUBUFFERI_ADMIN_EMAILS'].split()
+except KeyError:
+    ADMIN_EMAILS = []
+
+try:
     db_from_env = dj_database_url.parse(os.environ['NAMUBUFFERI_DB'])
     DATABASES = {'default':db_from_env}
 except KeyError:

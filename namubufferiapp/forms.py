@@ -30,12 +30,16 @@ class MagicAuthForm(forms.Form):
                             validators=[emailregex],
                             widget=forms.TextInput(attrs={'placeholder': 'teemu.teekkari@aalto.fi',
                                                            'class': 'form-control',
+                                                           'autocomplete': 'off',
+                                                           'autocapitalize': 'none',
                                                            }))
 
 class TagAuthForm(forms.Form):
     tag_uid = forms.CharField(label='NFC-tag',
                               widget=forms.TextInput(attrs={'placeholder': '123A4F5C',
                                                             'class': 'form-control',
+                                                            'autocomplete': 'off',
+                                                            'autocapitalize': 'none',
                                                             }))
 
 class ProductForm(forms.Form):
@@ -54,4 +58,3 @@ class ProductForm(forms.Form):
     barcode = forms.CharField(label='Product barcode',
                             required=False,
                             widget=forms.TextInput(attrs={'class': 'form-control',}))
-

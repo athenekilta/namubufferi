@@ -1,7 +1,5 @@
 require("bootstrap-webpack");
 require("jQuery-Scanner-Detection/jquery.scannerdetection");
-require("./vendor/jquery.email-autocomplete.js");
-
 require("./csrftoken");
 var amyshit = require("./ajaxmyshit.js");
 
@@ -42,10 +40,5 @@ $(document).ready(function() {
         function(errordata) {
             $("#messageModal").modal("show");
         });
-
-
-    $("#id_email").emailautocomplete({
-        domains: ["aalto.fi"]
-    });
 
 });

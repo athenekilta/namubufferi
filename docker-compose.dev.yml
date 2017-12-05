@@ -10,6 +10,7 @@ namubufferi:
                 NAMUBUFFERI_SECRETKEY: 'wfofh1#8444fufhIUFOHFEHUFW3D73D7344/((#(#HFFH'
                 NAMUBUFFERI_STATIC_URL: /static/
                 NAMUBUFFERI_ADMIN_EMAILS: 'something@example.com'
+                NAMUBUFFERI_DEFAULT_FROM_EMAIL: 'askimestari@invalid.com'
         links:
                 - postgres:postgres
         ports:

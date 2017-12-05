@@ -204,6 +204,7 @@ if NAMUBUFFERI_USE_SMTP == True:
     assign_from_env("EMAIL_HOST_PASSWORD", "SMTP_PASSWORD")
     assign_from_env("EMAIL_USE_TLS", "SMTP_TLS", is_bool=True)
     assign_from_env("EMAIL_USE_SSL", "SMTP_SSL", is_bool=True)
+    assign_from_env("DEFAULT_FROM_EMAIL", "NAMUBUFFERI_DEFAULT_FROM_EMAIL")
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 

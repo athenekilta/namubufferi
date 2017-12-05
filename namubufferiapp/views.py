@@ -333,9 +333,9 @@ def magic_auth(request, magic_token=None):
         if magic_auth_form.is_valid():
             # Try to find the user or create a new one
             try:
-                user = User.objects.get(email=magic_auth_form.cleaned_data['email'])
+                user = User.objects.get(email=magic_auth_form.cleaned_data['email'].lower())
             except User.DoesNotExist:
-                email = magic_auth_form.cleaned_data['email']
+                email = magic_auth_form.cleaned_data['email'].lower()
                 m = re.match("^(.*)@aalto.fi$", email)
                 if m:
                     username = m.group(1)
@@ -365,7 +365,7 @@ def magic_auth(request, magic_token=None):
             if DEBUG:
                 return JsonResponse({'modalMessage': '<br>login with ' + str(user.account.magic_token) + ' (Shown when DEBUG)'})
             else:
-                return JsonResponse({'modalMessage': 'Check your email.'})
+                return JsonResponse({'modalMessage': 'Check your email for the token.'})
         else:
             return HttpResponse('{"errors":' + magic_auth_form.errors.as_json() + '}', content_type="application/json")
 
@@ -386,7 +386,7 @@ def tag_auth(request):
         tag_auth_form = TagAuthForm(request.POST)
         if tag_auth_form.is_valid():
             try:
-                tag_uid = tag_auth_form.cleaned_data['tag_uid']
+                tag_uid = tag_auth_form.cleaned_data['tag_uid'].upper()
                 tag = UserTag.objects.get(uid=tag_uid)
                 user = tag.user
                 login(request, user, backend=AUTHENTICATION_BACKENDS[0])

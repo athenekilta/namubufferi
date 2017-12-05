@@ -11,7 +11,7 @@ class MagicAuthBackend(object):
     def authenticate(self, magic_token=None):
         # Check the token and return a User.
         try:
-            account = Account.objects.get(magic_token=magic_token)
+            account = Account.objects.get(magic_token=magic_token.upper())
         except:
             return None
         if account.magic_token_is_alive():

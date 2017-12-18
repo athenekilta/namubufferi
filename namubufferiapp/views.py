@@ -386,7 +386,7 @@ def tag_auth(request):
         tag_auth_form = TagAuthForm(request.POST)
         if tag_auth_form.is_valid():
             try:
-                tag_uid = tag_auth_form.cleaned_data['tag_uid'].upper()
+                tag_uid = tag_auth_form.cleaned_data['tag_uid']
                 tag = UserTag.objects.get(uid=tag_uid)
                 user = tag.user
                 login(request, user, backend=AUTHENTICATION_BACKENDS[0])

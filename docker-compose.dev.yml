@@ -1,24 +1,39 @@
-namubufferi:
-        build: ./
-        environment:
-                DEBUG: "true"
-                NAMUBUFFERI_ALLOWEDHOSTS: localhost
-                NAMUBUFFERI_ADMINUSER: admin
-                NAMUBUFFERI_ADMINPASS: password
-                NAMUBUFFERI_GUNICORN_WORKERS: 1
-                NAMUBUFFERI_DB: postgres://postgres:postgres@postgres/namubufferi-local-test
-                NAMUBUFFERI_SECRETKEY: 'wfofh1#8444fufhIUFOHFEHUFW3D73D7344/((#(#HFFH'
-                NAMUBUFFERI_STATIC_URL: /static/
-                NAMUBUFFERI_ADMIN_EMAILS: 'something@example.com'
-                NAMUBUFFERI_DEFAULT_FROM_EMAIL: 'askimestari@invalid.com'
-        links:
-                - postgres:postgres
-        ports:
-                - 8080:8080
-        volumes:
-                - ./namubufferiapp:/namubufferi/namubufferiapp
+version: '3'
 
-postgres:
-        image: postgres:alpine
-        environment:
-                POSTGRES_DB: namubufferi-local-test
+services:
+  namubufferi:
+    build: ./
+    environment:
+      DEBUG: "true"
+      NAMUBUFFERI_ALLOWEDHOSTS: localhost
+      NAMUBUFFERI_ADMINUSER: admin
+      NAMUBUFFERI_ADMINPASS: password
+      NAMUBUFFERI_GUNICORN_WORKERS: 1
+      NAMUBUFFERI_DB: postgres://postgres:postgres@postgres/namubufferi-local-test
+      NAMUBUFFERI_SECRETKEY: 'wfofh1#8444fufhIUFOHFEHUFW3D73D7344/((#(#HFFH'
+      NAMUBUFFERI_STATIC_URL: /static/
+      NAMUBUFFERI_USE_SMTP: "true"
+      SMTP_HOST: fake-smtp
+      SMTP_PORT: 1025
+      SMTP_USER: everything
+      SMTP_PASSWORD: goes
+      NAMUBUFFERI_ADMIN_EMAILS: 'something@example.com'
+      NAMUBUFFERI_DEFAULT_FROM_EMAIL: 'askimestari@invalid.com'
+    depends_on:
+      - postgres
+      - fake-smtp
+    ports:
+      - 8080:8080
+    volumes:
+      - ./namubufferiapp:/namubufferi/namubufferiapp
+
+  postgres:
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: namubufferi-local-test
+
+  fake-smtp:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025
+      - 8025:8025

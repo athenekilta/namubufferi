@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.mail import EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives, EmailMessage
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from django.contrib.admin.views.decorators import staff_member_required
@@ -235,6 +235,15 @@ def buy(request):
         if request.user.is_authenticated:
             payload['balance'] = request.user.account.balance
 
+            if request.user.account.balance < 0:
+                email = EmailMessage(
+                    subject='Your balance notification',
+                    body='Your balance is NEGATIVE: {}e'.format(request.user.account.balance),
+                    to=[request.user.email],
+                )
+
+                email.send(fail_silently=True)
+
         return JsonResponse(payload)
     else:
         raise Http404()
@@ -254,6 +263,14 @@ def deposit(request):
             new_transaction.customer = request.user.account
             new_transaction.amount = amount
             new_transaction.save()
+
+            email = EmailMessage(
+                subject='Your balance notification',
+                body='Your balance is: {}e'.format(request.user.account.balance),
+                to=[request.user.email],
+            )
+
+            email.send(fail_silently=True)
 
             return JsonResponse({'balance': request.user.account.balance,
                                  'transactionkey': new_transaction.pk,

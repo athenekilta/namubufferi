@@ -23,7 +23,8 @@ from bs4 import BeautifulSoup
 
 from .forms import MoneyForm, MagicAuthForm, TagAuthForm, ProductForm
 from .models import Account, Product, Category, Transaction, UserTag, ProductTag
-from namubufferi.settings import DEBUG, AUTHENTICATION_BACKENDS
+from .backends import add_tag_to_user
+from namubufferi.settings import DEBUG
 
 @staff_member_required
 def admin_inventory(request):
@@ -402,18 +403,16 @@ def tag_auth(request):
         # Validate form
         tag_auth_form = TagAuthForm(request.POST)
         if tag_auth_form.is_valid():
-            try:
-                tag_uid = tag_auth_form.cleaned_data['tag_uid']
-                tag = UserTag.objects.get(uid=tag_uid)
-                user = tag.user
-                login(request, user, backend=AUTHENTICATION_BACKENDS[0])
-
+            tag_uid = tag_auth_form.cleaned_data['tag_uid']
+            user = authenticate(tagKey=tag_uid)
+            if user is not None:
+                login(request, user)
                 return JsonResponse({'redirect': '/'})
-            except UserTag.DoesNotExist:
+            else:
                 return JsonResponse({'errors':{'tag_uid':
                                         [{'message':'Tag {} not found'.format(tag_uid),
-                                          'code':'tagnotfound'}],},
-                                     'modalMessage':'Tag {} not found!'.format(tag_uid),
+                                        'code':'tagnotfound'}],},
+                                    'modalMessage':'Tag {} not found!'.format(tag_uid),
                                     })
         else:
             return HttpResponseBadRequest('{"errors":' + tag_auth_form.errors.as_json() + '}', content_type="application/json")
@@ -443,8 +442,7 @@ def tag_modify(request, uid):
 
     elif request.method == 'POST':
         try:
-            tag = UserTag.objects.create(user=request.user, uid=uid)
-            tag.save()
+            tag = add_tag_to_user(request.user, uid)
             return HttpResponse("Tag created", status=201)
         except IntegrityError:
             return HttpResponse("Another tag exists ({})!".format(uid),

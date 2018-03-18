@@ -1,7 +1,10 @@
 # Namubufferi magic link authentication backend
 from django.contrib.auth.models import User
+from django.contrib.auth.backends import ModelBackend
+from django.contrib.auth.hashers import check_password, make_password
+from django.db import IntegrityError
 
-from .models import Account
+from .models import Account, UserTag
 
 
 class MagicAuthBackend(object):
@@ -21,8 +24,38 @@ class MagicAuthBackend(object):
             return None
 
     def get_user(self, user_id):
-        # Not sure what this is for
-        # http://stackoverflow.com/questions/13954309/custom-authentification-backend-django?answertab=votes#tab-top
+        try:
+            return User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            return None
+
+
+def add_tag_to_user(user, tagKey):
+    oldTags = UserTag.objects.all()
+    for oldTag in oldTags:
+        if check_password(tagKey, oldTag.uid):
+            raise IntegrityError
+
+    tagHash = make_password(tagKey)
+
+    tag = UserTag.objects.create(user=user, uid=tagHash)
+    tag.save()
+
+    return tag
+
+class TagAuthBackend(ModelBackend):
+    """
+    Authenticate with NFC tag.
+    """
+    def authenticate(self, tagKey=None):
+        tags = UserTag.objects.all()
+        for tag in tags:
+            if check_password(tagKey, tag.uid):
+                return tag.user
+
+        return None
+
+    def get_user(self, user_id):
         try:
             return User.objects.get(pk=user_id)
         except User.DoesNotExist:

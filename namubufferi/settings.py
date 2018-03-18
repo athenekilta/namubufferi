@@ -170,8 +170,9 @@ STATICFILES_FINDERS = {
 }
 
 # https://docs.djangoproject.com/en/1.10/topics/auth/customizing/#authentication-backends
-AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend',
-                           'namubufferiapp.backends.MagicAuthBackend'
+AUTHENTICATION_BACKENDS = ['namubufferiapp.backends.TagAuthBackend',
+                           'namubufferiapp.backends.MagicAuthBackend',
+                           'django.contrib.auth.backends.ModelBackend'
                            ]
 
 if DEBUG == True:

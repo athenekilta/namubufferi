@@ -51,6 +51,8 @@ class UserTag(Tag):
     A tag representing user's identification info
     """
     user = models.ForeignKey(User)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp.editable = False
 
 
 

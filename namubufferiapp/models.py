@@ -65,6 +65,7 @@ class Account(models.Model):
     user = models.OneToOneField(User)
     magic_token = models.CharField(max_length=44, null=True, blank=True)
     magic_token_ttl = models.DateTimeField(default=(timezone.now() + timedelta(minutes=15)))  # TODO: Static
+    tos_accepted = models.BooleanField(default=False)
 
     @property
     def balance(self):

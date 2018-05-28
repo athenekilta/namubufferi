@@ -37,6 +37,17 @@ function updateBalanceText(newbalance) {
 $(document).ready(function() {
     "use strict";
 
+    if (window.tos_accepted != "True") {
+        $("#tosModal").modal("show");
+    }
+
+    $("#acceptTosButton").on("click", function(event) {
+        $.post("/tos/", { accept: "true" })
+            .done(function(data) {
+                $("#tosModal").modal("hide");
+            });
+    });
+
     $(document).scannerDetection();
     var product_barcodes;
     $.getJSON("/product/barcodes/", function(json){

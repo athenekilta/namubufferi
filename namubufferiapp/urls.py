@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^cancel/$', views.cancel_transaction, name="cancel"),
     url(r'^receipt/$', views.receipt, name="receipt"),
     url(r'^history/$', views.transaction_history, name="history"),
+    url(r'^tos/$', views.tos, name="tos"),
 
     url(r'^magic/$', views.magic_auth),
     url(r'^magic/(?P<magic_token>.*)/$', views.magic_auth, name="magic"),

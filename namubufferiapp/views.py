@@ -249,6 +249,16 @@ def buy(request):
     else:
         raise Http404()
 
+def tos(request):
+    if request.method == 'POST':
+        accept = request.POST["accept"] == "true"
+
+        if request.user.is_authenticated:
+            request.user.account.tos_accepted = accept
+            request.user.account.save()
+
+    payload = {'tos_accepted': request.user.account.tos_accepted}
+    return JsonResponse(payload)
 
 @login_required
 def deposit(request):

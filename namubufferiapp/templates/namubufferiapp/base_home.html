@@ -11,9 +11,17 @@
 {% include "namubufferiapp/transactionhistory_modal.html" %}
 {% include "namubufferiapp/receipt_modal.html" %}
 {% include "namubufferiapp/tag_modal.html" %}
+{% include "namubufferiapp/tos_modal.html" %}
 {% endblock modals %}
 
 {% block content %}
+<script>
+    // Yes, this value comes rendered with django's template and
+    // this is pretty horrible. But as always, just temporary
+    // before rewrite.
+    var tos_accepted = "{{ user.account.tos_accepted }}";
+</script>
+
 <!-- Shop Section -->
 <section id="shop" class="container text-center">
   <div class="row">

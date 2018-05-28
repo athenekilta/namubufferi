@@ -89,3 +89,6 @@ tags
 cscope.*
 Session.vim
 .netrwhist
+
+# visual studio compiled
+.vscode/

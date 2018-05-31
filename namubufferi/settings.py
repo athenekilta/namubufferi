@@ -215,6 +215,7 @@ assign_from_env("STATIC_URL", "NAMUBUFFERI_STATIC_URL")
 
 try:
     ADMIN_EMAILS = os.environ['NAMUBUFFERI_ADMIN_EMAILS'].split()
+    ADMINS = [("Admin user", mail) for mail in ADMIN_EMAILS]
 except KeyError:
     ADMIN_EMAILS = []
 

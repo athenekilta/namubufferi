@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.mail import EmailMultiAlternatives, EmailMessage
+from django.core.mail import EmailMultiAlternatives, EmailMessage, mail_admins
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from django.contrib.admin.views.decorators import staff_member_required
@@ -213,7 +213,26 @@ def home_anonymous(request):
 
 def buy(request):
     if request.method == 'POST':
-        product = get_object_or_404(Product, pk=request.POST['product_key'])
+        try:
+            product_key = int(request.POST['product_key'])
+        except ValueError:
+            # This shouldn't happen, but it did. How?
+            payload = {'balance': Decimal(0),
+                       'transactionkey': None,
+                       'modalMessage': "Tried to buy a product that doesn't exist. How did this happen?",
+                       'message': render_to_string('namubufferiapp/message.html',
+                                                   {'message': "Tried to buy a product that doesn't exist. How did this happen?"}),
+                       }
+
+            mail_admins(
+                "Buying without correct product",
+                "User {} tried to buy product with id {}".format(request.user, request.POST['product_key']),
+                fail_silently=True
+            )
+
+            return JsonResponse(payload)
+
+        product = get_object_or_404(Product, pk=product_key)
         price = product.price
 
         new_transaction = Transaction()

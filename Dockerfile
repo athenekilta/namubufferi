@@ -2,7 +2,7 @@ FROM python:alpine
 
 EXPOSE 8080
 
-RUN apk add --no-cache nodejs postgresql-dev curl-dev gcc musl-dev
+RUN apk add --no-cache nodejs nodejs-npm postgresql-dev curl-dev gcc musl-dev
 
 RUN mkdir /namubufferi
 WORKDIR /namubufferi

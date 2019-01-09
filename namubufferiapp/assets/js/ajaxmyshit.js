@@ -18,6 +18,7 @@ function ajaxMyShit (formId, callback, callback_on_error) {
         event.preventDefault();
         // Select this form
         var $form = $(this);
+        $form.find("button").each(function(){$(this).attr('disabled', true)});
         // Send the data using post
         console.log($form.serialize());
         var posting = $.post($form.attr( "action" ), $form.serialize());
@@ -25,6 +26,7 @@ function ajaxMyShit (formId, callback, callback_on_error) {
         posting.done( function (data) {
             parseMyAjaxShit(data);
             $form.find(":input").parent().removeClass("has-error");
+            $form.find("button").each(function(){$(this).attr('disabled', false)});
             if (!data.errors) {
                 $form.find(":input").val("");
                 callback(data);

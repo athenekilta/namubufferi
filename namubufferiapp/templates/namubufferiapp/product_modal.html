@@ -18,12 +18,12 @@
         </table>
       </div>
       <div class="modal-footer">
-        <form id="buy-form" hidden action="/buy/" method="post">
+        <form id="buy-form" action="/buy/" method="post">
           {% csrf_token %}
           <input id="product-modal-pk" hidden type="text" name="product_key" value="none">
+          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
+          <button type="submit" form="buy-form" class="btn btn-success" autofocus>Buy</button>
         </form>
-        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
-        <button type="submit" form="buy-form" class="btn btn-success" autofocus>Buy</button>
       </div>
     </div>
   </div>

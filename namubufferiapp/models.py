@@ -182,6 +182,7 @@ class Transaction(models.Model):
     customer = models.ForeignKey(Account, null=True)
     product = models.ForeignKey(Product, null=True)
     canceled = models.BooleanField(default=False)
+    comment = models.CharField(max_length=256, null=True)
 
     def get_date_string(self):
         DATE_FORMAT = "%Y-%m-%d"

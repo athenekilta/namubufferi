@@ -323,7 +323,7 @@ def deposit(request):
 @login_required
 def transaction_history(request):
     return JsonResponse({'transactionhistory': render_to_string('namubufferiapp/transactionhistory.html',
-                                                                {'transactions': request.user.account.transaction_set.all()[:5]})
+                                                                {'transactions': request.user.account.transaction_set.all()})
                          })
 
 

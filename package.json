@@ -9,7 +9,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "bootstrap": "3.3.7",
+    "bootstrap": "3.4.1",
     "bootstrap-webpack": "0.0.5",
     "chart.js": "2.4.0",
     "css-loader": "0.26.1",
@@ -19,7 +19,7 @@
     "hideseek": "0.7.1",
     "imports-loader": "0.7.0",
     "jQuery-Scanner-Detection": "1.2.1",
-    "jquery": "3.1.1",
+    "jquery": "3.4.0",
     "less": "2.7.2",
     "less-loader": "2.2.3",
     "strip-loader": "0.1.2",

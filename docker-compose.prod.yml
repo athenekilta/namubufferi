@@ -35,6 +35,7 @@ services:
 
   postgres:
     image: postgres:11.3-alpine
+    restart: unless-stopped
     environment:
       POSTGRES_DB: ${NAMUBUFFERI_DB_NAME}
       POSTGRES_USER: ${NAMUBUFFERI_DB_USER}

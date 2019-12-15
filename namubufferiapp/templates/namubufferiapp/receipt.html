@@ -1,9 +1,8 @@
+
 <!-- Dynamic Transaction Receipt Modal content TODO: Better result could be achieved with js-->
 <div class="modal-content">
   <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <h4 class="modal-title">Receipt</h4>
   </div>
   <div class="modal-body">
@@ -29,14 +28,11 @@
   <div class="modal-footer">
     <form hidden action="{% url 'cancel' %}" method="post" id="cancelform">
       {% csrf_token %}
-      <input type="text" name="transaction_key" value="{{ receipt.pk }}" />
+      <input type="text" name="transaction_key" value="{{ receipt.pk }}">
     </form>
     <button type="submit" form="cancelform" class="btn btn-danger btn-sm">
       Cancel Transaction
     </button>
-    <button type="button" class="btn btn-default" data-dismiss="modal">
-      Close
-    </button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
   </div>
-</div>
-<!-- /.modal-content -->
+</div><!-- /.modal-content -->

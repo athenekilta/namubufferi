@@ -1,0 +1,51 @@
+<div class="modal fade" id="moneyModal" tabindex="-1" role="dialog" aria-labelledby="moneyModalTitle">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="moneyModalTitle">
+            Balance
+          <span class="balance {% if user.account.balance < 0 %}text-danger{% endif %}">
+            {{ user.account.balance }} €
+          </span>
+        </h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-inline" id="money-form" action="{% url 'deposit' %}" method="post">
+          <div class="form-group">
+            <div class="input-group">
+              {{ money_form.euros }}
+              <div class="input-group-addon">.</div>
+              {{ money_form.cents }}
+              <div class="input-group-addon">€</div>
+            </div>
+          </div>
+          <div class="text-center">
+            <button type="submit" form="money-form" class="btn btn-success" autofocus>
+                Deposit
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer container-fluid">
+        <div class="row">
+          <div class="col-xs-4">
+            <a href="{% url 'logout' %}" class="btn btn-default btn-block">
+              Logout
+            </a>
+          </div>
+          <div class="col-xs-4">
+            <button type="button" class="btn btn-default btn-block" data-toggle="modal" data-target="#historyModal">
+              History
+            </button>
+          </div>
+          <div class="col-xs-4">
+            <button type="button" class="btn btn-default btn-block" data-toggle="modal" data-target="#tagModal">
+              Manage tags
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -6,8 +6,6 @@ import django.utils.timezone
 from django.conf import settings
 from django.db import migrations, models
 
-import namubufferiapp.models
-
 
 class Migration(migrations.Migration):
 
@@ -30,22 +28,12 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                (
-                    "balance",
-                    models.DecimalField(decimal_places=2, default=0, max_digits=6),
-                ),
-                (
-                    "magic_token",
-                    models.CharField(
-                        default=namubufferiapp.models.generate_magic_token,
-                        max_length=64,
-                        unique=True,
-                    ),
-                ),
+                ("magic_token", models.CharField(blank=True, max_length=44, null=True)),
                 (
                     "magic_token_ttl",
                     models.DateTimeField(default=django.utils.timezone.now),
                 ),
+                ("tos_accepted", models.BooleanField(default=False)),
                 (
                     "user",
                     models.OneToOneField(
@@ -69,6 +57,9 @@ class Migration(migrations.Migration):
                 ),
                 ("name", models.CharField(max_length=30, unique=True)),
             ],
+            options={
+                "ordering": ["name"],
+            },
         ),
         migrations.CreateModel(
             name="Product",
@@ -82,12 +73,13 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("name", models.CharField(max_length=20, unique=True)),
+                ("name", models.CharField(max_length=128, unique=True)),
                 (
                     "price",
-                    models.DecimalField(decimal_places=2, default=1, max_digits=6),
+                    models.DecimalField(decimal_places=2, default=1, max_digits=5),
                 ),
                 ("inventory", models.IntegerField(default=1)),
+                ("hidden", models.BooleanField(default=False)),
                 (
                     "category",
                     models.ForeignKey(
@@ -97,6 +89,34 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
+            options={
+                "ordering": ["name"],
+            },
+        ),
+        migrations.CreateModel(
+            name="ProductTag",
+            fields=[
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("uid", models.CharField(max_length=128, unique=True)),
+                (
+                    "product",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="namubufferiapp.Product",
+                    ),
+                ),
+            ],
+            options={
+                "abstract": False,
+            },
         ),
         migrations.CreateModel(
             name="Transaction",
@@ -116,9 +136,11 @@ class Migration(migrations.Migration):
                 ),
                 ("timestamp", models.DateTimeField(auto_now_add=True)),
                 ("canceled", models.BooleanField(default=False)),
+                ("comment", models.CharField(max_length=256, null=True)),
                 (
                     "customer",
                     models.ForeignKey(
+                        null=True,
                         on_delete=django.db.models.deletion.CASCADE,
                         to="namubufferiapp.Account",
                     ),
@@ -134,6 +156,32 @@ class Migration(migrations.Migration):
             ],
             options={
                 "ordering": ["-timestamp"],
+            },
+        ),
+        migrations.CreateModel(
+            name="UserTag",
+            fields=[
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("uid", models.CharField(max_length=128, unique=True)),
+                ("timestamp", models.DateTimeField(auto_now_add=True)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+            ],
+            options={
+                "abstract": False,
             },
         ),
     ]

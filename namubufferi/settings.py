@@ -2,28 +2,49 @@
 Django settings for namubufferi project.
 
 For more information on this file, see
-https://docs.djangoproject.com/en/1.10/topics/settings/
+https://docs.djangoproject.com/en/1.11/topics/settings/
 
 For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.10/ref/settings/
+https://docs.djangoproject.com/en/1.11/ref/settings/
 """
+
 import os
-from distutils.util import strtobool
 
 import dj_database_url
+
+
+def assign_from_env(name, envname, is_bool=False):
+    """
+    Try to read variable from enviromental variables and
+    assign to name if it exists
+    """
+    try:
+        if is_bool is True:
+            evar = "False"
+            if os.environ[envname] == "true":
+                evar = "True"
+            exec("{}={}".format(name, evar), globals())
+        else:
+            exec("{}='{}'".format(name, os.environ[envname]), globals())
+
+        return True
+
+    except KeyError:
+        return False
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
+# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ["SECRET_KEY"]
+SECRET_KEY = "9vzb#f%g_=!*#*j7t#!c)l2hr-$m3#s!8-+cbp3ubg&zz0tl)r"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = strtobool(os.environ["DEBUG"])
+DEBUG = True
 
 TEMPLATES = [
     {
@@ -42,7 +63,7 @@ TEMPLATES = [
     },
 ]
 
-ALLOWED_HOSTS = os.environ["ALLOWED_HOSTS"].split()
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -57,9 +78,11 @@ INSTALLED_APPS = (
     "namubufferiapp",
     "bootstrap3",
     "autofixture",
+    "webpack_loader",
 )
 
 MIDDLEWARE_CLASSES = (
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -75,7 +98,7 @@ WSGI_APPLICATION = "namubufferi.wsgi.application"
 
 
 # Database
-# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
+# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
     "default": {
@@ -85,55 +108,65 @@ DATABASES = {
 }
 
 # Internationalization
-# https://docs.djangoproject.com/en/1.10/topics/i18n/
+# https://docs.djangoproject.com/en/1.11/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
-
 TIME_ZONE = "UTC"
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.10/howto/static-files/
-
+# https://docs.djangoproject.com/en/1.11/howto/static-files/
 STATIC_URL = "/static/"
 
 # Authentication URLs
-# https://docs.djangoproject.com/en/1.10/ref/settings/#std:setting-LOGIN_URL
+# https://docs.djangoproject.com/en/1.11/ref/settings/#std:setting-LOGIN_URL
 LOGIN_URL = "/login/"
 LOGOUT_URL = "/"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
+WEBPACK_LOADER = {
+    "DEFAULT": {
+        "BUNDLE_DIR_NAME": "bundles/",
+        "STATS_FILE": os.path.join(BASE_DIR, "webpack-stats.json"),
+    }
+}
 
-# https://www.postgresql.org/docs/9.4/static/libpq-connect.html
+
 # https://devcenter.heroku.com/articles/heroku-postgresql#local-setup
 DATABASES["default"].update(
     dj_database_url.config(default="postgres:///namubufferi-local-test")
 )
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.10/howto/static-files/
+# https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, "staticfiles")
 STATIC_URL = "/static/"
 
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = ()
+
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 
 STATICFILES_STORAGE = "whitenoise.django.GzipManifestStaticFilesStorage"
 
-# https://docs.djangoproject.com/en/1.10/topics/auth/customizing/#authentication-backends
+STATICFILES_FINDERS = {
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+}
+
+# https://docs.djangoproject.com/en/1.11/topics/auth/customizing/#authentication-backends
 AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
+    "namubufferiapp.backends.TagAuthBackend",
     "namubufferiapp.backends.MagicAuthBackend",
+    "django.contrib.auth.backends.ModelBackend",
 ]
 
 if DEBUG:
@@ -143,7 +176,53 @@ else:
     # https://sendgrid.com/docs/Integrate/Frameworks/django.html
     # https://devcenter.heroku.com/articles/sendgrid#python
     EMAIL_BACKEND = "sgbackend.SendGridBackend"
-    SENDGRID_USER = os.environ["SENDGRID_USERNAME"]
-    SENDGRID_PASSWORD = os.environ["SENDGRID_PASSWORD"]
+    try:
+        SENDGRID_USER = os.environ["SENDGRID_USERNAME"]
+        SENDGRID_PASSWORD = os.environ["SENDGRID_PASSWORD"]
+    except:
+        SENDGRID_USER = "none"
+        SENDGRID_PASSWORD = "none"
 
-DEFAULT_FROM_EMAIL = "namubufferi@athene.fi"
+# Override defaults from enviromental variables if exists
+try:
+    ALLOWED_HOSTS = os.environ["NAMUBUFFERI_ALLOWEDHOSTS"].split()
+except KeyError:
+    pass
+
+
+NAMUBUFFERI_USE_SMTP = False
+assign_from_env("NAMUBUFFERI_USE_SMTP", "NAMUBUFFERI_USE_SMTP", is_bool=True)
+if NAMUBUFFERI_USE_SMTP == True:
+    assign_from_env("EMAIL_HOST", "SMTP_HOST")
+    assign_from_env("EMAIL_PORT", "SMTP_PORT")
+    assign_from_env("EMAIL_HOST_USER", "SMTP_USER")
+    assign_from_env("EMAIL_HOST_PASSWORD", "SMTP_PASSWORD")
+    assign_from_env("EMAIL_USE_TLS", "SMTP_TLS", is_bool=True)
+    assign_from_env("EMAIL_USE_SSL", "SMTP_SSL", is_bool=True)
+    assign_from_env("DEFAULT_FROM_EMAIL", "NAMUBUFFERI_DEFAULT_FROM_EMAIL")
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+
+assign_from_env("SECRET_KEY", "NAMUBUFFERI_SECRETKEY")
+assign_from_env("DEBUG", "DEBUG", is_bool=True)
+assign_from_env("STATIC_URL", "NAMUBUFFERI_STATIC_URL")
+
+try:
+    ADMIN_EMAILS = os.environ["NAMUBUFFERI_ADMIN_EMAILS"].split()
+    ADMINS = [("Admin user", mail) for mail in ADMIN_EMAILS]
+except KeyError:
+    ADMIN_EMAILS = []
+
+try:
+    db_from_env = dj_database_url.parse(os.environ["NAMUBUFFERI_DB"])
+    DATABASES = {"default": db_from_env}
+except KeyError:
+    pass
+
+
+assign_from_env("OUTPAN_API_KEY", "NAMUBUFFERI_OUTPAN_API_KEY")
+
+try:
+    from namubufferi.local_settings import *
+except ImportError as e:
+    pass

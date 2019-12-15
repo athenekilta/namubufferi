@@ -1,3 +1,0 @@
-# {{ subject }}
-
-{{ magic_link }}

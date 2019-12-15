@@ -3,8 +3,10 @@
   <table class="table">
       <thead>
       <tr>
+          <th>Time</th>
           <th>Product</th>
           <th>Amount</th>
+          <th>Comment</th>
           <th></th>
       </tr>
       </thead>
@@ -17,8 +19,10 @@
       {% else %}
       <tr class="text-danger">
       {% endif %}
+          <td>{{ transaction.timestamp }}</td>
           <td>{{ transaction.product }}</td>
           <td>{{ transaction.amount }}</td>
+          <td>{{ transaction.comment }}</td>
           <td class="btn btn-default btn-block" 
               data-toggle="modal"
               data-target="#receiptModal"

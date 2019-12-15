@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load render_bundle from webpack_loader %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,8 +9,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>NAMUBUFFERI by Tietskarijengi</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link href="{% static 'namubufferiapp/css/style.css' %}" rel="stylesheet">
+
   <!-- HTML5 Shma and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -38,18 +39,42 @@
       </div>
     </div>
   </div>
+
+{% if request.user.is_staff %}
+  <nav class="navbar navbar-default navbar-top">
+    <div class="container-fluid text-center">
+      <a href="/admin" class="btn btn-default">
+        <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+        Admin panel
+      </a>
+      <a href="{% url 'admin_inventory' %}" class="btn btn-default">
+        Handle inventory
+      </a>
+      <a href="{% url 'admin_overview' %}" class="btn btn-default">
+        Overview
+      </a>
+      <a href="/" class="btn btn-default">
+        Normal view
+      </a>
+      <a href="/logout" class="btn btn-default">
+        Logout
+      </a>
+
+      {% block topbar %}
+      {% endblock %}
+    </div>
+  </nav>
+{% endif %}
+
   {% block content %}
   {% endblock content %}
   <footer class="container text-center">
     <hr>
-    <p>&copy; Tietskarijengi 2016</p>
+    <p>&copy; Tietskarijengi 2016. Modified by AS</p>
   </footer>
-  <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/hideseek/0.7.1/jquery.hideseek.min.js" integrity="sha512-j8mr88ZHeQHBfpiiFUBaR8XZXf1fn2LUibi3izaBbkb4jFLlQaaGnTYPvBW//YMXQDxrbsbys9HyaiSe9yelYQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FitText.js/1.2.0/jquery.fittext.min.js" integrity="sha512-e2WVdoOGqKU97DHH6tYamn+eAwLDpyHKqPy4uSv0aGlwDXZKGwyS27sfiIUT8gpZ88/Lr4UZpbRt93QkGRgpug==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  <script src="{% static 'namubufferiapp/js/csrftoken.js' %}"></script>
-  <script src="{% static 'namubufferiapp/js/namubufferi.js' %}"></script>
-  <script src="{% static 'namubufferiapp/js/ux.js' %}"></script>
+
+  {% render_bundle 'commons' %}
+  {% block own_bundles %}
+  {% endblock own_bundles %}
 </body>
 </html>

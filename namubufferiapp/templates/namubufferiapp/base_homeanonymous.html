@@ -6,22 +6,41 @@
 <!-- Modals -->
 <!-- Always try to place a modal's HTML code in a top-level position in your document to avoid other components affecting the modal's appearance and/or functionality. -->
 
-{% include "namubufferiapp/product_modal.html" %}
-{% include "namubufferiapp/deposit_modal.html" %}
-{% include "namubufferiapp/transactionhistory_modal.html" %}
-{% include "namubufferiapp/receipt_modal.html" %}
-{% include "namubufferiapp/tag_modal.html" %}
-{% include "namubufferiapp/tos_modal.html" %}
+<!-- Product info/buy Modal -->
+<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="productModalLabel">Buy <em id="product-modal-name"></em>?</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <tr>
+            <td>Price</td>
+            <td><span id="product-modal-price"></span>€</td>
+          </tr>
+          <tr>
+          <td>Stock</td>
+          <td><span id="product-modal-inventory"></span></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <form id="buy-form" action="/buy/" method="post">
+          {% csrf_token %}
+          <input id="product-modal-pk" hidden type="text" name="product_key" value="none">
+          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
+          <button type="submit" form="buy-form" autofocus class="btn btn-success">Buy <p>(Pay by cash)</p></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock modals %}
 
 {% block content %}
-<script>
-    // Yes, this value comes rendered with django's template and
-    // this is pretty horrible. But as always, just temporary
-    // before rewrite.
-    var tos_accepted = "{{ user.account.tos_accepted }}";
-</script>
-
 <!-- Shop Section -->
 <section id="shop" class="container text-center">
   <div class="row">
@@ -64,31 +83,14 @@
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
   <div class="container-fluid text-center">
-      <div class="row">
-          <div class="col-xs-2">
-            <a href="/logout" class="btn btn-primary btn-lg navbar-btn">
-              Logout {% comment %}<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>{% endcomment %}
-            </a>
-          </div>
-          <div class="col-xs-7">
-            <button type="button" class="btn btn-primary btn-lg navbar-btn" data-toggle="modal" data-target="#moneyModal">
-                Handle money <br> {{ user }}
-                <span class="balance {% if user.account.balance < 0 %} text-danger{% endif %}">
-                {{ user.account.balance }}€
-              </span>
-            </button>
-          </div>
-          <div class="col-xs-2">
-            <button type="button" class="btn btn-primary btn-lg navbar-btn" data-toggle="modal" data-target="#tagModal">
-              NFC tags
-            </button>
-          </div>
-        </div>
+   <a href="/logout" class="btn btn-danger btn-block">
+     <strong>!!Anonymous user!!</strong> (logout)
+   </a>
   </div>
 </nav>
 
 {% endblock content %}
 
 {% block own_bundles %}
-{% render_bundle 'homeview' %}
+{% render_bundle 'homeanonymousview' %}
 {% endblock own_bundles %}

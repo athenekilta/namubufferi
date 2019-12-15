@@ -1,0 +1,81 @@
+{% extends "namubufferiapp/base.html" %}
+{% load render_bundle from webpack_loader %}
+
+{% block modals %}
+
+
+{% endblock modals %}
+
+{% block content %}
+{{ block.super }}
+
+<!-- Shop Section -->
+<section id="adminoverview" class="container text-center">
+  <div class="row panel panel-default vertical-align">
+    <div class="col-md-4">
+      <canvas id="balanceChart" data-positive="{{positive_balance}}" data-negative="{{negative_balance}}"></canvas>
+    
+      {% if overall_balance < 0 %}
+      <p class="text-danger lead">
+      {% else %}
+      <p class="text-success lead">
+      {% endif %}
+        Total: {{ overall_balance }}e
+      </p>
+    </div>
+    <div class="col-md-8">
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>{{ negative_users|length }}</strong> users are having negative balance</p>
+          <p class="text-danger">By overall of {{ negative_balance }}e</p>
+        </div>
+        <div class="col-md-6">
+          <p>While <strong>{{ positive_users|length }}</strong> are having positive balance</p>
+          <p class="text-success">By overall of {{ positive_balance }}e</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="info" class="container text-center">
+  <div class="row">
+    <div class="col-md-6 panel panel-danger">
+      <div class="panel-heading">Users with negative balance</div>
+      <div class="panel-body">
+        <ul class="list-group">
+          {% for u in negative_users|dictsort:"account.balance" %}
+            <li class="list-group-item">
+              {{u.username}} (<strong>{{u.account.balance}} e</strong>)
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-6 panel panel-default">
+      <div class="panel-heading">Inventory</div>
+      <div class="panel-body">
+        <ul class="list-group">
+          {% for prod in products|dictsort:"inventory" %}
+            {% if prod.inventory <= 0 %}
+            <li class="list-group-item list-group-item-danger">
+            {% else %}
+            <li class="list-group-item">
+            {% endif %}
+              {{prod.name}} ({{prod.inventory}})
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+{% endblock content %}
+
+{% block own_bundles %}
+{% render_bundle 'adminoverview' %}
+{% endblock own_bundles %}

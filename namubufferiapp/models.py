@@ -1,15 +1,45 @@
-from base64 import urlsafe_b64encode
 from datetime import timedelta
 from decimal import Decimal
-from os import urandom
+import uuid
 
 from django.contrib.auth.models import User
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
 
 def generate_magic_token():
-    return urlsafe_b64encode(urandom(32))
+    random = str(uuid.uuid4())
+    random = random.upper()
+    random = random.replace("-","")
+    magic = random[0:5]
+
+    print(magic)
+    return magic
+
+
+class Tag(models.Model):
+    """
+    A tag that represents things like NFC-tag, barcode etc.
+    """
+    uid = models.CharField(max_length=128, blank=False, unique=True)
+
+    def __str__(self):
+        return self.uid
+
+    class Meta:
+        abstract = True
+
+class UserTag(Tag):
+    """
+    A tag representing user's identification info
+    """
+    user = models.ForeignKey(User)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp.editable = False
+
 
 
 class Account(models.Model):
@@ -19,48 +49,80 @@ class Account(models.Model):
     https://docs.djangoproject.com/en/1.10/topics/auth/customizing/#extending-user
     """
     user = models.OneToOneField(User)
-    balance = models.DecimalField(max_digits=6, decimal_places=2, default=0)
-    magic_token = models.CharField(max_length=44, unique=True, default=generate_magic_token)
+    magic_token = models.CharField(max_length=44, null=True, blank=True)
     magic_token_ttl = models.DateTimeField(default=(timezone.now() + timedelta(minutes=15)))  # TODO: Static
+    tos_accepted = models.BooleanField(default=False)
 
+    @property
+    def balance(self):
+        cur_balance = Decimal(0)
+        transactions = Transaction.objects.filter(customer=self).filter(canceled=False)
+
+        for transaction in transactions:
+            cur_balance += transaction.amount
+
+        return cur_balance
+
+    """
+    Magic token allows user to login by email with unique
+    link that is alive only for 15 minutes
+    """
     def update_magic_token(self):
         self.magic_token_ttl = timezone.now() + timedelta(minutes=15)
-        self.magic_token = generate_magic_token()
+        magic_token = generate_magic_token()
+        while (len(Account.objects.filter(magic_token=str(magic_token))) != 0):
+            magic_token = generate_magic_token()
+        self.magic_token = magic_token
         self.save()
         return self.magic_token
 
     def deactivate_magic_token(self):
-        self.magic_token = generate_magic_token()
+        self.magic_token = None
         self.magic_token_ttl = timezone.now()
         self.save()
 
     def magic_token_is_alive(self):
         return timezone.now() < self.magic_token_ttl
 
-    def make_payment(self, price):
-        self.balance -= Decimal(price)
-        self.save()
-
-    def make_deposit(self, amount):
-        self.balance += Decimal(amount)
-        self.save()
-
     def __str__(self):
         return self.user.username
 
+@receiver(post_save, sender=User)
+def handle_user_save(sender, instance, created, **kwargs):
+    """
+    If an user is created directly by User.objects, without
+    this function, it wouldn't have account-instance
+    """
+    if created:
+        acc = Account.objects.create(user=instance)
+        acc.save()
+        acc.update_magic_token()
+
 
 class Category(models.Model):
+    """
+    Mainly category for products, but could also used
+    for something else
+    """
     name = models.CharField(max_length=30, unique=True)
 
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['name']
+
 
 class Product(models.Model):
-    name = models.CharField(max_length=20, unique=True)
+    name = models.CharField(max_length=128, unique=True)
     category = models.ForeignKey(Category, related_name='products')
-    price = models.FloatField(default=1)
+    price = models.DecimalField(max_digits=5,
+                                decimal_places=2,
+                                default=1,
+                               )
+
     inventory = models.IntegerField(default=1)
+    hidden = models.BooleanField(default=False)
 
     def make_sale(self):
         self.inventory += -1
@@ -73,8 +135,29 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['name']
+
+class ProductTag(Tag):
+    """
+    A tag representing product's identity (like barcode)
+    """
+    product = models.ForeignKey(Product)
+
 
 class Transaction(models.Model):
+    """
+    One transaction
+
+    Positive amount means money going into user's account,
+    negative amount means money going away from user's account.
+
+    Amount can't be derived from product as products might have
+    different prices at different times.
+
+    Canceled-flag should be noted for example when calculating
+    balance from all transactions.
+    """
     amount = models.DecimalField(max_digits=5,
                                  decimal_places=2,
                                  default=0,
@@ -82,9 +165,10 @@ class Transaction(models.Model):
 
     timestamp = models.DateTimeField(auto_now_add=True)
     timestamp.editable = False
-    customer = models.ForeignKey(Account)
+    customer = models.ForeignKey(Account, null=True)
     product = models.ForeignKey(Product, null=True)
     canceled = models.BooleanField(default=False)
+    comment = models.CharField(max_length=256, null=True)
 
     def get_date_string(self):
         DATE_FORMAT = "%Y-%m-%d"
@@ -96,14 +180,16 @@ class Transaction(models.Model):
 
     def cancel(self):
         if not self.canceled:
-            self.customer.make_deposit(-self.amount)  # Note the minus sign
             self.canceled = True
             self.save()
             if self.product:
                 self.product.cancel_sale()
 
     def __str__(self):
-        return "%s, %s, %s" % (self.get_date_string(), self.customer.user.username, self.amount)
+        if self.customer is not None:
+            return "%s, %s, %s" % (self.get_date_string(), self.customer.user.username, self.amount)
+        else:
+            return "%s, %s" % (self.get_date_string(), self.amount)
 
     class Meta:
         ordering = ["-timestamp"]

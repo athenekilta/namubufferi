@@ -1,68 +1,280 @@
 from decimal import Decimal
+import re
 
+import json
+import urllib.request
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.mail import EmailMultiAlternatives
-from django.core.urlresolvers import reverse
-from django.http import JsonResponse, HttpResponse, Http404
-from django.shortcuts import render, get_object_or_404
+from django.core.mail import EmailMultiAlternatives, EmailMessage, mail_admins
+from django.db import IntegrityError
+from django.contrib.admin.views.decorators import staff_member_required
+from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest, Http404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
+from bs4 import BeautifulSoup
 
-from forms import MoneyForm, MagicAuthForm
-from models import Account, Product, Category, Transaction
+from .forms import MoneyForm, MagicAuthForm, TagAuthForm, ProductForm
+from .models import Account, Product, Category, Transaction, UserTag, ProductTag
+from .backends import add_tag_to_user
 from namubufferi.settings import DEBUG
 
+@staff_member_required
+def admin_inventory(request):
+    """
+    View to handle stocking up inventory, adding products...
+    """
+    context = dict(product_form=ProductForm(),
+                   products=Product.objects.all(),
+                   categories=Category.objects.all(),
+                   transactions=request.user.account.transaction_set.all()
+                   )
 
-@login_required(redirect_field_name=None)
-def home(request):
-    if request.user.is_superuser:
-        return render(request, 'namubufferiapp/base_admin.html')
-    else:
-        context = dict(money_form=MoneyForm(),
-                       products=Product.objects.all(),
-                       categories=Category.objects.all(),
-                       transactions=request.user.account.transaction_set.all()
-                       )
+    return render(request, 'namubufferiapp/admin_handleinventory.html', context)
 
-    return render(request, 'namubufferiapp/base_home.html', context)
+@staff_member_required
+def admin_overview(request):
+    """
+    Most important things at a glance for admins
+    """
+    positive_users = [x for x in User.objects.all() if x.account.balance >= 0]
+    negative_users = [x for x in User.objects.all() if x.account.balance < 0]
+
+    positive_balance = Decimal(0)
+    for u in positive_users:
+        positive_balance += u.account.balance
+    negative_balance = Decimal(0)
+    for u in negative_users:
+        negative_balance += -u.account.balance
 
 
-@login_required
-def buy(request):
-    if request.user.is_superuser:
-        return render(request, 'namubufferiapp/base_admin.html')
+    context = dict(products=Product.objects.all(),
+                   positive_users=positive_users,
+                   positive_balance=positive_balance,
+                   negative_users=negative_users,
+                   negative_balance=negative_balance,
+                   overall_balance=positive_balance-negative_balance,
+                   )
 
+    return render(request, 'namubufferiapp/admin_overview.html', context)
+
+@staff_member_required
+def product_update(request):
+    """
+    Update or create product
+    """
     if request.method == 'POST':
-        product = get_object_or_404(Product, pk=request.POST['product_key'])
-        price = product.price
-        request.user.account.make_payment(price)
+        product_form = ProductForm(request.POST)
+        if product_form.is_valid():
+            product, created = Product.objects.get_or_create(
+                                name=product_form.cleaned_data['name'],
+                                defaults={'category':product_form.cleaned_data['category'],},
+                            )
+            product.category = product_form.cleaned_data['category']
+            product.price = product_form.cleaned_data['price']
+            product.inventory = product_form.cleaned_data['inventory']
+            product.hidden = product_form.cleaned_data['hidden']
+            product.save()
 
-        new_transaction = Transaction()
-        new_transaction.customer = request.user.account
-        new_transaction.amount = -price
-        new_transaction.product = product
-        new_transaction.save()
+            bcode = product_form.cleaned_data['barcode']
+            if bcode is not None:
+                ptag, ptagcreated = ProductTag.objects.get_or_create(uid=bcode,
+                                                                       defaults={'product':product,})
+                ptag.product = product
+                ptag.save()
 
-        product.make_sale()
+            if created:
+                return HttpResponse("Product created", status=201)
+            else:
+                return HttpResponse("Product updated", status=200)
 
-        return JsonResponse({'balance': request.user.account.balance,
-                             'transactionkey': new_transaction.pk,
-                             'modalMessage': "Purchase Successful",
-                             'message': render_to_string('namubufferiapp/message.html',
-                                                         {'message': "Purchase Successful"}),
-                             })
+        else:
+            return HttpResponseBadRequest('{"errors":' + product_form.errors.as_json() + '}', content_type="application/json")
+    else:
+        raise Http404()
+
+@staff_member_required
+def product_add_barcode(request, prod_id, barcode):
+    if request.method == 'PUT':
+        try:
+            product = Product.objects.get(pk=prod_id)
+            ptag, created = ProductTag.objects.get_or_create(uid=barcode,
+                                                             defaults={'product':product,},)
+            ptag.product = product
+            ptag.save()
+
+            if created:
+                return HttpResponse("Barcode created", status=201)
+            else:
+                return HttpResponse("Barcode reassigned", status=200)
+        except Product.DoesNotExist:
+            return HttpResponse("Product not found", status=400)
     else:
         raise Http404()
 
 
+def list_barcodes(request):
+    barcodes = dict()
+    for bcode in ProductTag.objects.all():
+        barcodes[bcode.uid] = bcode.product.pk
+
+    return JsonResponse(barcodes)
+
+def product_from_outpan(barcode):
+    """
+    Try to guess product name from barcode using outpan.com
+
+    False if no name was found
+    """
+    try:
+        from namubufferi.settings import OUTPAN_API_KEY
+        result = urllib.request.urlopen("https://api.outpan.com/v2/products/{}?apikey={}".format(barcode, OUTPAN_API_KEY))
+        if result.getcode() != 200:
+            return False
+
+        name = json.loads(result.read().decode())["name"]
+
+        if name is None:
+            return False
+        else:
+            return name
+    except:
+        return False
+
+    return False
+
+
+def product_from_foodie(barcode):
+    """
+    Try to guess product name from barcode using foodie.fi
+    False if no name was found.
+
+    Use of this might not be ok by EULA, but shouldn't really hurt anybody
+    """
+    try:
+        result = urllib.request.urlopen("https://www.foodie.fi/entry/{}".format(barcode))
+        if result.getcode() != 200:
+            return False
+
+        soup = BeautifulSoup(result.read().decode(), "html.parser")
+        name = soup.find(id="product-name").get_text()
+
+        return name
+    except:
+        return False
+
+    return False
+
+
+@staff_member_required
+def discover_barcode(request, barcode):
+    """
+    Try to guess product details from its barcode
+    """
+    product = dict()
+
+    product["name"] = product_from_outpan(barcode)
+    if product["name"] is False:
+        product["name"] = product_from_foodie(barcode)
+
+    if product["name"] is False:
+        raise Http404()
+
+    return JsonResponse(product)
+
+@login_required(redirect_field_name=None)
+def home(request):
+    context = dict(money_form=MoneyForm(),
+                   products=Product.objects.all(),
+                   categories=Category.objects.all(),
+                   transactions=request.user.account.transaction_set.all()
+                   )
+
+    return render(request, 'namubufferiapp/base_home.html', context)
+
+def home_anonymous(request):
+    """
+    Buying anonymously means that we only update product inventory
+    without making transaction for anyone
+    """
+    context = dict(products=Product.objects.all(),
+                   categories=Category.objects.all(),
+                   )
+
+    return render(request, 'namubufferiapp/base_homeanonymous.html', context)
+
+
+def buy(request):
+    if request.method == 'POST':
+        try:
+            product_key = int(request.POST['product_key'])
+        except ValueError:
+            # This shouldn't happen, but it did. How?
+            payload = {'balance': Decimal(0),
+                       'transactionkey': None,
+                       'modalMessage': "Tried to buy a product that doesn't exist. How did this happen?",
+                       'message': render_to_string('namubufferiapp/message.html',
+                                                   {'message': "Tried to buy a product that doesn't exist. How did this happen?"}),
+                       }
+
+            mail_admins(
+                "Buying without correct product",
+                "User {} tried to buy product with id {}".format(request.user, request.POST['product_key']),
+                fail_silently=True
+            )
+
+            return JsonResponse(payload)
+
+        product = get_object_or_404(Product, pk=product_key)
+        price = product.price
+
+        new_transaction = Transaction()
+        new_transaction.amount = -price
+        new_transaction.product = product
+
+        if request.user.is_authenticated:
+            new_transaction.customer = request.user.account
+
+        new_transaction.save()
+        product.make_sale()
+
+        payload = {'balance': Decimal(0),
+                     'transactionkey': new_transaction.pk,
+                     'modalMessage': "Purchase Successful",
+                     'message': render_to_string('namubufferiapp/message.html',
+                                                 {'message': "Purchase Successful"}),
+                 }
+
+        if request.user.is_authenticated:
+            payload['balance'] = request.user.account.balance
+
+            if request.user.account.balance < 0:
+                email = EmailMessage(
+                    subject='Your balance notification',
+                    body='Your balance is NEGATIVE: {}e'.format(request.user.account.balance),
+                    to=[request.user.email],
+                )
+
+                email.send(fail_silently=True)
+
+        return JsonResponse(payload)
+    else:
+        raise Http404()
+
+def tos(request):
+    if request.method == 'POST':
+        accept = request.POST["accept"] == "true"
+
+        if request.user.is_authenticated:
+            request.user.account.tos_accepted = accept
+            request.user.account.save()
+
+    payload = {'tos_accepted': request.user.account.tos_accepted}
+    return JsonResponse(payload)
+
 @login_required
 def deposit(request):
-    if request.user.is_superuser:
-        return render(request, 'namubufferiapp/base_admin.html')
-
     if request.method == 'POST':
         money_form = MoneyForm(request.POST)
 
@@ -71,12 +283,18 @@ def deposit(request):
             cents = request.POST['cents']
             amount = Decimal(euros) + Decimal(cents)/100
 
-            request.user.account.make_deposit(amount)
-
             new_transaction = Transaction()
             new_transaction.customer = request.user.account
             new_transaction.amount = amount
             new_transaction.save()
+
+            email = EmailMessage(
+                subject='Your balance notification',
+                body='Your balance is: {}e'.format(request.user.account.balance),
+                to=[request.user.email],
+            )
+
+            email.send(fail_silently=True)
 
             return JsonResponse({'balance': request.user.account.balance,
                                  'transactionkey': new_transaction.pk,
@@ -88,26 +306,20 @@ def deposit(request):
                                  })
         else:
             # https://docs.djangoproject.com/en/1.10/ref/forms/api/#django.forms.Form.errors.as_json
-            return HttpResponse('{"errors":' + money_form.errors.as_json() + '}', content_type="application/json")
+            return HttpResponseBadRequest('{"errors":' + money_form.errors.as_json() + '}', content_type="application/json")
     else:
         raise Http404()
 
 
 @login_required
 def transaction_history(request):
-    if request.user.is_superuser:
-        return render(request, 'namubufferiapp/base_admin.html')
-
     return JsonResponse({'transactionhistory': render_to_string('namubufferiapp/transactionhistory.html',
-                                                                {'transactions': request.user.account.transaction_set.all()[:5]})
+                                                                {'transactions': request.user.account.transaction_set.all()})
                          })
 
 
 @login_required
 def receipt(request):
-    if request.user.is_superuser:
-        return render(request, 'namubufferiapp/base_admin.html')
-
     if request.method == 'POST':
         transaction = get_object_or_404(request.user.account.transaction_set.all(),
                                         pk=request.POST['transaction_key'])
@@ -131,9 +343,6 @@ def receipt(request):
 
 @login_required
 def cancel_transaction(request):
-    if request.user.is_superuser:
-        return render(request, 'namubufferiapp/base_admin.html')
-
     if request.method == 'POST':
         transaction = get_object_or_404(request.user.account.transaction_set.all(),
                                         pk=request.POST['transaction_key'])
@@ -153,86 +362,108 @@ def cancel_transaction(request):
         raise Http404()
 
 
-def register(request):
-    """
-    https://docs.djangoproject.com/en/1.10/topics/email/
-    """
-
-    if request.method == 'POST':
-        register_form = UserCreationForm(request.POST)
-        if register_form.is_valid():
-            print request.POST
-            new_user = register_form.save()
-
-            new_account = Account()
-            new_account.user = new_user
-            new_account.save()
-
-            return JsonResponse({'modalMessage': "Register Success. You can now sign in.",
-                                 'message': render_to_string('namubufferiapp/message.html',
-                                                             {'message': "Register Success. You can now sign in."})
-                                 })
-        else:
-            return HttpResponse('{"errors":' + register_form.errors.as_json() + '}', content_type="application/json")
-
-    else:
-        raise Http404()
-
-
 def magic_auth(request, magic_token=None):
     """
     """
     if request.method == 'POST':
-
         # Validate form
         magic_auth_form = MagicAuthForm(request.POST)
         if magic_auth_form.is_valid():
             # Try to find the user or create a new one
             try:
-                user = User.objects.get(username=request.POST['aalto_username'])
-            except:  # DoesNotExist
-                new_user = User.objects.create_user(request.POST['aalto_username'],
-                                                    email=request.POST['aalto_username'] + '@aalto.fi',
+                user = User.objects.get(email=magic_auth_form.cleaned_data['email'].lower())
+            except User.DoesNotExist:
+                email = magic_auth_form.cleaned_data['email'].lower()
+                m = re.match("^(.*)@aalto.fi$", email)
+                if m:
+                    username = m.group(1)
+                    user = User.objects.create_user(username,
+                                                    email=email,
                                                     password=None)
+                else:
+                    return JsonResponse({'modalMessage': 'Email not found or its not aalto email.'})
 
-                new_account = Account()
-                new_account.user = new_user
-                new_account.save()
-                user = new_user
 
             user.account.update_magic_token()
             current_site = get_current_site(request)
-            magic_link = current_site.domain + reverse('magic', kwargs={'magic_token': user.account.magic_token})
 
             # Send mail to user
             mail = EmailMultiAlternatives(
                 subject="Namubufferi - Login",
-                body=("Hello. Authenticate to Namubufferi using this link. It's valid for 15 minutes.\n"
-                      + magic_link),
-                from_email="<namubufferi@athene.fi>",
+                body=("Hello. Authenticate to Namubufferi using this code. It's valid for 15 minutes.\n"
+                      + str(user.account.magic_token)),
                 to=[user.email]
             )
-            mail.attach_alternative(("<h1>Hello."
-                                     "</h1><p>Authenticate to Namubufferi using this link. It's valid for 15 minutes.</p>"
-                                     '<a href="http://' + magic_link + '"> Magic Link </a>'
-                                     ), "text/html")
             try:
                 mail.send()
-                print "Mail sent"
+                print("Mail sent")
             except:
-                print "Mail not sent"
+                print("Mail not sent")
 
             if DEBUG:
-                return JsonResponse({'modalMessage': '<br><a href="http://' + magic_link + '">Login Link</a> (Sent to you email when !DEBUG)'})
+                return JsonResponse({'modalMessage': '<br>login with ' + str(user.account.magic_token) + ' (Shown when DEBUG)'})
             else:
-                return JsonResponse({'modalMessage': 'Check your email.'})
+                return JsonResponse({'modalMessage': 'Check your email for the token.'})
         else:
             return HttpResponse('{"errors":' + magic_auth_form.errors.as_json() + '}', content_type="application/json")
 
     else:
-        user = authenticate(magic_token=magic_token)
+        user = authenticate(magic_token=str(magic_token))
         if user:
             login(request, user)
-            return render(request, 'namubufferiapp/base_authsuccess.html')
+            return home(request)
         else:
-            return HttpResponse(status=410)
+            return redirect('/')
+
+def tag_auth(request):
+    """
+    Login by tag
+    """
+    if request.method == 'POST':
+        # Validate form
+        tag_auth_form = TagAuthForm(request.POST)
+        if tag_auth_form.is_valid():
+            tag_uid = tag_auth_form.cleaned_data['tag_uid']
+            user = authenticate(tagKey=tag_uid)
+            if user is not None:
+                login(request, user)
+                return JsonResponse({'redirect': '/'})
+            else:
+                return JsonResponse({'errors':{'tag_uid':
+                                        [{'message':'Tag {} not found'.format(tag_uid),
+                                        'code':'tagnotfound'}],},
+                                    'modalMessage':'Tag {} not found!'.format(tag_uid),
+                                    })
+        else:
+            return HttpResponseBadRequest('{"errors":' + tag_auth_form.errors.as_json() + '}', content_type="application/json")
+    else:
+        raise Http404()
+
+@login_required
+def tag_list(request):
+    tags = UserTag.objects.filter(user=request.user)
+
+    return JsonResponse({'taglist': render_to_string('namubufferiapp/taglist.html',
+                                                     {'tags': tags})
+                        })
+
+@login_required
+def tag_modify(request, uid):
+    if request.method == 'DELETE':
+        try:
+            tag = UserTag.objects.get(uid=uid)
+            if tag.user == request.user:
+                tag.delete()
+                return HttpResponse("Tag deleted", status=200)
+            else:
+                raise Http404("Wrong user")
+        except UserTag.DoesNotExist:
+            raise Http404("Tag does not exist")
+
+    elif request.method == 'POST':
+        try:
+            tag = add_tag_to_user(request.user, uid)
+            return HttpResponse("Tag created", status=201)
+        except IntegrityError:
+            return HttpResponse("Another tag exists ({})!".format(uid),
+                                status=409)

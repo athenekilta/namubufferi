@@ -1,3 +1,11 @@
+# Production
+prodenv
+
+# webpack
+namubufferiapp/static/bundles/
+node_modules/
+webpack-stats.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -71,3 +79,16 @@ media/
 
 # Pycharm
 .idea/
+
+# Vim
+*.swp
+*~
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+tags
+cscope.*
+Session.vim
+.netrwhist
+
+# visual studio compiled
+.vscode/

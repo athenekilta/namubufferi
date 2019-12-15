@@ -1,2 +1,19 @@
--r requirements.local.txt
-psycopg2==2.6.2
+beautifulsoup4==4.5.3
+dj-database-url==0.4.1
+Django==1.11.20
+django-appconf==1.0.2
+django-autofixture==0.12.1
+django-bootstrap3==11.0.0
+django-webpack-loader==0.4.1
+gunicorn==19.6.0
+psycopg2==2.7.1
+pyasn1==0.1.9
+pycurl==7.43.0
+python-http-client==1.2.3
+rcssmin==1.0.6
+requests==2.22.0
+rjsmin==1.0.12
+sendgrid==2.2.1
+sendgrid-django==2.0.0
+smtpapi==0.3.1
+whitenoise==3.2

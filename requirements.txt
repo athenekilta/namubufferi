@@ -1,6 +1,6 @@
 beautifulsoup4==4.5.3
 dj-database-url==0.4.1
-Django==1.11.20
+Django==1.11.28
 django-appconf==1.0.2
 django-autofixture==0.12.1
 django-bootstrap3==11.0.0

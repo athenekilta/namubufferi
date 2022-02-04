@@ -1,0 +1,10 @@
+{% extends "api/base.html" %} {% block main %}
+<header>
+  <h2>{{ request.path }}</h2>
+</header>
+<form method="post">
+  <p>Are you sure you want to delete "{{ object }}"?</p>
+  {% csrf_token %}
+  <input type="submit" value="Confirm" />
+</form>
+{% endblock main %}

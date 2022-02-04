@@ -1,0 +1,9 @@
+{% extends "onetimepass/base.html" %} {% block content %}
+<h1><a href="{% url 'landing:index' %}">Namubufferi</a></h1>
+<p>Password sent to <strong>{{ view.onetimepass.email }}</strong></p>
+<form method="post">
+  {% csrf_token %}
+  <div>{{ form.password }}{{ form.password.errors }}</div>
+  <button type="submit">Authenticate</button>
+</form>
+{% endblock content %}

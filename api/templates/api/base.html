@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ request.path }}</title>
+    <link rel="stylesheet" href="{% static 'athene/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'api/style.css' %}" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li>
+            <a href="{% url 'api:index' %}"><h1>API</h1></a>
+            <ul>
+              <li>
+                <a href="{% url 'api:account-list' %}">Accounts</a>
+              </li>
+              <li>
+                <a href="{% url 'api:barcode-list' %}">Barcodes</a>
+              </li>
+              <li>
+                <a href="{% url 'api:group-list' %}">Groups</a>
+              </li>
+              <li>
+                <a href="{% url 'api:product-list' %}">Products</a>
+              </li>
+              <li>
+                <a href="{% url 'api:transaction-list' %}">Transactions</a>
+              </li>
+              <li>
+                <a href="{% url 'api:user-list' %}">Users</a>
+              </li>
+              <li class="push">
+                <a href="{% url 'api:logout' %}">Log out</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>{% block main %}{% endblock main %}</main>
+    <footer>
+      <nav>
+        <ul>
+          <li>
+            <a href="/">/</a>
+          </li>
+        </ul>
+      </nav>
+    </footer>
+  </body>
+</html>

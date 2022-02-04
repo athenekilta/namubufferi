@@ -1,0 +1,9 @@
+{% extends "api/base.html" %} {% block main %}
+<header>
+  <h2>{{ request.path }}</h2>
+</header>
+<form method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <input type="submit" value="Submit" />
+</form>
+{% endblock main %}

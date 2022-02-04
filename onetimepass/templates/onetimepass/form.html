@@ -1,0 +1,9 @@
+{% extends "onetimepass/base.html" %} {% block content %}
+<h1><a href="{% url 'landing:index' %}">Namubufferi</a></h1>
+<p>Log in with a one-time password</p>
+<form method="post">
+  {% csrf_token %}
+  <div>{{ form.email }}{{ form.email.errors }}</div>
+  <button type="submit">Send password</button>
+</form>
+{% endblock content %}

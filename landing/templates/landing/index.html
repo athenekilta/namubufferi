@@ -1,0 +1,10 @@
+{% extends "landing/base.html" %} {% block content %}
+<header class="logo">
+  <h1>Namubufferi</h1>
+  <p class="barcode">Namubufferi</p>
+</header>
+<p>Log in</p>
+<a href="{% url 'onetimepass:login' %}">Email</a>
+<a href="{% url 'keycards:login' %}">Keycard</a>
+<a href="{% url 'admin:login' %}">Admin</a>
+{% endblock content %}

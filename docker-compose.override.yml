@@ -1,37 +1,55 @@
-version: '3'
-
 services:
-  namubufferi:
+  web:
+    command: python manage.py runserver 0:8000
     environment:
-      DEBUG: "true"
-      NAMUBUFFERI_ALLOWEDHOSTS: localhost
-      NAMUBUFFERI_ADMINUSER: admin
-      NAMUBUFFERI_ADMINPASS: password
-      NAMUBUFFERI_GUNICORN_WORKERS: 1
-      NAMUBUFFERI_DB: postgres://postgres:postgres@postgres/namubufferi-local-test
-      NAMUBUFFERI_SECRETKEY: 'wfofh1#8444fufhIUFOHFEHUFW3D73D7344/((#(#HFFH'
-      NAMUBUFFERI_STATIC_URL: /static/
-      NAMUBUFFERI_USE_SMTP: "true"
-      SMTP_HOST: fake-smtp
-      SMTP_PORT: 1025
-      SMTP_USER: everything
-      SMTP_PASSWORD: goes
-      NAMUBUFFERI_ADMIN_EMAILS: 'something@example.com'
-      NAMUBUFFERI_DEFAULT_FROM_EMAIL: 'askimestari@invalid.com'
-    depends_on:
-      - postgres
-      - fake-smtp
+      - DJANGO_ADMINS=[("admin", "admin@domain.invalid")]
+      - DJANGO_ALLOWED_HOSTS=*
+      - DJANGO_CSRF_COOKIE_SECURE=0
+      - DJANGO_DATABASE_SSL_REQUIRE=0
+      - DJANGO_DEBUG=1
+      - DJANGO_DEFAULT_FROM_EMAIL=namubufferi@domain.invalid
+      - DJANGO_EMAIL_HOST=mail
+      - DJANGO_EMAIL_HOST_PASSWORD=mailhog
+      - DJANGO_EMAIL_HOST_USER=mailhog
+      - DJANGO_EMAIL_PORT=1025
+      - DJANGO_EMAIL_USE_SSL=0
+      - DJANGO_EMAIL_USE_TLS=0
+      - DJANGO_HIDDEN_ROOT=
+      - DJANGO_ONETIMEPASS_ALLOWED_DOMAINS=domain.invalid
+      - DJANGO_SECURE_HSTS_SECONDS=0
+      - DJANGO_SECURE_PROXY_SSL_HEADER=0
+      - DJANGO_SECURE_SSL_REDIRECT=0
+      - DJANGO_SESSION_COOKIE_SECURE=0
+      - DJANGO_SUPERUSER_EMAIL=admin@domain.invalid
+      - DJANGO_SUPERUSER_PASSWORD=adminadmin
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - POSTGRES_DATABASE=postgres
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=postgres
+
     ports:
-      - 8080:8080
+      - '8000:8000'
     volumes:
-      - ./namubufferiapp:/namubufferi/namubufferiapp
+      - virtualenvs:/usr/local/share/virtualenvs/
+      - ./:/srv/namubufferi/
 
-  postgres:
-    environment:
-      POSTGRES_DB: namubufferi-local-test
-
-  fake-smtp:
+  mail:
     image: mailhog/mailhog
     ports:
-      - 1025:1025
-      - 8025:8025
+      - '1025:1025'
+      - '8025:8025'
+
+  bundler:
+    image: node:16
+    working_dir: /srv/namubufferi/reactapp/
+    entrypoint: ./docker-entrypoint.sh
+    command: yarn start
+    ports:
+      - '3000:3000'
+    volumes:
+      - reactapp_node_modules:/srv/namubufferi/reactapp/node_modules/
+      - ./reactapp/:/srv/namubufferi/reactapp/
+
+volumes:
+  reactapp_node_modules:
+  virtualenvs:

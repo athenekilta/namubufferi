@@ -1,0 +1,7 @@
+<!-- prettier-ignore -->
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'athene/admin.css' %}" />
+{% endblock %}

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+<symbol id="plus" viewBox="0 0 100 100">
+    <circle cx="50%" cy="50%" r="50%" />
+    <g stroke="white" stroke-width="12.5%" stroke-linecap="round">
+        <line x1="25%" y1="50%" x2="75%" y2="50%" />
+        <line x1="50%" y1="25%" x2="50%" y2="75%" />
+    </g>
+</symbol>
+</svg>

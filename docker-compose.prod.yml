@@ -1,45 +1,38 @@
-version: '3'
-
 services:
-  nginx:
-    build: docker-files/nginx
-    restart: unless-stopped
-    ports:
-      - "80:80"
-    volumes:
-      - namubufferi_static:/static
+  web:
+    environment:
+      - DJANGO_ADMINS
+      - DJANGO_ALLOWED_HOSTS
+      - DJANGO_CSRF_COOKIE_SECURE
+      - DJANGO_DATABASE_SSL_REQUIRE
+      - DJANGO_DEBUG
+      - DJANGO_DEFAULT_FROM_EMAIL
+      - DJANGO_EMAIL_HOST
+      - DJANGO_EMAIL_HOST_PASSWORD
+      - DJANGO_EMAIL_HOST_USER
+      - DJANGO_EMAIL_PORT
+      - DJANGO_EMAIL_USE_SSL
+      - DJANGO_EMAIL_USE_TLS
+      - DJANGO_HIDDEN_ROOT
+      - DJANGO_ONETIMEPASS_ALLOWED_DOMAINS
+      - DJANGO_SECURE_HSTS_SECONDS
+      - DJANGO_SECURE_PROXY_SSL_HEADER
+      - DJANGO_SECURE_SSL_REDIRECT
+      - DJANGO_SESSION_COOKIE_SECURE
+      - DJANGO_SUPERUSER_EMAIL
+      - DJANGO_SUPERUSER_PASSWORD
+      - DJANGO_SUPERUSER_USERNAME
+      - PORT
+      - POSTGRES_DATABASE
+      - POSTGRES_HOST
+      - POSTGRES_USER
+
+  proxy:
+    image: nginx:1.21
     depends_on:
-      - namubufferi
-
-  namubufferi:
-    restart: unless-stopped
-    environment:
-      DEBUG: "false"
-      NAMUBUFFERI_ALLOWEDHOSTS: "*"
-      NAMUBUFFERI_GUNICORN_WORKERS: 1
-      NAMUBUFFERI_DB: ${NAMUBUFFERI_DB}
-      NAMUBUFFERI_SECRETKEY: ${NAMUBUFFERI_SECRET}
-      NAMUBUFFERI_STATIC_URL: /static/
-      NAMUBUFFERI_USE_SMTP: "true"
-      SMTP_HOST: ${NAMUBUFFERI_SMTP_HOST}
-      SMTP_PORT: ${NAMUBUFFERI_SMTP_PORT}
-      SMTP_USER: ${NAMUBUFFERI_SMTP_USER}
-      SMTP_PASSWORD: ${NAMUBUFFERI_SMTP_PASSWORD}
-      SMTP_TLS: ${NAMUBUFFERI_SMTP_TLS}
-      SMTP_SSL: ${NAMUBUFFERI_SMTP_SSL}
-      NAMUBUFFERI_ADMIN_EMAILS: ${NAMUBUFFERI_ADMIN_EMAILS}
-      NAMUBUFFERI_DEFAULT_FROM_EMAIL: ${NAMUBUFFERI_EMAIL_FROM}
+      - web
     volumes:
-      - namubufferi_static:/static
-
-  postgres:
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: ${NAMUBUFFERI_DB_NAME}
-      POSTGRES_USER: ${NAMUBUFFERI_DB_USER}
-      POSTGRES_PASSWORD: ${NAMUBUFFERI_DB_PASSWORD}
-    volumes:
-      - ${NAMUBUFFERI_DB_LOCATION}:/var/lib/postgresql/data
-
-volumes:
-  namubufferi_static:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - '80:80'
+      - '443:443'

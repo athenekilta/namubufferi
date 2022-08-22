@@ -1,8 +1,0 @@
-{% extends "landing/base.html" %} {% block content %}
-<h1><a href="{% url 'landing:index' %}">Namubufferi</a></h1>
-<form method="post">
-  {% csrf_token %}
-  <div>{{ form.secret }}{{ form.secret.errors }}</div>
-  <input type="submit" />
-</form>
-{% endblock content %}

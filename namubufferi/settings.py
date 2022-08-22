@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     "landing.apps.LandingConfig",
     "terms.apps.TermsConfig",
     "singlepageapp.apps.SinglepageappConfig",
-    "keycards.apps.KeycardsConfig",
     "onetimepass.apps.OnetimepassConfig",
     "api.apps.ApiConfig",
     "ledger.apps.LedgerConfig",
@@ -155,7 +154,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "onetimepass.backends.OneTimePassBackend",
-    "keycards.backends.KeycardBackend",
 ]
 
 LOGIN_URL = "landing:index"

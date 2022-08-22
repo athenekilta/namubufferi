@@ -33,6 +33,7 @@ urlpatterns = [
                 path("!/", include("singlepageapp.urls")),
                 path("terms/", include("terms.urls")),
                 path("accounts/", include("django.contrib.auth.urls")),
+                path("users/", include("users.urls"))
             ],
         ),
     ),

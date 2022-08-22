@@ -265,6 +265,12 @@ section > footer > nav > ul {
   padding: 0;
 }
 
+section > footer > nav > ul > li {
+  margin: 10px;
+  display:inline;
+}
+
+
 .negative {
   color: red;
 }

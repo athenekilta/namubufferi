@@ -7,4 +7,14 @@
 <a href="{% url 'login' %}">Log in</a>
 <a href="{% url 'onetimepass:login' %}">Email</a>
 <a href="{% url 'admin:login' %}">Admin</a>
+<footer>
+  <nav>
+    <ul>
+      <li>
+        <a href="{% url 'terms:userguide' %}">User guide</a>
+      </li>
+    </ul>
+  </nav>
+</footer>
+
 {% endblock content %}

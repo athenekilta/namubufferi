@@ -1,16 +1,12 @@
 {% extends "terms/base.html" %} {% block content %}
 <main>
-  <h1>Privacy & Terms</h1>
+  <h1>User guide</h1>
   <pre>{{ terms.document.text }}</pre>
-  <p>
-    {{ request.user }}
-    <small><a href="{% url 'terms:logout' %}">Log out</a></small>
-  </p>
-  <form method="post">
-    {% csrf_token %} {{ form.as_p }}
-    <p>
-      <input type="submit" />
-    </p>
+  <form>
   </form>
+  <p>{{ request.user }}</p>
+  <p>
+    <small><a href="/">Back</a></small>
+  </p>
 </main>
 {% endblock content %}

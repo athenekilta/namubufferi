@@ -68,6 +68,15 @@
             <td></td>
           </tr>
         </template>
+        <footer>
+          <nav>
+            <ul>
+              <li>
+                <a href="{% url 'terms:update' %}">User guide</a>
+              </li>
+            </ul>
+          </nav>
+        </footer>
       </section>
       <section id="/transaction">
         <header>
@@ -139,10 +148,7 @@
           <nav>
             <ul>
               <li>
-                <a href="{% url 'terms:update' %}">Terms</a>
-              </li>
-              <li>
-                <a href="{% url 'api:index' %}">API</a>
+                <a href="{% url 'terms:update' %}">User guide</a>
               </li>
             </ul>
           </nav>

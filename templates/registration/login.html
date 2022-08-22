@@ -1,7 +1,7 @@
 {% extends 'landing/base.html' %}
 
 {% block content %}
-    <form>
+    <form method="POST">
         {{ form.non_field_errors }}
         {% csrf_token %}
         {% for field in form %}
@@ -11,4 +11,5 @@
         {% endfor %}
         <input type="submit">
     </form>
+    <a href="{% url 'password_reset' %}">Forgot password?</a>
 {% endblock %}

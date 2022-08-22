@@ -28,13 +28,6 @@ export default class TransactionForm {
     this.search = document.querySelector('#search');
     this.quantity = document.querySelector('#quantity');
     this.transactionTable = document.querySelector('#transactiontable');
-    this.reader = document.querySelector('#reader');
-    this.scanner = new Html5QrcodeScanner('reader', {
-      fps: 10,
-      qrbox: 250,
-      rememberLastUsedCamera: false,
-    });
-    this.scanner.render(this.onScanSuccess.bind(this));
     this.search.addEventListener('input', this.searchChange.bind(this));
     this.form.addEventListener('submit', this.submit.bind(this));
   }

@@ -14,8 +14,6 @@ from ast import literal_eval
 from distutils.util import strtobool
 from pathlib import Path
 
-import dj_database_url
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -33,7 +31,6 @@ except KeyError:
 DEBUG = strtobool(os.environ["DJANGO_DEBUG"])
 
 ALLOWED_HOSTS = os.environ["DJANGO_ALLOWED_HOSTS"].split()
-
 
 # Application definition
 
@@ -93,24 +90,11 @@ WSGI_APPLICATION = "namubufferi.wsgi.application"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 
-try:
-    with open(os.environ["POSTGRES_PASSWORD_FILE"]) as f:
-        POSTGRES_USER = os.environ["POSTGRES_USER"]
-        POSTGRES_PASSWORD = f.read().strip()
-        POSTGRES_HOST = os.environ["POSTGRES_HOST"]
-        POSTGRES_DATABASE = os.environ["POSTGRES_DATABASE"]
-        os.environ.setdefault(
-            "DATABASE_URL",
-            f"postgres://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}/{POSTGRES_DATABASE}",
-        )
-except KeyError:
-    pass
-
 DATABASES = {
-    "default": dj_database_url.config(
-        conn_max_age=600,
-        ssl_require=strtobool(os.environ["DJANGO_DATABASE_SSL_REQUIRE"]),
-    )
+    "default": {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
 
 # Password validation

@@ -71,9 +71,8 @@
         <footer>
           <nav>
             <ul>
-              <li>
-                <a href="{% url 'terms:update' %}">User guide</a>
-              </li>
+              <li><a href="{% url 'terms:update' %}">User guide</a></li>
+              <li><a href="{% url 'api:logout' %}">Log out</a></li>
             </ul>
           </nav>
         </footer>
@@ -123,16 +122,15 @@
             <h2>User</h2>
             <div></div>
           </nav>
-          <div>
-            <a href="{% url 'api:logout' %}">Log out</a>
-          </div>
+          <section>
+            <p>Your username: <b>{{ request.user }}</b></p>
+          </section>
         </header>
         <footer>
           <nav>
             <ul>
-              <li>
-                <a href="{% url 'terms:update' %}">User guide</a>
-              </li>
+              <li><a href="{% url 'terms:update' %}">User guide</a></li>
+              <li><a href="{% url 'api:logout' %}">Log out</a></li>
             </ul>
           </nav>
         </footer>

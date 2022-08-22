@@ -1,9 +1,9 @@
 {% extends "terms/base.html" %} {% block content %}
 <main>
   <h1>User guide</h1>
-  <pre>{{ terms.document.text }}</pre>
-  <form>
-  </form>
+  {%for document in object_list%} 
+    <pre>{{ document.text }}</pre>
+  {%endfor%}
   <p>
     <small><a href="/">Back</a></small>
   </p>

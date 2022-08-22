@@ -3,8 +3,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView
+from django.views.generic import ListView
 
 from .models import Terms
+from .models import Document
 
 
 class TermsMixin:
@@ -25,3 +27,12 @@ class TermsUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_object(self):
         return Terms.objects.get(user=self.request.user)
+
+class DocumentDetailView(ListView):
+    model = Terms
+    template_name = "terms/documentList.html"
+    def get_queryset(self):
+        return Document.objects.all()
+    
+
+

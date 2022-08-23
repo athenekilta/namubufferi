@@ -1,12 +1,13 @@
 from distutils.util import strtobool
 
 from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
 from django.views.generic import RedirectView
+
 
 from jsonapi.views import (
     JSONAPICreateView,
@@ -20,6 +21,12 @@ from terms.views import TermsMixin
 User = get_user_model()
 
 
+class SuperUserRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+
 class ListRestrictMixin:
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -30,7 +37,7 @@ class ListRestrictMixin:
         return queryset.filter(self.list_restrict)
 
 
-class LoginRequiredMixin(LoginRequiredMixin):
+class LoginRequiredMixin(SuperUserRequiredMixin):
     raise_exception = True
 
 
@@ -65,7 +72,7 @@ class JSONAPIListView(JSONAPIListView):
 
 
 class AccountDetailView(
-    LoginRequiredMixin,   ObjectPermissionMixin, JSONAPIDetailView
+    SuperUserRequiredMixin,   ObjectPermissionMixin, JSONAPIDetailView
 ):
     model = Account
     http_method_names = ["get"]
@@ -73,14 +80,14 @@ class AccountDetailView(
 
 
 class AccountListView(
-    LoginRequiredMixin,   ListRestrictMixin, JSONAPIListView
+    SuperUserRequiredMixin,   ListRestrictMixin, JSONAPIListView
 ):
     model = Account
     http_method_names = ["get"]
     list_restrict = "pk=self.request.user.account.pk"
 
 
-class BarcodeCreateView(LoginRequiredMixin,   JSONAPICreateView):
+class BarcodeCreateView(SuperUserRequiredMixin,   JSONAPICreateView):
     model = Barcode
     http_method_names = ["get", "post"]
     fields = ["id", "product"]
@@ -89,12 +96,12 @@ class BarcodeCreateView(LoginRequiredMixin,   JSONAPICreateView):
         return reverse("api:barcode-detail", kwargs={"pk": self.object.pk})
 
 
-class BarcodeListView(LoginRequiredMixin,   JSONAPIListView):
+class BarcodeListView(SuperUserRequiredMixin,   JSONAPIListView):
     model = Barcode
     http_method_names = ["get", "post"]
 
 
-class BarcodeDeleteView(LoginRequiredMixin,   JSONAPIDeleteView):
+class BarcodeDeleteView(SuperUserRequiredMixin,   JSONAPIDeleteView):
     model = Barcode
     http_method_names = ["get", "post", "delete"]
 
@@ -102,33 +109,33 @@ class BarcodeDeleteView(LoginRequiredMixin,   JSONAPIDeleteView):
         return reverse("api:barcode-list")
 
 
-class BarcodeDetailView(LoginRequiredMixin,   JSONAPIDetailView):
+class BarcodeDetailView(SuperUserRequiredMixin,   JSONAPIDetailView):
     model = Barcode
     http_method_names = ["get", "delete"]
     delete_view = BarcodeDeleteView
 
 
-class GroupDetailView(LoginRequiredMixin,   JSONAPIDetailView):
+class GroupDetailView(SuperUserRequiredMixin,   JSONAPIDetailView):
     model = Group
     http_method_names = ["get"]
 
 
-class GroupListView(LoginRequiredMixin,   JSONAPIListView):
+class GroupListView(SuperUserRequiredMixin,   JSONAPIListView):
     model = Group
     http_method_names = ["get"]
 
 
-class ProductDetailView(LoginRequiredMixin,   JSONAPIDetailView):
+class ProductDetailView(SuperUserRequiredMixin,   JSONAPIDetailView):
     model = Product
     http_method_names = ["get"]
 
 
-class ProductListView(LoginRequiredMixin,   JSONAPIListView):
+class ProductListView(SuperUserRequiredMixin,   JSONAPIListView):
     model = Product
     http_method_names = ["get"]
 
 
-class TransactionCreateView(LoginRequiredMixin,   JSONAPICreateView):
+class TransactionCreateView(SuperUserRequiredMixin,   JSONAPICreateView):
     model = Transaction
     http_method_names = ["get", "post"]
     fields = ["product", "quantity"]
@@ -142,7 +149,7 @@ class TransactionCreateView(LoginRequiredMixin,   JSONAPICreateView):
 
 
 class TransactionDeleteView(
-    LoginRequiredMixin,   ObjectPermissionMixin, JSONAPIDeleteView
+    SuperUserRequiredMixin,   ObjectPermissionMixin, JSONAPIDeleteView
 ):
     model = Transaction
     http_method_names = ["get", "post"]
@@ -153,7 +160,7 @@ class TransactionDeleteView(
 
 
 class TransactionDetailView(
-    LoginRequiredMixin,   ObjectPermissionMixin, JSONAPIDetailView
+    SuperUserRequiredMixin,   ObjectPermissionMixin, JSONAPIDetailView
 ):
     model = Transaction
     http_method_names = ["get", "delete"]
@@ -163,7 +170,7 @@ class TransactionDetailView(
 
 @method_decorator(never_cache, name="dispatch")
 class TransactionListView(
-    LoginRequiredMixin,   ListRestrictMixin, JSONAPIListView
+    SuperUserRequiredMixin,   ListRestrictMixin, JSONAPIListView
 ):
     model = Transaction
     http_method_names = ["get", "post"]
@@ -172,20 +179,20 @@ class TransactionListView(
 
 
 class UserDetailView(
-    LoginRequiredMixin, ObjectPermissionMixin, JSONAPIDetailView
+    SuperUserRequiredMixin, ObjectPermissionMixin, JSONAPIDetailView
 ):
     model = User
     http_method_names = ["get"]
     object_permission = "obj"
 
 
-class UserListView(LoginRequiredMixin, ListRestrictMixin, JSONAPIListView):
+class UserListView(SuperUserRequiredMixin, ListRestrictMixin, JSONAPIListView):
     model = User
     http_method_names = ["get"]
     list_restrict = "pk=self.request.user.pk"
 
 
-class UserRedirectView(LoginRequiredMixin, RedirectView):
+class UserRedirectView(SuperUserRequiredMixin, RedirectView):
     permanent = False
 
     def get_redirect_url(self, *args, **kwargs):

@@ -1,15 +1,15 @@
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.core.mail import send_mail
-from django.views.generic import FormView
+from django.views.generic import FormView, CreateView
 
 from django import utils
 from django.conf import settings
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect
 
-from .forms import ClaimBalanceForm
+from .forms import ClaimBalanceForm, CreateUserForm
 
 
 User = get_user_model()
@@ -51,3 +51,9 @@ class MigrateAccountView(FormView):
             )
 
         return redirect('landing:index')
+
+
+class SignUp(CreateView):
+    form_class = CreateUserForm
+    success_url = reverse_lazy('login')
+    template_name = 'users/signup.html'

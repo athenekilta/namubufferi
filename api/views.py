@@ -46,8 +46,8 @@ class ObjectPermissionMixin:
         # https://docs.djangoproject.com/en/3.2/topics/class-based-views/generic-display/#performing-extra-work
         obj = super().get_object()
         if (
-            eval(self.object_permission) != self.request.user
-            and not self.request.user.is_superuser
+                eval(self.object_permission) != self.request.user
+                and not self.request.user.is_superuser
         ):
             raise PermissionDenied()
         return obj

@@ -17,6 +17,14 @@
 - React development
   - http://localhost:3000/
 
+### Accessing the container command line and creating a superuser
+```bash
+docker exec -it namubuffa_web_1 bash # replace namubuffa_web_1 with the actual name of the container
+# you should now be working inside the container and greeted by a command line ending in `#` character
+pipenv run python manage.py createsuperuser
+```
+Answer questions and log in at `/admin` to view the admin panel.
+
 ## Deployment
 
 - https://docs.djangoproject.com/en/3.2/howto/deployment/

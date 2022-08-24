@@ -45,7 +45,7 @@ class MigrateAccountView(FormView):
 
             send_mail(
                 "Welcome to namubufferi!", 
-                message=f"Reset your password {reset_url}",
+                message=f"Reset your password </br> Your username: {user.username} </br> {reset_url}",
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[email]
             )

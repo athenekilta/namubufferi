@@ -40,12 +40,11 @@ form > * {
 }
 
 .errorlist {
-  padding: 0;
+  padding: 1em 0;
   margin: 0;
   list-style-type: none;
   color: red;
   font-size: small;
-  position: absolute;
 }
 
 footer {

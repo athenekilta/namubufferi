@@ -302,6 +302,7 @@ fieldset label {
 
 fieldset label > span:last-child {
   margin-left: auto;
+  white-space: nowrap;
 }
 
 fieldset label > input {

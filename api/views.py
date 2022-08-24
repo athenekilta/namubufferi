@@ -43,7 +43,7 @@ class ObjectPermissionMixin:
         # https://docs.djangoproject.com/en/3.2/topics/class-based-views/generic-display/#performing-extra-work
         obj = super().get_object()
         if (
-                eval(self.object_permission) != self.request.user
+                self.get_object_owner(obj) != self.request.user
                 and not self.request.user.is_superuser
         ):
             raise PermissionDenied()
@@ -74,6 +74,10 @@ class AccountDetailView(
     model = Account
     http_method_names = ["get"]
     object_permission = "obj.user"
+
+    @staticmethod
+    def get_object_owner(obj):
+        return obj.user
 
 
 class AccountListView(LoginRequiredMixin, ListRestrictMixin, JSONAPIListView):
@@ -151,10 +155,13 @@ class TransactionDeleteView(
 ):
     model = Transaction
     http_method_names = ["get", "post"]
-    object_permission = "obj.account.user"
 
     def get_success_url(self):
         return reverse("api:transaction-list")
+
+    @staticmethod
+    def get_object_owner(obj):
+        return obj.account.user
 
 
 class TransactionDetailView(
@@ -163,7 +170,10 @@ class TransactionDetailView(
     model = Transaction
     http_method_names = ["get", "delete"]
     delete_view = TransactionDeleteView
-    object_permission = "obj.account.user"
+
+    @staticmethod
+    def get_object_owner(obj):
+        return obj.account.user
 
 
 @method_decorator(never_cache, name="dispatch")
@@ -183,7 +193,10 @@ class UserDetailView(
 ):
     model = User
     http_method_names = ["get"]
-    object_permission = "obj"
+
+    @staticmethod
+    def get_object_owner(obj):
+        return obj
 
 
 class UserListView(LoginRequiredMixin, ListRestrictMixin, JSONAPIListView):

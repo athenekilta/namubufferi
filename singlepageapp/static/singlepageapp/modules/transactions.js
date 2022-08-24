@@ -144,7 +144,9 @@ export default class TransactionForm {
     for (const productId of recentProducts) {
       const product = includedMap.get(productId);
       const radio = this.createProductRadio(product);
-      fieldsetFragment.appendChild(radio);
+      // I'm sorry, this doesn't seem to be the right place to do this kind of filtering...
+      if (product.attributes.name !== 'Initial balance')
+        fieldsetFragment.appendChild(radio);
     }
     const fieldset = document.getElementById('recentfieldset');
     fieldset.querySelector('div').appendChild(fieldsetFragment);

@@ -21,7 +21,7 @@ class CreateUserForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username']
+        fields = ['username', 'email']
 
     def clean_secret(self):
         input = self.cleaned_data['secret']

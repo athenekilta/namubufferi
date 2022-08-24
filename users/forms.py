@@ -8,20 +8,12 @@ from django.forms import fields
 
 User = get_user_model()
 
-class ClaimBalanceForm(Form):
-    name_in_namubuffa = fields.CharField()
-    email = fields.EmailField()
 
-
-class CreateUserForm(UserCreationForm):
+class InputSecretForm(Form):
     secret = fields.CharField(
         widget=PasswordInput(), 
         help_text='This should be visible in olkkari'
     )
-
-    class Meta:
-        model = User
-        fields = ['username', 'email']
 
     def clean_secret(self):
         input = self.cleaned_data['secret']
@@ -31,6 +23,16 @@ class CreateUserForm(UserCreationForm):
 
         if input != settings.SIGNUP_SECRET:
             raise ValidationError('Incorrect Secret!')
+
+class ClaimBalanceForm(InputSecretForm):
+    name_in_namubuffa = fields.CharField()
+    email = fields.EmailField()
+
+
+class CreateUserForm(UserCreationForm, InputSecretForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email']
 
 
 class ManageUserForm(ModelForm):

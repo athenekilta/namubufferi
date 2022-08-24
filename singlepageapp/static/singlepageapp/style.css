@@ -1,6 +1,6 @@
 :root {
   --padding: 16pt;
-  --side-padding: 0 25%;
+  --side-padding: 0 20%;
 }
 
 @media only screen and (max-width: 600px) {

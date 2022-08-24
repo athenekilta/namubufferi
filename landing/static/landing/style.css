@@ -64,3 +64,37 @@ footer > nav > ul {
   list-style: none;
   padding: 0;
 }
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  justify-content: flex-start;
+  height: 100%;
+}
+
+.field-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-wrapper * {
+  margin-top: 2px;
+}
+
+.field-wrapper input{
+  width: 500px;
+ }
+
+.help-text {
+  max-width: 500px;
+}
+
+@media screen and (max-width: 600px) {
+  .field-wrapper input{
+    width: 300px;
+   }
+  .help-text {
+    max-width: 300px;
+  }
+}

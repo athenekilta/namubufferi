@@ -1,23 +1,25 @@
 import { mapById } from './jsonapi.js';
 
 function monetize(number, element = null) {
-  let prefix = '€';
+  const suffix = ' €';
+  let prefix;
   if (element) {
     element.classList.remove('negative');
     element.classList.remove('positive');
   }
   if (number < 0) {
-    prefix = '-' + prefix;
+    prefix = '–';
     if (element) {
       element.classList.add('negative');
     }
   } else {
-    prefix = '+' + prefix;
+    prefix = '+';
     if (element) {
       element.classList.add('positive');
     }
   }
-  return prefix + (Math.abs(number) / 100).toFixed(2);
+  prefix += ' '
+  return prefix + ((Math.abs(number) / 100).toFixed(2)).replace('.', ',') + suffix;
 }
 
 export default class TransactionForm {
@@ -56,6 +58,7 @@ export default class TransactionForm {
 
   async submit(event) {
     event.preventDefault();
+    console.log(new FormData(event.target))
     if (!window.confirm('Confirm?')) {
       return;
     }

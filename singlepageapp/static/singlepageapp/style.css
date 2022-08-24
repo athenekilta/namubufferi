@@ -294,10 +294,18 @@ fieldset label:not(:last-child) {
 
 fieldset label {
   padding: 0.6em;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: .5em;
 }
 
 fieldset label > span:last-child {
-  float: right;
+  margin-left: auto;
+}
+
+fieldset label > input {
+  margin-top: .33em;
 }
 
 fieldset > header {

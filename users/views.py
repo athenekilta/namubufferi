@@ -21,7 +21,12 @@ class MigrateAccountView(FormView):
     
 
     def form_valid(self, form):
-        first_name, last_name = form.cleaned_data['name_in_namubuffa'].split(" ")
+        data = form.cleaned_data['name_in_namubuffa'].split(' ')
+
+        if len(data) > 1:
+            first_name = data[0]
+            last_name = data[1]
+        
         email = form.cleaned_data['email']
 
         username = first_name.lower() if not last_name else f"{first_name.lower()}.{last_name.lower()}"
@@ -30,8 +35,6 @@ class MigrateAccountView(FormView):
             user = User.objects.get(username=username)
         except User.DoesNotExist:
             user = None
-
-        print(user)
 
         if user and user.last_login is None:
             user.email = email
@@ -45,7 +48,7 @@ class MigrateAccountView(FormView):
 
             send_mail(
                 "Welcome to namubufferi!", 
-                message=f"Reset your password </br> Your username: {user.username} </br> {reset_url}",
+                message=f"Reset your password \n Your username: {user.username} \n Password reset link: {reset_url}",
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[email]
             )

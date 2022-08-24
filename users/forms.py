@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
-from django.forms import Form, PasswordInput
+from django.forms import Form, PasswordInput, ModelForm
 from django.forms import fields
 
 
@@ -31,3 +31,9 @@ class CreateUserForm(UserCreationForm):
 
         if input != settings.SIGNUP_SECRET:
             raise ValidationError('Incorrect Secret!')
+
+
+class ManageUserForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['email', 'alias']

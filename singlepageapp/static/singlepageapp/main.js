@@ -42,6 +42,3 @@ const api = new JSONAPIClient('/api/');
 
 const transactionForm = new TransactionForm(api);
 transactionForm.fetch();
-
-const user = await api.get('');
-document.querySelector('#user').textContent = user.data.attributes.username;

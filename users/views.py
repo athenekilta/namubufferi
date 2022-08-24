@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.core.mail import send_mail
-from django.views.generic import FormView, CreateView
+from django.views.generic import FormView, CreateView, UpdateView
 
 from django import utils
 from django.conf import settings
@@ -9,7 +9,7 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect
 
-from .forms import ClaimBalanceForm, CreateUserForm
+from .forms import ClaimBalanceForm, CreateUserForm, ManageUserForm
 
 
 User = get_user_model()
@@ -57,3 +57,12 @@ class SignUp(CreateView):
     form_class = CreateUserForm
     success_url = reverse_lazy('login')
     template_name = 'users/signup.html'
+
+
+class EditUser(UpdateView):
+    model = get_user_model()
+    form_class = ManageUserForm
+    slug_field = 'pk'
+    slug_url_kwarg = 'user_uuid'
+    success_url = reverse_lazy('singlepageapp:index')
+    template_name = 'users/edit_user.html'

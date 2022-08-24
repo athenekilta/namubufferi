@@ -16,7 +16,7 @@
       <div>
         <details id="burger">
           <summary><h1>Namubufferi</h1></summary>
-          <div id="user">&nbsp;</div>
+          <div>{{ request.user.get_alias }}</div>
           <nav>
             <menu>
               <li><a href="#/account">Account</a></li>
@@ -123,7 +123,10 @@
             <div></div>
           </nav>
           <section>
+            <p>Your alias: <b>{{ request.user.alias }}</b></p>
             <p>Your username: <b>{{ request.user }}</b></p>
+            <p>Your email: <b>{{ request.user.email }}</b></p>
+            <a href="{% url 'users:edit_user' request.user.pk %}">Edit user details</a>
           </section>
         </header>
         <footer>

@@ -188,5 +188,6 @@ JSONAPI_EXPOSED_FIELDS = {
 
 HIDDEN_ROOT = os.environ["DJANGO_HIDDEN_ROOT"]
 BASE_URL = os.environ.get("BASE_URL")
+SITE_NAME = os.environ.get("BASE_DOMAIN")
 
 SIGNUP_SECRET = os.environ.get("SIGNUP_SECRET")

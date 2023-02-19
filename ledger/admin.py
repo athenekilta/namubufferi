@@ -4,6 +4,8 @@ from django.contrib.auth.admin import UserAdmin
 
 from .models import Account, Barcode, Group, Product, Transaction
 
+from ledger.services import fetch_mp_transactions
+
 User = get_user_model()
 
 
@@ -44,7 +46,11 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
+    def fetch_transactions(modeladmin, request, queryset):
+        fetch_mp_transactions()
+
     list_display = ("timestamp", "account", "product", "price", "quantity", "total")
+    actions = [fetch_transactions]
 
 
 @admin.register(User)

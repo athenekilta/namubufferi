@@ -28,8 +28,6 @@ urlpatterns = [
         include(
             [
                 path("", include("landing.urls")),
-                path("onetimepass/", include("onetimepass.urls")),
-                path("keycards/", include("keycards.urls")),
                 path("admin/", admin.site.urls),
                 path("!/", include("singlepageapp.urls")),
                 path("terms/", include("terms.urls")),

@@ -14,8 +14,6 @@ from ast import literal_eval
 from distutils.util import strtobool
 from pathlib import Path
 
-import dj_database_url
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,15 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-try:
-    with open(os.environ["DJANGO_SECRET_KEY_FILE"]) as f:
-        SECRET_KEY = f.read().strip()
-except KeyError:
-    SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = strtobool(os.environ["DJANGO_DEBUG"])
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-h1xvf8=q((v@xcjo)(d^s6_$92nqulnf0$-ged9eg6kz&vq3j9')
 
-ALLOWED_HOSTS = os.environ["DJANGO_ALLOWED_HOSTS"].split()
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = strtobool(os.getenv("DJANGO_DEBUG", "True"))
+
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split()
 
 
 # Application definition
@@ -43,11 +38,11 @@ INSTALLED_APPS = [
     "landing.apps.LandingConfig",
     "terms.apps.TermsConfig",
     "singlepageapp.apps.SinglepageappConfig",
-    "keycards.apps.KeycardsConfig",
-    "onetimepass.apps.OnetimepassConfig",
     "api.apps.ApiConfig",
     "ledger.apps.LedgerConfig",
     "users.apps.UsersConfig",
+
+    # Django defaults
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -57,8 +52,11 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # Whitenoise: https://whitenoise.readthedocs.io/en/
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+
+
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -92,25 +90,11 @@ WSGI_APPLICATION = "namubufferi.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-
-try:
-    with open(os.environ["POSTGRES_PASSWORD_FILE"]) as f:
-        POSTGRES_USER = os.environ["POSTGRES_USER"]
-        POSTGRES_PASSWORD = f.read().strip()
-        POSTGRES_HOST = os.environ["POSTGRES_HOST"]
-        POSTGRES_DATABASE = os.environ["POSTGRES_DATABASE"]
-        os.environ.setdefault(
-            "DATABASE_URL",
-            f"postgres://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}/{POSTGRES_DATABASE}",
-        )
-except KeyError:
-    pass
-
 DATABASES = {
-    "default": dj_database_url.config(
-        conn_max_age=600,
-        ssl_require=strtobool(os.environ["DJANGO_DATABASE_SSL_REQUIRE"]),
-    )
+    "default": {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 # Password validation
@@ -135,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = "en"
+LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "Europe/Helsinki"
 
@@ -150,13 +134,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 # https://whitenoise.evans.io/en/stable/django.html
 
-STATIC_URL = "/static/"
+STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+# Whitenoise
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 WHITENOISE_INDEX_FILE = True
 # Serve reactapp at the root
@@ -168,40 +153,42 @@ WHITENOISE_INDEX_FILE = True
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
-    "onetimepass.backends.OneTimePassBackend",
-    "keycards.backends.KeycardBackend",
-]
-
 LOGIN_URL = "landing:index"
 LOGIN_REDIRECT_URL = "singlepageapp:index"
 LOGOUT_REDIRECT_URL = "landing:index"
 AUTH_USER_MODEL = "users.User"
 
-ONETIMEPASS_ALLOWED_DOMAINS = os.environ["DJANGO_ONETIMEPASS_ALLOWED_DOMAINS"].split()
 
-EMAIL_HOST = os.environ["DJANGO_EMAIL_HOST"]
-if not EMAIL_HOST:
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-EMAIL_HOST_PASSWORD = os.environ["DJANGO_EMAIL_HOST_PASSWORD"]
-EMAIL_HOST_USER = os.environ["DJANGO_EMAIL_HOST_USER"]
-EMAIL_PORT = os.environ["DJANGO_EMAIL_PORT"]
-EMAIL_USE_TLS = strtobool(os.environ["DJANGO_EMAIL_USE_TLS"])
-EMAIL_USE_SSL = strtobool(os.environ["DJANGO_EMAIL_USE_SSL"])
-DEFAULT_FROM_EMAIL = os.environ["DJANGO_DEFAULT_FROM_EMAIL"]
-SERVER_EMAIL = DEFAULT_FROM_EMAIL
-EMAIL_SUBJECT_PREFIX = "[Namubufferi] "
-ADMINS = literal_eval(os.environ["DJANGO_ADMINS"])
+if DEBUG:
+    EMAIL_HOST = 'localhost'
+    EMAIL_PORT = 1025
+    EMAIL_HOST_USER = ''
+    EMAIL_HOST_PASSWORD = ''
+    EMAIL_USE_TLS = False
+    DEFAULT_FROM_EMAIL = 'dev@athene.fi'
+else:
+    EMAIL_HOST = os.environ["DJANGO_EMAIL_HOST"]
+    if not EMAIL_HOST:
+        EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+    EMAIL_HOST_PASSWORD = os.environ["DJANGO_EMAIL_HOST_PASSWORD"]
+    EMAIL_HOST_USER = os.environ["DJANGO_EMAIL_HOST_USER"]
+    EMAIL_PORT = os.environ["DJANGO_EMAIL_PORT"]
+    EMAIL_USE_TLS = strtobool(os.environ["DJANGO_EMAIL_USE_TLS"])
+    EMAIL_USE_SSL = strtobool(os.environ["DJANGO_EMAIL_USE_SSL"])
+    DEFAULT_FROM_EMAIL = os.environ["DJANGO_DEFAULT_FROM_EMAIL"]
+    SERVER_EMAIL = DEFAULT_FROM_EMAIL
+    EMAIL_SUBJECT_PREFIX = "[Namubufferi] "
 
-SECURE_SSL_REDIRECT = bool(strtobool(os.environ["DJANGO_SECURE_SSL_REDIRECT"]))
-SECURE_HSTS_SECONDS = int(os.environ["DJANGO_SECURE_HSTS_SECONDS"])
-SESSION_COOKIE_SECURE = strtobool(os.environ["DJANGO_SESSION_COOKIE_SECURE"])
-CSRF_COOKIE_SECURE = strtobool(os.environ["DJANGO_CSRF_COOKIE_SECURE"])
-SECURE_PROXY_SSL_HEADER = literal_eval(os.environ["DJANGO_SECURE_PROXY_SSL_HEADER"])
+ADMINS = literal_eval(os.getenv("DJANGO_ADMINS", '[]'))
+
+SECURE_SSL_REDIRECT = bool(strtobool(os.getenv("DJANGO_SECURE_SSL_REDIRECT", "False")))
+SECURE_HSTS_SECONDS = int(os.getenv("DJANGO_SECURE_HSTS_SECONDS", "0"))
+SESSION_COOKIE_SECURE = strtobool(os.getenv("DJANGO_SESSION_COOKIE_SECURE", "False"))
+CSRF_COOKIE_SECURE = strtobool(os.getenv("DJANGO_CSRF_COOKIE_SECURE", "False"))
+SECURE_PROXY_SSL_HEADER = literal_eval(os.getenv("DJANGO_SECURE_PROXY_SSL_HEADER", "[]"))
 
 JSONAPI_EXPOSED_FIELDS = {
     "users": ("username",),
 }
 
-HIDDEN_ROOT = os.environ["DJANGO_HIDDEN_ROOT"]
+HIDDEN_ROOT = os.getenv("DJANGO_HIDDEN_ROOT", "")

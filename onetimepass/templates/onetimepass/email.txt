@@ -1,8 +1,0 @@
-# NAMUBUFFERI
-## One-Time Password
-
-{{ password }}
-
-P.S. Remember to wash your cup!
-Informaatioverkostojen kilta Athene ry
-@namimami

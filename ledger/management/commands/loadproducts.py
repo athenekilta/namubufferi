@@ -1,9 +1,9 @@
 import csv
-import random
+from decimal import Decimal
 
 from django.core.management.base import BaseCommand
 
-from ledger.models import Group, Product
+from ledger.models import Product
 
 
 class Command(BaseCommand):
@@ -12,11 +12,11 @@ class Command(BaseCommand):
         parser.add_argument("--dialect", nargs="?", default="unix")
 
     def handle(self, *args, **options):
-        with open(options["file"], newline="") as f:
-            for row in csv.DictReader(f, dialect=options["dialect"]):
-                product = Product.objects.create(
-                    name=row.get("name", list(row.values())[0]),
-                    price=row.get("price", random.randint(0, 1000)),
-                )
-                group, _ = Group.objects.get_or_create(name=row.get("group", "all"))
-                product.group_set.add(group)
+        with open(options["file"]) as csvfile:
+            reader = csv.DictReader(csvfile, delimiter=';')
+            for row in reader:
+                product = Product()
+                product.name = row['Name']
+                product.price = Decimal(row['Price'].replace(',', '.'))
+                product.save()
+                product.tags.set(row['Tags'].split(','))

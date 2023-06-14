@@ -1,7 +1,0 @@
-Ravintoarvopaketti. Näringsdata paket. Nutrient data package.
-Fineli. Elintarvikkeiden koostumustietokanta. Livsmedelsdatabas. Finnish food composition database.
-Versio. Version. Release. 20.0
-
-Copyright 2015 Terveyden ja hyvinvoinnin laitos (THL). Käyttöehdot: Creative Commons Nimeä 4.0 (CC-BY 4.0).
-Copyright 2015 Institutet för hälsa och välfärd (THL). Licens: Creative Commons, Erkännande  4.0 (CC-BY 4.0).
-Copyright 2015 National Institute for Health and Welfare (THL). Licence: Creative Commons Attribution 4.0 (CC-BY 4.0).

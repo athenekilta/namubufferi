@@ -1,25 +1,18 @@
 from django.conf import settings
 from django.db import models
-from django.db.models import F, Sum
+from django.db.models import F
+from taggit.managers import TaggableManager
 
-from uuidmodels.models import UUIDModel
+from accounts.models import CustomUser as User
 
-
-class Account(UUIDModel):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
-
-    def __str__(self):
-        return f"{self.user}"
-
-    @property
-    def balance(self):
-        return Transaction.calculate_balance(queryset=self.transaction_set.all())
+from decimal import Decimal
 
 
-class Product(UUIDModel):
+class Product(models.Model):
     name = models.CharField(max_length=128, unique=True)
-    price = models.IntegerField()
+    price = models.DecimalField(max_digits=5, decimal_places=2, blank=False, default=Decimal('0.00'))
     hidden = models.BooleanField(default=False)
+    tags = TaggableManager()
 
     class Meta:
         ordering = ["name"]
@@ -27,16 +20,27 @@ class Product(UUIDModel):
     def __str__(self):
         return f"{self.name}"
 
-    @property
-    def inventory(self):
-        return self.transaction_set.aggregate(Sum("quantity"))["quantity__sum"] or 0
-
-
-class Transaction(UUIDModel):
-    account = models.ForeignKey(Account, on_delete=models.PROTECT)
-    product = models.ForeignKey(Product, on_delete=models.PROTECT)
-    price = models.IntegerField(blank=True)
-    quantity = models.IntegerField()
+class Transaction(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        related_name='transactions',
+    )
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.PROTECT,
+        blank=True, null=True,
+        related_name='product_transactions'
+    )
+    recipient_user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        blank=True, null=True,
+        related_name='received_transactions',
+    )
+    ingress_system = models.CharField(max_length=128, blank=True)
+    concept = models.CharField(max_length=128, blank=True)
+    amount = models.DecimalField(max_digits=5, decimal_places=2, blank=False, default=Decimal('0.00'), verbose_name="Amount (€)")
     timestamp = models.DateTimeField(auto_now_add=True, editable=False)
 
     class Meta:
@@ -46,40 +50,25 @@ class Transaction(UUIDModel):
         return f"{self.timestamp}"
 
     def save(self, *args, **kwargs):
-        if self.price is None:
-            self.price = self.product.price
+        if self.product:
+            self.concept = f"Purchased {self.product.name}"
+            User.objects.filter(id=self.user.id).update(balance=F('balance') - self.product.price)
+        
+        elif self.recipient_user:
+            User.objects.filter(id=self.user.id).update(balance=F('balance') - self.amount)
+            User.objects.filter(id=self.recipient_user.id).update(balance=F('balance') + self.amount)
+            self.concept = f'Transfer to {self.recipient_user.username}'
+        
+        elif self.ingress_system:
+            User.objects.filter(id=self.user.id).update(balance=F('balance') + self.amount)
+            self.concept = f'Ingress via {self.ingress_system}'
+        
+        else:
+            self.concept = f'Not specified'            
+        
         super().save(*args, **kwargs)
 
-    @staticmethod
-    def calculate_balance(queryset):
-        if not queryset.exists():
-            return 0
-        return queryset.annotate(total=F("quantity") * F("price")).aggregate(
-            Sum("total")
-        )["total__sum"]
-
-    @property
-    def total(self):
-        return self.price * self.quantity
-
-    @property
-    def balance(self):
-        return Transaction.calculate_balance(
-            queryset=self.account.transaction_set.filter(timestamp__lte=self.timestamp)
-        )
-
-
-class Group(UUIDModel):
-    name = models.CharField(max_length=128, unique=True)
-    products = models.ManyToManyField(Product)
-
-    def __str__(self):
-        return f"{self.name}"
-
-
-class Barcode(models.Model):
-    id = models.PositiveBigIntegerField(primary_key=True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.id}"
+    def delete(self, *args, **kwargs):
+        self.user.balance -= self.amount
+        self.user.save()
+        super().delete(*args, **kwargs)

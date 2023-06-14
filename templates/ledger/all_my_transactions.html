@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% if not all_transactions_list %}
+    <p>No transactions found. You can buy for first product 😉 - <a href="{% url 'ledger:buy'%}">Link</a></p>
+  {% else %}
+  <div class="overflow-x-auto mx-auto w-3/4">
+    <table class="table table-zebra text-center">
+      <thead>
+        <tr>
+          <th>Concept</th>
+          <th>Price</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      {% for transaction in all_transactions_list %}
+      <tr>
+        <td>{{ transaction.concept|default:'Not specified' }}</td>
+        <td>{{ transaction.amount }}</td>
+        <td>{{ transaction.timestamp }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  <div class="flex flex-row justify-center items-center my-2">
+    <div class="join items-center gap-1">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="join-item btn btn-active btn-secondary">Prev</a>
+        <a href="?page=1" class="join-item btn">1</a>
+        {% if page_obj.number == page_obj.paginator.num_pages %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="join-item btn">{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+      {% endif %}
+      <a href="?page={{ page_obj.number }}" class="join-item btn btn-active">{{ page_obj.number }}</a>
+      {% if page_obj.has_next %}
+        {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
+          <a href="?page={{ page_obj.next_page_number }}" class="join-item btn">{{ page_obj.next_page_number }}</a>
+        {% endif %}
+        <a href="?page={{ page_obj.paginator.num_pages }}" class="join-item btn">{{ page_obj.paginator.num_pages }}</a>
+        <a href="?page={{ page_obj.next_page_number }}" class="join-item btn btn-active btn-secondary">Next</a>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+{% endblock %}

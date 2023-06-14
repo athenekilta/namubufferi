@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="m-5"
+  x-data="{tag: 'All', products: [], search: ''}"
+  x-init="products = await (await fetch('/product-list')).json()">
+  <h1>Buy Products</h1>
+  <div class="flex items-center">
+    <div class="inline-flex shadow-md hover:shadow-lg focus:shadow-lg" role="group">
+      <button type="button" 
+      class="rounded-l inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase focus:outline-none focus:ring-0 transition duration-150 ease-in-out mr-1"
+      @click="tag = $el.textContent"
+      :class="tag === $el.textContent ? 'bg-green-600 hover:bg-green-700 focus:bg-green-700 active:bg-green-800' : 'bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-800'">All</button>
+      {% for tag in tags %}
+        <button type="button" 
+          class="rounded-l inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase focus:outline-none focus:ring-0 transition duration-150 ease-in-out mr-1"
+          @click="tag = $el.textContent"
+          :class="tag === $el.textContent ? 'bg-green-600 hover:bg-green-700 focus:bg-green-700 active:bg-green-800' : 'bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-800'">{{ tag.name }}</button>
+      {% endfor %}
+    </div>
+    <div class="ml-4">
+      <input type="text" x-model="search" placeholder="Search products...">
+      <button type="button" class="bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-800 text-white font-medium text-xs leading-tight uppercase px-4 py-2 rounded" @click="search = ''">Clear</button>
+    </div>
+  </div>
+
+  <br/>
+  <template x-for="product in products.filter(f => tag === 'All' || f.tags.includes(tag)).filter(f => f.name.toLowerCase().includes(search.toLowerCase()))">
+      <form method="POST" action="{% url 'ledger:buy' %}" x-on:submit="confirmPurchase($event)">
+      {% csrf_token %}
+      <div class="border-2 border-slate-150">
+        <input type="hidden" name="product_id" x-model="product.id">
+        <p x-text="product.name"></p>
+        <p x-text="product.price"></p>
+        <small x-text="product.tags.join(', ')"></small>
+        <button type="submit">Buy</button>
+      </div>
+    </form>
+  </template>
+</div>
+
+<script>
+  function confirmPurchase(event) {
+    if (!confirm("Are you sure you want to buy this product?")) {
+      event.preventDefault();
+    }
+  }
+</script>
+{% endblock %}

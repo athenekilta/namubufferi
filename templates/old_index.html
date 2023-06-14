@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<header class="logo">
+  <h1>Namubufferi</h1>
+  <p class="barcode">Namubufferi</p>
+</header>
+<a href="/accounts/login">Log in</a>
+<a href="/accounts/register">Register</a>
+<a href="{% url 'admin:login' %}">Admin</a>
+{% endblock content %}

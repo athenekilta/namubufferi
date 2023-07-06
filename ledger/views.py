@@ -1,19 +1,18 @@
-from django.views.generic import ListView
+from django.views import View, generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-from accounts.models import CustomUser as User
 from taggit.models import Tag
 from rest_framework.generics import ListAPIView
+from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 
-from django.conf import settings
-import stripe
 
 from .models import Transaction, Product
 from .serializers import ProductSerializer
+from accounts.models import CustomUser as User
+from .forms import FundsForm
 
-from django.urls import reverse_lazy
-
-class IndexView(LoginRequiredMixin, ListView):
+class IndexView(LoginRequiredMixin, generic.ListView):
     '''
     Show the last 5 transactions.
     '''
@@ -36,7 +35,7 @@ class IndexView(LoginRequiredMixin, ListView):
         context['user'] = self.request.user
         return context
 
-class AllTransactionsView(LoginRequiredMixin, ListView):
+class AllTransactionsView(LoginRequiredMixin, generic.ListView):
     '''
     Show all users transactions.
     '''
@@ -50,7 +49,7 @@ class AllTransactionsView(LoginRequiredMixin, ListView):
         '''
         return Transaction.objects.filter(user=self.request.user).order_by("-timestamp")
     
-class BuyProductView(LoginRequiredMixin, ListView):
+class BuyProductView(LoginRequiredMixin, generic.ListView):
     '''
     Show all the Product groups and the products.
     '''
@@ -87,7 +86,7 @@ class ProductListAPIView(ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
-class TransferView(LoginRequiredMixin, ListView):
+class TransferView(LoginRequiredMixin, generic.ListView):
     '''
     Transfer money to another user or add it using MobilePay, Stripe or Paypal.
     '''
@@ -109,33 +108,20 @@ class TransferView(LoginRequiredMixin, ListView):
             recipient_user=recipient
         )
         return redirect('ledger:index')
+    
+from .funds_logic import retrieve_transaction, create_transaction
+@login_required(login_url=reverse_lazy('login'))
+def add_funds(request):
+    if request.method == "POST":
+        form = FundsForm(request.POST)
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            id = form.cleaned_data['id']
+            transaction = retrieve_transaction(id)
+            if transaction:
+                create_transaction(transaction, request.user)
+            return redirect('ledger:index')
+    else:
+        form = FundsForm()
 
-
-class AddFundsView(LoginRequiredMixin, ListView):
-    """
-    Add funds to the user's account.
-    """
-    template_name = "ledger/add_funds.html"
-    login_url = reverse_lazy('login')
-    context_object_name = "available_payment_methods"
-
-    def get_queryset(self):
-        '''
-        Return the available payment methods.
-        '''
-        available_payment_methods = []
-        if hasattr(settings, 'STRIPE_PUBLISHABLE_KEY') \
-             and hasattr(settings, 'STRIPE_SECRET_KEY'):
-            available_payment_methods.append('stripe')
-        if hasattr(settings, 'MOBILEPAY_MERCHANT_ID'):
-            available_payment_methods.append('mobilepay')
-
-        return available_payment_methods
-
-    def post(self, request, *args, **kwargs):
-        '''
-        Handle the POST request for adding funds.
-        '''
-        amount = int(request.POST.get('amount'))
-        payment_method = request.POST.get('payment-method')
-        return redirect('ledger:add')
+    return render(request, "ledger/funds.html", {"form": form})

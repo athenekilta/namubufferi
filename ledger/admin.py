@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Transaction
+from .models import Product, Transaction, MobilePayTransaction
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'price', 'hidden', 'tag_list')
@@ -15,7 +15,9 @@ class ProductAdmin(admin.ModelAdmin):
 
 class TransactionAdmin(admin.ModelAdmin):
     list_display = ('user_name', 'concept', 'amount', 'timestamp')
-    
+    ordering = ('-timestamp',)
+    search_fields = ['user__username', 'concept', 'timestamp', 'amount']
+
     def user_name(self, obj):
         return obj.user.username
     
@@ -27,6 +29,16 @@ class TransactionAdmin(admin.ModelAdmin):
         
     def has_change_permission(self, request, obj=None):
         return False
+
+class MobilePayTransactionAdmin(admin.ModelAdmin):
+    list_display = ('user', 'amount', 'reference', 'timestamp')
+    list_filter = ('amount',)
+    search_fields = ['user__username', 'reference', 'timestamp', 'amount']
+    ordering = ('-timestamp',)
     
+    def has_change_permission(self, request, obj=None):
+        return False
+
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Transaction, TransactionAdmin)
+admin.site.register(MobilePayTransaction, MobilePayTransactionAdmin)

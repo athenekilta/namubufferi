@@ -2,11 +2,9 @@ from django.conf import settings
 from django.db import models
 from django.db.models import F
 from taggit.managers import TaggableManager
-
-from accounts.models import CustomUser as User
-
 from decimal import Decimal
 
+from accounts.models import CustomUser as User
 
 class Product(models.Model):
     name = models.CharField(max_length=128, unique=True)
@@ -71,4 +69,37 @@ class Transaction(models.Model):
     def delete(self, *args, **kwargs):
         self.user.balance -= self.amount
         self.user.save()
+        super().delete(*args, **kwargs)
+
+class MobilePayTransaction(models.Model):
+    """
+    A transaction made with MobilePay.
+    """
+    id = models.CharField(max_length=100, primary_key=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='mobilepay_transactions'
+    )
+    timestamp = models.DateTimeField(auto_now_add=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal(0))
+    reference = models.CharField(max_length=100)
+    transaction = models.ForeignKey(
+        Transaction,
+        on_delete=models.CASCADE,
+        related_name='mobilepay_transactions',
+        blank=True, null=True,
+    )
+
+    def save(self, *args, **kwargs):
+        self.transaction = Transaction.objects.create(
+            user = self.user,
+            amount = self.amount,
+            ingress_system = 'MobilePay',
+        )
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        if self.transaction:
+            self.transaction.delete()
         super().delete(*args, **kwargs)

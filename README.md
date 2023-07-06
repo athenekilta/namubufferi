@@ -12,10 +12,6 @@
 
 - Django
   - http://localhost:8000/
-- Mailhog (email testing)
-  - http://localhost:8025/
-- React development
-  - http://localhost:3000/
 
 ## Deployment
 

@@ -144,3 +144,6 @@ staticfiles/
 
 # Python pyenv environment
 .python-version
+
+# Temporal
+*/migrations/

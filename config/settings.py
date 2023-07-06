@@ -13,6 +13,7 @@ import os
 from ast import literal_eval
 from distutils.util import strtobool
 from pathlib import Path
+from decimal import Decimal
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -35,9 +36,13 @@ ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split()
 INSTALLED_APPS = [
     "ledger",
     "accounts",
+    "theme",
+
+    # Third party
     "taggit",
     "rest_framework",
-    "payments",
+    "tailwind",
+    'django_browser_reload',
 
     # Django defaults
     "django.contrib.admin",
@@ -57,6 +62,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "accounts.middleware.AuthenticationMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -170,6 +176,12 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 
 TAGGIT_CASE_INSENSITIVE = True
 
-# Payment settings
-PAYMENT_HOST = 'localhost:8000'
-PAYMENT_USE_SSL = False
+MOBILEPAY_TOKEN = os.getenv("MOBILEPAY_TOKEN", "")
+MOBILEPAY_FEE = Decimal(0.012)
+MOBILEPAY_MIN_FEE = Decimal(0.06)
+MOBILEPAY_PAYMENTPOINTID = os.getenv("MOBILEPAY_PAYMENTPOINTID", "")
+
+TAILWIND_APP_NAME = 'theme'
+INTERNAL_IPS = [
+    "127.0.0.1",
+]

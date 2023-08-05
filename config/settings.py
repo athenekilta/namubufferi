@@ -14,6 +14,7 @@ from ast import literal_eval
 from distutils.util import strtobool
 from pathlib import Path
 from decimal import Decimal
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,15 +35,11 @@ ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split()
 # Application definition
 
 INSTALLED_APPS = [
-    "ledger",
-    "accounts",
-    "theme",
-
     # Third party
     "taggit",
-    "rest_framework",
     "tailwind",
-    'django_browser_reload',
+    'modeltranslation',
+    'pwa',
 
     # Django defaults
     "django.contrib.admin",
@@ -51,19 +48,35 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    
+    # Local
+    "ledger",
+    "accounts",
+    "theme",
 ]
+
+if DEBUG:
+    INSTALLED_APPS += [
+        "django_browser_reload",
+    ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'django.middleware.locale.LocaleMiddleware',
+    "django.middleware.common.CommonMiddleware",
     "accounts.middleware.AuthenticationMiddleware",
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
+    "accounts.middleware.UserLanguageMiddleware",
 ]
+
+if DEBUG:
+    MIDDLEWARE += [
+        "django_browser_reload.middleware.BrowserReloadMiddleware",
+    ]
 
 ROOT_URLCONF = "config.urls"
 
@@ -137,7 +150,7 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 # Default primary key field type
@@ -145,7 +158,7 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LOGIN_REDIRECT_URL = "ledger:index"
+LOGIN_REDIRECT_URL = "ledger:buy"
 LOGOUT_REDIRECT_URL = "accounts:login"
 
 
@@ -184,4 +197,51 @@ MOBILEPAY_PAYMENTPOINTID = os.getenv("MOBILEPAY_PAYMENTPOINTID", "")
 TAILWIND_APP_NAME = 'theme'
 INTERNAL_IPS = [
     "127.0.0.1",
+]
+NPM_BIN_PATH = os.getenv("NPM_BIN_PATH", "npm")
+
+###   Language settings   ###
+gettext = lambda s: s
+LANGUAGES = [
+    ('fi', gettext('Finnish')),
+    ('en', gettext('English')),
+    ('sv', gettext('Swedish')),
+    ('es', gettext('Spanish')),
+    ('ca', gettext('Catalan')),
+    ('de', gettext('German')),
+    ('fr', gettext('French')),
+    ('it', gettext('Italian')),
+    ('zh_CN', gettext('Chinese')),
+]
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
+
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+MODELTRANSLATION_FALLBACK_LANGUAGES = (MODELTRANSLATION_DEFAULT_LANGUAGE,)
+
+MODELTRANSLATION_TRANSLATION_FILES = (
+    'ledger.translation',
+)
+
+###   PWA settings   ###
+PWA_APP_NAME = 'NamuBufferi'
+PWA_APP_DESCRIPTION = "NamuBufferi - Athene's snack bar"
+PWA_APP_THEME_COLOR = '#ffffff'
+PWA_APP_BACKGROUND_COLOR = '#355e3b'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_ORIENTATION = 'portrait'
+PWA_APP_DEBUG_MODE = True
+PWA_APP_ICONS = [
+    {
+        'src': '/static/images/logo_160x160.png',
+        'sizes': '160x160'
+    }
+] 
+PWA_APP_ICONS_APPLE = [
+    {
+        'src': '/static/images/logo_160x160.png',
+        'sizes': '160x160'
+    }
 ]

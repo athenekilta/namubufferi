@@ -1,0 +1,120 @@
+.nav-toggle {
+  display: none;
+}
+
+.nav-toggle-label {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: 0.1em;
+  z-index: 999;
+}
+
+.nav-toggle-label-span{
+  display: block;
+  background: white;
+  height: 2px;
+  width: 1.3em;
+  border-radius: 2px;
+  position: relative;
+  transition: background-color 0.5s;
+  z-index: 999;
+}
+
+.nav-toggle-label-span::before,
+.nav-toggle-label-span::after {
+  content: '';
+  position: absolute;
+  display: block;
+  background: white;
+  height: 2px;
+  width: 1.3em;
+  border-radius: 2px;
+  transition: transform 0.5s, top 0.5s;
+  z-index: 999;
+}
+
+.nav-toggle-label-span::before {
+  bottom: 7px;
+}
+
+.nav-toggle-label-span::after {
+  top: 7px;
+}
+
+nav {
+  position: absolute;
+  margin: 0;
+  top: -1em;
+  right: -1em;
+  width: 100vw;
+  height: 100svh;
+  transition: transform 1s ease-in-out;
+  background: #355e3b;
+  display: grid;
+  align-content: center;
+  justify-content: center;
+  z-index: 998;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+nav li {
+  margin-bottom: 1em;
+  margin-left: 1em;
+}
+
+nav a {
+  font-family: 'Open Sans', sans-serif;
+  color: black;
+  text-transform: uppercase;
+  opacity: 0;
+  border-bottom: none;
+}
+
+nav a:hover {
+  color: #fff;
+}
+
+.nav-toggle:checked ~ nav {
+  transform: scale(1, 1);
+  animation: fadeInRight 0.5s ease forwards;
+}
+
+.nav-toggle:not(:checked) ~ nav {
+  pointer-events: none;
+  display: none;
+}
+
+.nav-toggle:checked ~ nav a {
+  text-decoration: none;
+  opacity: 1;
+  transition: opacity 150ms ease-in-out;
+}
+
+.nav-toggle:checked ~ nav ul {
+  list-style: none;
+}
+
+.nav-toggle:checked ~ .nav-toggle-label span {
+  background-color: transparent;
+}
+
+.nav-toggle:checked ~ .nav-toggle-label span::before {
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.nav-toggle:checked ~ .nav-toggle-label span::after {
+  top: 50%;
+  transform: translateY(-50%) rotate(-45deg);
+}
+
+

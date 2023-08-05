@@ -2,8 +2,13 @@ import requests
 from django.conf import settings
 from datetime import datetime, timedelta
 from decimal import Decimal
+from .models import Ingress
 
-from .models import MobilePayTransaction
+ERROR_CODES = {
+    1: "Transaction is not from the correct payment point.",
+    2: "Transaction is earlier than 7 days ago.",
+    3: "Transaction already exists.",
+}
 
 def retrieve_transaction(id: str):
     """
@@ -18,36 +23,41 @@ def retrieve_transaction(id: str):
             'Authorization': f'Bearer {settings.MOBILEPAY_TOKEN}',
             'Content-Type': 'application/json'
         })
-    if response.status_code != 200:
-        raise Exception("Transaction not found.")
-    _check_paymentpointid(response)
-    _check_date(response)
-    return response.json()
+    return response
+
+def check_transaction(response):
+    """
+    Extract the transaction from the JSON response.
+    """
+    if _check_paymentpointid(response): return 1
+    if _check_date(response): return 2
+    if _check_transaction_in_database(response): return 3
+    return 0
 
 def _check_paymentpointid(response):
     """
     Check if the response is from the correct payment point. If not, raise an exception.
     """
-    if response.json()['paymentPointId'] != settings.MOBILEPAY_PAYMENTPOINTID:
-        raise Exception("Transaction is not from the correct payment point.")
+    return response['paymentPointId'] != settings.MOBILEPAY_PAYMENTPOINTID
 
 def _check_date(response):
     """
     Check if the response is from 7 days from today. If not, raise an exception.
     """
-    date = datetime.strptime(response.json()['date'], '%Y-%m-%d')
-    if date < datetime.now() - timedelta(days=14):
-        raise Exception("Transaction is earlier than 7 days ago.")   
+    date = datetime.strptime(response['date'], '%Y-%m-%d')
+    return date < datetime.now() - timedelta(days=7)
 
-
+def _check_transaction_in_database(response):
+    """
+    Check if the transaction is already in the database. If yes, raise an exception.
+    """
+    return Ingress.objects.filter(id=response['id']).exists()
+    
 def create_transaction(transaction: dict, user):
     """
     Create the transaction in the database.
     """
-    # Check if there is a transaction with the same reference
-    if MobilePayTransaction.objects.filter(reference=transaction['id']).exists():
-        raise Exception("Transaction already exists.")
-    MobilePayTransaction.objects.create(
+    Ingress.objects.create(
         user = user,
         amount = _get_amount(Decimal(transaction['totalTransferredAmount'])),
         reference = transaction['reference'],

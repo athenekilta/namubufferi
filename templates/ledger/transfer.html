@@ -1,37 +1,13 @@
-{% extends 'base.html' %}
+{% extends "form_base.html" %}
+{% load i18n static %}
+{% block content_form %}
+<form method="post" class="m-4 grid-place-items-center">
+  {% csrf_token %}
+  {% include 'partials/form.html' with form=form %}
+  <button type="submit" class="btn btn-primary w-full mt-4">{% trans "Transfer" %}</button>
+  {% include 'partials/modal.html' with message=_('Are you sure you want to transfer this money?') modalName='transfer_modal' %}
+</form>
 
-{% block content %}
+<script src={% static 'js/modal.js' %} modalName='transfer_modal'></script>
 
-  <h2>Transfer Money</h2>
-  <p>Your current balance is {{ user.balance }}€ </p>
-  <br>
-  <div class="m-5"
-    x-data="{users: [], search: '', recipient: '', selectedUser: null}"
-    x-init="users = await (await fetch('/usernames-list')).json()">
-    <div class="ml-4">
-    <form method="post" action="/transfer" x-on:submit="confirmTransfer($event)">
-      {% csrf_token %}
-      <label for="amount">Amount:</label>
-      <input type="number" name="amount" id="amount" required x-bind:max="{{ user.balance }}" x-model="amount">
-      <br>
-        <label for="recipient">Recipient:</label>
-        <input type="text" x-model="search" placeholder="Search username...">
-        <button type="button" class="bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-800 text-white font-medium text-xs leading-tight uppercase px-4 py-2 rounded" @click="search = ''">Clear</button>
-        <template x-for="user in users.filter(f => f.username.toLowerCase().includes(search.toLowerCase()))">
-          <div class="ml-4">
-            <input type="hidden" name="recipient" x-bind:value="recipient">
-            <span x-text="user.username"></span>
-            <button type="submit" x-on:click="recipient = user.username">Transfer</button>
-          </div>
-        </template>
-      </form>
-    </div>
-  </div>
-  <script>
-    function confirmTransfer(event) {
-      if (!confirm("Are you sure you want to transfer this amount?")) {
-        event.preventDefault();
-      }
-    }
-  </script>
 {% endblock %}

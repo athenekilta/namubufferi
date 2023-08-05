@@ -1,72 +1,48 @@
-{% load static tailwind_tags %}
+{% load static tailwind_tags i18n pwa %}
 
 <!DOCTYPE html>
-<html lang="en" data-theme="lemonade">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Namubufferi</title>
     <link rel="icon" href="{% static 'favicon.ico' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128&family=Open+Sans&display=swap" rel="stylesheet">
     {% tailwind_preload_css v="3" %}
     {% tailwind_css v="3" %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <style>
-      body {
-        min-height: 100vh;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .m-2 {
-        flex: 1;
-      }
-
-      footer {
-        margin-top: auto;
-        width: 100%;
-        height: 100px;
-        position: relative;
-        bottom: 0;
-      }
-    </style>
+    {% progressive_web_app_meta %}
   </head>
 
-  <body>
-    <div class="navbar bg-primary text-primary-content">
-      <div class="navbar-start">
-        {% if user.is_authenticated %}
-        <div class="dropdown">
-          <label tabindex="0" class="btn btn-ghost">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
-          </label>
-          <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-            <li><a class="link link-hover link-neutral" href="{% url 'ledger:index' %}">🏠 Home</a></li>
-            <li><a class="link link-hover link-neutral" href="{% url 'ledger:buy' %}">🛒 Buy</a></li>
-            <li><a class="link link-hover link-neutral" href="{% url 'ledger:transfer' %}">💸 Transfer</a></li>
-            <li><a class="link link-hover link-neutral" href="{% url 'ledger:funds' %}">💰 Add funds</a></li>
-            <li><a class="link link-hover link-neutral" href="{% url 'ledger:all' %}">📊 My Transactions</a></li>
-            <li><a class="link link-hover link-neutral" href="{% url 'accounts:logout' %}">🔒 Logout</a></li>
-          </ul>
-        </div>
-        {% endif %}
-      </div>
-      <div class="navbar-center">
-        <a class="btn btn-ghost normal-case text-xl" href="{% url "ledger:index" %}">Namubufferi</a>
-      </div>
-      <div class="navbar-end"></div>
-    </div>
-    <br>
-    <div class="m-5">
-      {% include "partials/messages.html" %}
-      
-      {% block content %} {% endblock content %}
-    </div>
-    <footer class="footer footer-center p-4 bg-base-300 text-base-content">
+  <body class="font-sans lg:font-sans-xl">
+    {% if user.is_authenticated %}
+    <div class="grid grid-cols-2 fixed top-0 right-0 z-50 m-4 px-4  p-2 h-12 w-36 rounded-full bg-primary ">
+      <p class="my-auto font-bold text-xl text-white">{{ user.balance }}€</p>
+      <!-- start static/main.css -->
       <div>
-        <p>Copyright @ {% now "Y" %} - All right reserved by Athene Guild.</p>
+        <input type="checkbox" name="nav-toggle" id="nav-toggle" class="nav-toggle">
+        <nav>
+          <ul class="text-xl ">
+            <li><a href="{% url 'ledger:buy' %}" class="text-white">🛒 {% trans "Buy" %}</a></li>
+            <li><a href="{% url 'ledger:transfer' %}" class="text-white">💸 {% trans "Transfer" %}</a></li>
+            <li><a href="{% url 'ledger:funds' %}" class="text-white">💰 {% trans "Add funds" %}</a></li>
+            <li><a href="{% url 'ledger:transactions' %}" class="text-white">📊 {% trans "My Transactions" %}</a></li>
+            <li><a href="{% url 'accounts:profile' %}" class="text-white">😃 {% trans "Profile" %}</a></li>
+            <li><a href="{% url 'accounts:logout' %}" class="text-white">🔒 {% trans "Logout" %}</a></li>
+          </ul>
+        </nav>
+        <label for="nav-toggle" class="nav-toggle-label">
+            <span class="nav-toggle-label-span"></span>
+        </label>
       </div>
-    </footer>
+      <!-- end static/main.css -->
+    </div>
+    {% endif %}
+    {% include "partials/messages.html" %}
+    {% block content %} {% endblock content %}
+    </div>
   </body>
 </html>

@@ -1,7 +1,61 @@
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 {% if messages %}
-<ul class="">
-    {% for message in messages %}
-      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
+<ul class="messages z-50 mt-20" x-init="removeMessages()">
+  {% for message in messages %}
+  <li>
+    <div class="w-full max-lg:max-w-xs lg:max-w-xl mx-auto mb-4">
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+        <div class="alert alert-info">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span>{{ message }}</span>
+        </div>
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+        <div class="alert alert-success">
+          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          <span>{{ message }}</span>
+        </div>
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+        <div class="alert alert-warning">
+          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+          <span>{{ message }}</span>
+        </div>
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+        <div class="alert alert-error">
+          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          <span>{{ message }}</span>
+        </div>
+        {% else %}
+        <div class="alert">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span>{{ message }}</span>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </li>
+  {% endfor %}
 </ul>
 {% endif %}
+
+<script>
+  function removeMessages() {
+    const element_buy = document.getElementById('buy');
+    const messagesList = document.querySelectorAll('.messages li');
+  
+    if (element_buy) {
+      element_buy.classList.add('-mt-4');
+    }
+  
+    setTimeout(function() {
+      messagesList.forEach(function(item) {
+        item.remove();
+      });
+      const ulElement = document.querySelector('.messages');
+      ulElement.style.display = 'none';
+  
+      if (element_buy) {
+        element_buy.classList.remove('-mt-4');
+      }
+    }, 3000); // 3 seconds
+  }
+  </script>

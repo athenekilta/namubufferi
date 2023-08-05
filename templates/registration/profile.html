@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<div class="grid justify-center items-center h-screen">
+  <div class="card shadow-xl border-2 w-full max-w-xs m-4">
+    <form method="post" class="m-4 flex flex-col justify-center items-center">
+      {% csrf_token %}
+      {% include 'partials/form.html' with form=form %}
+      <a href="{% url 'accounts:profile_change_password' %}" class="btn btn-active btn-secondary mt-4 w-full">{% trans "Change Password" %}</a>
+      <a href="{% url 'accounts:terms' %}" class="btn btn-active btn-secondary mt-4 w-full">{% trans "Terms of Service" %}</a>
+      <a href="{% url 'accounts:privacy' %}" class="btn btn-active btn-secondary mt-4 w-full">{% trans "Privacy Policy" %}</a>
+      <a href="{% url 'accounts:profile_delete_account' %}" class="btn btn-active btn-warning mt-4 w-full">{% trans "Delete account" %}</a>
+      <button type="submit" class="btn btn-active btn-primary mt-4 w-full">{% trans "Save" %}</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

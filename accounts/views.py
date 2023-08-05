@@ -1,38 +1,35 @@
-from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
-from django.shortcuts import redirect, render
-from .forms import UserRegisterForm
-from django.contrib.sites.shortcuts import get_current_site
-from django.utils.encoding import force_bytes, force_str
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.template.loader import render_to_string
-from .tokens import account_activation_token
-from .models import CustomUser as User, PassPhrase
-from django.core.mail import EmailMessage
-from rest_framework.generics import ListAPIView
-from .serializers import UsernameSerializer
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from .forms import (
+    UserRegisterForm, ProfileForm,
+    ProfileChangePasswordForm, 
+    ProfileDeleteForm, PasswordResetForm
+)
+from django.utils.encoding import force_str
+from django.utils.http import urlsafe_base64_decode
+from .models import CustomUser as User, TermsOfService, PrivacyPolicy
+from django.views.generic import TemplateView
+from django.views.generic.edit import FormView
+from django.contrib.auth.tokens import PasswordResetTokenGenerator 
 
-class UsernamesAPIView(ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UsernameSerializer
-
-def register_account(request):
+class RegisterView(FormView):
     """
     View for registering a new user account.
     """
-    if request.method == 'POST':
-        user_form = UserRegisterForm(request.POST)
-        if user_form.is_valid():
-            user = user_form.save(commit=False)
-            user.is_active = False
-            user.save()
-            send_activation_email(user, request)
-            messages.success(request, 'Your account has been created! Check your email to finish the registration.')
-            return redirect('accounts:login')
-    else:
-        user_form = UserRegisterForm()
-    return render(request, 'registration/signup.html', {'form': user_form, 'title': 'Register'})
+    template_name = 'registration/signup.html'
+    form_class = UserRegisterForm
+    success_url = reverse_lazy('accounts:login')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+    
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
 def activate_account(request, uidb64, token):
     try:
@@ -40,24 +37,101 @@ def activate_account(request, uidb64, token):
         user = User.objects.get(pk=uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist) as e:
         user = None
-    if user is not None and account_activation_token.check_token(user, token):
+    if user is not None and PasswordResetTokenGenerator().check_token(user, token):
         user.is_active = True
         user.save()
         login(request, user)
-        return redirect('ledger:index')
+        return redirect('ledger:buy')
     else:
         messages.error(request, 'Activation link is invalid!')
         return redirect('accounts:login')
 
-def send_activation_email(user, request):
-    current_site = get_current_site(request)
-    mail_subject = 'Active your Namubufferi account.'
-    message = render_to_string('registration/activate_account_email.html', {
-        'user': user,
-        'domain': current_site.domain,
-        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-        'token': account_activation_token.make_token(user),
-    })
-    to_email = user.email
-    email = EmailMessage(mail_subject, message, to=[to_email])
-    email.send()
+class ProfileView(FormView):
+    """
+    View for viewing user profile.
+    """
+    template_name = 'registration/profile.html'
+    form_class = ProfileForm
+    success_url = reverse_lazy('ledger:buy')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+    
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+class ProfileChangePasswordView(FormView):
+    """
+    View for editing user password profile.
+    """
+    template_name = 'registration/profile_change_password.html'
+    form_class = ProfileChangePasswordForm
+    success_url = reverse_lazy('ledger:buy')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+    
+    def form_valid(self, form):
+        form.save()
+        user = authenticate(username=self.request.user.username, password=form.cleaned_data['new_password1'])
+        login(self.request, user)
+        return super().form_valid(form)
+    
+class ProfileDeleteView(FormView):
+    """
+    View for deleting user profile.
+    """
+    template_name = 'registration/profile_delete.html'
+    form_class = ProfileDeleteForm
+    success_url = reverse_lazy('accounts:login')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+    
+    def form_valid(self, form):
+        form.save(self.request.user)
+        messages.success(self.request, 'Your account has been deleted!')
+        return super().form_valid(form)
+
+class PasswordResetView(FormView):
+    """
+    View for resetting user password.
+    """
+    template_name = 'registration/password_reset_form.html'
+    success_url = reverse_lazy('accounts:password_reset_done')
+    form_class = PasswordResetForm
+    email_template_name = 'registration/password_reset_email.html'
+    subject_template_name = 'registration/password_reset_subject.txt'
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+class TermsView(TemplateView):
+    """
+    View for viewing terms of service.
+    """
+    template_name = 'registration/terms.html'
+    model = TermsOfService
+    context_object_name = 'terms'
+
+class PrivacyView(TemplateView):
+    """
+    View for viewing privacy policy.
+    """
+    template_name = 'registration/privacy.html'
+    model = PrivacyPolicy
+    context_object_name = 'privacy'
+    

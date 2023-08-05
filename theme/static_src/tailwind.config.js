@@ -5,6 +5,8 @@
  * https://unpkg.com/browse/tailwindcss@latest/stubs/defaultConfig.stub.js
  */
 
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
     content: [
         /**
@@ -42,6 +44,9 @@ module.exports = {
         // '../../**/*.py'
     ],
     theme: {
+        fontFamily: {
+            sans: ['Open Sans', 'sans-serif'],
+        },
         extend: {},
     },
     plugins: [
@@ -57,6 +62,25 @@ module.exports = {
         require('daisyui'),
     ],
     daisyui: {
-        themes: ["light", "dark", "lemonade"],
+        themes: [
+            {
+                athene: {
+                    "primary": "#355e3b",
+                    "primary-content": "#ffffff",
+                    "secondary": "#5e8c64",
+                    "secondary-content": "#ffffff",
+                    "accent": "#33cc99",
+                    "neutral": "#444f5d",
+                    "info": "#2094f3",
+                    "success": "#33cc33",
+                    "warning": "#996633",
+                    "error": "#ff5050",
+                    "dark": "#121212",
+                    "light": "#f5f5f5",
+                    "base-100": "#f5f5f5",
+                    "base-200": "#ffffff",
+                },
+            },
+        ],
     },
 }

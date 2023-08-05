@@ -1,9 +1,15 @@
 from django.contrib import admin
-from .models import Product, Transaction, MobilePayTransaction
+from .models import Product, Purchase, TransferSend, TransferReceive, Ingress, ProductTag
+from modeltranslation.admin import TabbedTranslationAdmin
+from taggit.models import Tag
 
-class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'hidden', 'tag_list')
-    list_filter = ('hidden', 'tags')
+class ProductTagAdmin(TabbedTranslationAdmin):
+    list_display = ('name', 'slug')
+    search_fields = ['name']
+
+class ProductAdmin(TabbedTranslationAdmin):
+    list_display = ('name', 'price', 'tag_list')
+    list_filter = ('tags',)
     search_fields = ['name']
 
     # Django-Taggit: https://django-taggit.readthedocs.io/en/latest/admin.html
@@ -29,16 +35,13 @@ class TransactionAdmin(admin.ModelAdmin):
         
     def has_change_permission(self, request, obj=None):
         return False
-
-class MobilePayTransactionAdmin(admin.ModelAdmin):
-    list_display = ('user', 'amount', 'reference', 'timestamp')
-    list_filter = ('amount',)
-    search_fields = ['user__username', 'reference', 'timestamp', 'amount']
-    ordering = ('-timestamp',)
     
-    def has_change_permission(self, request, obj=None):
-        return False
+
 
 admin.site.register(Product, ProductAdmin)
-admin.site.register(Transaction, TransactionAdmin)
-admin.site.register(MobilePayTransaction, MobilePayTransactionAdmin)
+admin.site.register(Purchase, TransactionAdmin)
+admin.site.register(TransferSend, TransactionAdmin)
+admin.site.register(TransferReceive, TransactionAdmin)
+admin.site.register(Ingress, TransactionAdmin)
+admin.site.unregister(Tag)
+admin.site.register(ProductTag, ProductTagAdmin)

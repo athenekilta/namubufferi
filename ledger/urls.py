@@ -4,11 +4,8 @@ from . import views
 
 app_name = "ledger"
 urlpatterns = [
-    path("", views.IndexView.as_view(), name="index"),
-    path("all", views.AllTransactionsView.as_view(), name="all"),
-    path("buy", views.BuyProductView.as_view(), name="buy"),
+    path("", views.BuyView.as_view(), name="buy"),
+    path("all", views.AllTransactionsView.as_view(), name="transactions"),
     path("transfer", views.TransferView.as_view(), name="transfer"),
-    path("funds", views.add_funds, name="funds"),
-    path('product-list', views.ProductListAPIView.as_view(), name='product-list'), # Special View for the API
-
+    path("funds", views.FundsView.as_view(), name="funds"),
 ]

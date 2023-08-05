@@ -1,6 +1,14 @@
 {% autoescape off %}
 Hi {{ user.username }},
-Please click on the link to confirm your registration,
 
-http://{{ domain }}{% url 'accounts:activate' uidb64=uid token=token %}
+You have received this email because you have created an account on our platform.
+
+Please click on the following link to activate your account:
+
+{{ protocol }}://{{ domain }}{% url 'accounts:activate_account' uidb64=uid token=token %}
+
+If you did not create an account, please ignore this email.
+
+Thanks 😃.
+
 {% endautoescape %}

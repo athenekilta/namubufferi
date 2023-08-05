@@ -1,20 +1,11 @@
-{% extends 'base.html' %}
-  
-{% block content %}
-  <form method="post">
-    {% csrf_token %}
-    {% for field in form %}
-      <p>
-        {{ field.label_tag }} <br>
-        {{ field }}
-        {% if field.help_text %}
-          <small style="color: grey">{{ field.help_text }}</small>
-        {% endif %}
-        {% for error in field.errors %}
-          <p style="color: red">{{ error }}</p>
-        {% endfor %}
-      </p>
-    {% endfor %}
-    <button type="submit">Sign up</button>
-  </form>
+{% extends 'registration/base.html' %}
+{% load i18n %}
+{% block subcontent %}
+  <div class="card shadow-xl border-2 w-full max-w-xs">
+    <form method="post" class="m-4 flex flex-col justify-center items-center">
+      {% csrf_token %}
+      {% include 'partials/form.html' with form=form %}
+      <button type="submit" class="btn btn-active btn-primary w-full mt-4">{% trans "Signup" %}</button>
+    </form>
+  </div>
 {% endblock %}

@@ -1,0 +1,13 @@
+{% load static i18n %}
+<dialog id="{{ modalName }}" class="modal">
+  <div class="modal-box">
+    <p class="py-4">{{ message }}</p>
+    <div class="modal-action grid grid-cols-2 justify-center gap-5">
+      <button class="btn btn-error" onclick="cancelSubmit()">{% trans "No" %} ❌</button>
+      <button class="btn btn-primary" onclick="confirmSubmit()">{% trans "Yes" %} ✅</button>
+    </div>
+  </div>
+</dialog>
+
+<script src="{% static 'js/modal.js' %}" modalName={{ modalName }}></script>
+

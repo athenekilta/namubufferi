@@ -1,0 +1,391 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-05 14:12+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: Italiano\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\accounts\forms.py:40 .\accounts\forms.py:79
+msgid "Mail already exists."
+msgstr "Email già esistente."
+
+#: .\accounts\forms.py:46 .\accounts\forms.py:73
+msgid "Username already exists."
+msgstr "Nome utente già esistente."
+
+#: .\accounts\forms.py:58 .\ledger\forms.py:38
+msgid "Username"
+msgstr "Nome utente"
+
+#: .\accounts\forms.py:58
+msgid "Required. 100 characters or fewer. Letters, digits and @/./+/-/_ only."
+msgstr "Richiesto. Massimo 100 caratteri. Solo lettere, cifre e @/./+/-/_."
+
+#: .\accounts\forms.py:59 .\accounts\forms.py:150
+#: .\templates\registration\password_reset_form.html:9
+msgid "Email"
+msgstr "Email"
+
+#: .\accounts\forms.py:59 .\accounts\forms.py:150
+msgid "Required. 254 characters or fewer."
+msgstr "Richiesto. Massimo 254 caratteri."
+
+#: .\accounts\forms.py:60 .\accounts\models.py:15
+msgid "Language"
+msgstr "Lingua"
+
+#: .\accounts\forms.py:99
+msgid "Old password"
+msgstr "Vecchia password"
+
+#: .\accounts\forms.py:100
+msgid "New password"
+msgstr "Nuova password"
+
+#: .\accounts\forms.py:101
+msgid "New password confirmation"
+msgstr "Conferma nuova password"
+
+#: .\accounts\forms.py:110 .\accounts\forms.py:139
+msgid "Wrong password."
+msgstr "Password errata."
+
+#: .\accounts\forms.py:117
+msgid "Passwords doesn't match."
+msgstr "Le password non corrispondono."
+
+#: .\accounts\forms.py:130
+msgid "Password"
+msgstr "Password"
+
+#: .\accounts\forms.py:159
+msgid "El email no existe."
+msgstr "L'email non esiste."
+
+#: .\accounts\models.py:37
+msgid "No passphrase set"
+msgstr ""
+
+#: .\accounts\models.py:40 .\accounts\models.py:41
+msgid "Passphrase"
+msgstr ""
+
+#: .\accounts\models.py:62 .\accounts\models.py:88
+msgid "No terms set"
+msgstr ""
+
+#: .\accounts\models.py:65
+msgid "Terms of service"
+msgstr ""
+
+#: .\accounts\models.py:66
+msgid "Term of service"
+msgstr ""
+
+#: .\accounts\models.py:91
+msgid "Privacy policies"
+msgstr ""
+
+#: .\accounts\models.py:92
+msgid "Privacy policy"
+msgstr ""
+
+#: .\config\settings.py:206
+msgid "Finnish"
+msgstr ""
+
+#: .\config\settings.py:207
+msgid "English"
+msgstr ""
+
+#: .\config\settings.py:208
+msgid "Swedish"
+msgstr ""
+
+#: .\config\settings.py:209
+msgid "Spanish"
+msgstr ""
+
+#: .\config\settings.py:210
+msgid "Catalan"
+msgstr ""
+
+#: .\config\settings.py:211
+msgid "German"
+msgstr ""
+
+#: .\config\settings.py:212
+msgid "French"
+msgstr ""
+
+#: .\config\settings.py:213
+msgid "Italian"
+msgstr ""
+
+#: .\config\settings.py:214
+msgid "Chinese"
+msgstr ""
+
+#: .\ledger\forms.py:26 .\ledger\forms.py:73
+msgid "Insufficient funds"
+msgstr "Fondi insufficienti"
+
+#: .\ledger\forms.py:38
+msgid "Enter the username of the user you want to transfer funds to."
+msgstr ""
+"Inserisci il nome utente dell'utente a cui desideri trasferire i fondi."
+
+#: .\ledger\forms.py:39
+msgid "Amount to transfer"
+msgstr "Importo da trasferire"
+
+#: .\ledger\forms.py:39
+msgid "Enter the amount of funds you want to transfer."
+msgstr "Inserisci l'importo dei fondi che desideri trasferire."
+
+#: .\ledger\forms.py:54
+msgid "User does not exist"
+msgstr "L'utente non esiste"
+
+#: .\ledger\forms.py:63
+msgid "Amount must be greater than 0"
+msgstr "L'importo deve essere maggiore di 0"
+
+#: .\ledger\forms.py:87
+#, fuzzy
+#| msgid "My Transactions"
+msgid "Transaction ID"
+msgstr "ID transazione"
+
+#: .\ledger\forms.py:107
+#, fuzzy
+#| msgid "My Transactions"
+msgid "Transaction not found"
+msgstr "Transazione non trovata"
+
+#: .\ledger\models.py:12
+msgid "Tag"
+msgstr "Tag"
+
+#: .\ledger\models.py:13
+msgid "Tags"
+msgstr "Tag"
+
+#: .\ledger\models.py:60
+#, fuzzy
+#| msgid "My Transactions"
+msgid "purchase_transactions"
+msgstr "Le mie transazioni"
+
+#: .\ledger\models.py:65
+msgid "Purchased "
+msgstr ""
+
+#: .\ledger\models.py:69
+msgid "Purchases"
+msgstr ""
+
+#: .\ledger\models.py:89
+#, fuzzy
+#| msgid "Transfer"
+msgid "Transfer to "
+msgstr "Trasferisci"
+
+#: .\ledger\models.py:93
+#, fuzzy
+#| msgid "Transfer"
+msgid "Transfer sends"
+msgstr "Trasferisci"
+
+#: .\ledger\models.py:112
+#, fuzzy
+#| msgid "Transfer"
+msgid "Transfer receives"
+msgstr "Trasferisci"
+
+#: .\ledger\models.py:123
+msgid "Ingress via MobilePay"
+msgstr ""
+
+#: .\ledger\models.py:127
+msgid "Ingresses"
+msgstr ""
+
+#: .\ledger\views.py:41
+msgid "Successful purchase! Enjoy it! 🥳🍰"
+msgstr "Acquisto effettuato con successo! Goditelo! 🥳🍰"
+
+#: .\ledger\views.py:45 .\ledger\views.py:67 .\ledger\views.py:89
+msgid "There was an error with your submission. Please try again. 🚧"
+msgstr "Si è verificato un errore durante la tua operazione. Riprova. 🚧"
+
+#: .\ledger\views.py:63
+msgid "Transfer successful! 😔➡️😁"
+msgstr "Trasferimento riuscito! 😔➡️😁"
+
+#: .\templates\base.html:29 .\templates\ledger\buy.html:25
+msgid "Buy"
+msgstr "Acquista"
+
+#: .\templates\base.html:30 .\templates\ledger\transfer.html:7
+msgid "Transfer"
+msgstr "Trasferisci"
+
+#: .\templates\base.html:31
+msgid "Add funds"
+msgstr "Aggiungi fondi"
+
+#: .\templates\base.html:32
+msgid "My Transactions"
+msgstr "Le mie transazioni"
+
+#: .\templates\base.html:33
+msgid "Profile"
+msgstr "Profilo"
+
+#: .\templates\base.html:34
+msgid "Logout"
+msgstr "Logout"
+
+#: .\templates\ledger\all_my_transactions.html:6
+msgid "No transactions found. You can buy for first product"
+msgstr "Nessuna transazione trovata. Puoi acquistare il primo prodotto"
+
+#: .\templates\ledger\all_my_transactions.html:12
+msgid "Concept"
+msgstr "Concetto"
+
+#: .\templates\ledger\all_my_transactions.html:13
+msgid "Price"
+msgstr "Prezzo"
+
+#: .\templates\ledger\all_my_transactions.html:14
+msgid "Timestamp"
+msgstr "Timestamp"
+
+#: .\templates\ledger\buy.html:6 .\templates\ledger\buy.html:16
+#: .\templates\ledger\buy.html:33
+msgid "All"
+msgstr "Tutti"
+
+#: .\templates\ledger\buy.html:26
+msgid "Are you sure you want to buy this product?"
+msgstr "Sei sicuro di voler acquistare questo prodotto?"
+
+#: .\templates\ledger\funds.html:7
+msgid "Check"
+msgstr "Verifica"
+
+#: .\templates\ledger\transfer.html:8
+msgid "Are you sure you want to transfer this money?"
+msgstr "Sei sicuro di voler trasferire questi fondi?"
+
+#: .\templates\partials\modal.html:6
+msgid "No"
+msgstr "No"
+
+#: .\templates\partials\modal.html:7
+msgid "Yes"
+msgstr "Sì"
+
+#: .\templates\registration\login.html:7
+msgid "Your username and password didn't match. Please try again."
+msgstr ""
+
+#: .\templates\registration\login.html:14
+msgid "login"
+msgstr ""
+
+#: .\templates\registration\login.html:18
+#: .\templates\registration\signup.html:8
+msgid "Signup"
+msgstr ""
+
+#: .\templates\registration\login.html:19
+#, fuzzy
+#| msgid "Old password"
+msgid "Lost password?"
+msgstr "Vecchia password"
+
+#: .\templates\registration\password_reset_complete.html:8
+#, fuzzy
+#| msgid "Passwords doesn't match."
+msgid "Password Reset Complete"
+msgstr "Le password non corrispondono."
+
+#: .\templates\registration\password_reset_complete.html:9
+msgid "Your password has been successfully reset."
+msgstr ""
+
+#: .\templates\registration\password_reset_complete.html:11
+#: .\templates\registration\password_reset_confirm.html:15
+#: .\templates\registration\password_reset_done.html:10
+#: .\templates\registration\profile_delete.html:13
+msgid "Go back"
+msgstr "Torna indietro"
+
+#: .\templates\registration\password_reset_confirm.html:10
+#, fuzzy
+#| msgid "Change Password"
+msgid "Change password"
+msgstr "Cambia password"
+
+#: .\templates\registration\password_reset_confirm.html:14
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a new password reset."
+msgstr ""
+
+#: .\templates\registration\password_reset_done.html:7
+#, fuzzy
+#| msgid "Passwords doesn't match."
+msgid "Password Reset Email Sent"
+msgstr "Le password non corrispondono."
+
+#: .\templates\registration\password_reset_done.html:8
+msgid ""
+"We have sent you an email with instructions on how to reset your password. "
+"Please check your inbox and follow the link provided."
+msgstr ""
+
+#: .\templates\registration\password_reset_form.html:8
+msgid ""
+"Enter your email address below, and we'll email instructions for setting a "
+"new one."
+msgstr ""
+
+#: .\templates\registration\profile.html:9
+msgid "Change Password"
+msgstr "Cambia password"
+
+#: .\templates\registration\profile.html:10
+msgid "Delete account"
+msgstr "Elimina account"
+
+#: .\templates\registration\profile.html:11
+#: .\templates\registration\profile_change_password.html:10
+msgid "Save"
+msgstr "Salva"
+
+#: .\templates\registration\profile_delete.html:11
+msgid "Delete Account"
+msgstr "Elimina account"
+
+#: .\templates\registration\profile_delete.html:12
+msgid "Are you sure you about deleting the account? It cannot be undone!"
+msgstr ""
+"Sei sicuro di voler eliminare l'account? Questa azione non può essere "
+"annullata!"

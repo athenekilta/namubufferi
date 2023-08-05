@@ -1,9 +1,9 @@
-{% extends 'base.html' %}
-
-{% block content %}
-<form action={% url 'ledger:funds' %} method="post">
+{% extends 'form_base.html' %}
+{% load i18n %}
+{% block content_form %}
+<form method="post" class="m-4 flex flex-col justify-center items-center">
   {% csrf_token %}
-  {{ form }}
-  <input type="submit" value="Submit">
+  {% include 'partials/form.html' with form=form %}
+  <button type="submit" class="btn btn-primary w-full mt-4">{% trans "Check" %}</button>
 </form>
-{% endblock content %}
+{% endblock %}

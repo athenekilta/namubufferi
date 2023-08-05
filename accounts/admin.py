@@ -1,8 +1,7 @@
-
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-
-from .models import CustomUser, PassPhrase
+from modeltranslation.admin import TabbedTranslationAdmin
+from .models import CustomUser, PassPhrase, TermsOfService, PrivacyPolicy
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
@@ -54,8 +53,12 @@ class PassPhraseAdmin(admin.ModelAdmin):
     list_display = ('passphrase',)
     fields = ('passphrase',)
 
-    def has_add_permission(self, request):
-        return False
+@admin.register(TermsOfService)
+class TermsOfServiceAdmin(TabbedTranslationAdmin):
+    list_display = ('title',)
+    fields = ('title', 'content',)
 
-    def has_delete_permission(self, request, obj=None):
-        return False
+@admin.register(PrivacyPolicy)
+class PrivacyPolicyAdmin(TabbedTranslationAdmin):
+    list_display = ('title',)
+    fields = ('title', 'content',)

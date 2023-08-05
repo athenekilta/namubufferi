@@ -1,0 +1,384 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-05 14:12+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: català\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\accounts\forms.py:40 .\accounts\forms.py:79
+msgid "Mail already exists."
+msgstr "El correu electrònic ja existeix."
+
+#: .\accounts\forms.py:46 .\accounts\forms.py:73
+msgid "Username already exists."
+msgstr "El nom d'usuari ja existeix."
+
+#: .\accounts\forms.py:58 .\ledger\forms.py:38
+msgid "Username"
+msgstr "Nom d'usuari"
+
+#: .\accounts\forms.py:58
+msgid "Required. 100 characters or fewer. Letters, digits and @/./+/-/_ only."
+msgstr "Obligatori. 100 caràcters o menys. Només lletres, dígits i @/./+/-/_."
+
+#: .\accounts\forms.py:59 .\accounts\forms.py:150
+#: .\templates\registration\password_reset_form.html:9
+msgid "Email"
+msgstr "Correu electrònic"
+
+#: .\accounts\forms.py:59 .\accounts\forms.py:150
+msgid "Required. 254 characters or fewer."
+msgstr "Obligatori. 254 caràcters o menys."
+
+#: .\accounts\forms.py:60 .\accounts\models.py:15
+msgid "Language"
+msgstr "Idioma"
+
+#: .\accounts\forms.py:99
+msgid "Old password"
+msgstr "Contrasenya antiga"
+
+#: .\accounts\forms.py:100
+msgid "New password"
+msgstr "Nova contrasenya"
+
+#: .\accounts\forms.py:101
+msgid "New password confirmation"
+msgstr "Confirmació de nova contrasenya"
+
+#: .\accounts\forms.py:110 .\accounts\forms.py:139
+msgid "Wrong password."
+msgstr "Contrasenya incorrecta."
+
+#: .\accounts\forms.py:117
+msgid "Passwords doesn't match."
+msgstr "Les contrasenyes no coincideixen."
+
+#: .\accounts\forms.py:130
+msgid "Password"
+msgstr "Contrasenya"
+
+#: .\accounts\forms.py:159
+msgid "El email no existe."
+msgstr "El correu electrònic no existeix."
+
+#: .\accounts\models.py:37
+msgid "No passphrase set"
+msgstr "Sense frase de pas establerta"
+
+#: .\accounts\models.py:40 .\accounts\models.py:41
+msgid "Passphrase"
+msgstr "Frase de pas"
+
+#: .\accounts\models.py:62 .\accounts\models.py:88
+msgid "No terms set"
+msgstr "Sense termes establerts"
+
+#: .\accounts\models.py:65
+msgid "Terms of service"
+msgstr "Termes de servei"
+
+#: .\accounts\models.py:66
+msgid "Term of service"
+msgstr "Termini de servei"
+
+#: .\accounts\models.py:91
+msgid "Privacy policies"
+msgstr "Polítiques de privadesa"
+
+#: .\accounts\models.py:92
+msgid "Privacy policy"
+msgstr "Política de privadesa"
+
+#: .\config\settings.py:206
+msgid "Finnish"
+msgstr "Finès"
+
+#: .\config\settings.py:207
+msgid "English"
+msgstr "Anglès"
+
+#: .\config\settings.py:208
+msgid "Swedish"
+msgstr "Suec"
+
+#: .\config\settings.py:209
+msgid "Spanish"
+msgstr "Espanyol"
+
+#: .\config\settings.py:210
+msgid "Catalan"
+msgstr "Català"
+
+#: .\config\settings.py:211
+msgid "German"
+msgstr "Alemany"
+
+#: .\config\settings.py:212
+msgid "French"
+msgstr "Francès"
+
+#: .\config\settings.py:213
+msgid "Italian"
+msgstr "Italià"
+
+#: .\config\settings.py:214
+msgid "Chinese"
+msgstr "Xinès"
+
+#: .\ledger\forms.py:26 .\ledger\forms.py:73
+msgid "Insufficient funds"
+msgstr "Fons insuficients"
+
+#: .\ledger\forms.py:38
+msgid "Enter the username of the user you want to transfer funds to."
+msgstr "Introduïu el nom d'usuari de l'usuari al qual voleu transferir fons."
+
+#: .\ledger\forms.py:39
+msgid "Amount to transfer"
+msgstr "Quantitat a transferir"
+
+#: .\ledger\forms.py:39
+msgid "Enter the amount of funds you want to transfer."
+msgstr "Introduïu la quantitat de fons que voleu transferir."
+
+#: .\ledger\forms.py:54
+msgid "User does not exist"
+msgstr "L'usuari no existeix"
+
+#: .\ledger\forms.py:63
+msgid "Amount must be greater than 0"
+msgstr "La quantitat ha de ser superior a 0"
+
+#: .\ledger\forms.py:87
+msgid "Transaction ID"
+msgstr "ID de transacció"
+
+#: .\ledger\forms.py:107
+msgid "Transaction not found"
+msgstr "Transacció no trobada"
+
+#: .\ledger\models.py:12
+msgid "Tag"
+msgstr "Etiqueta"
+
+#: .\ledger\models.py:13
+msgid "Tags"
+msgstr "Etiquetes"
+
+#: .\ledger\models.py:60
+#, fuzzy
+#| msgid "My Transactions"
+msgid "purchase_transactions"
+msgstr "Les meves transaccions"
+
+#: .\ledger\models.py:65
+msgid "Purchased "
+msgstr ""
+
+#: .\ledger\models.py:69
+msgid "Purchases"
+msgstr ""
+
+#: .\ledger\models.py:89
+#, fuzzy
+#| msgid "Transfer"
+msgid "Transfer to "
+msgstr "Transferència"
+
+#: .\ledger\models.py:93
+#, fuzzy
+#| msgid "Transfer"
+msgid "Transfer sends"
+msgstr "Transferència"
+
+#: .\ledger\models.py:112
+#, fuzzy
+#| msgid "Transfer"
+msgid "Transfer receives"
+msgstr "Transferència"
+
+#: .\ledger\models.py:123
+msgid "Ingress via MobilePay"
+msgstr ""
+
+#: .\ledger\models.py:127
+msgid "Ingresses"
+msgstr ""
+
+#: .\ledger\views.py:41
+msgid "Successful purchase! Enjoy it! 🥳🍰"
+msgstr "Compra realitzada amb èxit! Gaudeix-ne! 🥳🍰"
+
+#: .\ledger\views.py:45 .\ledger\views.py:67 .\ledger\views.py:89
+msgid "There was an error with your submission. Please try again. 🚧"
+msgstr ""
+"Hi ha hagut un error amb la vostra sol·licitud. Torneu-ho a intentar. 🚧"
+
+#: .\ledger\views.py:63
+msgid "Transfer successful! 😔➡️😁"
+msgstr "Transferència realitzada amb èxit! 😔➡️😁"
+
+#: .\templates\base.html:29 .\templates\ledger\buy.html:25
+msgid "Buy"
+msgstr "Comprar"
+
+#: .\templates\base.html:30 .\templates\ledger\transfer.html:7
+msgid "Transfer"
+msgstr "Transferència"
+
+#: .\templates\base.html:31
+msgid "Add funds"
+msgstr "Afegir fons"
+
+#: .\templates\base.html:32
+msgid "My Transactions"
+msgstr "Les meves transaccions"
+
+#: .\templates\base.html:33
+msgid "Profile"
+msgstr "Perfil"
+
+#: .\templates\base.html:34
+msgid "Logout"
+msgstr "Tancar sessió"
+
+#: .\templates\ledger\all_my_transactions.html:6
+msgid "No transactions found. You can buy for first product"
+msgstr "No s'han trobat transaccions. Podeu comprar el primer producte"
+
+#: .\templates\ledger\all_my_transactions.html:12
+msgid "Concept"
+msgstr "Concepte"
+
+#: .\templates\ledger\all_my_transactions.html:13
+msgid "Price"
+msgstr "Preu"
+
+#: .\templates\ledger\all_my_transactions.html:14
+msgid "Timestamp"
+msgstr "Marca de temps"
+
+#: .\templates\ledger\buy.html:6 .\templates\ledger\buy.html:16
+#: .\templates\ledger\buy.html:33
+msgid "All"
+msgstr "Tots"
+
+#: .\templates\ledger\buy.html:26
+msgid "Are you sure you want to buy this product?"
+msgstr "Esteu segur que voleu comprar aquest producte?"
+
+#: .\templates\ledger\funds.html:7
+msgid "Check"
+msgstr "Comprovar"
+
+#: .\templates\ledger\transfer.html:8
+msgid "Are you sure you want to transfer this money?"
+msgstr "Esteu segur que voleu transferir aquests fons?"
+
+#: .\templates\partials\modal.html:6
+msgid "No"
+msgstr "No"
+
+#: .\templates\partials\modal.html:7
+msgid "Yes"
+msgstr "Sí"
+
+#: .\templates\registration\login.html:7
+msgid "Your username and password didn't match. Please try again."
+msgstr "El nom d'usuari i la contrasenya no coincideixen. Torneu-ho a intentar."
+
+#: .\templates\registration\login.html:14
+msgid "login"
+msgstr "iniciar sessió"
+
+#: .\templates\registration\login.html:18
+#: .\templates\registration\signup.html:8
+msgid "Signup"
+msgstr "Registre"
+
+#: .\templates\registration\login.html:19
+#, fuzzy
+#| msgid "Old password"
+msgid "Lost password?"
+msgstr "Contrasenya antiga"
+
+#: .\templates\registration\password_reset_complete.html:8
+#, fuzzy
+#| msgid "Passwords doesn't match."
+msgid "Password Reset Complete"
+msgstr "Les contrasenyes no coincideixen."
+
+#: .\templates\registration\password_reset_complete.html:9
+msgid "Your password has been successfully reset."
+msgstr "La vostra contrasenya s'ha restablert correctament."
+
+#: .\templates\registration\password_reset_complete.html:11
+#: .\templates\registration\password_reset_confirm.html:15
+#: .\templates\registration\password_reset_done.html:10
+#: .\templates\registration\profile_delete.html:13
+msgid "Go back"
+msgstr "Tornar enrere"
+
+#: .\templates\registration\password_reset_confirm.html:10
+#, fuzzy
+#| msgid "Change Password"
+msgid "Change password"
+msgstr "Canviar contrasenya"
+
+#: .\templates\registration\password_reset_confirm.html:14
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used. Please request a new password reset."
+msgstr ""
+"El vincle de restabliment de contrasenya no és vàlid, potser perquè ja s'ha "
+"utilitzat. Demaneu un nou restabliment de contrasenya."
+
+#: .\templates\registration\password_reset_done.html:7
+#, fuzzy
+#| msgid "Passwords doesn't match."
+msgid "Password Reset Email Sent"
+msgstr "Les contrasenyes no coincideixen."
+
+#: .\templates\registration\password_reset_done.html:8
+msgid ""
+"We have sent you an email with instructions on how to reset your password. "
+"Please check your inbox and follow the link provided."
+msgstr ""
+"Us hem enviat un correu electrònic amb instruccions sobre com restablir la "
+"vostra contrasenya. Comproveu la vostra safata d'entrada i seguiu l'enllaç "
+"facilitat."
+
+#: .\templates\registration\profile.html:9
+msgid "Change Password"
+msgstr "Canviar contrasenya"
+
+#: .\templates\registration\profile.html:10
+msgid "Delete account"
+msgstr "Eliminar compte"
+
+#: .\templates\registration\profile.html:11
+#: .\templates\registration\profile_change_password.html:10
+msgid "Save"
+msgstr "Desar"
+
+#: .\templates\registration\profile_delete.html:11
+msgid "Delete Account"
+msgstr "Eliminar compte"
+
+#: .\templates\registration\profile_delete.html:12
+msgid "Are you sure you about deleting the account? It cannot be undone!"
+msgstr "Esteu segur que voleu eliminar el compte? Aquesta acció no es pot desfer!"

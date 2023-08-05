@@ -1,0 +1,20 @@
+
+{% extends "base.html" %}
+{% load i18n static  %} 
+{% block content %}
+<div class="grid justify-center items-center h-screen">
+  <div class="card shadow-xl border-2 w-full max-w-xs m-4">
+    <form method="post" class="m-4 flex flex-col justify-center items-center" >
+      {% csrf_token %}
+      <div class="form-control w-full max-w-xs">
+      {% include 'partials/form.html' with form=form %}
+      <button type="button" class="btn btn-active btn-error mt-4 w-full" onclick="submitForm()">{% trans "Delete Account" %}</button>
+      {% include 'partials/modal.html' with message=_('Are you sure you about deleting the account? It cannot be undone!') modalName="delete_account_modal" %}
+      <a href="{% url 'accounts:profile' %}" class="btn btn-active btn-primary mt-4 w-full">{% trans "Go back" %}</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="{% static 'js/modal.js' %}" modalName="delete_account_modal" ></script>
+{% endblock %}

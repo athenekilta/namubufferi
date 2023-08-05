@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% block content %}
+<form method="post">
+  {% csrf_token %}
+<div x-data="{tag: '{{ _("All") }}', productsNames: [{% for product in form.products.field.queryset %} {{ product.price }}, {% endfor %}], search: ''}" x-init="productsNames = productsNames.slice(0, -1)">
+    <!-- Search & filter box -->
+    <div class="fixed bottom-0 bg-secondary w-full py-4 h-56 rounded-t-2xl z-20 grid grid-col justify-center">
+      <div class="form-control grid items-center justify-center mt-4">
+        <input type="text" x-model="search" placeholder="🔎 Search" class="input input-bordered input-primary w-72 md:w-80">
+      </div>    
+      <div class="flex flex-nowrap whitespace-nowrap w-full mt-4 px-4 gap-2 overflow-scroll">
+        <button type="button" 
+          class="border py-1 px-4 rounded-full transition"
+          @click="tag = $el.textContent"
+          :class="tag === $el.textContent ? 'bg-success text-black' : 'bg-primary text-primary-content'">{% trans "All" %}</button>
+        {% for tag in form.tags %}
+        <button type="button" 
+          class="border py-1 px-4 text-black rounded-full transition"
+          @click="tag = $el.textContent"
+          :class="tag === $el.textContent ? 'bg-success text-black' : 'bg-primary text-primary-content'">{{ tag.name }}</button>
+        {% endfor %}
+      </div>
+      <div class="grid mt-4 items-center justify-center">
+        <button type="button" class="btn btn-primary w-72 md:w-80" onclick="submitForm()">{% trans "Buy" %}</button>
+        {% include 'partials/modal.html' with message=_('Are you sure you want to buy this product?') modalName="buy_modal" %}
+      </div>
+    </div>
+    <!-- Products -->
+    <div class="flex flex-col items-center mt-20" id="buy">
+      <div class="card shadow-xl border-2 mb-60 py-4 pb-4 w-full max-lg:max-w-xs lg:max-w-xl bg-base-200">
+        {% for product in form.product.field.queryset %}
+        <div class="m-2" x-show="'{{ product.name }}'.toLowerCase().includes(search.toLowerCase()) && (tag === '{{ _("All") }}' || '{{ product.tags.all|join:", " }}'.includes(tag))">
+            <input type="radio" id="product_{{ product.id }}" name="product" value="{{ product.id }}" class="radio radio-primary">
+            <label for="product_{{ product.id }}">{{ product.name }} - {{ product.price }}€</label>
+        </div>
+        {% endfor %}
+    </div>
+  </div>
+</form>
+
+<script src="{% static 'js/modal.js' %}" modalName="buy_modal"></script>
+{% endblock content %}

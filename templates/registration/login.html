@@ -1,38 +1,21 @@
-{% extends "base.html" %}
-
-{% block content %}
-<div class="container mx-auto">
-  {% if form.errors %}
-  <div class="alert alert-error">
-    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-    <span>Your username and password didn't match. Plase try again.</span>
-  </div>
-  {% endif %}
-
-  <form method="post" action="{% url 'accounts:login' %}">
-    {% csrf_token %}
-    <div class="form-control w-full max-w-xs">
-      <label class="label">
-        <span class="label-text">Username</span>
-      </label>
-      <input type="text" name="username" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
-      <br>
-      <label class="label">
-        <span class="label-text">Password</span>
-      </label>
-      <input type="password" name="password" placeholder="Type here" class="input input-bordered w-full max-w-xs">
-    </div>
-    <br>
-    <input type="submit" value="login" class="btn btn-active btn-primary w-40">
-    <br>
-    <input type="hidden" name="next" value="{{ next }}" />
-  </form>
-
-  {# Assumes you setup the password_reset view in your URLconf #}
-  <div class="container flex flex-col gap-2 my-4">
-    <a href="{% url 'accounts:signup' %}" class="link link-primary">Signup</a>
-    <a href="{% url 'accounts:password_reset' %}" class="link link-secondary">Lost password?</a>
-  </div>
+{% extends "registration/base.html" %}
+{% load i18n %}
+{% block subcontent %}
+{% if form.errors %}
+<div class="alert alert-error w-full max-w-xs">
+  <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+  <span class="w-full max-w-xs">{% trans "Your username and password didn't match. Please try again." %}</span>
 </div>
-
-{% endblock %}
+{% endif %}
+  <div class="card shadow-xl border-2 w-full max-w-xs">
+    <form method="post" class="m-4 flex flex-col justify-center items-center">
+      {% csrf_token %}
+      {% include 'partials/form.html' with form=form %}
+      <button type="submit" class="btn btn-active btn-primary w-full mt-4">{% trans "login" %}</button>
+    </form>
+  </div>
+  <div class="flex flex-col gap-3 bg-base-100 mt-4">
+    <a href="{% url 'accounts:signup' %}" class="link link-primary no-underline">{% trans "Signup" %}</a>
+    <a href="{% url 'accounts:password_reset' %}" class="link link-secondary no-underline">{% trans "Lost password?" %}</a>
+  </div>
+{% endblock subcontent %}

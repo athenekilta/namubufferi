@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+128&family=Open+Sans&display=swap');
+</style>
+<div class="flex flex-col justify-center items-center gap-5 h-screen">
+  <div class="grid gap-2">
+    <div class="text-3xl text-center">Namubufferi</div>
+    <div class="text-7xl" style="font-family: 'Libre Barcode 128', cursive;" >Namubufferi</div>
+  </div>
+  {% block subcontent %} {% endblock subcontent %}
+</div>
+{% endblock content %}

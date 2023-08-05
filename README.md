@@ -80,8 +80,21 @@ python manage.py test
 
 ## Deployment
 
+
+Compiling the tailwindCSS:
+```bash
+python manage.py tailwind build
+```
+
+
+Check the deploy things needed:
 - https://docs.djangoproject.com/en/4.2/howto/deployment/
 
-## Legal Notice
-GDPR in this specific case, as it is something internal, it doesn't apply.
-[Link](https://commission.europa.eu/law/law-topic/data-protection/reform/what-does-general-data-protection-regulation-gdpr-govern_es)
+```bash
+python manage.py check --deploy
+```
+
+Generate a .env based on the .env.example and add the variables to the environment:
+```bash
+source .env
+```

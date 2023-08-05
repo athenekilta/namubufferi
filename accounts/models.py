@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
+from ckeditor.fields import RichTextField
 
 class CustomUser(AbstractUser):
     balance = models.DecimalField(max_digits=5, decimal_places=2, default=Decimal('0.0'))
@@ -11,7 +12,7 @@ class CustomUser(AbstractUser):
     language = models.CharField(
         max_length=5,
         choices=settings.LANGUAGES,
-        default=settings.LANGUAGE_CODE,
+        default=settings.MODELTRANSLATION_DEFAULT_LANGUAGE,
         verbose_name=_('Language')
     )
 
@@ -45,7 +46,7 @@ class TermsOfService(models.Model):
     Terms of service for the application.
     """
     title = models.CharField(max_length=128, blank=False)
-    content = models.TextField(blank=False)
+    content = RichTextField(blank=False)
 
     def save(self, *args, **kwargs):
         self.pk = 1
@@ -71,7 +72,7 @@ class PrivacyPolicy(models.Model):
     Privacy policy for the application.
     """
     title = models.CharField(max_length=128, blank=False)
-    content = models.TextField(blank=False)
+    content = RichTextField(blank=False)
 
     def save(self, *args, **kwargs):
         self.pk = 1

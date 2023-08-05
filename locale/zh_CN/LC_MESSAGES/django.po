@@ -8,360 +8,374 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-05 14:12+0200\n"
+"POT-Creation-Date: 2023-08-05 19:32+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: zh_CN\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: .\accounts\forms.py:40 .\accounts\forms.py:79
+#: accounts/forms.py:40 accounts/forms.py:79
 msgid "Mail already exists."
-msgstr ""
+msgstr "邮件已存在。"
 
-#: .\accounts\forms.py:46 .\accounts\forms.py:73
+#: accounts/forms.py:46 accounts/forms.py:73
 msgid "Username already exists."
-msgstr ""
+msgstr "此用户名已存在。"
 
-#: .\accounts\forms.py:58 .\ledger\forms.py:38
+#: accounts/forms.py:58 ledger/forms.py:38
 msgid "Username"
-msgstr ""
+msgstr "用户名"
 
-#: .\accounts\forms.py:58
+#: accounts/forms.py:58
 msgid "Required. 100 characters or fewer. Letters, digits and @/./+/-/_ only."
 msgstr ""
 
-#: .\accounts\forms.py:59 .\accounts\forms.py:150
-#: .\templates\registration\password_reset_form.html:9
+#: accounts/forms.py:59 accounts/forms.py:150
+#: templates/registration/password_reset_form.html:9
 msgid "Email"
-msgstr ""
+msgstr "必需的。 100 个字符或更少。 仅限字母、数字和@/./+/-/_。"
 
-#: .\accounts\forms.py:59 .\accounts\forms.py:150
+#: accounts/forms.py:59 accounts/forms.py:150
 msgid "Required. 254 characters or fewer."
-msgstr ""
+msgstr "必需的。 254 个字符或更少。"
 
-#: .\accounts\forms.py:60 .\accounts\models.py:15
+#: accounts/forms.py:60 accounts/models.py:16
 msgid "Language"
-msgstr ""
+msgstr "语言"
 
-#: .\accounts\forms.py:99
+#: accounts/forms.py:99
 msgid "Old password"
-msgstr ""
+msgstr "旧密码"
 
-#: .\accounts\forms.py:100
+#: accounts/forms.py:100
 msgid "New password"
-msgstr ""
+msgstr "新密码"
 
-#: .\accounts\forms.py:101
+#: accounts/forms.py:101
 msgid "New password confirmation"
-msgstr ""
+msgstr "新密码确认"
 
-#: .\accounts\forms.py:110 .\accounts\forms.py:139
+#: accounts/forms.py:110 accounts/forms.py:139
 msgid "Wrong password."
-msgstr ""
+msgstr "密码错误。"
 
-#: .\accounts\forms.py:117
+#: accounts/forms.py:117
 msgid "Passwords doesn't match."
-msgstr ""
+msgstr "密码不匹配。"
 
-#: .\accounts\forms.py:130
+#: accounts/forms.py:130
 msgid "Password"
-msgstr ""
+msgstr "密码"
 
-#: .\accounts\forms.py:159
+#: accounts/forms.py:159
 msgid "El email no existe."
-msgstr ""
+msgstr "该电子邮件不存在。"
 
-#: .\accounts\models.py:37
+#: accounts/models.py:38
 msgid "No passphrase set"
-msgstr ""
+msgstr "未设置密码"
 
-#: .\accounts\models.py:40 .\accounts\models.py:41
+#: accounts/models.py:41 accounts/models.py:42
 msgid "Passphrase"
-msgstr ""
+msgstr "密码"
 
-#: .\accounts\models.py:62 .\accounts\models.py:88
+#: accounts/models.py:63 accounts/models.py:89
 msgid "No terms set"
-msgstr ""
+msgstr "没有设定条款"
 
-#: .\accounts\models.py:65
+#: accounts/models.py:66
 msgid "Terms of service"
-msgstr ""
+msgstr "服务条款"
 
-#: .\accounts\models.py:66
+#: accounts/models.py:67
 msgid "Term of service"
-msgstr ""
+msgstr "服务条款"
 
-#: .\accounts\models.py:91
+#: accounts/models.py:92
 msgid "Privacy policies"
-msgstr ""
+msgstr "隐私政策"
 
-#: .\accounts\models.py:92
+#: accounts/models.py:93
 msgid "Privacy policy"
-msgstr ""
+msgstr "隐私政策"
 
-#: .\config\settings.py:206
+#: config/settings.py:207
 msgid "Finnish"
-msgstr ""
+msgstr "芬兰"
 
-#: .\config\settings.py:207
+#: config/settings.py:208
 msgid "English"
-msgstr ""
+msgstr "英语"
 
-#: .\config\settings.py:208
+#: config/settings.py:209
 msgid "Swedish"
-msgstr ""
+msgstr "瑞典"
 
-#: .\config\settings.py:209
+#: config/settings.py:210
 msgid "Spanish"
-msgstr ""
+msgstr "西班牙语"
 
-#: .\config\settings.py:210
+#: config/settings.py:211
 msgid "Catalan"
-msgstr ""
+msgstr "加泰罗尼亚语"
 
-#: .\config\settings.py:211
+#: config/settings.py:212
 msgid "German"
-msgstr ""
+msgstr "德语"
 
-#: .\config\settings.py:212
+#: config/settings.py:213
 msgid "French"
-msgstr ""
+msgstr "法语"
 
-#: .\config\settings.py:213
+#: config/settings.py:214
 msgid "Italian"
-msgstr ""
+msgstr "意大利语"
 
-#: .\config\settings.py:214
+#: config/settings.py:215
 msgid "Chinese"
-msgstr ""
+msgstr "中国人"
 
-#: .\ledger\forms.py:26 .\ledger\forms.py:73
+#: ledger/forms.py:26 ledger/forms.py:73
 msgid "Insufficient funds"
-msgstr ""
+msgstr "不充足的资金"
 
-#: .\ledger\forms.py:38
+#: ledger/forms.py:38
 msgid "Enter the username of the user you want to transfer funds to."
-msgstr ""
+msgstr "输入您想要转账的用户的用户名。"
 
-#: .\ledger\forms.py:39
+#: ledger/forms.py:39
 msgid "Amount to transfer"
-msgstr ""
+msgstr "转账金额"
 
-#: .\ledger\forms.py:39
+#: ledger/forms.py:39
 msgid "Enter the amount of funds you want to transfer."
-msgstr ""
+msgstr "输入您要转账的资金金额。"
 
-#: .\ledger\forms.py:54
+#: ledger/forms.py:54
 msgid "User does not exist"
-msgstr ""
+msgstr "用户不存在"
 
-#: .\ledger\forms.py:63
+#: ledger/forms.py:63
 msgid "Amount must be greater than 0"
-msgstr ""
+msgstr "金额必须大于 0"
 
-#: .\ledger\forms.py:87
+#: ledger/forms.py:87
 msgid "Transaction ID"
-msgstr ""
+msgstr "交易ID"
 
-#: .\ledger\forms.py:107
+#: ledger/forms.py:107
 msgid "Transaction not found"
-msgstr ""
+msgstr "未找到交易"
 
-#: .\ledger\models.py:12
+#: ledger/models.py:12
 msgid "Tag"
-msgstr ""
+msgstr "标签"
 
-#: .\ledger\models.py:13
+#: ledger/models.py:13
 msgid "Tags"
-msgstr ""
+msgstr "标签"
 
-#: .\ledger\models.py:60
+#: ledger/models.py:60
 msgid "purchase_transactions"
-msgstr ""
+msgstr "购买交易"
 
-#: .\ledger\models.py:65
+#: ledger/models.py:65
 msgid "Purchased "
-msgstr ""
+msgstr "已购买 "
 
-#: .\ledger\models.py:69
+#: ledger/models.py:69
 msgid "Purchases"
-msgstr ""
+msgstr "购买"
 
-#: .\ledger\models.py:89
+#: ledger/models.py:89
 msgid "Transfer to "
-msgstr ""
+msgstr "传送到 "
 
-#: .\ledger\models.py:93
+#: ledger/models.py:93
 msgid "Transfer sends"
-msgstr ""
+msgstr "传输发送"
 
-#: .\ledger\models.py:112
+#: ledger/models.py:112
 msgid "Transfer receives"
-msgstr ""
+msgstr "转账接收"
 
-#: .\ledger\models.py:123
+#: ledger/models.py:123
 msgid "Ingress via MobilePay"
-msgstr ""
+msgstr "通过 MobilePay 进入"
 
-#: .\ledger\models.py:127
+#: ledger/models.py:127
 msgid "Ingresses"
-msgstr ""
+msgstr "入口"
 
-#: .\ledger\views.py:41
+#: ledger/views.py:41
 msgid "Successful purchase! Enjoy it! 🥳🍰"
-msgstr ""
+msgstr "购买成功！ 好好享受！ 🥳🍰"
 
-#: .\ledger\views.py:45 .\ledger\views.py:67 .\ledger\views.py:89
+#: ledger/views.py:45 ledger/views.py:67 ledger/views.py:89
 msgid "There was an error with your submission. Please try again. 🚧"
-msgstr ""
+msgstr "您提交的内容有误。 请再试一次。 🚧"
 
-#: .\ledger\views.py:63
+#: ledger/views.py:63
 msgid "Transfer successful! 😔➡️😁"
-msgstr ""
+msgstr "转账成功！ 😔➡️😁"
 
-#: .\templates\base.html:29 .\templates\ledger\buy.html:25
+#: templates/base.html:29 templates/ledger/buy.html:25
 msgid "Buy"
-msgstr ""
+msgstr "买"
 
-#: .\templates\base.html:30 .\templates\ledger\transfer.html:7
+#: templates/base.html:30 templates/ledger/transfer.html:7
 msgid "Transfer"
-msgstr ""
+msgstr "转移"
 
-#: .\templates\base.html:31
+#: templates/base.html:31
 msgid "Add funds"
-msgstr ""
+msgstr "增加资金"
 
-#: .\templates\base.html:32
+#: templates/base.html:32
 msgid "My Transactions"
-msgstr ""
+msgstr "我的交易"
 
-#: .\templates\base.html:33
+#: templates/base.html:33
 msgid "Profile"
-msgstr ""
+msgstr "轮廓"
 
-#: .\templates\base.html:34
+#: templates/base.html:34
 msgid "Logout"
-msgstr ""
+msgstr "登出"
 
-#: .\templates\ledger\all_my_transactions.html:6
+#: templates/ledger/all_my_transactions.html:6
 msgid "No transactions found. You can buy for first product"
-msgstr ""
+msgstr "没有发现交易。 您可以购买第一个产品"
 
-#: .\templates\ledger\all_my_transactions.html:12
+#: templates/ledger/all_my_transactions.html:12
 msgid "Concept"
-msgstr ""
+msgstr "概念"
 
-#: .\templates\ledger\all_my_transactions.html:13
+#: templates/ledger/all_my_transactions.html:13
 msgid "Price"
-msgstr ""
+msgstr "价格"
 
-#: .\templates\ledger\all_my_transactions.html:14
+#: templates/ledger/all_my_transactions.html:14
 msgid "Timestamp"
-msgstr ""
+msgstr "时间戳"
 
-#: .\templates\ledger\buy.html:6 .\templates\ledger\buy.html:16
-#: .\templates\ledger\buy.html:33
+#: templates/ledger/buy.html:6 templates/ledger/buy.html:16
+#: templates/ledger/buy.html:33
 msgid "All"
-msgstr ""
+msgstr "全部"
 
-#: .\templates\ledger\buy.html:26
+#: templates/ledger/buy.html:10
+msgid "Search"
+msgstr "搜索"
+
+#: templates/ledger/buy.html:26
 msgid "Are you sure you want to buy this product?"
-msgstr ""
+msgstr "您确定要购买该产品吗？"
 
-#: .\templates\ledger\funds.html:7
+#: templates/ledger/funds.html:7
 msgid "Check"
-msgstr ""
+msgstr "查看"
 
-#: .\templates\ledger\transfer.html:8
+#: templates/ledger/transfer.html:8
 msgid "Are you sure you want to transfer this money?"
-msgstr ""
+msgstr "您确定要转账这笔钱吗？"
 
-#: .\templates\partials\modal.html:6
+#: templates/partials/modal.html:6
 msgid "No"
-msgstr ""
+msgstr "不"
 
-#: .\templates\partials\modal.html:7
+#: templates/partials/modal.html:7
 msgid "Yes"
 msgstr ""
 
-#: .\templates\registration\login.html:7
+#: templates/registration/login.html:7
 msgid "Your username and password didn't match. Please try again."
-msgstr ""
+msgstr "是的"
 
-#: .\templates\registration\login.html:14
+#: templates/registration/login.html:14
 msgid "login"
-msgstr ""
+msgstr "登录"
 
-#: .\templates\registration\login.html:18
-#: .\templates\registration\signup.html:8
+#: templates/registration/login.html:18 templates/registration/signup.html:8
 msgid "Signup"
-msgstr ""
+msgstr "报名"
 
-#: .\templates\registration\login.html:19
+#: templates/registration/login.html:19
 msgid "Lost password?"
-msgstr ""
+msgstr "忘记密码？"
 
-#: .\templates\registration\password_reset_complete.html:8
+#: templates/registration/password_reset_complete.html:8
 msgid "Password Reset Complete"
-msgstr ""
+msgstr "密码重置完成"
 
-#: .\templates\registration\password_reset_complete.html:9
+#: templates/registration/password_reset_complete.html:9
 msgid "Your password has been successfully reset."
-msgstr ""
+msgstr "您的密码已成功重置。"
 
-#: .\templates\registration\password_reset_complete.html:11
-#: .\templates\registration\password_reset_confirm.html:15
-#: .\templates\registration\password_reset_done.html:10
-#: .\templates\registration\profile_delete.html:13
+#: templates/registration/password_reset_complete.html:11
+#: templates/registration/password_reset_confirm.html:15
+#: templates/registration/password_reset_done.html:10
+#: templates/registration/profile_delete.html:13
 msgid "Go back"
-msgstr ""
+msgstr "回去"
 
-#: .\templates\registration\password_reset_confirm.html:10
+#: templates/registration/password_reset_confirm.html:10
 msgid "Change password"
-msgstr ""
+msgstr "更改密码"
 
-#: .\templates\registration\password_reset_confirm.html:14
+#: templates/registration/password_reset_confirm.html:14
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used.  Please request a new password reset."
-msgstr ""
+msgstr "密码重置链接无效，可能是因为它已经是 已使用。请请求重置新密码。"
 
-#: .\templates\registration\password_reset_done.html:7
+#: templates/registration/password_reset_done.html:7
 msgid "Password Reset Email Sent"
-msgstr ""
+msgstr "密码重置电子邮件已发送"
 
-#: .\templates\registration\password_reset_done.html:8
+#: templates/registration/password_reset_done.html:8
 msgid ""
 "We have sent you an email with instructions on how to reset your password. "
 "Please check your inbox and follow the link provided."
 msgstr ""
+"我们已向您发送了一封电子邮件，其中包含有关如何重置密码的说明。请检查您的收件"
+"箱并点击提供的链接。"
 
-#: .\templates\registration\password_reset_form.html:8
+#: templates/registration/password_reset_form.html:8
 msgid ""
 "Enter your email address below, and we'll email instructions for setting a "
 "new one."
 msgstr ""
+"在下面输入您的电子邮件地址，我们将通过电子邮件发送有关设置的说明 新的一个。"
 
-#: .\templates\registration\profile.html:9
+#: templates/registration/profile.html:9
 msgid "Change Password"
-msgstr ""
+msgstr "更改密码"
 
-#: .\templates\registration\profile.html:10
+#: templates/registration/profile.html:10 templates/registration/signup.html:9
+msgid "Terms of Service"
+msgstr "服务条款"
+
+#: templates/registration/profile.html:11 templates/registration/signup.html:10
+msgid "Privacy Policy"
+msgstr "隐私政策"
+
+#: templates/registration/profile.html:12
 msgid "Delete account"
-msgstr ""
+msgstr "删除帐户"
 
-#: .\templates\registration\profile.html:11
-#: .\templates\registration\profile_change_password.html:10
+#: templates/registration/profile.html:13
+#: templates/registration/profile_change_password.html:10
 msgid "Save"
-msgstr ""
+msgstr "删除帐户"
 
-#: .\templates\registration\profile_delete.html:11
+#: templates/registration/profile_delete.html:11
 msgid "Delete Account"
-msgstr ""
+msgstr "删除帐户"
 
-#: .\templates\registration\profile_delete.html:12
+#: templates/registration/profile_delete.html:12
 msgid "Are you sure you about deleting the account? It cannot be undone!"
-msgstr ""
+msgstr "您确定要删除该帐户吗？ 无法挽回！"

@@ -1,7 +1,7 @@
 from decimal import Decimal
 from django.test import TestCase
 from django.urls import reverse
-from .models import Product, Purchase, TransferReceive, TransferSend, Ingress, TermsOfService, PrivacyPolicy
+from .models import Product, Purchase, TransferReceive, TransferSend, Ingress
 from accounts.models import CustomUser
 from accounts.tests import create_test_user_in_db
 from unittest.mock import patch

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "tailwind",
     'modeltranslation',
     'pwa',
+    'ckeditor',
 
     # Django defaults
     "django.contrib.admin",
@@ -164,6 +165,8 @@ LOGOUT_REDIRECT_URL = "accounts:login"
 
 if DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+else:
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 EMAIL_HOST = os.getenv('DJANGO_EMAIL_HOST', 'localhost')
 EMAIL_PORT = int(os.getenv('DJANGO_EMAIL_PORT', '1025'))
@@ -182,8 +185,6 @@ SECURE_HSTS_SECONDS = int(os.getenv("DJANGO_SECURE_HSTS_SECONDS", "0"))
 SESSION_COOKIE_SECURE = strtobool(os.getenv("DJANGO_SESSION_COOKIE_SECURE", "False"))
 CSRF_COOKIE_SECURE = strtobool(os.getenv("DJANGO_CSRF_COOKIE_SECURE", "False"))
 SECURE_PROXY_SSL_HEADER = literal_eval(os.getenv("DJANGO_SECURE_PROXY_SSL_HEADER", "[]"))
-
-HIDDEN_ROOT = os.getenv("DJANGO_HIDDEN_ROOT", "")
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
@@ -211,7 +212,7 @@ LANGUAGES = [
     ('de', gettext('German')),
     ('fr', gettext('French')),
     ('it', gettext('Italian')),
-    ('zh_CN', gettext('Chinese')),
+    ('zh-cn', gettext('Chinese')),
 ]
 
 LOCALE_PATHS = [

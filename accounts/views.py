@@ -127,6 +127,11 @@ class TermsView(TemplateView):
     model = TermsOfService
     context_object_name = 'terms'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['terms'] = TermsOfService.objects.first()
+        return context
+
 class PrivacyView(TemplateView):
     """
     View for viewing privacy policy.
@@ -134,4 +139,9 @@ class PrivacyView(TemplateView):
     template_name = 'registration/privacy.html'
     model = PrivacyPolicy
     context_object_name = 'privacy'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['privacy'] = PrivacyPolicy.objects.first()
+        return context
     

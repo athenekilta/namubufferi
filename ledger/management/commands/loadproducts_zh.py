@@ -21,18 +21,14 @@ class Command(BaseCommand):
                     product.name = row['Name']
                 else:
                     product = Product.objects.get(name=row['Name'])
-                for lang in settings.LANGUAGES:
-                    lang_code = lang[0]
-                    setattr(product, f"name_{lang_code}", self.translate(row['Name'], lang_code if lang_code != 'zh' else 'zh-cn'))
+                setattr(product, f"name_zh_cn", self.translate(row['Name'], 'zh'))
                 product.price = Decimal(row['Price'].replace(',', '.'))
                 product.save()
                 product.tags.set(row['Tags'].split(','))
                 product.save()
 
             for tag in ProductTag.objects.all():
-                for lang in settings.LANGUAGES:
-                    lang_code = lang[0]
-                    setattr(tag, f"name_{lang_code}", self.translate(tag.name, lang_code if lang_code != 'zh' else 'zh-cn'))
+                setattr(tag, f"name_zh_cn", self.translate(tag.name, 'zh'))
                 tag.save()
 
     def translate(self, word, dest):

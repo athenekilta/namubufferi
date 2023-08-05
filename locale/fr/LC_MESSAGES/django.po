@@ -8,387 +8,389 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-05 14:12+0200\n"
+"POT-Creation-Date: 2023-08-05 19:32+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: Français\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\accounts\forms.py:40 .\accounts\forms.py:79
+#: accounts/forms.py:40 accounts/forms.py:79
 msgid "Mail already exists."
-msgstr "L'e-mail existe déjà."
+msgstr "L'email existe déjà."
 
-#: .\accounts\forms.py:46 .\accounts\forms.py:73
+#: accounts/forms.py:46 accounts/forms.py:73
 msgid "Username already exists."
 msgstr "Le nom d'utilisateur existe déjà."
 
-#: .\accounts\forms.py:58 .\ledger\forms.py:38
+#: accounts/forms.py:58 ledger/forms.py:38
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: .\accounts\forms.py:58
+#: accounts/forms.py:58
 msgid "Required. 100 characters or fewer. Letters, digits and @/./+/-/_ only."
 msgstr ""
-"Obligatoire. 100 caractères ou moins. Lettres, chiffres et @/./+/-/_ "
-"uniquement."
+"Obligatoire. 100 caractères ou moins. Seulement des lettres, des chiffres et "
+"@/./+/-/_."
 
-#: .\accounts\forms.py:59 .\accounts\forms.py:150
-#: .\templates\registration\password_reset_form.html:9
+#: accounts/forms.py:59 accounts/forms.py:150
+#: templates/registration/password_reset_form.html:9
 msgid "Email"
-msgstr "E-mail"
+msgstr "Email"
 
-#: .\accounts\forms.py:59 .\accounts\forms.py:150
+#: accounts/forms.py:59 accounts/forms.py:150
 msgid "Required. 254 characters or fewer."
 msgstr "Obligatoire. 254 caractères ou moins."
 
-#: .\accounts\forms.py:60 .\accounts\models.py:15
+#: accounts/forms.py:60 accounts/models.py:16
 msgid "Language"
 msgstr "Langue"
 
-#: .\accounts\forms.py:99
+#: accounts/forms.py:99
 msgid "Old password"
 msgstr "Ancien mot de passe"
 
-#: .\accounts\forms.py:100
+#: accounts/forms.py:100
 msgid "New password"
 msgstr "Nouveau mot de passe"
 
-#: .\accounts\forms.py:101
+#: accounts/forms.py:101
 msgid "New password confirmation"
 msgstr "Confirmation du nouveau mot de passe"
 
-#: .\accounts\forms.py:110 .\accounts\forms.py:139
+#: accounts/forms.py:110 accounts/forms.py:139
 msgid "Wrong password."
 msgstr "Mot de passe incorrect."
 
-#: .\accounts\forms.py:117
+#: accounts/forms.py:117
 msgid "Passwords doesn't match."
 msgstr "Les mots de passe ne correspondent pas."
 
-#: .\accounts\forms.py:130
+#: accounts/forms.py:130
 msgid "Password"
 msgstr "Mot de passe"
 
-#: .\accounts\forms.py:159
+#: accounts/forms.py:159
 msgid "El email no existe."
-msgstr "L'e-mail n'existe pas."
+msgstr "L'email n'existe pas."
 
-#: .\accounts\models.py:37
+#: accounts/models.py:38
 msgid "No passphrase set"
-msgstr ""
+msgstr "Aucune phrase secrète définie"
 
-#: .\accounts\models.py:40 .\accounts\models.py:41
+#: accounts/models.py:41 accounts/models.py:42
 msgid "Passphrase"
-msgstr ""
+msgstr "Phrase secrète"
 
-#: .\accounts\models.py:62 .\accounts\models.py:88
+#: accounts/models.py:63 accounts/models.py:89
 msgid "No terms set"
-msgstr ""
+msgstr "Aucune condition définie"
 
-#: .\accounts\models.py:65
+#: accounts/models.py:66
 msgid "Terms of service"
-msgstr ""
+msgstr "Conditions d'utilisation"
 
-#: .\accounts\models.py:66
+#: accounts/models.py:67
 msgid "Term of service"
-msgstr ""
+msgstr "Condition d'utilisation"
 
-#: .\accounts\models.py:91
+#: accounts/models.py:92
 msgid "Privacy policies"
-msgstr ""
+msgstr "Politiques de confidentialité"
 
-#: .\accounts\models.py:92
+#: accounts/models.py:93
 msgid "Privacy policy"
-msgstr ""
+msgstr "Politique de confidentialité"
 
-#: .\config\settings.py:206
+#: config/settings.py:207
 msgid "Finnish"
-msgstr ""
+msgstr "Finlandais"
 
-#: .\config\settings.py:207
+#: config/settings.py:208
 msgid "English"
-msgstr ""
+msgstr "Anglais"
 
-#: .\config\settings.py:208
+#: config/settings.py:209
 msgid "Swedish"
-msgstr ""
+msgstr "Suédois"
 
-#: .\config\settings.py:209
+#: config/settings.py:210
 msgid "Spanish"
-msgstr ""
+msgstr "Espagnol"
 
-#: .\config\settings.py:210
+#: config/settings.py:211
 msgid "Catalan"
-msgstr ""
+msgstr "Catalan"
 
-#: .\config\settings.py:211
+#: config/settings.py:212
 msgid "German"
-msgstr ""
+msgstr "Allemand"
 
-#: .\config\settings.py:212
+#: config/settings.py:213
 msgid "French"
-msgstr ""
+msgstr "Français"
 
-#: .\config\settings.py:213
+#: config/settings.py:214
 msgid "Italian"
-msgstr ""
+msgstr "Italien"
 
-#: .\config\settings.py:214
+#: config/settings.py:215
 msgid "Chinese"
-msgstr ""
+msgstr "Chinois"
 
-#: .\ledger\forms.py:26 .\ledger\forms.py:73
+#: ledger/forms.py:26 ledger/forms.py:73
 msgid "Insufficient funds"
 msgstr "Fonds insuffisants"
 
-#: .\ledger\forms.py:38
+#: ledger/forms.py:38
 msgid "Enter the username of the user you want to transfer funds to."
 msgstr ""
-"Entrez le nom d'utilisateur de l'utilisateur à qui vous souhaitez transférer "
-"des fonds."
+"Entrez le nom d'utilisateur de l'utilisateur auquel vous souhaitez "
+"transférer des fonds."
 
-#: .\ledger\forms.py:39
+#: ledger/forms.py:39
 msgid "Amount to transfer"
 msgstr "Montant à transférer"
 
-#: .\ledger\forms.py:39
+#: ledger/forms.py:39
 msgid "Enter the amount of funds you want to transfer."
-msgstr "Entrez le montant de fonds que vous souhaitez transférer."
+msgstr "Entrez le montant des fonds que vous souhaitez transférer."
 
-#: .\ledger\forms.py:54
+#: ledger/forms.py:54
 msgid "User does not exist"
 msgstr "L'utilisateur n'existe pas"
 
-#: .\ledger\forms.py:63
+#: ledger/forms.py:63
 msgid "Amount must be greater than 0"
 msgstr "Le montant doit être supérieur à 0"
 
-#: .\ledger\forms.py:87
-#, fuzzy
-#| msgid "My Transactions"
+#: ledger/forms.py:87
 msgid "Transaction ID"
 msgstr "Identifiant de transaction"
 
-#: .\ledger\forms.py:107
-#, fuzzy
-#| msgid "My Transactions"
+#: ledger/forms.py:107
 msgid "Transaction not found"
-msgstr "Transaction non trouvée"
+msgstr "Transaction introuvable"
 
-#: .\ledger\models.py:12
+#: ledger/models.py:12
 msgid "Tag"
 msgstr "Tag"
 
-#: .\ledger\models.py:13
+#: ledger/models.py:13
 msgid "Tags"
 msgstr "Tags"
 
-#: .\ledger\models.py:60
-#, fuzzy
-#| msgid "My Transactions"
+#: ledger/models.py:60
 msgid "purchase_transactions"
-msgstr "Mes transactions"
+msgstr "transactions_achat"
 
-#: .\ledger\models.py:65
+#: ledger/models.py:65
 msgid "Purchased "
-msgstr ""
+msgstr "Acheté "
 
-#: .\ledger\models.py:69
+#: ledger/models.py:69
 msgid "Purchases"
-msgstr ""
+msgstr "Achats"
 
-#: .\ledger\models.py:89
-#, fuzzy
-#| msgid "Transfer"
+#: ledger/models.py:89
 msgid "Transfer to "
-msgstr "Transférer"
+msgstr "Transfert vers "
 
-#: .\ledger\models.py:93
-#, fuzzy
-#| msgid "Transfer"
+#: ledger/models.py:93
 msgid "Transfer sends"
-msgstr "Transférer"
+msgstr "Transfert envoyé"
 
-#: .\ledger\models.py:112
-#, fuzzy
-#| msgid "Transfer"
+#: ledger/models.py:112
 msgid "Transfer receives"
-msgstr "Transférer"
+msgstr "Transfert reçu"
 
-#: .\ledger\models.py:123
+#: ledger/models.py:123
 msgid "Ingress via MobilePay"
-msgstr ""
+msgstr "Ingress via MobilePay"
 
-#: .\ledger\models.py:127
+#: ledger/models.py:127
 msgid "Ingresses"
-msgstr ""
+msgstr "Ingresses"
 
-#: .\ledger\views.py:41
+#: ledger/views.py:41
 msgid "Successful purchase! Enjoy it! 🥳🍰"
-msgstr "Achat réussi ! Profitez-en ! 🥳🍰"
+msgstr "Achat réussi! Profitez-en! 🥳🍰"
 
-#: .\ledger\views.py:45 .\ledger\views.py:67 .\ledger\views.py:89
+#: ledger/views.py:45 ledger/views.py:67 ledger/views.py:89
 msgid "There was an error with your submission. Please try again. 🚧"
 msgstr ""
-"Une erreur s'est produite lors de votre soumission. Veuillez réessayer. 🚧"
+"Une erreur est survenue lors de votre soumission. Veuillez réessayer. 🚧"
 
-#: .\ledger\views.py:63
+#: ledger/views.py:63
 msgid "Transfer successful! 😔➡️😁"
-msgstr "Transfert réussi ! 😔➡️😁"
+msgstr "Transfert réussi! 😔➡️😁"
 
-#: .\templates\base.html:29 .\templates\ledger\buy.html:25
+#: templates/base.html:29 templates/ledger/buy.html:25
 msgid "Buy"
 msgstr "Acheter"
 
-#: .\templates\base.html:30 .\templates\ledger\transfer.html:7
+#: templates/base.html:30 templates/ledger/transfer.html:7
 msgid "Transfer"
-msgstr "Transférer"
+msgstr "Transfert"
 
-#: .\templates\base.html:31
+#: templates/base.html:31
 msgid "Add funds"
 msgstr "Ajouter des fonds"
 
-#: .\templates\base.html:32
+#: templates/base.html:32
 msgid "My Transactions"
 msgstr "Mes transactions"
 
-#: .\templates\base.html:33
+#: templates/base.html:33
 msgid "Profile"
 msgstr "Profil"
 
-#: .\templates\base.html:34
+#: templates/base.html:34
 msgid "Logout"
 msgstr "Déconnexion"
 
-#: .\templates\ledger\all_my_transactions.html:6
+#: templates/ledger/all_my_transactions.html:6
 msgid "No transactions found. You can buy for first product"
 msgstr "Aucune transaction trouvée. Vous pouvez acheter le premier produit"
 
-#: .\templates\ledger\all_my_transactions.html:12
+#: templates/ledger/all_my_transactions.html:12
 msgid "Concept"
 msgstr "Concept"
 
-#: .\templates\ledger\all_my_transactions.html:13
+#: templates/ledger/all_my_transactions.html:13
 msgid "Price"
 msgstr "Prix"
 
-#: .\templates\ledger\all_my_transactions.html:14
+#: templates/ledger/all_my_transactions.html:14
 msgid "Timestamp"
 msgstr "Horodatage"
 
-#: .\templates\ledger\buy.html:6 .\templates\ledger\buy.html:16
-#: .\templates\ledger\buy.html:33
+#: templates/ledger/buy.html:6 templates/ledger/buy.html:16
+#: templates/ledger/buy.html:33
 msgid "All"
-msgstr "Tout"
+msgstr "Tous"
 
-#: .\templates\ledger\buy.html:26
+#: templates/ledger/buy.html:10
+msgid "Search"
+msgstr "Recherche"
+
+#: templates/ledger/buy.html:26
 msgid "Are you sure you want to buy this product?"
 msgstr "Êtes-vous sûr de vouloir acheter ce produit ?"
 
-#: .\templates\ledger\funds.html:7
+#: templates/ledger/funds.html:7
 msgid "Check"
 msgstr "Vérifier"
 
-#: .\templates\ledger\transfer.html:8
+#: templates/ledger/transfer.html:8
 msgid "Are you sure you want to transfer this money?"
 msgstr "Êtes-vous sûr de vouloir transférer cet argent ?"
 
-#: .\templates\partials\modal.html:6
+#: templates/partials/modal.html:6
 msgid "No"
 msgstr "Non"
 
-#: .\templates\partials\modal.html:7
+#: templates/partials/modal.html:7
 msgid "Yes"
 msgstr "Oui"
 
-#: .\templates\registration\login.html:7
+#: templates/registration/login.html:7
 msgid "Your username and password didn't match. Please try again."
 msgstr ""
+"Votre nom d'utilisateur et votre mot de passe ne correspondent pas. Veuillez "
+"réessayer."
 
-#: .\templates\registration\login.html:14
+#: templates/registration/login.html:14
 msgid "login"
-msgstr ""
+msgstr "connexion"
 
-#: .\templates\registration\login.html:18
-#: .\templates\registration\signup.html:8
+#: templates/registration/login.html:18 templates/registration/signup.html:8
 msgid "Signup"
-msgstr ""
+msgstr "Inscription"
 
-#: .\templates\registration\login.html:19
-#, fuzzy
-#| msgid "Old password"
+#: templates/registration/login.html:19
 msgid "Lost password?"
-msgstr "Ancien mot de passe"
+msgstr "Mot de passe oublié ?"
 
-#: .\templates\registration\password_reset_complete.html:8
-#, fuzzy
-#| msgid "Passwords doesn't match."
+#: templates/registration/password_reset_complete.html:8
 msgid "Password Reset Complete"
-msgstr "Les mots de passe ne correspondent pas."
+msgstr "Réinitialisation du mot de passe terminée"
 
-#: .\templates\registration\password_reset_complete.html:9
+#: templates/registration/password_reset_complete.html:9
 msgid "Your password has been successfully reset."
-msgstr ""
+msgstr "Votre mot de passe a été réinitialisé avec succès."
 
-#: .\templates\registration\password_reset_complete.html:11
-#: .\templates\registration\password_reset_confirm.html:15
-#: .\templates\registration\password_reset_done.html:10
-#: .\templates\registration\profile_delete.html:13
+#: templates/registration/password_reset_complete.html:11
+#: templates/registration/password_reset_confirm.html:15
+#: templates/registration/password_reset_done.html:10
+#: templates/registration/profile_delete.html:13
 msgid "Go back"
-msgstr "Retour"
+msgstr "Revenir en arrière"
 
-#: .\templates\registration\password_reset_confirm.html:10
-#, fuzzy
-#| msgid "Change Password"
+#: templates/registration/password_reset_confirm.html:10
 msgid "Change password"
 msgstr "Changer le mot de passe"
 
-#: .\templates\registration\password_reset_confirm.html:14
+#: templates/registration/password_reset_confirm.html:14
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used.  Please request a new password reset."
 msgstr ""
+"Le lien de réinitialisation du mot de passe était invalide, peut-être parce "
+"qu'il a déjà été utilisé. Veuillez demander une nouvelle réinitialisation du "
+"mot de passe."
 
-#: .\templates\registration\password_reset_done.html:7
-#, fuzzy
-#| msgid "Passwords doesn't match."
+#: templates/registration/password_reset_done.html:7
 msgid "Password Reset Email Sent"
-msgstr "Les mots de passe ne correspondent pas."
+msgstr "Email de réinitialisation du mot de passe envoyé"
 
-#: .\templates\registration\password_reset_done.html:8
+#: templates/registration/password_reset_done.html:8
 msgid ""
 "We have sent you an email with instructions on how to reset your password. "
 "Please check your inbox and follow the link provided."
 msgstr ""
+"Nous vous avons envoyé un email avec des instructions pour réinitialiser "
+"votre mot de passe. Veuillez vérifier votre boîte de réception et suivre le "
+"lien fourni."
 
-#: .\templates\registration\password_reset_form.html:8
+#: templates/registration/password_reset_form.html:8
 msgid ""
 "Enter your email address below, and we'll email instructions for setting a "
 "new one."
 msgstr ""
+"Entrez votre adresse email ci-dessous, et nous vous enverrons des "
+"instructions pour en définir une nouvelle."
 
-#: .\templates\registration\profile.html:9
+#: templates/registration/profile.html:9
 msgid "Change Password"
 msgstr "Changer le mot de passe"
 
-#: .\templates\registration\profile.html:10
+#: templates/registration/profile.html:10 templates/registration/signup.html:9
+msgid "Terms of Service"
+msgstr "Conditions d'utilisation"
+
+#: templates/registration/profile.html:11 templates/registration/signup.html:10
+msgid "Privacy Policy"
+msgstr "Politique de confidentialité"
+
+#: templates/registration/profile.html:12
 msgid "Delete account"
 msgstr "Supprimer le compte"
 
-#: .\templates\registration\profile.html:11
-#: .\templates\registration\profile_change_password.html:10
+#: templates/registration/profile.html:13
+#: templates/registration/profile_change_password.html:10
 msgid "Save"
 msgstr "Enregistrer"
 
-#: .\templates\registration\profile_delete.html:11
+#: templates/registration/profile_delete.html:11
 msgid "Delete Account"
 msgstr "Supprimer le compte"
 
-#: .\templates\registration\profile_delete.html:12
+#: templates/registration/profile_delete.html:12
 msgid "Are you sure you about deleting the account? It cannot be undone!"
 msgstr ""
-"Êtes-vous sûr de vouloir supprimer le compte ? Cela ne peut pas être annulé !"
+"Êtes-vous sûr de vouloir supprimer le compte ? Cette action est "
+"irréversible !"

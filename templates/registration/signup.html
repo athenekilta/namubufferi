@@ -6,6 +6,8 @@
       {% csrf_token %}
       {% include 'partials/form.html' with form=form %}
       <button type="submit" class="btn btn-active btn-primary w-full mt-4">{% trans "Signup" %}</button>
+      <a href="{% url 'accounts:terms' %}" class="btn btn-active btn-secondary mt-4 w-full">{% trans "Terms of Service" %}</a>
+      <a href="{% url 'accounts:privacy' %}" class="btn btn-active btn-secondary mt-4 w-full">{% trans "Privacy Policy" %}</a>
     </form>
   </div>
 {% endblock %}

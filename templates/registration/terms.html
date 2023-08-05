@@ -2,6 +2,10 @@
   
 {% block subcontent %}
 
-<h1>{{ terms.title }}</h1>
-<p>{{ terms.content }}</p>
+<div class="card shadow-xl border-2 max-md:w-full max-md:max-w-xs md:w-96">
+  <div class="flex flex-col gap-4 m-4">
+    <h1 class="text-3xl font-bold">{{ terms.title }}</h1>
+    <div class="text-gray-700 text-base">{{ terms.content|safe }}</div>
+  </div>
+</div>
 {% endblock %}

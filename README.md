@@ -60,7 +60,8 @@ To access the website, go to http://localhost:8000/. And yes, that's it! You are
 If you want to populate the database you can do:
 
 ```bash
-python manage.py loaddata ledger/fixtures/initial_data.json
+python manage.py loaddata fixtures/ledger.json # products and tags
+python manage.py loaddata fixtures/accounts.json # terms of services
 ```	
 
 Or if it is an updated version of products.csv:

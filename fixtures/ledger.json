@@ -1,0 +1,1650 @@
+[
+{
+  "model": "ledger.producttag",
+  "pk": 1,
+  "fields": {
+    "name": "Healthy food",
+    "name_fi": "terveellinen ruoka",
+    "name_en": "Healthy food",
+    "name_sv": "hälsosam mat",
+    "name_es": "Comida saludable",
+    "name_ca": "menjar saludable",
+    "name_de": "gesundes Essen",
+    "name_fr": "la nourriture saine",
+    "name_it": "cibo salutare",
+    "name_zh_cn": "健康食品",
+    "slug": "healthy-food"
+  }
+},
+{
+  "model": "ledger.producttag",
+  "pk": 2,
+  "fields": {
+    "name": "fridge",
+    "name_fi": "jääkaappi",
+    "name_en": "fridge",
+    "name_sv": "kylskåp",
+    "name_es": "Nevera",
+    "name_ca": "Sa Nevera",
+    "name_de": "Kühlschrank",
+    "name_fr": "réfrigérateur",
+    "name_it": "frigo",
+    "name_zh_cn": "冰箱",
+    "slug": "fridge"
+  }
+},
+{
+  "model": "ledger.producttag",
+  "pk": 3,
+  "fields": {
+    "name": "Snacks",
+    "name_fi": "välipalat",
+    "name_en": "Snacks",
+    "name_sv": "snacks",
+    "name_es": "snacks",
+    "name_ca": "snacks",
+    "name_de": "snacks",
+    "name_fr": "collations",
+    "name_it": "spuntini",
+    "name_zh_cn": "零食",
+    "slug": "snacks"
+  }
+},
+{
+  "model": "ledger.producttag",
+  "pk": 4,
+  "fields": {
+    "name": "Sweets",
+    "name_fi": "makeisia",
+    "name_en": "Sweets",
+    "name_sv": "sötsaker",
+    "name_es": "Dulces",
+    "name_ca": "Dolços",
+    "name_de": "Süßigkeiten",
+    "name_fr": "bonbons",
+    "name_it": "dolci",
+    "name_zh_cn": "糖果",
+    "slug": "sweets"
+  }
+},
+{
+  "model": "ledger.producttag",
+  "pk": 5,
+  "fields": {
+    "name": "Drinks",
+    "name_fi": "juomia",
+    "name_en": "Drinks",
+    "name_sv": "drycker",
+    "name_es": "bebidas",
+    "name_ca": "begudes",
+    "name_de": "Getränke",
+    "name_fr": "boissons",
+    "name_it": "bevande",
+    "name_zh_cn": "饮料",
+    "slug": "drinks"
+  }
+},
+{
+  "model": "ledger.producttag",
+  "pk": 6,
+  "fields": {
+    "name": "Freezer",
+    "name_fi": "pakastin",
+    "name_en": "Freezer",
+    "name_sv": "frys",
+    "name_es": "Congelador",
+    "name_ca": "Congelador",
+    "name_de": "Gefrierschrank",
+    "name_fr": "congélateur",
+    "name_it": "congelatore",
+    "name_zh_cn": "冷冻机",
+    "slug": "freezer"
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 1,
+  "fields": {
+    "tag": 1,
+    "content_object": 1
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 2,
+  "fields": {
+    "tag": 2,
+    "content_object": 1
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 3,
+  "fields": {
+    "tag": 1,
+    "content_object": 2
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 4,
+  "fields": {
+    "tag": 2,
+    "content_object": 2
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 5,
+  "fields": {
+    "tag": 1,
+    "content_object": 3
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 6,
+  "fields": {
+    "tag": 2,
+    "content_object": 3
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 7,
+  "fields": {
+    "tag": 1,
+    "content_object": 4
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 8,
+  "fields": {
+    "tag": 2,
+    "content_object": 4
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 9,
+  "fields": {
+    "tag": 1,
+    "content_object": 5
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 10,
+  "fields": {
+    "tag": 2,
+    "content_object": 5
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 11,
+  "fields": {
+    "tag": 1,
+    "content_object": 6
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 12,
+  "fields": {
+    "tag": 2,
+    "content_object": 6
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 13,
+  "fields": {
+    "tag": 1,
+    "content_object": 7
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 14,
+  "fields": {
+    "tag": 2,
+    "content_object": 7
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 15,
+  "fields": {
+    "tag": 1,
+    "content_object": 8
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 16,
+  "fields": {
+    "tag": 2,
+    "content_object": 8
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 17,
+  "fields": {
+    "tag": 1,
+    "content_object": 9
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 18,
+  "fields": {
+    "tag": 2,
+    "content_object": 9
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 19,
+  "fields": {
+    "tag": 1,
+    "content_object": 10
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 20,
+  "fields": {
+    "tag": 2,
+    "content_object": 10
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 21,
+  "fields": {
+    "tag": 1,
+    "content_object": 11
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 22,
+  "fields": {
+    "tag": 2,
+    "content_object": 11
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 23,
+  "fields": {
+    "tag": 1,
+    "content_object": 12
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 24,
+  "fields": {
+    "tag": 2,
+    "content_object": 12
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 25,
+  "fields": {
+    "tag": 3,
+    "content_object": 13
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 26,
+  "fields": {
+    "tag": 3,
+    "content_object": 14
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 27,
+  "fields": {
+    "tag": 3,
+    "content_object": 15
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 28,
+  "fields": {
+    "tag": 3,
+    "content_object": 16
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 29,
+  "fields": {
+    "tag": 3,
+    "content_object": 17
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 30,
+  "fields": {
+    "tag": 3,
+    "content_object": 18
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 31,
+  "fields": {
+    "tag": 3,
+    "content_object": 19
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 32,
+  "fields": {
+    "tag": 3,
+    "content_object": 20
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 33,
+  "fields": {
+    "tag": 3,
+    "content_object": 21
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 34,
+  "fields": {
+    "tag": 3,
+    "content_object": 22
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 35,
+  "fields": {
+    "tag": 3,
+    "content_object": 23
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 36,
+  "fields": {
+    "tag": 3,
+    "content_object": 24
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 37,
+  "fields": {
+    "tag": 3,
+    "content_object": 25
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 38,
+  "fields": {
+    "tag": 3,
+    "content_object": 26
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 39,
+  "fields": {
+    "tag": 3,
+    "content_object": 27
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 40,
+  "fields": {
+    "tag": 3,
+    "content_object": 28
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 41,
+  "fields": {
+    "tag": 4,
+    "content_object": 29
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 42,
+  "fields": {
+    "tag": 4,
+    "content_object": 30
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 43,
+  "fields": {
+    "tag": 4,
+    "content_object": 31
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 44,
+  "fields": {
+    "tag": 4,
+    "content_object": 32
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 45,
+  "fields": {
+    "tag": 4,
+    "content_object": 33
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 46,
+  "fields": {
+    "tag": 4,
+    "content_object": 34
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 47,
+  "fields": {
+    "tag": 4,
+    "content_object": 35
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 48,
+  "fields": {
+    "tag": 4,
+    "content_object": 36
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 49,
+  "fields": {
+    "tag": 4,
+    "content_object": 37
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 50,
+  "fields": {
+    "tag": 4,
+    "content_object": 38
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 51,
+  "fields": {
+    "tag": 4,
+    "content_object": 39
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 52,
+  "fields": {
+    "tag": 4,
+    "content_object": 40
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 53,
+  "fields": {
+    "tag": 5,
+    "content_object": 41
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 54,
+  "fields": {
+    "tag": 5,
+    "content_object": 42
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 55,
+  "fields": {
+    "tag": 5,
+    "content_object": 43
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 56,
+  "fields": {
+    "tag": 5,
+    "content_object": 44
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 57,
+  "fields": {
+    "tag": 5,
+    "content_object": 45
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 58,
+  "fields": {
+    "tag": 5,
+    "content_object": 46
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 59,
+  "fields": {
+    "tag": 5,
+    "content_object": 47
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 60,
+  "fields": {
+    "tag": 5,
+    "content_object": 48
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 61,
+  "fields": {
+    "tag": 6,
+    "content_object": 49
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 62,
+  "fields": {
+    "tag": 6,
+    "content_object": 50
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 63,
+  "fields": {
+    "tag": 6,
+    "content_object": 51
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 64,
+  "fields": {
+    "tag": 6,
+    "content_object": 52
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 65,
+  "fields": {
+    "tag": 6,
+    "content_object": 53
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 66,
+  "fields": {
+    "tag": 6,
+    "content_object": 54
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 67,
+  "fields": {
+    "tag": 6,
+    "content_object": 55
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 68,
+  "fields": {
+    "tag": 6,
+    "content_object": 56
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 69,
+  "fields": {
+    "tag": 6,
+    "content_object": 57
+  }
+},
+{
+  "model": "ledger.taggedproducts",
+  "pk": 70,
+  "fields": {
+    "tag": 6,
+    "content_object": 58
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 1,
+  "fields": {
+    "name": "Fruit",
+    "name_fi": "Hedelmät",
+    "name_en": "Fruit",
+    "name_sv": "Frukt",
+    "name_es": "Fruta",
+    "name_ca": "Fruita",
+    "name_de": "Fruit",
+    "name_fr": "Fruit",
+    "name_it": "Frutta",
+    "name_zh_cn": "水果",
+    "price": "0.30"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 2,
+  "fields": {
+    "name": "Skyr",
+    "name_fi": "Skyr",
+    "name_en": "Skyr",
+    "name_sv": "Skyr",
+    "name_es": "Skyr",
+    "name_ca": "Skyr",
+    "name_de": "Skyr",
+    "name_fr": "Skyr",
+    "name_it": "Skyr",
+    "name_zh_cn": "斯凯尔",
+    "price": "1.00"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 3,
+  "fields": {
+    "name": "Greek yoghurt",
+    "name_fi": "Kreikkalainen jogurtti",
+    "name_en": "Greek yoghurt",
+    "name_sv": "Grekisk yoghurt",
+    "name_es": "Yogur griego",
+    "name_ca": "Iogurt grec",
+    "name_de": "Griechischer Joghurt",
+    "name_fr": "Yahourt à la grecque",
+    "name_it": "Yogurt greco",
+    "name_zh_cn": "希腊酸奶",
+    "price": "1.00"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 4,
+  "fields": {
+    "name": "Yosa",
+    "name_fi": "Yosa",
+    "name_en": "Yosa",
+    "name_sv": "Yosa",
+    "name_es": "Yosa",
+    "name_ca": "Yosa",
+    "name_de": "Yosa",
+    "name_fr": "YOSA",
+    "name_it": "Yosa",
+    "name_zh_cn": "约萨",
+    "price": "0.80"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 5,
+  "fields": {
+    "name": "Yosa Sport",
+    "name_fi": "Yosa Sport",
+    "name_en": "Yosa Sport",
+    "name_sv": "Yosa Sport",
+    "name_es": "Yosa Sport",
+    "name_ca": "Yosa Sport",
+    "name_de": "Yosa Sport",
+    "name_fr": "Yosa Sport",
+    "name_it": "Yosa Sport",
+    "name_zh_cn": "约萨运动",
+    "price": "1.40"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 6,
+  "fields": {
+    "name": "Alpro soya yoghurt",
+    "name_fi": "Alpro-soijajogurtti",
+    "name_en": "Alpro soya yoghurt",
+    "name_sv": "Alpro sojayoghurt",
+    "name_es": "Yogur de soja Alpro",
+    "name_ca": "Iogurt de soja Alpro",
+    "name_de": "Alpro Soja Joghurt",
+    "name_fr": "Yaourt au soja Alpro",
+    "name_it": "Yogurt di soia Alpro",
+    "name_zh_cn": "Alpro 大豆酸奶",
+    "price": "0.60"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 7,
+  "fields": {
+    "name": "Alpro greek style",
+    "name_fi": "Alpron kreikkalainen tyyli",
+    "name_en": "Alpro greek style",
+    "name_sv": "Alpro grekisk stil",
+    "name_es": "Estilo griego Alpro",
+    "name_ca": "Estil grec alpro",
+    "name_de": "Alpro griechischer Stil",
+    "name_fr": "Style grec Alpro",
+    "name_it": "Alpro stile greco",
+    "name_zh_cn": "Alpro希腊风格",
+    "price": "0.90"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 8,
+  "fields": {
+    "name": "Alpro chocolate pudding",
+    "name_fi": "Alpro suklaavanukas",
+    "name_en": "Alpro chocolate pudding",
+    "name_sv": "Alpro chokladpudding",
+    "name_es": "Pudín de chocolate alpro",
+    "name_ca": "Púding de xocolata alpro",
+    "name_de": "Alpro Schokoladenpudding",
+    "name_fr": "Pudding au chocolat Alpro",
+    "name_it": "Budino al cioccolato Alpro",
+    "name_zh_cn": "Alpro 巧克力布丁",
+    "price": "0.70"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 9,
+  "fields": {
+    "name": "A+ musli yoghurt",
+    "name_fi": "A+ muslijogurtti",
+    "name_en": "A+ musli yoghurt",
+    "name_sv": "A+ musliyoghurt",
+    "name_es": "Yogur A+ musli",
+    "name_ca": "Iogurt A+ musli",
+    "name_de": "A+ Musli Joghurt",
+    "name_fr": "Yaourt A+ musli",
+    "name_it": "A+ musli yogurt",
+    "name_zh_cn": "A+ 麦片酸奶",
+    "price": "1.30"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 10,
+  "fields": {
+    "name": "Propud",
+    "name_fi": "Propud",
+    "name_en": "Propud",
+    "name_sv": "Propud",
+    "name_es": "Propud",
+    "name_ca": "Propud",
+    "name_de": "Propud",
+    "name_fr": "Propud",
+    "name_it": "Propud",
+    "name_zh_cn": "Propud",
+    "price": "2.00"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 11,
+  "fields": {
+    "name": "Cottage cheese",
+    "name_fi": "Raejuusto",
+    "name_en": "Cottage cheese",
+    "name_sv": "Keso",
+    "name_es": "Requesón",
+    "name_ca": "Formatge cottage",
+    "name_de": "Hüttenkäse",
+    "name_fr": "Du fromage blanc",
+    "name_it": "Ricotta",
+    "name_zh_cn": "干酪",
+    "price": "1.80"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 12,
+  "fields": {
+    "name": "Vihis",
+    "name_fi": "Vihis",
+    "name_en": "Vihis",
+    "name_sv": "Vihis",
+    "name_es": "Vihis",
+    "name_ca": "Vihis",
+    "name_de": "Vihis",
+    "name_fr": "Vihis",
+    "name_it": "Vihis",
+    "name_zh_cn": "维希斯",
+    "price": "1.00"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 13,
+  "fields": {
+    "name": "Elovena bar",
+    "name_fi": "Elovena-baari",
+    "name_en": "Elovena bar",
+    "name_sv": "Elovena bar",
+    "name_es": "Elovena bar",
+    "name_ca": "Elovena bar",
+    "name_de": "Elovena Bar",
+    "name_fr": "Elovena bar",
+    "name_it": "Elovena bar",
+    "name_zh_cn": "埃洛维娜酒吧",
+    "price": "0.30"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 14,
+  "fields": {
+    "name": "Alpen or Fitness bar",
+    "name_fi": "Alpen- tai Fitness-baari",
+    "name_en": "Alpen or Fitness bar",
+    "name_sv": "Alpen- eller fitnessbar",
+    "name_es": "Alpen o Fitness bar",
+    "name_ca": "Alpen o Fitness bar",
+    "name_de": "Alpen- oder Fitnessbar",
+    "name_fr": "Bar Alpen ou Fitness",
+    "name_it": "Alpen o Fitness bar",
+    "name_zh_cn": "阿尔卑斯山或健身酒吧",
+    "price": "0.50"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 15,
+  "fields": {
+    "name": "Canned pineapple",
+    "name_fi": "Ananassäilykkeet",
+    "name_en": "Canned pineapple",
+    "name_sv": "Konserverad ananas",
+    "name_es": "Piña enlatada",
+    "name_ca": "Pinya enllaunada",
+    "name_de": "Ananaskonserven",
+    "name_fr": "Les ananas en boîte",
+    "name_it": "Ananas in scatola",
+    "name_zh_cn": "菠萝罐头",
+    "price": "0.60"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 16,
+  "fields": {
+    "name": "Noodles",
+    "name_fi": "Nuudelit",
+    "name_en": "Noodles",
+    "name_sv": "Nudlar",
+    "name_es": "los fideos",
+    "name_ca": "Fideus",
+    "name_de": "Nudeln",
+    "name_fr": "Nouilles",
+    "name_it": "Noodle",
+    "name_zh_cn": "面条",
+    "price": "0.50"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 17,
+  "fields": {
+    "name": "Noodles in a cup",
+    "name_fi": "Nuudelit kupissa",
+    "name_en": "Noodles in a cup",
+    "name_sv": "Nudlar i en kopp",
+    "name_es": "Fideos en una taza",
+    "name_ca": "Fideus en una tassa",
+    "name_de": "Nudeln in einer Tasse",
+    "name_fr": "Nouilles dans une tasse",
+    "name_it": "Tagliatelle in tazza",
+    "name_zh_cn": "杯子里的面条",
+    "price": "1.50"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 18,
+  "fields": {
+    "name": "Canned tuna",
+    "name_fi": "Tonnikalasäilykkeet",
+    "name_en": "Canned tuna",
+    "name_sv": "Konserverad tonfisk",
+    "name_es": "Atún en conserva",
+    "name_ca": "Conserves de tonyina",
+    "name_de": "Thunfischkonserven",
+    "name_fr": "Thon en conserve",
+    "name_it": "Tonno in conserva",
+    "name_zh_cn": "金枪鱼罐头",
+    "price": "1.30"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 19,
+  "fields": {
+    "name": "Elovena porridge",
+    "name_fi": "Elovena-puuro",
+    "name_en": "Elovena porridge",
+    "name_sv": "Elovena-gröt",
+    "name_es": "Gachas de Elovena",
+    "name_ca": "Avena Elovena",
+    "name_de": "Elovena-Brei",
+    "name_fr": "Bouillie Elovena",
+    "name_it": "Porridge Elovena",
+    "name_zh_cn": "埃洛维纳粥",
+    "price": "0.40"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 20,
+  "fields": {
+    "name": "Pringles can",
+    "name_fi": "Pringles voi",
+    "name_en": "Pringles can",
+    "name_sv": "Pringles kan",
+    "name_es": "Lata de Pringles",
+    "name_ca": "Pringles pot",
+    "name_de": "Pringles können",
+    "name_fr": "Pringles peut",
+    "name_it": "Le Pringles possono",
+    "name_zh_cn": "品客罐头",
+    "price": "1.00"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 21,
+  "fields": {
+    "name": "Micro popcorn",
+    "name_fi": "Mikropopcornit",
+    "name_en": "Micro popcorn",
+    "name_sv": "Mikropopcorn",
+    "name_es": "Micro palomitas de maíz",
+    "name_ca": "Micro-palomites",
+    "name_de": "Mikro-Popcorn",
+    "name_fr": "Micro pop-corn",
+    "name_it": "Micro popcorn",
+    "name_zh_cn": "微型爆米花",
+    "price": "0.40"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 22,
+  "fields": {
+    "name": "Piltti baby food",
+    "name_fi": "Piltti-vauvanruoka",
+    "name_en": "Piltti baby food",
+    "name_sv": "Piltti barnmat",
+    "name_es": "Piltti Baby Food",
+    "name_ca": "Menjar per a nadons Piltti",
+    "name_de": "Piltti Babynahrung",
+    "name_fr": "Aliments pour bébé Piltti",
+    "name_it": "Alimenti per bambini Piltti",
+    "name_zh_cn": "皮尔蒂婴儿食品",
+    "price": "0.40"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 23,
+  "fields": {
+    "name": "White chocolate cashew nuts",
+    "name_fi": "Valkoisen suklaan cashewpähkinät",
+    "name_en": "White chocolate cashew nuts",
+    "name_sv": "Cashewnötter i vit choklad",
+    "name_es": "Nueces de anacardo de chocolate blanco",
+    "name_ca": "Cacauets de xocolata blanca",
+    "name_de": "Weiße Schokoladen-Cashewnüsse",
+    "name_fr": "Noix de cajou au chocolat blanc",
+    "name_it": "Anacardi al cioccolato bianco",
+    "name_zh_cn": "白巧克力腰果",
+    "price": "2.30"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 24,
+  "fields": {
+    "name": "Cashews",
+    "name_fi": "Munuaispuu",
+    "name_en": "Cashews",
+    "name_sv": "Cashew",
+    "name_es": "Anacardos",
+    "name_ca": "Anacards",
+    "name_de": "Cashewkerne",
+    "name_fr": "Anacarde",
+    "name_it": "Anacardi",
+    "name_zh_cn": "腰果",
+    "price": "2.00"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 25,
+  "fields": {
+    "name": "Nut and fruit/berry mix",
+    "name_fi": "Pähkinä-hedelmä-marjasekoitus",
+    "name_en": "Nut and fruit/berry mix",
+    "name_sv": "Blandning av nötter och frukt/bär",
+    "name_es": "Mezcla de frutos secos y frutas/bayas",
+    "name_ca": "Barreja de fruits secs i fruites/baies",
+    "name_de": "Nuss-Frucht-Beeren-Mix",
+    "name_fr": "Mélange noix et fruits/baies",
+    "name_it": "Mix frutta A guscio E frutta/bacche",
+    "name_zh_cn": "坚果和水果/浆果混合物",
+    "price": "1.80"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 26,
+  "fields": {
+    "name": "Tupla protein bar",
+    "name_fi": "Tupla-proteiinipatukka",
+    "name_en": "Tupla protein bar",
+    "name_sv": "Tupla proteinbar",
+    "name_es": "Barrita proteica Tupla",
+    "name_ca": "Barra de proteïnes Tupla",
+    "name_de": "Tupla Proteinriegel",
+    "name_fr": "Barre protéinée Tupla",
+    "name_it": "Barretta proteica Tupla",
+    "name_zh_cn": "图普拉蛋白棒",
+    "price": "2.00"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 27,
+  "fields": {
+    "name": "Lämmin kuppi cup-a-soup",
+    "name_fi": "Lämmin kuppi cup-a-soup",
+    "name_en": "Lämmin kuppi cup-a-soup",
+    "name_sv": "Lämmin kuppi cup-a-soup",
+    "name_es": "Lämmin kuppi cup-a-soup",
+    "name_ca": "Lämmin kuppi cup-a-soup",
+    "name_de": "Lämmin kuppi cup-a-soup",
+    "name_fr": "Lämmin kuppi cup-a-soup",
+    "name_it": "Lämmin kuppi cup-a-soup",
+    "name_zh_cn": "一杯温热的汤",
+    "price": "0.60"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 28,
+  "fields": {
+    "name": "Snack Pot",
+    "name_fi": "Välipalapannu",
+    "name_en": "Snack Pot",
+    "name_sv": "Snackkruka",
+    "name_es": "Snack Pot",
+    "name_ca": "Pot de snacks",
+    "name_de": "Snack-Topf",
+    "name_fr": "Snack Pot",
+    "name_it": "Pentola per spuntini",
+    "name_zh_cn": "小吃锅",
+    "price": "1.40"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 29,
+  "fields": {
+    "name": "Tupla",
+    "name_fi": "Tupla",
+    "name_en": "Tupla",
+    "name_sv": "Tupla",
+    "name_es": "Tupla",
+    "name_ca": "Tupla",
+    "name_de": "Tupla",
+    "name_fr": "Tupla",
+    "name_it": "Tupla",
+    "name_zh_cn": "图普拉",
+    "price": "0.60"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 30,
+  "fields": {
+    "name": "Mars, Twix, Snickers & Daim",
+    "name_fi": "Mars, Twix, Snickers ja Daim",
+    "name_en": "Mars, Twix, Snickers & Daim",
+    "name_sv": "Mars, Twix, Snickers och Daim",
+    "name_es": "Mars, Twix, Snickers y Daim",
+    "name_ca": "Mars, Twix, Snickers i Daim",
+    "name_de": "Mars, Twix, Snickers & Daim",
+    "name_fr": "Mars, Twix, Snickers et Daim",
+    "name_it": "Marte, Twix, Snickers e Daim",
+    "name_zh_cn": "Mars、Twix、士力架和 Daim",
+    "price": "0.50"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 31,
+  "fields": {
+    "name": "Pätkis, Suffeli, Dacapo, Ahaa, Jim, Kinder maxi, Milkyway",
+    "name_fi": "Pätkis, Suffeli, Dacapo, Ahaa, Jim, Kinder maxi, Milkyway",
+    "name_en": "Pätkis, Suffeli, Dacapo, Ahaa, Jim, Kinder maxi, Milkyway",
+    "name_sv": "Pätkis, Suffeli, Dacapo, Ahaa, Jim, Kinder maxi, Milkyway",
+    "name_es": "Pätkis, Suffeli, Dacapo, Ahaa, Jim, Kinder maxi, Milkyway",
+    "name_ca": "Pätkis, Suffeli, Dacapo, Ahaa, Jim, Kinder maxi, Milkyway",
+    "name_de": "Pätkis, Suffeli, Dacapo, Ahaa, Jim, Kinder maxi, Milchstraße",
+    "name_fr": "Pätkis, Suffeli, Dacapo, Ahaa, Jim, Kinder maxi, Milkyway",
+    "name_it": "Pätkis, Suffeli, Dacapo, Ahaa, Jim, Kinder maxi, Milkyway",
+    "name_zh_cn": "Pätkis, Suffeli, Dacapo, Ahaa, Jim, Kinder maxi, Milkyway",
+    "price": "0.40"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 32,
+  "fields": {
+    "name": "Sugar cookie, Moomin cookie",
+    "name_fi": "Sokerikeksi, Muumikeksi",
+    "name_en": "Sugar cookie, Moomin cookie",
+    "name_sv": "Sockerkaka, Muminkaka",
+    "name_es": "Galleta de azúcar, galleta Moomin",
+    "name_ca": "Galeta de sucre, galeta Moomin",
+    "name_de": "Zuckerkeks, Muminskeks",
+    "name_fr": "Biscuit au sucre, biscuit Moomin",
+    "name_it": "Sugar cookie, Moomin cookie",
+    "name_zh_cn": "糖饼干、姆明饼干",
+    "price": "0.30"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 33,
+  "fields": {
+    "name": "Kismet",
+    "name_fi": "Kismet",
+    "name_en": "Kismet",
+    "name_sv": "Kismet",
+    "name_es": "Kismet",
+    "name_ca": "Kismet",
+    "name_de": "Kismet",
+    "name_fr": "Kismet",
+    "name_it": "Kismet",
+    "name_zh_cn": "天运",
+    "price": "0.60"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 34,
+  "fields": {
+    "name": "Kinder Bueno",
+    "name_fi": "Kinder Bueno",
+    "name_en": "Kinder Bueno",
+    "name_sv": "Kinder Bueno",
+    "name_es": "Kinder Bueno",
+    "name_ca": "Kinder Bueno",
+    "name_de": "Kinder Bueno",
+    "name_fr": "Kinder Bueno (notre pièce n°X)",
+    "name_it": "Kinder bueno",
+    "name_zh_cn": "金德布埃诺",
+    "price": "0.90"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 35,
+  "fields": {
+    "name": "Fazer bar",
+    "name_fi": "Fazerin tanko",
+    "name_en": "Fazer bar",
+    "name_sv": "Fazer bar",
+    "name_es": "Fazer bar",
+    "name_ca": "Bar Fazer",
+    "name_de": "Fazer Bar",
+    "name_fr": "Fazer bar",
+    "name_it": "Fazer bar",
+    "name_zh_cn": "法泽酒吧",
+    "price": "0.60"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 36,
+  "fields": {
+    "name": "Fazer bar medium",
+    "name_fi": "Fazer Bar Medium",
+    "name_en": "Fazer bar medium",
+    "name_sv": "Fazer bar medium",
+    "name_es": "Barra Fazer mediana",
+    "name_ca": "Barra Fazer mitjana",
+    "name_de": "Fazer bar mittel",
+    "name_fr": "Barre Fazer moyenne",
+    "name_it": "Fazer bar medium",
+    "name_zh_cn": "法泽酒吧中号",
+    "price": "1.80"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 37,
+  "fields": {
+    "name": "Fazer bar large",
+    "name_fi": "Fazerin tanko, suuri",
+    "name_en": "Fazer bar large",
+    "name_sv": "Fazer bar stor",
+    "name_es": "Barra Fazer grande",
+    "name_ca": "Barra Fazer gran",
+    "name_de": "Fazer Bar groß",
+    "name_fr": "Fazer bar grand format",
+    "name_it": "Fazer bar Large",
+    "name_zh_cn": "法泽酒吧大号",
+    "price": "3.00"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 38,
+  "fields": {
+    "name": "Fazer small chocolate",
+    "name_fi": "Fazer pieni suklaa",
+    "name_en": "Fazer small chocolate",
+    "name_sv": "Fazer liten choklad",
+    "name_es": "Chocolate pequeño Fazer",
+    "name_ca": "Xocolata petita Fazer",
+    "name_de": "Fazer kleine Schokolade",
+    "name_fr": "Fazer petit chocolat",
+    "name_it": "Cioccolato piccolo Fazer",
+    "name_zh_cn": "Fazer 小巧克力",
+    "price": "0.10"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 39,
+  "fields": {
+    "name": "Pepe liquorice",
+    "name_fi": "Pepe-lakritsi",
+    "name_en": "Pepe liquorice",
+    "name_sv": "Peplalakrits",
+    "name_es": "Regaliz pepe",
+    "name_ca": "Pepe regalèssia",
+    "name_de": "Pepé-Lakritz",
+    "name_fr": "Réglisse au piment",
+    "name_it": "Liquirizia di pepe",
+    "name_zh_cn": "佩佩甘草",
+    "price": "0.40"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 40,
+  "fields": {
+    "name": "Kismet mini",
+    "name_fi": "Kismet mini",
+    "name_en": "Kismet mini",
+    "name_sv": "Kismet mini",
+    "name_es": "Kismet mini",
+    "name_ca": "Kismet mini",
+    "name_de": "Kismet mini",
+    "name_fr": "Kismet mini",
+    "name_it": "Kismet mini",
+    "name_zh_cn": "天运迷你",
+    "price": "0.10"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 41,
+  "fields": {
+    "name": "Soda",
+    "name_fi": "Virvoitusjuoma",
+    "name_en": "Soda",
+    "name_sv": "Läsk",
+    "name_es": "Refresco",
+    "name_ca": "Soda",
+    "name_de": "Limonade",
+    "name_fr": "Soda",
+    "name_it": "Soda",
+    "name_zh_cn": "苏打水",
+    "price": "1.00"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 42,
+  "fields": {
+    "name": "Novelle, bottle, 0,5l",
+    "name_fi": "Novelle, pullo, 0,5l",
+    "name_en": "Novelle, bottle, 0,5l",
+    "name_sv": "Novelle, flaska, 0,5 l",
+    "name_es": "Novelle, botella, 0,5 l",
+    "name_ca": "Novelle, ampolla, 0,5l",
+    "name_de": "Novelle, Flasche, 0,5l",
+    "name_fr": "Novelle, bouteille, 0,5l",
+    "name_it": "Novelle, bottiglia, 0,5 l",
+    "name_zh_cn": "Novelle，瓶装，0.5 升",
+    "price": "2.00"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 43,
+  "fields": {
+    "name": "Sparkling water can",
+    "name_fi": "Kivennäisvesitölkki",
+    "name_en": "Sparkling water can",
+    "name_sv": "Kolsyrat vattenkanna",
+    "name_es": "Agua con gas",
+    "name_ca": "Aigua amb gas",
+    "name_de": "Mineralwasser",
+    "name_fr": "Eau pétillante",
+    "name_it": "Acqua frizzante",
+    "name_zh_cn": "苏打水可以",
+    "price": "1.00"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 44,
+  "fields": {
+    "name": "Alpro Soya chocolate drink",
+    "name_fi": "Alpro-soijasuklaajuoma",
+    "name_en": "Alpro Soya chocolate drink",
+    "name_sv": "Alpro chokladdryck med soja",
+    "name_es": "Bebida de chocolate Alpro Soya",
+    "name_ca": "Beguda de xocolata amb soja Alpro",
+    "name_de": "Alpro Sojaschokoladengetränk",
+    "name_fr": "Boisson chocolatée Alpro Soya",
+    "name_it": "Bevanda al cioccolato di soia Alpro",
+    "name_zh_cn": "Alpro 大豆巧克力饮料",
+    "price": "1.00"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 45,
+  "fields": {
+    "name": "Oatly chocolate drink",
+    "name_fi": "Kaurainen suklaajuoma",
+    "name_en": "Oatly chocolate drink",
+    "name_sv": "Chokladdryck med havre",
+    "name_es": "Bebida chocolate de avena",
+    "name_ca": "Beguda de chocolata d'avena",
+    "name_de": "Haferflocken-Schokoladen-Getränk",
+    "name_fr": "Boisson chocolatée à l'avoine",
+    "name_it": "Bevanda al cioccolato all'avena",
+    "name_zh_cn": "燕麦巧克力饮料",
+    "price": "1.00"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 46,
+  "fields": {
+    "name": "Froosh smoothie",
+    "name_fi": "Froosh smoothie",
+    "name_en": "Froosh smoothie",
+    "name_sv": "Froosh smoothie",
+    "name_es": "Smoothie Froosh",
+    "name_ca": "Smoothie Froosh",
+    "name_de": "Froosh-Smoothie",
+    "name_fr": "Froosh-Smoothie",
+    "name_it": "Froosh-Smoothie",
+    "name_zh_cn": "Froosh 冰沙",
+    "price": "2.20"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 47,
+  "fields": {
+    "name": "Marli smoothie",
+    "name_fi": "Marli smoothie",
+    "name_en": "Marli smoothie",
+    "name_sv": "Marli smoothie",
+    "name_es": "Smoothie Marlie",
+    "name_ca": "Smoothie Marli",
+    "name_de": "Marli smoothie",
+    "name_fr": "Marli smoothie",
+    "name_it": "Marli smoothie",
+    "name_zh_cn": "玛利冰沙",
+    "price": "1.50"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 48,
+  "fields": {
+    "name": "Frezza",
+    "name_fi": "Frezza",
+    "name_en": "Frezza",
+    "name_sv": "Frezza",
+    "name_es": "Frezza",
+    "name_ca": "Frezza",
+    "name_de": "Frezza",
+    "name_fr": "Frezza",
+    "name_it": "Frezza",
+    "name_zh_cn": "Frezza",
+    "price": "2.00"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 49,
+  "fields": {
+    "name": "Falafel Marrakesh",
+    "name_fi": "Falafel Marrakesch",
+    "name_en": "Falafel Marrakesh",
+    "name_sv": "Falafel Marrakesch",
+    "name_es": "Falafel Marrakesch",
+    "name_ca": "Falafel Marrakesch",
+    "name_de": "Falafel Marrakesch",
+    "name_fr": "Falafel Marrakesch",
+    "name_it": "Falafel Marrakesch",
+    "name_zh_cn": "马拉喀什法拉三明治",
+    "price": "3.50"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 50,
+  "fields": {
+    "name": "Thai Cube",
+    "name_fi": "Thaimaalainen kuutio",
+    "name_en": "Thai Cube",
+    "name_sv": "Thailändsk kub",
+    "name_es": "Cubo Thai",
+    "name_ca": "Cub Thai",
+    "name_de": "Thai-Würfel",
+    "name_fr": "Cube thaïlandais",
+    "name_it": "Cubo tailandese",
+    "name_zh_cn": "泰国方块",
+    "price": "3.50"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 51,
+  "fields": {
+    "name": "Billys pizza",
+    "name_fi": "Billys pizza",
+    "name_en": "Billys pizza",
+    "name_sv": "Billys pizza",
+    "name_es": "Pizza Billys",
+    "name_ca": "Pizza Billys",
+    "name_de": "Billys pizza",
+    "name_fr": "Billys pizza",
+    "name_it": "Billys pizza",
+    "name_zh_cn": "比利披萨",
+    "price": "1.70"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 52,
+  "fields": {
+    "name": "Insular pizza",
+    "name_fi": "Saaristolaispizza",
+    "name_en": "Insular pizza",
+    "name_sv": "Pizza från öar",
+    "name_es": "Pizza Insular",
+    "name_ca": "Pizza Insular",
+    "name_de": "Inselpizza",
+    "name_fr": "Pizza insulaire",
+    "name_it": "Pizza insulare",
+    "name_zh_cn": "岛屿披萨",
+    "price": "1.00"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 53,
+  "fields": {
+    "name": "Insular veggie pizza",
+    "name_fi": "Saaristolaismainen kasvispizza",
+    "name_en": "Insular veggie pizza",
+    "name_sv": "Insulär vegetarisk pizza",
+    "name_es": "Pizza Insular vegetariana",
+    "name_ca": "Pizza insular vegetariana",
+    "name_de": "Insulaner-Gemüse-Pizza",
+    "name_fr": "Pizza végétarienne insulaire",
+    "name_it": "Pizza vegetariana insulare",
+    "name_zh_cn": "岛外素食披萨",
+    "price": "1.20"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 54,
+  "fields": {
+    "name": "Ingman cone",
+    "name_fi": "Ingmanin kartio",
+    "name_en": "Ingman cone",
+    "name_sv": "Ingman kon",
+    "name_es": "Cono Ingman",
+    "name_ca": "Con Ingman",
+    "name_de": "Ingman-Kegel",
+    "name_fr": "Cône d'Ingman",
+    "name_it": "Cono Ingman",
+    "name_zh_cn": "英格曼锥体",
+    "price": "0.60"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 55,
+  "fields": {
+    "name": "Magnum mini / Pirulo",
+    "name_fi": "Magnum mini / Pirulo",
+    "name_en": "Magnum mini / Pirulo",
+    "name_sv": "Magnum mini / Pirulo",
+    "name_es": "Magnum mini / Pirulo",
+    "name_ca": "Magnum mini / Pirulo",
+    "name_de": "Magnum mini / Pirulo",
+    "name_fr": "Magnum mini / Pirulo",
+    "name_it": "Magnum mini / Pirulo",
+    "name_zh_cn": "迷你马格南/皮鲁洛",
+    "price": "0.60"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 56,
+  "fields": {
+    "name": "Magnum mini / Devil",
+    "name_fi": "Magnum mini / Devil",
+    "name_en": "Magnum mini / Devil",
+    "name_sv": "Magnum mini / Devil",
+    "name_es": "Magnum mini / Devil",
+    "name_ca": "Magnum mini / Devil",
+    "name_de": "Magnum mini / Devil",
+    "name_fr": "Magnum mini / Devil",
+    "name_it": "Magnum mini / Devil",
+    "name_zh_cn": "玛格南迷你/魔鬼",
+    "price": "0.30"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 57,
+  "fields": {
+    "name": "Kingis / Mars / Snickers / Twix sandwich",
+    "name_fi": "Kingis / Mars / Snickers / Twix -voileipä",
+    "name_en": "Kingis / Mars / Snickers / Twix sandwich",
+    "name_sv": "Kingis / Mars / Snickers / Twix smörgås",
+    "name_es": "Bocadillo Kingis / Mars / Snickers / Twix",
+    "name_ca": "Sandvich Kingis / Mars / Snickers / Twix smörgås",
+    "name_de": "Kingis/Mars/Snickers/Twix-Sandwich",
+    "name_fr": "Sandwich Kingis / Mars / Snickers / Twix",
+    "name_it": "Panino Kingis / Mars / Snickers / Twix",
+    "name_zh_cn": "玛格南迷你巧克力/魔鬼金星巧克力/玛氏巧克力/士力架巧克力/Twix三明治",
+    "price": "0.70"
+  }
+},
+{
+  "model": "ledger.product",
+  "pk": 58,
+  "fields": {
+    "name": "Puffet / Magnum vegan",
+    "name_fi": "Puffet / Magnum vegaani",
+    "name_en": "Puffet / Magnum vegan",
+    "name_sv": "Puffet / Magnum vegan",
+    "name_es": "Puffet / Magnum vegano",
+    "name_ca": "Puffet / Magnum vegà",
+    "name_de": "Puffet / Magnum vegan",
+    "name_fr": "Puffet / Magnum vegan",
+    "name_it": "Puffet / Magnum vegan",
+    "name_zh_cn": "自助餐 / 万能素食",
+    "price": "1.00"
+  }
+}
+]

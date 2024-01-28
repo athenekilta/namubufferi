@@ -13,6 +13,7 @@ app_name = "api"
 urlpatterns = [
     path("", views.UserRedirectView.as_view(), name="index"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    path("debts/", views.DebtListView.as_view(), name="debts"),
     *generic_path_set(Account, views, pk_url_kwarg="uuid:pk"),
     *generic_path_set(Barcode, views, pk_url_kwarg="int:pk"),
     *generic_path_set(Group, views, pk_url_kwarg="uuid:pk"),

@@ -7,6 +7,8 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
 from django.views.generic import RedirectView
+from django.views import View
+from ledger.raw_sql import get_debts
 
 
 from jsonapi.views import (
@@ -131,6 +133,11 @@ class ProductDetailView(LoginRequiredMixin,   JSONAPIDetailView):
     model = Product
     http_method_names = ["get"]
 
+class DebtListView(View):
+    http_method_names = ["get"]
+
+    def get(self, request, *args, **kwargs):
+        return get_debts()
 
 class ProductListView(LoginRequiredMixin,   JSONAPIListView):
     model = Product

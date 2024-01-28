@@ -1,6 +1,8 @@
+version: '3.6'
+
 services:
   web:
-    command: python manage.py runserver 0:8000
+    command: python manage.py runserver 0:8081
     environment:
       - DJANGO_ADMINS=[("admin", "admin@domain.invalid")]
       - DJANGO_ALLOWED_HOSTS=*
@@ -28,7 +30,7 @@ services:
       - POSTGRES_USER=postgres
 
     ports:
-      - '8000:8000'
+      - '8081:8081'
     volumes:
       - virtualenvs:/usr/local/share/virtualenvs/
       - ./:/srv/namubufferi/
@@ -45,7 +47,7 @@ services:
     entrypoint: ./docker-entrypoint.sh
     command: yarn start
     ports:
-      - '3000:3000'
+      - '3081:3081'
     volumes:
       - reactapp_node_modules:/srv/namubufferi/reactapp/node_modules/
       - ./reactapp/:/srv/namubufferi/reactapp/

@@ -132,7 +132,7 @@ class ProductListView(LoginRequiredMixin, TermsMixin, JSONAPIListView):
 class DebtListView(View):
     http_method_names = ["get"]
 
-    def get(self):
+    def get(self, request, *args, **kwargs):
         return get_debts()
 
 class TransactionCreateView(LoginRequiredMixin, TermsMixin, JSONAPICreateView):

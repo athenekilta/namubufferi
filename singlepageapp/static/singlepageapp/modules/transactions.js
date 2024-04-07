@@ -79,7 +79,7 @@ export default class TransactionForm {
       "If procrastination were a sport, you'd be the MVP of debt avoidance."
     ];
 
-    if (this.getBalance < 0.0 && parseFloat(productPrice) < 0.0){
+    if (this.getBalance() < 0.0 && parseFloat(productPrice) < 0.0){
       window.alert(debtInsults[Math.floor(Math.random() * debtInsults.length)]);
       return;
     }

@@ -82,7 +82,6 @@ export default class TransactionForm {
     // Check if user is in debt and trying to buy a product 
     if (this.getBalance().includes("–") && productPrice.includes("–")){
       window.alert(debtInsults[Math.floor(Math.random() * debtInsults.length)]);
-      return;
     }
 
     if (!window.confirm('Confirm purchase?')) {

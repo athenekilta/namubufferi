@@ -35,7 +35,7 @@ export default class TransactionForm {
   }
 
   getBalance() {
-    return parseFloat(document.querySelector('#balance').textContent);
+    return document.querySelector('#balance').textContent;
   }
 
   updateBalance(value) {
@@ -62,7 +62,7 @@ export default class TransactionForm {
 
   async submit(event) {
     event.preventDefault();
-    console.log(new FormData(event.target))
+    // console.log(new FormData(event.target))
     var selectedProduct = document.querySelector('#transactionform input[name="product"]:checked');
     var productPrice = selectedProduct.nextElementSibling.nextElementSibling.textContent;
     const debtInsults = [
@@ -79,7 +79,8 @@ export default class TransactionForm {
       "If procrastination were a sport, you'd be the MVP of debt avoidance."
     ];
 
-    if (this.getBalance() < 0.0 && parseFloat(productPrice) < 0.0){
+    // Check if user is in debt and trying to buy a product 
+    if (this.getBalance().includes("–") && productPrice.includes("–")){
       window.alert(debtInsults[Math.floor(Math.random() * debtInsults.length)]);
       return;
     }

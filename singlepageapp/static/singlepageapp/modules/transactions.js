@@ -34,6 +34,10 @@ export default class TransactionForm {
     this.form.addEventListener('submit', this.submit.bind(this));
   }
 
+  getBalance() {
+    return parseFloat(document.querySelector('#balance').textContent);
+  }
+
   updateBalance(value) {
     const balanceElement = document.querySelector('#balance');
     balanceElement.textContent = monetize(value, balanceElement);
@@ -59,9 +63,30 @@ export default class TransactionForm {
   async submit(event) {
     event.preventDefault();
     console.log(new FormData(event.target))
-    if (!window.confirm('Confirm?')) {
+
+    const debtInsults = [
+      "You owe more than a politician's promises, mate.",
+      "Settle your debts, you bloody leech!",
+      "Your debt is so deep, I bet even miners envy you.",
+      "You're like a human ATM - Always Taking Money.",
+      "If debt were an art, you'd be Picasso.",
+      "Are you sponsored by Visa and MasterCard? Your debt game is strong.",
+      "Your wallet's like a black hole – money goes in but never comes out.",
+      "Debt? More like your personal fan club of creditors.",
+      "You're living the dream – someone else's, that is. Pay up!",
+      "Your bank account's like a sieve, leaking money faster than you can earn it.",
+      "If procrastination were a sport, you'd be the MVP of debt avoidance."
+    ];
+
+    if (this.getBalance < 0.0 ) {
+      window.alert(debtInsults[Math.floor(Math.random() * debtInsults.length)]);
       return;
     }
+
+    if (!window.confirm('Confirm purchase?')) {
+      return;
+    }
+
     const result = await this.api.post(
       'transactions/?include=product',
       new FormData(event.target)

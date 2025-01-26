@@ -8,8 +8,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
 from django.views.generic import RedirectView
 from django.views import View
-from ledger.raw_sql import get_debts
-
+from ledger.raw_sql import get_debts, get_product_data
 
 from jsonapi.views import (
     JSONAPICreateView,
@@ -138,6 +137,12 @@ class DebtListView(View):
 
     def get(self, request, *args, **kwargs):
         return get_debts()
+    
+class ProductionDataList(View):
+    http_method_names = ["get"]
+
+    def get(self, request, *args, **kwargs):
+        return get_product_data(request.GET.get("start_date"), request.GET.get("end_date"))
 
 class ProductListView(LoginRequiredMixin,   JSONAPIListView):
     model = Product

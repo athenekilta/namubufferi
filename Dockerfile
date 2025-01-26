@@ -33,7 +33,7 @@ COPY Pipfile Pipfile.lock ./
 
 # Generate requirements.txt from Pipfile and replace psycopg2 with psycopg2-binary
 RUN pipenv requirements > requirements.txt && \
-    sed -i 's/psycopg2==2.9.3/psycopg2-binary==2.9.3/' requirements.txt
+    sed -i 's/psycopg2==2.9.10/psycopg2-binary==2.9.10/' requirements.txt
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt

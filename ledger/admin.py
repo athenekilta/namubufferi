@@ -2,6 +2,10 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
+from rangefilter.filters import (
+    DateRangeFilterBuilder,
+)
+
 from .models import Account, Barcode, Group, Product, Transaction
 
 User = get_user_model()
@@ -45,6 +49,7 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
     list_display = ("timestamp", "account", "product", "price", "quantity", "total")
+    list_filter = (("timestamp", DateRangeFilterBuilder()),)
 
 
 @admin.register(User)

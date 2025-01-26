@@ -2,3 +2,5 @@
 .git/
 .secrets/
 staticfiles/
+db.sqlite3
+reactapp/node_modules

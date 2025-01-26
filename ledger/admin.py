@@ -6,9 +6,13 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
+from datetime import datetime
+from django.utils.dateparse import parse_datetime
 from .models import Account, Barcode, Group, Product, Transaction
 from .models import Product  # Importtaa kaikki valikoiman tuotteet
+import logging
 
+logger = logging.getLogger(__name__)
 
 from rangefilter.filters import (
     DateRangeFilterBuilder,
@@ -63,11 +67,26 @@ class TransactionAdmin(admin.ModelAdmin):
 
     def export_as_csv(self, request, queryset):
         meta = self.model._meta
-        date = timezone.now().strftime("%Y-%m-%d")
+        current_date = timezone.now().strftime("%Y-%m-%d")
         field_names = ['Product', 'Quantity sold', 'Sales (EUR)']
 
+        # Extract date range from request GET parameters
+        start_date = request.GET.get('timestamp__range__gte')
+        end_date = request.GET.get('timestamp__range__lte')
+        if start_date and end_date:
+            start_date_str = start_date.split('T')[0]  # Extract date part
+            end_date_str = end_date.split('T')[0]  # Extract date part
+
+            # Check if end date is in the future
+            if datetime.strptime(end_date_str, "%Y-%m-%d") > datetime.strptime(current_date, "%Y-%m-%d"):
+                end_date_str = current_date
+
+            date_range = f"{start_date_str}_to_{end_date_str}"
+        else:
+            date_range = current_date  # replace with today, if end date is in the future
+
         response = HttpResponse(content_type='text/csv; charset=utf-8')
-        response['Content-Disposition'] = f'attachment; filename=namubufferi-report-{date}.csv'
+        response['Content-Disposition'] = f'attachment; filename=namubufferi-report-{date_range}.csv'
         writer = csv.writer(response, delimiter=';', quoting=csv.QUOTE_MINIMAL)
 
         writer.writerow(field_names)
@@ -76,22 +95,20 @@ class TransactionAdmin(admin.ModelAdmin):
         total_sales = 0
         for obj in queryset:
             product_name = obj.product.name
-            product_counts[product_name]['quantity'] += obj.quantity * -1
-            product_counts[product_name]['sales'] += obj.quantity * obj.price / -100  # Convert cents to euros
-            total_sales += obj.quantity * obj.price / -100  # Convert cents to euros
+            if product_name not in ["10€", "20€", "5€"]:
+                product_counts[product_name]['quantity'] += obj.quantity * -1
+                product_counts[product_name]['sales'] += obj.quantity * obj.price / -100  # Convert cents to euros
+                total_sales += obj.quantity * obj.price / -100  # Convert cents to euros
 
         for product_name, data in product_counts.items():
-            if product_name not in ["10€", "20€", "5€"]: # prevents adding balance from messing up the calculation
+            if product_name not in ["€10", "€20", "€5", "10€", "20€", "5€"]:
                 writer.writerow([product_name, data['quantity'], f"{data['sales']:.2f}".replace('.', ',')])  # decimal separator is comma
-
 
         writer.writerow(['Total', '', f"{total_sales:.2f}".replace('.', ',')])  # decimal separator is comma
 
         return response
 
     export_as_csv.short_description = _("Export Selected")
-
-
 
 
 @admin.register(User)

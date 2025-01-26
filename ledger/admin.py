@@ -76,8 +76,8 @@ class TransactionAdmin(admin.ModelAdmin):
         for obj in queryset:
             product_name = obj.product.name
             if product_name in product_counts:
-                product_counts[product_name]['quantity'] += obj.quantity
-                product_counts[product_name]['sales'] += obj.quantity * obj.price / 100  # Convert cents to euros
+                product_counts[product_name]['quantity'] += obj.quantity * -1
+                product_counts[product_name]['sales'] += obj.quantity * obj.price / -100  # Convert cents to euros
             else:
                 product_counts[product_name] = {
                     'quantity': obj.quantity,

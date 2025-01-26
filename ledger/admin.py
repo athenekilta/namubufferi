@@ -80,8 +80,8 @@ class TransactionAdmin(admin.ModelAdmin):
                 product_counts[product_name]['sales'] += obj.quantity * obj.price / -100  # Convert cents to euros
             else:
                 product_counts[product_name] = {
-                    'quantity': obj.quantity,
-                    'sales': obj.quantity * obj.price / 100  # Convert cents to euros
+                    'quantity': obj.quantity * -1,
+                    'sales': obj.quantity * obj.price / -100  # Convert cents to euros
                 }
             total_sales += obj.quantity * obj.price / 100  # Convert cents to euros
 

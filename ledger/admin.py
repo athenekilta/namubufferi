@@ -63,7 +63,7 @@ class TransactionAdmin(admin.ModelAdmin):
     def export_as_csv(self, request, queryset):
         meta = self.model._meta
         date = timezone.now().strftime("%Y-%m-%d")
-        field_names = ['Product', 'Quantity', 'Sales (€)']
+        field_names = ['Product', 'Quantity', 'Sales (EUR)']
 
         response = HttpResponse(content_type='text/csv; charset=utf-8')
         response['Content-Disposition'] = f'attachment; filename=namubufferi-report-{date}.csv'

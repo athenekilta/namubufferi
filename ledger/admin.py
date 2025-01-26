@@ -86,7 +86,7 @@ class TransactionAdmin(admin.ModelAdmin):
             date_range = current_date  # replace with today, if end date is in the future
 
         response = HttpResponse(content_type='text/csv; charset=utf-8')
-        response['Content-Disposition'] = f'attachment; filename=namubufferi-report-{date_range}.csv'
+        response['Content-Disposition'] = f'attachment; filename=namubufferi-report-{date_range}.csv' # filename contains date range
         writer = csv.writer(response, delimiter=';', quoting=csv.QUOTE_MINIMAL)
 
         writer.writerow(field_names)
@@ -108,7 +108,7 @@ class TransactionAdmin(admin.ModelAdmin):
 
         return response
 
-    export_as_csv.short_description = _("Export Selected")
+    export_as_csv.short_description = _("Export selected transactions") 
 
 
 @admin.register(User)

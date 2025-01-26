@@ -9,6 +9,7 @@ gunicorn = "*"
 psycopg2 = "*"
 whitenoise = "*"
 dj-database-url = "*"
+django-admin-rangefilter = "*"
 
 [dev-packages]
 black = "*"

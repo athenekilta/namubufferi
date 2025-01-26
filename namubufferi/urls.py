@@ -27,10 +27,9 @@ urlpatterns = [
         f"{settings.HIDDEN_ROOT}",
         include(
             [
-                path("", include("landing.urls")),
                 path("onetimepass/", include("onetimepass.urls")),
                 path("admin/", admin.site.urls),
-                path("!/", include("singlepageapp.urls")),
+                path("", include("singlepageapp.urls")),
                 path("terms/", include("terms.urls")),
                 path("accounts/", include("django.contrib.auth.urls")),
                 path("users/", include("users.urls"))

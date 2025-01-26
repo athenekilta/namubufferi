@@ -29,72 +29,31 @@
       </div>
     </header>
     <main>
-      <section id="/account">
-        <header>
-          <nav>
-            <div></div>
-            <h2>
-              <a href="#/account">Account</a>
-            </h2>
-            <div></div>
-          </nav>
+      <header>
+        <div>
+          <h2>Current balance</h2>
           <div id="balance">&nbsp;</div>
-          <div>
-            <a href="#/transaction">
-              <svg class="symbol">
-                <use
-                  xlink:href="{% static 'singlepageapp/symbols.svg' %}#plus"
-                ></use>
-              </svg>
-              Transaction
-            </a>
-          </div>
-        </header>
-        <table id="transactiontable">
-          <caption>
-            Latest Transactions
-          </caption>
-          <thead>
-            <tr>
-              <th>Timestamp</th>
-              <th>Product</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <template id="transactionrow">
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </template>
-        <footer>
-          <nav>
-            <ul>
-              <li><a href="{% url 'terms:update' %}">User guide</a></li>
-              <li><a href="{% url 'api:logout' %}">Log out</a></li>
-            </ul>
-          </nav>
-        </footer>
-      </section>
-      <section id="/transaction">
-        <header>
-          <nav>
-            <div>
-              <a href="#/account">Cancel</a>
-            </div>
-            <h2><a href="#/transaction">Transaction</a></h2>
-            <div>
-              <button form="transactionform" type="submit">Submit</button>
-            </div>
-          </nav>
-          <div>
-            <input type="search" id="search" placeholder="Search" />
-          </div>
-        </header>
+        </div>
+        <nav>
+          <a href="#/buy">
+            Buy
+          </a>
+          <a href="#/balance">
+            Add balance
+          </a>
+          <a href="#/transactions">
+            Show history
+          </a>
+        </nav>
+      </header>
+      <section id="/buy">
         <form id="transactionform">
+          <header>
+            <div style="flex: 1;">
+              <input type="search" id="search" placeholder="Search" />
+            </div>
+            <button form="transactionform" type="submit">Buy</button>
+          </header>
           <input name="quantity" id="quantity" type="hidden" value="-1" />
           <fieldset id="productlist">
             <fieldset id="recentfieldset">
@@ -116,6 +75,42 @@
             </label>
           </template>
         </form>
+
+        
+        <footer>
+          <nav>
+            <ul>
+              <li><a href="{% url 'terms:update' %}">User guide</a></li>
+              <li><a href="{% url 'api:logout' %}">Log out</a></li>
+            </ul>
+          </nav>
+        </footer>
+      </section>
+      <section id="/balance">
+        Add balance
+      </section>
+      <section id="/transactions">
+        
+        <table id="transactiontable">
+          <caption>
+            Latest Transactions
+          </caption>
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Product</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <template id="transactionrow">
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </template>
       </section>
       <section id="/user">
         <header>

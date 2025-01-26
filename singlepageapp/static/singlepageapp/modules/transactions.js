@@ -172,6 +172,7 @@ export default class TransactionForm {
       'transactions/?page[number]=last&include=product'
     );
     if (!transactions.data.length) {
+      this.updateBalance(0)
       return;
     }
     this.updateBalance(

@@ -7,6 +7,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from .models import Account, Barcode, Group, Product, Transaction
+from .models import Product  # Importtaa kaikki valikoiman tuotteet
 
 
 from rangefilter.filters import (
@@ -63,7 +64,7 @@ class TransactionAdmin(admin.ModelAdmin):
     def export_as_csv(self, request, queryset):
         meta = self.model._meta
         date = timezone.now().strftime("%Y-%m-%d")
-        field_names = ['Product', 'Quantity', 'Sales (EUR)']
+        field_names = ['Product', 'Quantity sold', 'Sales (EUR)']
 
         response = HttpResponse(content_type='text/csv; charset=utf-8')
         response['Content-Disposition'] = f'attachment; filename=namubufferi-report-{date}.csv'
@@ -71,24 +72,20 @@ class TransactionAdmin(admin.ModelAdmin):
 
         writer.writerow(field_names)
 
-        product_counts = {}
+        product_counts = {product.name: {'quantity': 0, 'sales': 0} for product in Product.objects.all()}
         total_sales = 0
         for obj in queryset:
             product_name = obj.product.name
-            if product_name in product_counts:
-                product_counts[product_name]['quantity'] += obj.quantity * -1
-                product_counts[product_name]['sales'] += obj.quantity * obj.price / -100  # Convert cents to euros
-            else:
-                product_counts[product_name] = {
-                    'quantity': obj.quantity * -1,
-                    'sales': obj.quantity * obj.price / -100  # Convert cents to euros
-                }
+            product_counts[product_name]['quantity'] += obj.quantity * -1
+            product_counts[product_name]['sales'] += obj.quantity * obj.price / -100  # Convert cents to euros
             total_sales += obj.quantity * obj.price / -100  # Convert cents to euros
 
         for product_name, data in product_counts.items():
-            writer.writerow([product_name, data['quantity'], data['sales']])
+            if product_name not in ["10€", "20€", "5€"]: # prevents adding balance from messing up the calculation
+                writer.writerow([product_name, data['quantity'], f"{data['sales']:.2f}".replace('.', ',')])  # decimal separator is comma
 
-        writer.writerow(['Total', '', total_sales])
+
+        writer.writerow(['Total', '', f"{total_sales:.2f}".replace('.', ',')])  # decimal separator is comma
 
         return response
 

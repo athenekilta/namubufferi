@@ -96,6 +96,7 @@ class TransactionAdmin(admin.ModelAdmin):
         for obj in queryset:
             # Only take positive prices
             if obj.price >= 0:
+                product_name = obj.product.name
                 product_counts[product_name]['quantity'] += obj.quantity * -1
                 product_counts[product_name]['sales'] += obj.quantity * obj.price / -100  # Convert cents to euros
                 total_sales += obj.quantity * obj.price / -100  # Convert cents to euros

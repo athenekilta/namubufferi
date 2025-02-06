@@ -9,6 +9,7 @@ from django.views.decorators.cache import never_cache
 from django.views.generic import RedirectView
 from django.views import View
 from ledger.raw_sql import get_debts
+from ledger import models
 
 
 from jsonapi.views import (
@@ -151,6 +152,10 @@ class TransactionCreateView(LoginRequiredMixin,   JSONAPICreateView):
 
     def form_valid(self, form):
         form.instance.account = self.request.user.account
+        if form.instance.price > 0:
+            form.instance.state = models.TransactionState.COMMITTED
+        else:
+            form.instance.state = models.TransactionState.PENDING
         return super().form_valid(form)
 
     def get_success_url(self):

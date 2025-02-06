@@ -91,17 +91,16 @@ class TransactionAdmin(admin.ModelAdmin):
 
         writer.writerow(field_names)
 
-        product_counts = {product.name: {'quantity': 0, 'sales': 0} for product in Product.objects.all()}
+        product_counts = {product.name: {'quantity': 0, 'sales': 0} for product in Product.objects.filter(price__gt=0)}
         total_sales = 0
         for obj in queryset:
-            product_name = obj.product.name
-            if product_name not in ["10€", "20€", "5€"]:
+            # Only take positive prices
+            if obj.price >= 0:
                 product_counts[product_name]['quantity'] += obj.quantity * -1
                 product_counts[product_name]['sales'] += obj.quantity * obj.price / -100  # Convert cents to euros
                 total_sales += obj.quantity * obj.price / -100  # Convert cents to euros
 
         for product_name, data in product_counts.items():
-            if product_name not in ["€10", "€20", "€5", "10€", "20€", "5€"]:
                 writer.writerow([product_name, data['quantity'], f"{data['sales']:.2f}".replace('.', ',')])  # decimal separator is comma
 
         writer.writerow(['Total', '', f"{total_sales:.2f}".replace('.', ',')])  # decimal separator is comma

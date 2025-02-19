@@ -110,11 +110,15 @@ async function handleInProgressTransaction(txId) {
 
   const isMobile = mobileCheck();
   if (isMobile && localStorage.getItem('olkkari') !== '1') {
-    document.getElementById('balance-mobilepay-link').href = getMobileUrl(CODE, amount, txId);
-    document.getElementById('balance-qrcode').style.display = 'none';
+    const mpLink = document.getElementById('balance-mobilepay-link');
+    mpLink.href = getMobileUrl(CODE, amount, txId);
+    mpLink.target = ""
+    document.getElementById('balance-mobilepay-qr').style.display = 'none';
   } else {
-    document.getElementById('balance-qrcode').style.display = 'block';
-    document.getElementById('balance-mobilepay-link').href = formatUrl(CODE, amount, txId);
+    document.getElementById('balance-mobilepay-qr').style.display = 'block';
+    const mpLink = document.getElementById('balance-mobilepay-link');
+    mpLink.target = "_blank"
+    mpLink.href = formatUrl(CODE, amount, txId);
     generateQR(amount, txId);
   }
 }
@@ -122,6 +126,11 @@ async function handleInProgressTransaction(txId) {
 async function addBalance() {
   document.getElementById('balance-alert').textContent = ''
   let amount = Number(document.getElementById('balance-add-amount').value)
+
+  if (amount < 5) {
+    document.getElementById('balance-alert').textContent = 'Invalid amount. Amount should be a numebr and at least 5€.'
+    return
+  }
 
   document.getElementById('balance-add').style.display = 'none'
   document.getElementById('balance-mobilepay').style.display = 'none'

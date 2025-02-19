@@ -356,3 +356,20 @@ input[type='search'] {
   font-size: large;
   font-weight: 700;
 }
+
+.btn {
+  font-size: 1rem;
+  border-radius: 1em;
+  padding: 0.5em;
+  background-color: var(--athene-green);
+  color: white;
+  font-weight: 500;
+}
+
+button {
+  cursor: pointer;
+}
+
+input:invalid {
+  box-shadow: 0 0 5px 1px red;
+}

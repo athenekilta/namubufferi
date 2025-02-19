@@ -88,20 +88,24 @@
         </footer>
       </section>
       <section id="/balance">
+        <p>Add balance to your account to pay for namubufferi products. The minimum addition amount is 5€ to reduce transaction costs.</p>
         <p id="balance-alert"></p>
         <div id="balance-add">
-          <input name="balance-add-amount" type="number" id="balance-add-amount" type="number" value="5" step="0.01">€
+          <label>Add amount</label>
+          <input name="balance-add-amount" type="number" id="balance-add-amount" type="number" value="5" min="5" step="0.01">€
           <br>
-          <button id="balance-add-submit" style="margin-top: 1em;">Continue to pay</button>
+          <button id="balance-add-submit" style="margin-top: 1em;" type="submit">Continue to pay</button>
         </div>
         <div id="balance-mobilepay" style="display: none;">
           <div id="balance-mobilepay-qr">
-            <p>Scan the QR code with your mobilepay app to pay or click the link below</p>
-            <div id="balance-qrcode" style="display: none;"></div>
+            <p>Scan the QR code with Mobilepay on your phone to pay</p>
+            <div id="balance-qrcode"></div>
           </div>
-          <a href="" target="_blank" id="balance-mobilepay-link">Pay with mobilepay</a>
+          <p>Pay on this device</p>
+          <a href="" class="btn" target="_blank" id="balance-mobilepay-link">Open mobilepay</a>
           <br>
-          <button id="balance-confirm" style="margin-top: 1em;">I've paid, continue</button>
+          <p>After payment, click below to continue</p>
+          <button id="balance-confirm">I've paid, continue</button>
         </div>
         
 

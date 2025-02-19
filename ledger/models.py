@@ -13,7 +13,7 @@ class Account(UUIDModel):
 
     @property
     def balance(self):
-        return Transaction.calculate_balance(queryset=self.transaction_set.all())
+        return Transaction.calculate_balance(queryset=self.transaction_set.all().filter(state=TransactionState.COMMITTED))
 
 
 class Product(UUIDModel):
@@ -31,6 +31,9 @@ class Product(UUIDModel):
     def inventory(self):
         return self.transaction_set.aggregate(Sum("quantity"))["quantity__sum"] or 0
 
+class TransactionState(models.IntegerChoices):
+    PENDING = 0, 'pending'
+    COMMITTED = 1, 'committed'
 
 class Transaction(UUIDModel):
     account = models.ForeignKey(Account, on_delete=models.PROTECT)
@@ -38,6 +41,7 @@ class Transaction(UUIDModel):
     price = models.IntegerField(blank=True)
     quantity = models.IntegerField()
     timestamp = models.DateTimeField(auto_now_add=True, editable=False)
+    state = models.IntegerField(choices=TransactionState.choices, default=TransactionState.PENDING)
 
     class Meta:
         ordering = ["timestamp"]
@@ -65,7 +69,7 @@ class Transaction(UUIDModel):
     @property
     def balance(self):
         return Transaction.calculate_balance(
-            queryset=self.account.transaction_set.filter(timestamp__lte=self.timestamp)
+            queryset=self.account.transaction_set.filter(timestamp__lte=self.timestamp, state=TransactionState.COMMITTED)
         )
 
 

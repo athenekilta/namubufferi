@@ -30,7 +30,7 @@ urlpatterns = [
                 path("", include("landing.urls")),
                 path("onetimepass/", include("onetimepass.urls")),
                 path("admin/", admin.site.urls),
-                path("!/", include("singlepageapp.urls")),
+                path("nam/", include("singlepageapp.urls")),
                 path("terms/", include("terms.urls")),
                 path("accounts/", include("django.contrib.auth.urls")),
                 path("users/", include("users.urls"))

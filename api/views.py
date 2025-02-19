@@ -17,6 +17,7 @@ from jsonapi.views import (
     JSONAPIDeleteView,
     JSONAPIDetailView,
     JSONAPIListView,
+    JSONAPIUpdateView
 )
 from ledger.models import Account, Barcode, Group, Product, Transaction
 from terms.views import TermsMixin
@@ -63,6 +64,9 @@ class JSONAPIDeleteView(JSONAPIDeleteView):
 
 class JSONAPIDetailView(JSONAPIDetailView):
     template_name = "api/detail.html"
+
+class JSONAPIUpdateView(JSONAPIUpdateView):
+    template_name = "api/base.html"
 
 
 class JSONAPIListView(JSONAPIListView):
@@ -148,22 +152,32 @@ class ProductListView(LoginRequiredMixin,   JSONAPIListView):
 class TransactionCreateView(LoginRequiredMixin,   JSONAPICreateView):
     model = Transaction
     http_method_names = ["get", "post"]
-    fields = ["product", "quantity"]
+    fields = ["product", "quantity", "state"]
 
     def form_valid(self, form):
         form.instance.account = self.request.user.account
-        if form.instance.price > 0:
-            form.instance.state = models.TransactionState.COMMITTED
-        else:
-            form.instance.state = models.TransactionState.PENDING
         return super().form_valid(form)
 
     def get_success_url(self):
         return reverse("api:transaction-detail", kwargs={"pk": self.object.pk})
 
+class TransactionUpdateView(
+    LoginRequiredMixin, ObjectPermissionMixin, JSONAPIUpdateView
+):
+    model = Transaction
+    http_method_names = ["post"]
+
+    fields = ["state"]
+
+    def get_success_url(self):
+        return reverse("api:transaction-detail", kwargs={"pk": self.object.pk})
+
+    @staticmethod
+    def get_object_owner(obj):
+        return obj.account.user
 
 class TransactionDeleteView(
-    LoginRequiredMixin,   ObjectPermissionMixin, JSONAPIDeleteView
+    LoginRequiredMixin,  ObjectPermissionMixin, JSONAPIDeleteView
 ):
     model = Transaction
     http_method_names = ["get", "post"]
@@ -177,11 +191,12 @@ class TransactionDeleteView(
 
 
 class TransactionDetailView(
-    LoginRequiredMixin,   ObjectPermissionMixin, JSONAPIDetailView
+    LoginRequiredMixin, ObjectPermissionMixin, JSONAPIDetailView
 ):
     model = Transaction
-    http_method_names = ["get", "delete"]
+    http_method_names = ["get", "delete", "patch"]
     delete_view = TransactionDeleteView
+    update_view = TransactionUpdateView
 
     @staticmethod
     def get_object_owner(obj):

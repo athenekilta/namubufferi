@@ -68,7 +68,7 @@ export default class TransactionForm {
     );
     this.appendTransactions(result);
     this.updateBalance(result.data.attributes.balance);
-    location.assign('#/account');
+    location.assign('#/buy');
   }
 
   async fetchProducts() {
@@ -79,7 +79,7 @@ export default class TransactionForm {
     const productMap = mapById(products.data);
 
     const fieldsets = new Map();
-    for (const group of groups.data) {
+    for (const group of groups.data.filter((group) => group.attributes.name != "\u20ac")) {
       let fieldset = fieldsets.get(group.id);
       if (!fieldset) {
         fieldset = document
@@ -128,6 +128,20 @@ export default class TransactionForm {
       cells.forEach((cell, i) => {
         td[i].textContent = cell;
       });
+
+      if (transaction.attributes.state == 0) {
+        const pendingText = document.createElement('span');
+        pendingText.textContent = 'pending';
+        pendingText.style.marginLeft = '1em';
+        pendingText.style.color = 'red';
+        td[1].appendChild(pendingText);
+        const payHref = document.createElement('a');
+        payHref.href = `?balanceState=inProgress&transactionId=${transaction.id}#/balance`;
+        payHref.textContent = 'pay now';
+        payHref.style.marginLeft = '1em'
+        td[1].appendChild(payHref);
+      }
+
       fragment.prepend(tr);
     }
     this.transactionTable.querySelector('tbody').prepend(fragment);
@@ -145,10 +159,10 @@ export default class TransactionForm {
       const product = includedMap.get(productId);
       const radio = this.createProductRadio(product);
       // I'm sorry, this doesn't seem to be the right place to do this kind of filtering...
-      if (product.attributes.name !== 'Initial balance')
+      if (product.attributes.name !== 'Initial balance' && product.attributes.price >= 0)
         fieldsetFragment.appendChild(radio);
     }
-    const fieldset = document.getElementById('recentfieldset');
+    const fieldset = document.getElementById('recentfieldset'); 
     fieldset.querySelector('div').appendChild(fieldsetFragment);
     if (fieldset.hasChildNodes()) {
       fieldset.querySelector('input').checked = true;

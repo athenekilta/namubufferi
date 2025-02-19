@@ -55,6 +55,7 @@
             <button form="transactionform" type="submit">Buy</button>
           </header>
           <input name="quantity" id="quantity" type="hidden" value="-1" />
+          <input name="state" id="state" type="hidden" value="1" />
           <fieldset id="productlist">
             <fieldset id="recentfieldset">
               <legend>Recent</legend>
@@ -87,16 +88,23 @@
         </footer>
       </section>
       <section id="/balance">
-        Add balance
-	<div id="qrcode"></div>
-	<a id="qrcode-link" target='_blank'>Scan or click here!</a>
-	<form>
-		<label>Balance to add:</label><br>
-		<input id="qrcode-price"><br>
-		<input id="qrcode-submit" type="button" value="Generate">
-		<script src="{% static 'singlepageapp/modules/qrcode.js' %}"></script>
-		<script src="{% static 'singlepageapp/setupqrcode.js' %}"></script>
-	</form>
+        <p id="balance-alert"></p>
+        <div id="balance-add">
+          <input name="balance-add-amount" type="number" id="balance-add-amount" type="number" value="5" step="0.01">€
+          <br>
+          <button id="balance-add-submit" style="margin-top: 1em;">Continue to pay</button>
+        </div>
+        <div id="balance-mobilepay" style="display: none;">
+          <div id="balance-mobilepay-qr">
+            <p>Scan the QR code with your mobilepay app to pay or click the link below</p>
+            <div id="balance-qrcode" style="display: none;"></div>
+          </div>
+          <a href="" target="_blank" id="balance-mobilepay-link">Pay with mobilepay</a>
+          <br>
+          <button id="balance-confirm" style="margin-top: 1em;">I've paid, continue</button>
+        </div>
+        
+
       </section>
       <section id="/transactions">
         
@@ -147,5 +155,6 @@
     </main>
     <script src="https://unpkg.com/html5-qrcode@2.1.6/html5-qrcode.min.js"></script>
     <script type="module" src="{% static 'singlepageapp/main.js' %}"></script>
+    <script src="{% static 'singlepageapp/modules/qrcode.js' %}"></script>
   </body>
 </html>

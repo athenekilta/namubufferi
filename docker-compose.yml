@@ -6,6 +6,7 @@ services:
     environment:
       - DJANGO_SECRET_KEY_FILE=/run/secrets/django_secret_key
         #  - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
+      - SIGNUP_SECRET=testsecret
     secrets:
       - django_secret_key
       - postgres_password

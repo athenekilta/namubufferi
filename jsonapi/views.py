@@ -6,7 +6,7 @@ from django.http import HttpResponse, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.gzip import gzip_page
 from django.views.decorators.vary import vary_on_headers
-from django.views.generic import CreateView, DeleteView, DetailView, ListView
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from .utils import make_jsonapi_document
 
@@ -128,9 +128,12 @@ class JSONAPIDeleteView(JSONAPIMixin, DeleteView):
 
 class JSONAPIDetailView(JSONAPIMixin, DetailView):
     delete_view = None
+    update_view = None
 
     def delete(self, request, *args, **kwargs):
         return self.delete_view.as_view()(request, *args, **kwargs)
+    def update(self, request, *args, **kwargs):
+        return self.update_view.as_view()(request, *args, **kwargs)
 
 
 class JSONAPICreateView(JSONAPIMixin, CreateView):
@@ -140,7 +143,6 @@ class JSONAPICreateView(JSONAPIMixin, CreateView):
             return self.render_to_json_response(
                 self.get_context_data(),
                 status=HTTPStatus.CREATED,
-                headers={"Location": response.headers["Location"]},
             )
         return response
 
@@ -170,3 +172,21 @@ class JSONAPIListView(JSONAPIMixin, ListView):
     def post(self, request, *args, **kwargs):
         # https://docs.djangoproject.com/en/3.2/topics/class-based-views/mixins/#an-alternative-better-solution
         return self.create_view.as_view()(request, *args, **kwargs)
+
+
+class JSONAPIUpdateView(JSONAPIMixin, UpdateView):
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        if self.request.headers.get("Accept") == self.media_type:
+            return self.render_to_json_response(
+                self.get_context_data(),
+                status=HTTPStatus.OK,
+            )
+        return response
+
+    def form_invalid(self, form):
+        if self.request.headers.get("Accept") == self.media_type:
+            return JSONAPIResponse(
+                {"errors": [{"meta": form.errors}]}, status=HTTPStatus.BAD_REQUEST
+            )
+        return super().form_invalid(form)

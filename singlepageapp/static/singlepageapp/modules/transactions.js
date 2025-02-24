@@ -68,6 +68,7 @@ export default class TransactionForm {
     );
     this.appendTransactions(result);
     this.updateBalance(result.data.attributes.balance);
+    document.getElementById('buy-success').textContent = "Purchase successful!";
     location.assign('#/buy');
   }
 

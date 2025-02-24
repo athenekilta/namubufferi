@@ -16,6 +16,8 @@ def get_debts():
                 ledger_account la ON uu.id = la.user_id
             INNER JOIN 
                 ledger_transaction lt ON la.id = lt.account_id
+            WHERE
+                lt.state = 1
             GROUP BY 
                 uu.id, uu.username, uu.first_name, uu.last_name
             HAVING 

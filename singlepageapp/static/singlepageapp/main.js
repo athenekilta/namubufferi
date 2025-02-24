@@ -163,6 +163,14 @@ async function confirmBalance() {
   const res = await fetch('/api/transactions/'+id+'/update/', {credentials: 'include', method: 'POST', headers: {'X-CSRFToken': csrftoken, 'Accept': 'application/vnd.api+json'}, body: formData})
   await res
   await transactionForm.fetchTransactions()
+
+  if (!res.ok) {
+    document.getElementById('balance-add').style.display = 'block'
+    document.getElementById('balance-alert').textContent = 'Failed to confirm balance: '+res.statusText
+    document.getElementById('balance-mobilepay').style.display = 'block'
+    return
+  }
+
   document.getElementById('balance-add').style.display = 'block'
   document.getElementById('balance-alert').textContent = 'Added balance successfully'
 

@@ -1,3 +1,4 @@
+import csrftoken from './csrftoken.js';
 import { mapById } from './jsonapi.js';
 
 function monetize(number, element = null) {
@@ -111,6 +112,7 @@ export default class TransactionForm {
   appendTransactions(result) {
     const fragment = new DocumentFragment();
     const includedMap = mapById(result.included);
+    this.transactionTable.querySelector('tbody').innerHTML = '';
     for (const transaction of Array.isArray(result.data)
       ? result.data
       : [result.data]) {
@@ -141,6 +143,17 @@ export default class TransactionForm {
         payHref.textContent = 'pay now';
         payHref.style.marginLeft = '1em'
         td[1].appendChild(payHref);
+        const cancelHref = document.createElement('a');
+        cancelHref.onclick = async () => {
+          await fetch('/api/transactions/'+transaction.id+'/delete/', {credentials: 'include', method: 'POST', headers: {'X-CSRFToken': csrftoken, 'Accept': 'application/vnd.api+json'}})
+          this.fetchProducts
+          this.fetchTransactions()
+        };
+        cancelHref.textContent = 'cancel';
+        cancelHref.style.marginLeft = '1em';
+        cancelHref.style.color = "red";
+        cancelHref.style.cursor = "pointer";
+        td[1].appendChild(cancelHref);
       }
 
       fragment.prepend(tr);

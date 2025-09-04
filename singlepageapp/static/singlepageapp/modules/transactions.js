@@ -133,9 +133,9 @@ export default class TransactionForm {
       });
 
       if (transaction.attributes.state == 0) {
+        td[1].appendChild(document.createElement('br'))
         const pendingText = document.createElement('span');
         pendingText.textContent = 'pending';
-        pendingText.style.marginLeft = '1em';
         pendingText.style.color = 'red';
         td[1].appendChild(pendingText);
         const payHref = document.createElement('a');

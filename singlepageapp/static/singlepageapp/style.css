@@ -109,11 +109,11 @@ thead {
 }
 
 tr {
-  display: block;
   border: solid 1px;
   background-color: white;
   border-color: var(--athene-bg);
   border-radius: 1em;
+  display: grid;
 }
 
 td {
@@ -121,17 +121,23 @@ td {
 }
 
 td:first-child {
-  display: block;
+  flex: 1 0 200px; /* adjust width for the date column */
+  grid-column: 1/2;
+  grid-row: 1;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
 }
 
-td:not(:first-child) {
-  display: inline-block;
+td:nth-child(2) {
+  grid-row: 2;
+  grid-column: 1;
 }
 
-td:last-child {
-  float: right;
+td:nth-child(3) {
+  grid-row: 2;
+  grid-column: 2;
+  text-align: right;
 }
-
 form {
   width: 100%;
   margin: 0 auto;

@@ -104,7 +104,7 @@ class TransactionAdmin(admin.ModelAdmin):
         for product_name, data in product_counts.items():
                 writer.writerow([data['id'], product_name, data['quantity'], f"{data['sales']:.2f}".replace('.', ',')])  # decimal separator is comma
 
-        writer.writerow(['Total', '', f"{total_sales:.2f}".replace('.', ',')])  # decimal separator is comma
+        writer.writerow(['total', 'Total', '', f"{total_sales:.2f}".replace('.', ',')])  # decimal separator is comma
 
         return response
 

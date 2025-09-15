@@ -15,7 +15,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 from rangefilter.filters import (
-    DateRangeFilterBuilder,
+    DateTimeRangeFilterBuilder,
 )
 
 from .models import Account, Barcode, Group, Product, Transaction
@@ -61,14 +61,14 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
     list_display = ("timestamp", "account", "product", "price", "quantity", "total")
-    list_filter = (("timestamp", DateRangeFilterBuilder()),)
+    list_filter = (("timestamp", DateTimeRangeFilterBuilder()),)
 
     actions = ["export_as_csv"]
 
     def export_as_csv(self, request, queryset):
         meta = self.model._meta
         current_date = timezone.now().strftime("%Y-%m-%d")
-        field_names = ['Product', 'Quantity sold', 'Sales (EUR)']
+        field_names = ['Id', 'Product', 'Quantity sold', 'Sales (EUR)']
 
         # Extract date range from request GET parameters
         start_date = request.GET.get('timestamp__range__gte')
@@ -91,7 +91,7 @@ class TransactionAdmin(admin.ModelAdmin):
 
         writer.writerow(field_names)
 
-        product_counts = {product.name: {'quantity': 0, 'sales': 0} for product in Product.objects.filter(price__gt=0)}
+        product_counts = {product.name: {'quantity': 0, 'sales': 0, 'id': product.id} for product in Product.objects.filter(price__gt=0, hidden=False)}
         total_sales = 0
         for obj in queryset:
             # Only take positive prices
@@ -102,7 +102,7 @@ class TransactionAdmin(admin.ModelAdmin):
                 total_sales += obj.quantity * obj.price / -100  # Convert cents to euros
 
         for product_name, data in product_counts.items():
-                writer.writerow([product_name, data['quantity'], f"{data['sales']:.2f}".replace('.', ',')])  # decimal separator is comma
+                writer.writerow([data['id'], product_name, data['quantity'], f"{data['sales']:.2f}".replace('.', ',')])  # decimal separator is comma
 
         writer.writerow(['Total', '', f"{total_sales:.2f}".replace('.', ',')])  # decimal separator is comma
 

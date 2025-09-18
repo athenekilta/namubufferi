@@ -9,6 +9,7 @@ def get_debts():
                 uu.username,
                 uu.first_name,
                 uu.last_name,
+                uu.alias,
                 SUM(lt.price * lt.quantity) AS total_paid
             FROM 
                 users_user uu
@@ -19,7 +20,7 @@ def get_debts():
             WHERE
                 lt.state = 1
             GROUP BY 
-                uu.id, uu.username, uu.first_name, uu.last_name
+                uu.id, uu.username, uu.alias, uu.first_name, uu.last_name
             HAVING 
                 SUM(lt.price * lt.quantity) < 0
             ORDER BY 
@@ -43,6 +44,7 @@ def get_balances():
                 uu.username,
                 uu.first_name,
                 uu.last_name,
+                uu.alias,
                 SUM(lt.price * lt.quantity) AS total_paid
             FROM 
                 users_user uu
@@ -53,7 +55,7 @@ def get_balances():
             WHERE
                 lt.state = 1
             GROUP BY 
-                uu.id, uu.username, uu.first_name, uu.last_name
+                uu.id, uu.username, uu.first_name, uu.last_name, uu.alias
             HAVING 
                 SUM(lt.price * lt.quantity) > 0
             ORDER BY 

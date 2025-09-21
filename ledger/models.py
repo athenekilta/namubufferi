@@ -44,7 +44,7 @@ class Transaction(UUIDModel):
     state = models.IntegerField(choices=TransactionState.choices, default=TransactionState.PENDING)
 
     class Meta:
-        ordering = ["timestamp"]
+        ordering = ["-timestamp"]
 
     def __str__(self):
         return f"{self.timestamp}"

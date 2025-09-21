@@ -36,6 +36,15 @@ class BalanceListFilter(admin.SimpleListFilter):
                 pk__in=(user.pk for user in queryset if user.account.balance < 0)
             )
         return queryset
+    
+class TransactionProductFilter(admin.filters.RelatedFieldListFilter):  
+    def __init__(self, *args, **kwargs):  
+        super(TransactionProductFilter, self).__init__(*args, **kwargs)  
+        self.lookup_choices = [  
+            (x.id, x) for x in  
+                Product.objects.filter(hidden=False)  
+        ]
+
 
 
 @admin.register(Account)
@@ -55,13 +64,13 @@ class GroupAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("name", "price", "inventory", "hidden")
+    list_display = ("name", "price", "inventory", "hidden", "id")
 
 
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
     list_display = ("timestamp", "account", "product", "price", "quantity", "total")
-    list_filter = (("timestamp", DateTimeRangeFilterBuilder()),)
+    list_filter = (("timestamp", DateTimeRangeFilterBuilder()), ("product", TransactionProductFilter))
 
     actions = ["export_as_csv"]
 

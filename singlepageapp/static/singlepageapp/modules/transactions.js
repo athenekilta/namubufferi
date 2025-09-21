@@ -156,7 +156,7 @@ export default class TransactionForm {
         td[1].appendChild(cancelHref);
       }
 
-      fragment.prepend(tr);
+      fragment.append(tr);
     }
     this.transactionTable.querySelector('tbody').prepend(fragment);
   }

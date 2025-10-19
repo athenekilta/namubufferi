@@ -164,6 +164,8 @@ AUTH_USER_MODEL = "users.User"
 
 ONETIMEPASS_ALLOWED_DOMAINS = os.environ["DJANGO_ONETIMEPASS_ALLOWED_DOMAINS"].split()
 
+CSRF_TRUSTED_ORIGINS = os.environ["DJANGO_CSRF_TRUSTED_ORIGINS"].split()
+
 EMAIL_HOST = os.environ["DJANGO_EMAIL_HOST"]
 if not EMAIL_HOST:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

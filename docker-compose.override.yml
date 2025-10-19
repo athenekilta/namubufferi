@@ -40,16 +40,6 @@ services:
       - '1025:1025'
       - '8025:8025'
 
-  bundler:
-    image: node:16
-    working_dir: /srv/namubufferi/reactapp/
-    entrypoint: ./docker-entrypoint.sh
-    command: yarn start
-    ports:
-      - '3081:3081'
-    volumes:
-      - reactapp_node_modules:/srv/namubufferi/reactapp/node_modules/
-      - ./reactapp/:/srv/namubufferi/reactapp/
 
 volumes:
   reactapp_node_modules:

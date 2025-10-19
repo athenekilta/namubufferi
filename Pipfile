@@ -4,20 +4,17 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "~=3.2"
 gunicorn = "*"
 psycopg2 = "*"
 whitenoise = "*"
 dj-database-url = "*"
 django-admin-rangefilter = "*"
+django = "~=5.2"
 
 [dev-packages]
 black = "*"
 pylint = "*"
 pre-commit = "*"
-
-[requires]
-python_version = "3.9"
 
 [pipenv]
 allow_prereleases = true

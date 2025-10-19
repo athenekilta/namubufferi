@@ -1,16 +1,8 @@
 # syntax=docker/dockerfile:1
 
-# Build stage for React app
-FROM node:16 as react-build
-WORKDIR /tmp/reactapp/
-COPY reactapp/package.json reactapp/yarn.lock ./
-RUN yarn install
-COPY reactapp/public/ ./public/
-COPY reactapp/src/ ./src/
-RUN yarn build
 
 # Build and runtime stage for Python app
-FROM python:3.9-slim
+FROM python:3.13-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
@@ -33,7 +25,7 @@ COPY Pipfile Pipfile.lock ./
 
 # Generate requirements.txt from Pipfile and replace psycopg2 with psycopg2-binary
 RUN pipenv requirements > requirements.txt && \
-    sed -i 's/psycopg2==2.9.10/psycopg2-binary==2.9.10/' requirements.txt
+    sed -i 's/psycopg2/psycopg2-binary/' requirements.txt
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
@@ -43,8 +35,7 @@ RUN pip uninstall -y pipenv
 
 # Copy application code
 COPY . .
-# Copy React build files
-COPY --from=react-build /tmp/reactapp/static/ ./reactapp/static/
+
 
 # Update entrypoint script
 COPY docker-entrypoint.sh /usr/local/bin/
@@ -56,5 +47,5 @@ RUN chown -R appuser:appuser /srv/namubufferi/
 # Switch to non-root user
 USER appuser
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["gunicorn", "namubufferi.wsgi"]

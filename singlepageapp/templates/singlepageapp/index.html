@@ -81,9 +81,9 @@
         
         <footer>
           <nav>
-            <ul>
+            <ul style="display: flex;flex-direction: row;justify-content: center;">
               <li><a href="{% url 'terms:update' %}">User guide</a></li>
-              <li><a href="{% url 'api:logout' %}">Log out</a></li>
+              <li style="margin-left: 1em;"><form action="{% url 'logout' %}" method="post">{% csrf_token %}<button type="submit" style="background: none!important; border: none; padding: 0!important; color: var(--athene-green-medium); cursor: pointer; font-weight: 500;">Log out</button></form></li>
             </ul>
           </nav>
         </footer>

@@ -39,7 +39,7 @@ menu li a {
   overflow: hidden;
 }
 
-body > header {
+body>header {
   background-color: var(--athene-green-medium);
   display: flex;
   justify-content: space-between;
@@ -53,7 +53,7 @@ body > header {
   border-bottom: solid 1px lightgray;
 }
 
-body > header details summary h1 {
+body>header details summary h1 {
   text-transform: uppercase;
   cursor: pointer;
   padding: 0;
@@ -62,12 +62,12 @@ body > header details summary h1 {
   user-select: none;
 }
 
-body > header,
-body > header a {
+body>header,
+body>header a {
   color: var(--athene-bg);
 }
 
-body > header details > nav {
+body>header details>nav {
   position: fixed;
   left: 0;
   top: 0;
@@ -82,7 +82,7 @@ body > header details > nav {
   width: 100vw;
 }
 
-body > main {
+body>main {
   position: relative;
   z-index: 10;
   background-color: var(--athene-bg);
@@ -121,7 +121,8 @@ td {
 }
 
 td:first-child {
-  flex: 1 0 200px; /* adjust width for the date column */
+  flex: 1 0 200px;
+  /* adjust width for the date column */
   grid-column: 1/2;
   grid-row: 1;
   grid-template-columns: 1fr 1fr;
@@ -138,12 +139,13 @@ td:nth-child(3) {
   grid-column: 2;
   text-align: right;
 }
+
 form {
   width: 100%;
   margin: 0 auto;
 }
 
-form > * {
+form>* {
   margin-bottom: 1em;
 }
 
@@ -173,6 +175,7 @@ form > * {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -208,7 +211,7 @@ section {
   padding-bottom: var(--padding);
 }
 
-main > header {
+main>header {
   position: sticky;
   top: 0;
   white-space: nowrap;
@@ -220,15 +223,15 @@ main > header {
   margin-bottom: var(--padding);
 }
 
-main > header > * {
+main>header>* {
   margin-bottom: var(--padding);
 }
 
-main > header > nav {
+main>header>nav {
   display: flex;
 }
 
-main > header > nav > * {
+main>header>nav>* {
   display: inline-flex;
   width: calc(1 / 3 * 100%);
   overflow: visible;
@@ -236,21 +239,21 @@ main > header > nav > * {
   padding-bottom: 2px;
 }
 
-main > header > nav > *.active {
+main>header>nav>*.active {
   border-bottom: 1px solid black;
-  
+
   color: black;
 }
 
-main > header > nav h2 {
+main>header>nav h2 {
   margin: 0;
 }
 
-main > header > nav h2 a {
+main>header>nav h2 a {
   color: var(--athene-body);
 }
 
-section > footer {
+section>footer {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -262,14 +265,14 @@ section > footer {
   padding-bottom: var(--padding);
 }
 
-section > footer > nav > ul {
+section>footer>nav>ul {
   list-style: none;
   padding: 0;
 }
 
-section > footer > nav > ul > li {
+section>footer>nav>ul>li {
   margin: 10px;
-  display:inline;
+  display: inline;
 }
 
 
@@ -277,7 +280,7 @@ section > footer > nav > ul > li {
   color: red;
 }
 
-#transactionform > header {
+#transactionform>header {
   display: flex;
   flex-direction: row;
 }
@@ -289,7 +292,7 @@ fieldset {
   padding: 0;
 }
 
-fieldset > div {
+fieldset>div {
   background-color: white;
   border-radius: 1em;
 }
@@ -307,16 +310,16 @@ fieldset label {
   gap: .5em;
 }
 
-fieldset label > span:last-child {
+fieldset label>span:last-child {
   margin-left: auto;
   white-space: nowrap;
 }
 
-fieldset label > input {
+fieldset label>input {
   margin-top: .33em;
 }
 
-fieldset > header {
+fieldset>header {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -378,4 +381,198 @@ button {
 
 input:invalid {
   box-shadow: 0 0 5px 1px red;
+}
+
+
+/* Wrapped Styles */
+.wrapped-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  padding-bottom: 2em;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.wrapped-header {
+  text-align: center;
+  margin-bottom: 1em;
+  background: white;
+  border-radius: 1em;
+  padding: 1.5em;
+  opacity: 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+.wrapped-header h1 {
+  font-size: 4em;
+  font-weight: 900;
+  color: var(--athene-green);
+  line-height: 1;
+  margin: 0;
+}
+
+.wrapped-header h2 {
+  font-size: 1.5em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin: 0;
+  color: var(--athene-green-medium);
+}
+
+.stat-card {
+  background: white;
+  border-radius: 1em;
+  padding: 1.5em;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: slideUp 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.stat-card h3 {
+  text-transform: uppercase;
+  color: #666;
+  font-size: 0.9em;
+  margin: 0 0 1em 0;
+  font-weight: 700;
+}
+
+.big-stat .value {
+  font-size: 3em;
+  font-weight: 800;
+  color: var(--athene-green);
+  text-align: center;
+  opacity: 0;
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation-delay: 0.5s;
+}
+
+.big-stat .sub-value {
+  text-align: center;
+  color: #666;
+  font-size: 1.1em;
+  margin-top: 0.5em;
+  font-weight: 500;
+  opacity: 0;
+  animation: slideUp 0.5s ease-out forwards;
+  animation-delay: 0.7s;
+}
+
+.rank-row {
+  display: flex;
+  align-items: center;
+  padding: 0.8em 0;
+  border-bottom: 1px solid #eee;
+  opacity: 0;
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+.rank-row:last-child {
+  border-bottom: none;
+}
+
+.rank-row .rank {
+  font-weight: 900;
+  font-size: 1.2em;
+  color: var(--athene-green-medium);
+  width: 2em;
+}
+
+.rank-row .product-name {
+  flex: 1;
+  font-weight: 600;
+}
+
+.rank-row .count {
+  color: #666;
+  font-weight: 500;
+}
+
+.graph {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 200px;
+  padding-top: 1em;
+}
+
+.bar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.bar-value {
+  font-size: 0.7em;
+  color: #666;
+  margin-bottom: 2px;
+  opacity: 0;
+  animation: slideUp 0.3s ease-out forwards;
+  animation-delay: 1.5s;
+}
+
+.bar {
+  width: 60%;
+  background-color: var(--athene-green);
+  border-radius: 4px 4px 0 0;
+  transition: height 1s ease-out;
+  min-height: 2px;
+}
+
+.bar:hover {
+  background-color: var(--athene-green-medium);
+}
+
+.graph .label {
+  margin-top: 0.5em;
+  font-size: 0.7em;
+  color: #666;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.stat-card:nth-child(2) {
+  animation-delay: 1s;
+}
+
+.stat-card:nth-child(3) {
+  animation-delay: 2s;
+}
+
+.stat-card:nth-child(4) {
+  animation-delay: 3s;
+}
+
+.stat-card:nth-child(5) {
+  animation-delay: 4s;
+}
+
+.stat-card:nth-child(6) {
+  animation-delay: 5s;
 }

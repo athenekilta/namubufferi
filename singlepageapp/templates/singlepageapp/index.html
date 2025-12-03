@@ -1,165 +1,184 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="{% static 'athene/style.css' %}" />
-    <link rel="stylesheet" href="{% static 'singlepageapp/style.css' %}" />
-    <title>Namubufferi</title>
-    <link rel="manifest" href="{% static 'singlepageapp/manifest.json' %}">
-  </head>
-  <body>
-    <div id="loader">
-      <div class="spinner"></div>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="{% static 'athene/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'singlepageapp/style.css' %}" />
+  <title>Namubufferi</title>
+  <link rel="manifest" href="{% static 'singlepageapp/manifest.json' %}">
+</head>
+
+<body>
+  <div id="loader">
+    <div class="spinner"></div>
+  </div>
+  <header>
+    <div>
+      <details id="burger">
+        <summary>
+          <h1>Namubufferi</h1>
+        </summary>
+        <div>{{ request.user.get_alias }}</div>
+        <nav>
+          <menu>
+            <li><a href="#/account">Account</a></li>
+            <li><a href="#/user">User</a></li>
+            <li><a href="https://athene.fi" target="a_blank">Guild website</a></li>
+          </menu>
+        </nav>
+      </details>
     </div>
+  </header>
+  <main>
     <header>
       <div>
-        <details id="burger">
-          <summary><h1>Namubufferi</h1></summary>
-          <div>{{ request.user.get_alias }}</div>
-          <nav>
-            <menu>
-              <li><a href="#/account">Account</a></li>
-              <li><a href="#/user">User</a></li>
-              <li><a href="https://athene.fi" target="a_blank">Guild website</a></li>
-            </menu>
-          </nav>
-        </details>
+        <h2>Current balance</h2>
+        <div id="balance">&nbsp;</div>
       </div>
+      <nav>
+        <a href="#/buy">
+          Buy
+        </a>
+        <a href="#/balance">
+          Add balance
+        </a>
+        <a href="#/transactions">
+          Show history
+        </a>
+        <a href="#/wrapped">
+          Wrapped
+        </a>
+      </nav>
     </header>
-    <main>
-      <header>
-        <div>
-          <h2>Current balance</h2>
-          <div id="balance">&nbsp;</div>
-        </div>
-        <nav>
-          <a href="#/buy">
-            Buy
-          </a>
-          <a href="#/balance">
-            Add balance
-          </a>
-          <a href="#/transactions">
-            Show history
-          </a>
-        </nav>
-      </header>
-      <section id="/buy">
-        <p id="buy-success" style="color: var(--athene-green);"></p>
-        <form id="transactionform">
-          <header>
-            <div style="flex: 1;">
-              <input type="search" id="search" placeholder="Search" />
-            </div>
-            <button form="transactionform" type="submit">Buy</button>
-          </header>
-          <input name="quantity" id="quantity" type="hidden" value="-1" />
-          <input name="state" id="state" type="hidden" value="1" />
-          <fieldset id="productlist">
-            <fieldset id="recentfieldset">
-              <legend>Recent</legend>
-              <div></div>
-            </fieldset>
-          </fieldset>
-          <template id="productfieldset">
-            <fieldset>
-              <legend></legend>
-              <div></div>
-            </fieldset>
-          </template>
-          <template id="productradio">
-            <label class="productradio">
-              <input type="radio" name="product" />
-              <span class="name"></span>
-              <span class="price"></span>
-            </label>
-          </template>
-        </form>
-
-        
-        <footer>
-          <nav>
-            <ul style="display: flex;flex-direction: row;justify-content: center;">
-              <li><a href="{% url 'terms:update' %}">User guide</a></li>
-              <li style="margin-left: 1em;"><form action="{% url 'logout' %}" method="post">{% csrf_token %}<button type="submit" style="background: none!important; border: none; padding: 0!important; color: var(--athene-green-medium); cursor: pointer; font-weight: 500;">Log out</button></form></li>
-            </ul>
-          </nav>
-        </footer>
-      </section>
-      <section id="/balance">
-        <div id="balance-add">
-          <p>Add balance to your account to pay for namubufferi products. The minimum addition amount is 5€ to reduce transaction costs.</p>
-          <label>Add amount</label>
-          <input name="balance-add-amount" type="number" id="balance-add-amount" type="number" value="5" min="5" step="0.01">€
-          <br>
-          <button id="balance-add-submit" style="margin-top: 1em;" type="submit">Continue to pay</button>
-        </div>
-        <div id="balance-mobilepay" style="display: none;">
-          <p>Complete the payment to add balance</p>
-          <div id="balance-mobilepay-qr">
-            <p>Scan the QR code with Mobilepay on your phone to pay</p>
-            <div id="balance-qrcode"></div>
-          </div>
-          <p>Pay on this device</p>
-          <a href="" class="btn" target="_blank" id="balance-mobilepay-link">Open mobilepay</a>
-          <br>
-          <p>After payment, click below to continue</p>
-          <button id="balance-confirm">I've paid, continue</button>
-        </div>
-        <p id="balance-alert"></p>
-
-      </section>
-      <section id="/transactions">
-        
-        <table id="transactiontable">
-          <caption>
-            Latest Transactions
-          </caption>
-          <thead>
-            <tr>
-              <th>Timestamp</th>
-              <th>Product</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <template id="transactionrow">
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </template>
-      </section>
-      <section id="/user">
+    <section id="/buy">
+      <p id="buy-success" style="color: var(--athene-green);"></p>
+      <form id="transactionform">
         <header>
-          <nav>
-            <div></div>
-            <h2>User</h2>
-            <div></div>
-          </nav>
-          <section>
-            <p>Your alias: <b>{{ request.user.alias }}</b></p>
-            <p>Your username: <b>{{ request.user }}</b></p>
-            <p>Your email: <b>{{ request.user.email }}</b></p>
-            <a href="{% url 'users:edit_user' request.user.pk %}">Edit user details</a>
-          </section>
+          <div style="flex: 1;">
+            <input type="search" id="search" placeholder="Search" />
+          </div>
+          <button form="transactionform" type="submit">Buy</button>
         </header>
-        <footer>
-          <nav>
-            <ul>
-              <li><a href="{% url 'terms:update' %}">User guide</a></li>
-              <li><a href="{% url 'api:logout' %}">Log out</a></li>
-            </ul>
-          </nav>
-        </footer>
-      </section>
-    </main>
-    <script src="https://unpkg.com/html5-qrcode@2.1.6/html5-qrcode.min.js"></script>
-    <script type="module" src="{% static 'singlepageapp/main.js' %}"></script>
-    <script src="{% static 'singlepageapp/modules/qrcode.js' %}"></script>
-  </body>
+        <input name="quantity" id="quantity" type="hidden" value="-1" />
+        <input name="state" id="state" type="hidden" value="1" />
+        <fieldset id="productlist">
+          <fieldset id="recentfieldset">
+            <legend>Recent</legend>
+            <div></div>
+          </fieldset>
+        </fieldset>
+        <template id="productfieldset">
+          <fieldset>
+            <legend></legend>
+            <div></div>
+          </fieldset>
+        </template>
+        <template id="productradio">
+          <label class="productradio">
+            <input type="radio" name="product" />
+            <span class="name"></span>
+            <span class="price"></span>
+          </label>
+        </template>
+      </form>
+
+
+      <footer>
+        <nav>
+          <ul style="display: flex;flex-direction: row;justify-content: center;">
+            <li><a href="{% url 'terms:update' %}">User guide</a></li>
+            <li style="margin-left: 1em;">
+              <form action="{% url 'logout' %}" method="post">{% csrf_token %}<button type="submit"
+                  style="background: none!important; border: none; padding: 0!important; color: var(--athene-green-medium); cursor: pointer; font-weight: 500;">Log
+                  out</button></form>
+            </li>
+          </ul>
+        </nav>
+      </footer>
+    </section>
+    <section id="/balance">
+      <div id="balance-add">
+        <p>Add balance to your account to pay for namubufferi products. The minimum addition amount is 5€ to reduce
+          transaction costs.</p>
+        <label>Add amount</label>
+        <input name="balance-add-amount" type="number" id="balance-add-amount" type="number" value="5" min="5"
+          step="0.01">€
+        <br>
+        <button id="balance-add-submit" style="margin-top: 1em;" type="submit">Continue to pay</button>
+      </div>
+      <div id="balance-mobilepay" style="display: none;">
+        <p>Complete the payment to add balance</p>
+        <div id="balance-mobilepay-qr">
+          <p>Scan the QR code with Mobilepay on your phone to pay</p>
+          <div id="balance-qrcode"></div>
+        </div>
+        <p>Pay on this device</p>
+        <a href="" class="btn" target="_blank" id="balance-mobilepay-link">Open mobilepay</a>
+        <br>
+        <p>After payment, click below to continue</p>
+        <button id="balance-confirm">I've paid, continue</button>
+      </div>
+      <p id="balance-alert"></p>
+
+    </section>
+    <section id="/transactions">
+
+      <table id="transactiontable">
+        <caption>
+          Latest Transactions
+        </caption>
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Product</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <template id="transactionrow">
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </template>
+    </section>
+    <section id="/wrapped">
+      <div class="content wrapped">
+        <div class="spinner"></div>
+      </div>
+    </section>
+    <section id="/user">
+      <header>
+        <nav>
+          <div></div>
+          <h2>User</h2>
+          <div></div>
+        </nav>
+        <section>
+          <p>Your alias: <b>{{ request.user.alias }}</b></p>
+          <p>Your username: <b>{{ request.user }}</b></p>
+          <p>Your email: <b>{{ request.user.email }}</b></p>
+          <a href="{% url 'users:edit_user' request.user.pk %}">Edit user details</a>
+        </section>
+      </header>
+      <footer>
+        <nav>
+          <ul>
+            <li><a href="{% url 'terms:update' %}">User guide</a></li>
+            <li><a href="{% url 'api:logout' %}">Log out</a></li>
+          </ul>
+        </nav>
+      </footer>
+    </section>
+  </main>
+  <script src="https://unpkg.com/html5-qrcode@2.1.6/html5-qrcode.min.js"></script>
+  <script type="module" src="{% static 'singlepageapp/main.js' %}"></script>
+  <script src="{% static 'singlepageapp/modules/qrcode.js' %}"></script>
+</body>
+
 </html>

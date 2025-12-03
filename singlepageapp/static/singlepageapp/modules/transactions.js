@@ -145,7 +145,7 @@ export default class TransactionForm {
         td[1].appendChild(payHref);
         const cancelHref = document.createElement('a');
         cancelHref.onclick = async () => {
-          await fetch('/api/transactions/'+transaction.id+'/delete/', {credentials: 'include', method: 'POST', headers: {'X-CSRFToken': csrftoken, 'Accept': 'application/vnd.api+json'}})
+          await fetch('/api/transactions/' + transaction.id + '/delete/', { credentials: 'include', method: 'POST', headers: { 'X-CSRFToken': csrftoken, 'Accept': 'application/vnd.api+json' } })
           this.fetchProducts
           this.fetchTransactions()
         };
@@ -176,7 +176,7 @@ export default class TransactionForm {
       if (product.attributes.name !== 'Initial balance' && product.attributes.price >= 0)
         fieldsetFragment.appendChild(radio);
     }
-    const fieldset = document.getElementById('recentfieldset'); 
+    const fieldset = document.getElementById('recentfieldset');
     fieldset.querySelector('div').appendChild(fieldsetFragment);
     if (fieldset.hasChildNodes()) {
       fieldset.querySelector('input').checked = true;
